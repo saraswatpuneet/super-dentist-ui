@@ -1,25 +1,11 @@
-
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @import '~@angular/material/theming';
-// Plus imports for other components in your app.
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
 @include mat-core();
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
 $super-dentist-primary: mat-palette($mat-indigo);
 $super-dentist-accent: mat-palette($mat-pink, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
 $super-dentist-warn: mat-palette($mat-red);
 
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
 $super-dentist-theme: mat-light-theme((
   color: (
     primary: $super-dentist-primary,
@@ -28,12 +14,95 @@ $super-dentist-theme: mat-light-theme((
   )
 ));
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
 @include angular-material-theme($super-dentist-theme);
 
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --red: #ff453a;
+    --orange: #ff9f0a;
+    --yellow: #ffd60a;
+    --green: #30d158;
+    --teal: #64d2ff;
+    --blue: #0a84ff;
+    --indigo: #5e5ce6;
+    --purple: #bf5af2;
+    --pink: #ff375f;
+    --grey-0: #bab9bd;
+    --grey-1: #98989d;
+    --grey-2: #636366;
+    --grey-3: #48484a;
+    --grey-4: #3a3a3c;
+    --grey-5: #2c2c2e;
+    --grey-6: #1c1c1e;
+    --grey-7: #0a0a0a;
+    --blue-mild: #2196f3;
+    --blue: #00bfff;
+    --error-red: #b71c1c;
+    --green: #0a5;
+    --grey: #909090;
+    --light-grey: #696969;
+    --light-green: #00d46a;
+    --light-red: #e57373;
+    --orange: #f89406;
+    --purple: #bf6ee0;
+    --red: tomato;
+    --white: #fefefe;
+    --yellow: gold;
+    --mild-grey: #2c2c2c;
+    --dark-grey: #121212;
+    --transparent-black: rgba(0,0,0,0.8);
+    --ac-black: #1f2024;
+    --ac-purple-1: #954fff;
+    --ac-purple-2: #7641fa;
+    --ac-purple-3: #6039d1;
+    --ac-purple-4: #502cab;
+    --ac-grey: #989196;
+    --ac-blue: #33a6e1;
+    --ac-light-purple: #bdbacf;
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.sd-input {
+  height: 22px;
+  border-radius: 4px;
+  padding: 20px 16px;
+  background: transparent;
+  border: 1px solid #dddfe2;
+  color: #1d2129;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  vertical-align: middle;
+  transition: 0.3s;
+ 
+  &:focus {
+    box-shadow: 0px 0px 10px 0px rgb(82, 158, 245, 50%);
+    outline: transparent;
+  }
+}
+
+.sd-button {
+  padding: 8px 16px;
+  outline: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+
+  &.blue {
+    background: var(--ac-blue);
+    color: white;
+  }
+
+  &.green {
+    background: var(--green);
+    color: white;
+  }
+  
+  &.grey {
+    background: var(--grey-0);
+    color: white;
+  }
+}

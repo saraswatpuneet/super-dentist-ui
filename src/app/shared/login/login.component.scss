@@ -1,0 +1,57 @@
+.login {
+  max-width: 100%;
+  width: 800px;
+  padding: 124px 24px;
+  margin: 0 auto;
+  height: 100%;
+
+  img {
+    width: 100px;
+  }
+
+  h2 {
+    font-size: 40px;
+  }
+
+  .login-splash {
+    padding-right: 32px;
+  }
+
+  .login-form {
+    border-radius: 4px;
+    width: 300px;
+    padding: 16px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+
+    input {
+      margin-bottom: 24px;
+    }
+
+    button {
+      width: 100%;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .forgot {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--grey-1);
+    }
+
+  }
+
+  .new-customer {
+
+    span {
+      font-size: 12px;
+      color: rgba(black, 0.5);
+    }
+
+    > div {
+      height: 1px;
+      background: rgba(black, 0.2);
+    }
+  }  
+}
