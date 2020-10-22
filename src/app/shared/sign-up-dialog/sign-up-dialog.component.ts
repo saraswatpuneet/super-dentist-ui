@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-declare var firebase;
+import { AngularFireAuth } from '@angular/fire/auth';
+import { from, of } from 'rxjs';
+import { catchError, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sign-up-dialog',
@@ -10,17 +12,23 @@ export class SignUpDialogComponent implements OnInit {
   email = '';
   password = '';
   verifyPassword = '';
+  errorMessage = '';
+  loading = false;
 
-  constructor() { }
+  constructor(private auth: AngularFireAuth) { }
 
   ngOnInit(): void {
   }
 
   create(): void {
+    this.errorMessage = '';
+    this.loading = true;
     console.log('sss');
-    firebase.auth().createUserWithEmailAndPassword(this.email, this.password).catch(function (error) {
-      var errorCode = error.code;
-      var errorMessage = error.message;
+    from(this.auth.createUserWithEmailAndPassword(this.email, this.password)).pipe(catchError(err => {
+      this.errorMessage = err.message;
+      return of(err);
+    }), take(1)).subscribe(() => {
+      this.loading = false;
     });
   }
 

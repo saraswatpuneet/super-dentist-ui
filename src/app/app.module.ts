@@ -1,10 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { AngularFireModule } from '@angular/fire';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginModule } from './shared/login/login.module';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -13,6 +15,7 @@ import { LoginModule } from './shared/login/login.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    AngularFireModule.initializeApp(environment.firebase),
     LoginModule,
     AppRoutingModule,
   ],

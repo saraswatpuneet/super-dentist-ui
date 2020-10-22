@@ -8,6 +8,7 @@ import { LoginComponent } from './login.component';
 import { SignUpDialogModule } from '../sign-up-dialog/sign-up-dialog.module';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -16,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
     FormsModule,
     FlexLayoutModule,
     MatIconModule,
+    MatProgressBarModule,
     SignUpDialogModule,
     MatDialogModule,
     MatInputModule,

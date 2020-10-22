@@ -6,24 +6,27 @@
   </div>
 
   <div>
+    <mat-progress-bar mode="indeterminate" *ngIf="loading" class="top-left"></mat-progress-bar>
     <div class="login-form">
       <div>
-        <input class="sd-input" [(ngModel)]="email" matInput placeholder="Email">
+        <input class="sd-input gap-24" [(ngModel)]="email" matInput placeholder="Email">
       </div>
       <div>
-        <input class="sd-input" type="password" [(ngModel)]="password" matInput placeholder="Password">
+        <input class="sd-input gap-8" type="password" [(ngModel)]="password" matInput placeholder="Password">
       </div>
+      <div class="warning">{{errorMessage}}</div>
 
       <button class="sd-button blue" (click)="signIn()">Login</button>
       <div class="forgot">Forgot password?</div>
     </div>
+
     <div fxLayout="column" fxLayoutGap="4px">
       <div class="new-customer" fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
         <div fxFlex></div>
         <span>New customer?</span>
         <div fxFlex></div>
       </div>
-      <button class="sd-button grey" (click)="createAccount()">Create Account</button>
+      <button class="sd-button grey" [disabled]="loading" (click)="createAccount()">Create Account</button>
     </div>
   </div>
 </div>
