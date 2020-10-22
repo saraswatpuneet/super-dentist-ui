@@ -8,13 +8,13 @@
   <div>
     <div class="login-form">
       <div>
-        <input class="sd-input" matInput placeholder="Email">
+        <input class="sd-input" [(ngModel)]="email" matInput placeholder="Email">
       </div>
       <div>
-        <input class="sd-input" matInput placeholder="Password">
+        <input class="sd-input" type="password" [(ngModel)]="password" matInput placeholder="Password">
       </div>
 
-      <button class="sd-button blue">Login</button>
+      <button class="sd-button blue" (click)="signIn()">Login</button>
       <div class="forgot">Forgot password?</div>
     </div>
     <div fxLayout="column" fxLayoutGap="4px">
@@ -23,7 +23,7 @@
         <span>New customer?</span>
         <div fxFlex></div>
       </div>
-      <button class="sd-button grey">Create Account</button>
+      <button class="sd-button grey" (click)="createAccount()">Create Account</button>
     </div>
   </div>
 </div>

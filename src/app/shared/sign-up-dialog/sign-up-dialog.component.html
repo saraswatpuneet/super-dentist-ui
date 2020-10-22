@@ -1,0 +1,17 @@
+<div class="sign-up-dialog" fxLayout="column" fxLayoutGap="16px">
+  <div fxLayout="row" fxLayoutAlign="space-between start">
+    <h1>Create Account</h1>
+    <button mat-dialog-close class="sd-icon-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <input class="sd-input" type="text" placeholder="Email" [(ngModel)]="email">
+  <input class="sd-input" type="password" placeholder="Password" [(ngModel)]="password">
+  <input class="sd-input" type="password" placeholder="Verify Password" [(ngModel)]="verifyPassword">
+
+  <div>
+    <button class="sd-button blue" [disabled]="!email || !password || !verifyPassword"
+      (click)="create()">Create</button>
+  </div>
+</div>
