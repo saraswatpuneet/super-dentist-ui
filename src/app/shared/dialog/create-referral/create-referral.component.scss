@@ -1,0 +1,35 @@
+.referral {
+  position: relative;
+  width: 600px;
+  max-width: 90vw;
+
+  h4 {
+    margin-bottom: 8px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .close-dialog {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  
+  textarea {
+    height: 200px;
+    padding: 8px 12px;
+  }
+
+  .smaller-icon {
+    mat-icon {
+      font-size: 18px;
+    }
+  }
+}
+
+.tgap-12 {
+  margin-top: 12px;
+}
