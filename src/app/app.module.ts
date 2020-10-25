@@ -6,15 +6,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginModule } from './shared/login/login.module';
+import { DialogModule } from 'src/app/shared/dialog/dialog.module';
 import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    DialogModule,
     AngularFireModule.initializeApp(environment.firebase),
     LoginModule,
     AppRoutingModule,

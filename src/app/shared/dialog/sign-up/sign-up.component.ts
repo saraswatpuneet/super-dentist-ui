@@ -4,11 +4,11 @@ import { from, of } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-sign-up-dialog',
-  templateUrl: './sign-up-dialog.component.html',
-  styleUrls: ['./sign-up-dialog.component.scss']
+  selector: 'app-sign-up',
+  templateUrl: './sign-up.component.html',
+  styleUrls: ['./sign-up.component.scss']
 })
-export class SignUpDialogComponent implements OnInit {
+export class SignUpComponent implements OnInit {
   email = '';
   password = '';
   verifyPassword = '';

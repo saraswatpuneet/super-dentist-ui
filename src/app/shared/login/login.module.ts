@@ -5,7 +5,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { LoginComponent } from './login.component';
-import { SignUpDialogModule } from '../sign-up-dialog/sign-up-dialog.module';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -18,8 +17,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     FlexLayoutModule,
     MatIconModule,
     MatProgressBarModule,
-    SignUpDialogModule,
-    MatDialogModule,
     MatInputModule,
   ],
   exports: [LoginComponent]

@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { from, of } from 'rxjs';
-import { catchError, take, takeUntil } from 'rxjs/operators';
+import { catchError, take } from 'rxjs/operators';
 
 import { Base } from 'src/app/shared/base/base-component';
-import { SignUpDialogComponent } from '../sign-up-dialog/sign-up-dialog.component';
 import { Router } from '@angular/router';
+import { DialogService } from 'src/app/shared/dialog/dialog.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +20,7 @@ export class LoginComponent extends Base implements OnInit {
   errorMessage = '';
 
   constructor(
-    private dialog: MatDialog,
+    private dialogService: DialogService,
     private auth: AngularFireAuth,
     private router: Router
   ) { super(); }
@@ -30,7 +29,7 @@ export class LoginComponent extends Base implements OnInit {
   }
 
   createAccount(): void {
-    this.dialog.open(SignUpDialogComponent, {});
+    this.dialogService.openSignUp();
   }
 
   signIn(): void {
