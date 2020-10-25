@@ -9,6 +9,15 @@
     width: 256px;
     height: 100%; 
     position: relative;
+    transition: 0.3s;
+
+    &.collapsed-sidenav {
+      width: 56px;
+
+      .collapse mat-icon {
+        transform: rotateY(180deg);
+      }
+    }
 
     .nav-item {
       cursor: pointer;
@@ -49,6 +58,9 @@
       bottom: 0;
       left: 0;
       border-top: 1px solid rgba(black, 0.1);
+      mat-icon {
+        transition: 0.3s;
+      }
     }
   }
 

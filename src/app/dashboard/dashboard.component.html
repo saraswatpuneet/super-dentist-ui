@@ -1,33 +1,17 @@
 <div class="dashboard">
-  <div class="sidenav">
+  <div class="sidenav" [ngClass]="{'collapsed-sidenav': !expanded}">
     <div class="nav-title">
       <img src="assets/images/brand.svg" alt=""> <span>SuperDentist</span>
     </div>
 
-    <div class="nav-item">
+    <div *ngFor="let navItem of [0,1,2,3,4,5]" class="nav-item">
       <mat-icon>settings</mat-icon>
-      <span>Tooth</span>
-    </div>
-    <div class="nav-item">
-      <mat-icon>settings</mat-icon>
-      <span>Tooth</span>
-    </div>
-    <div class="nav-item">
-      <mat-icon>settings</mat-icon>
-      <span>Tooth</span>
-    </div>
-    <div class="nav-item">
-      <mat-icon>settings</mat-icon>
-      <span>Tooth</span>
-    </div>
-    <div class="nav-item">
-      <mat-icon>settings</mat-icon>
-      <span>Tooth</span>
+      <span *ngIf="expanded" [@sidebarToggle]>Tooth</span>
     </div>
 
-    <div class="nav-item collapse">
+    <div (click)="toggleNav()" class="nav-item collapse">
       <mat-icon>keyboard_arrow_left</mat-icon>
-      <span>Collapse</span>
+      <span *ngIf="expanded" [@sidebarToggle]>Collapse</span>
     </div>
   </div>
 
