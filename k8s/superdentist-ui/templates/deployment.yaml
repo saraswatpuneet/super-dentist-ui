@@ -3,7 +3,10 @@ kind: Deployment
 metadata:
   name: {{ include "superdentist-ui.fullname" . }}
   labels:
-    {{- include "superdentist-ui.labels" . | nindent 4 }}
+    app: {{ include "superdentist-ui.name" . }}
+    chart: {{ include "superdentist-ui.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -13,8 +16,8 @@ spec:
   template:
     metadata:
       labels:
-      app: {{ include "superdentist-ui.name" . }}
-      release: {{ .Release.Name }}
+        app: {{ include "superdentist-ui.name" . }}
+        release: {{ .Release.Name }}
     spec:
       volumes:
       - name: superdentist-backend
@@ -26,15 +29,11 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag}}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
-          - name: config
-            mountPath: /usr/share/nginx/html/assets/cfg
           - name: superdentist-backend
             mountPath: {{ .Values.sdServiceAccount.credential.dir | quote }}
             readOnly: true
           env:
-          - name: GOOGLE_APPLICATION_CREDENTIALS
-            value: {{ $sdbcred }}
-          - name: GCP_API_KEY
+          - name: SUPER_DENTIST_KEY
             valueFrom:
               secretKeyRef:
                 name: {{.Values.sdAPISecret.name}}
