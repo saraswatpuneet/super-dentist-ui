@@ -10,52 +10,46 @@ spec:
 {{- end }}
   selector:
     matchLabels:
-      {{- include "superdentist-ui.selectorLabels" . | nindent 6 }}
+      app: {{ include "superdentist-ui.name" . }}
+      release: {{ .Release.Name }}
   template:
     metadata:
-    {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
       labels:
-        {{- include "superdentist-ui.selectorLabels" . | nindent 8 }}
+      app: {{ include "superdentist-ui.name" . }}
+      release: {{ .Release.Name }}
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "superdentist-ui.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+      - name: superdentist-backend
+        secret:
+          secretName: {{ .Values.sdServiceAccount.secret }}
       containers:
+        {{ $sdbcred := printf "%s/%s" .Values.sdServiceAccount.credential.dir .Values.sdServiceAccount.credential.file }}
         - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag}}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+          - name: config
+            mountPath: /usr/share/nginx/html/assets/cfg
+          - name: superdentist-backend
+            mountPath: {{ .Values.sdServiceAccount.credential.dir | quote }}
+            readOnly: true
+          env:
+          - name: GOOGLE_APPLICATION_CREDENTIALS
+            value: {{ $sdbcred }}
+          - name: GCP_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{.Values.sdAPISecret.name}}
+                key : {{.Values.sdAPISecret.secret}}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.image.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: {{ .Values.image.port }}
           readinessProbe:
             httpGet:
               path: /
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+              port: {{ .Values.image.port }}

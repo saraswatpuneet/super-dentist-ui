@@ -1,9 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "superdentist-ui.fullname" . }}
+  name: {{ include "superdentist-ui.name" . }}
   labels:
-    {{- include "superdentist-ui.labels" . | nindent 4 }}
+    app: {{ include "superdentist-ui.name" . }}
+    chart: {{ include "superdentist-ui.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,4 +15,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "superdentist-ui.selectorLabels" . | nindent 4 }}
+    app: {{ include "superdentist-ui.name" . }}
+    release: {{ .Release.Name }}
