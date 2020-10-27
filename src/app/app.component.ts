@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { Base } from './shared/base/base-component';
 import { appAnimations } from './app.animations';
+import { from } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +22,7 @@ export class AppComponent extends Base implements OnInit {
     { path: 'specialist', label: 'Specialist', icon: 'settings' }
   ];
 
-  constructor(private auth: AngularFireAuth) { super(); }
+  constructor(private auth: AngularFireAuth, private router: Router) { super(); }
 
   ngOnInit(): void {
     const expanded = localStorage.getItem(this.expandedKey);
@@ -31,6 +33,13 @@ export class AppComponent extends Base implements OnInit {
       if (res) {
         this.authenticated = true;
       }
+    });
+  }
+
+  signOut(): void {
+    this.auth.signOut().then(() => {
+      this.authenticated = false;
+      this.router.navigate(['./login']);
     });
   }
 
