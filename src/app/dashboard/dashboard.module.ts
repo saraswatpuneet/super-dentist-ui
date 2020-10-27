@@ -5,7 +5,6 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { MatIconModule } from '@angular/material/icon';
 
-
 @NgModule({
   declarations: [DashboardComponent],
   imports: [

@@ -5,9 +5,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginModule } from './shared/login/login.module';
 import { DialogModule } from 'src/app/shared/dialog/dialog.module';
 import { environment } from 'src/environments/environment';
+import { MatIconModule } from '@angular/material/icon';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -17,8 +18,9 @@ import { environment } from 'src/environments/environment';
     BrowserModule,
     BrowserAnimationsModule,
     DialogModule,
+    MatIconModule,
+    FlexLayoutModule,
     AngularFireModule.initializeApp(environment.firebase),
-    LoginModule,
     AppRoutingModule,
   ],
   providers: [],

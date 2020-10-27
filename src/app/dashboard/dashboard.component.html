@@ -1,21 +1,3 @@
 <div class="dashboard">
-  <div class="sidenav" [ngClass]="{'collapsed-sidenav': !expanded}">
-    <div class="nav-title">
-      <img src="assets/images/brand.svg" alt=""> <span>SuperDentist</span>
-    </div>
-
-    <div *ngFor="let navItem of [0,1,2,3,4,5]" class="nav-item">
-      <mat-icon>settings</mat-icon>
-      <span *ngIf="expanded" [@sidebarToggle]>Tooth</span>
-    </div>
-
-    <div (click)="toggleNav()" class="nav-item collapse">
-      <mat-icon>keyboard_arrow_left</mat-icon>
-      <span *ngIf="expanded" [@sidebarToggle]>Collapse</span>
-    </div>
-  </div>
-
-  <div class="content">
-    <button class="sd-button blue" (click)="openCreateReferral()">Add Patient</button>
-  </div>
+  <button class="sd-button blue" (click)="openCreateReferral()">Add Patient</button>
 </div>
