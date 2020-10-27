@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "superdentist-ui.fullname" . }}
+  labels:
+    app: {{ include "superdentist-ui.name" . }}
+    chart: {{ include "superdentist-ui.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "superdentist-ui.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "superdentist-ui.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      volumes:
+      - name: superdentist-backend
+        secret:
+          secretName: {{ .Values.sdServiceAccount.secret }}
+      containers:
+        {{ $sdbcred := printf "%s/%s" .Values.sdServiceAccount.credential.dir .Values.sdServiceAccount.credential.file }}
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag}}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+          - name: superdentist-backend
+            mountPath: {{ .Values.sdServiceAccount.credential.dir | quote }}
+            readOnly: true
+          env:
+          - name: SUPER_DENTIST_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{.Values.sdAPISecret.name}}
+                key : {{.Values.sdAPISecret.secret}}
+          ports:
+            - name: http
+              containerPort: {{ .Values.image.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.image.port }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.image.port }}

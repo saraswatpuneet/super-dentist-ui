@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "superdentist-ui.name" . }}
+  labels:
+    app: {{ include "superdentist-ui.name" . }}
+    chart: {{ include "superdentist-ui.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ include "superdentist-ui.name" . }}
+    release: {{ .Release.Name }}
