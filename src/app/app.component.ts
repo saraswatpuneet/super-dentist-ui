@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
+
 import { Base } from './shared/base/base-component';
 import { appAnimations } from './app.animations';
-import { from } from 'rxjs';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',

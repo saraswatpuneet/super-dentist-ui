@@ -9,6 +9,9 @@ import { DialogModule } from 'src/app/shared/dialog/dialog.module';
 import { environment } from 'src/environments/environment';
 import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { AuthInterceptor } from 'src/app/shared/interceptors/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -20,10 +23,17 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     DialogModule,
     MatIconModule,
     FlexLayoutModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
