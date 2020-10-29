@@ -1,7 +1,7 @@
 import { writeFile } from 'fs';
 
 const targetPath = './src/environments/environment.prod.ts';
-
+console.log(process.env);
 const envConfigFile = `export const environment = {
    production: true,
    firebase: {
