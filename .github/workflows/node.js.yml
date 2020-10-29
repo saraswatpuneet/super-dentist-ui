@@ -10,6 +10,7 @@ on:
     branches: [ main ]
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
   GKE_CLUSTER:  superdentist-main	
   GKE_ZONE: us-central1-c
   IMAGE: superdentist-frontend

@@ -5,7 +5,7 @@ console.log(process.env);
 const envConfigFile = `export const environment = {
    production: true,
    firebase: {
-        apiKey: '${process.env.SUPER_DENTIST_KEY}',
+        apiKey: '${process.env.FIREBASE_API_KEY}',
         authDomain: 'superdentist.firebaseapp.com'
     },
 };
