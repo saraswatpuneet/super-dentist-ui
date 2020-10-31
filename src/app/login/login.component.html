@@ -20,7 +20,7 @@
           <div class="warning">{{errorMessage}}</div>
 
           <button class="sd-button blue" (click)="signIn()">Login</button>
-          <div class="forgot">Forgot password?</div>
+          <!-- <div class="forgot">Forgot password?</div> -->
           <div class="top-left">
             <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
           </div>
@@ -28,14 +28,14 @@
 
       </form>
 
-      <div fxLayout="column" fxLayoutGap="4px">
+      <!-- <div fxLayout="column" fxLayoutGap="4px">
         <div class="new-customer" fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
           <div fxFlex></div>
           <span>New customer?</span>
           <div fxFlex></div>
         </div>
         <button class="sd-button grey" [disabled]="loading" (click)="createAccount()">Create Account</button>
-      </div>
+      </div> -->
     </div>
   </div>
 
