@@ -97,6 +97,11 @@ body { background: #f7f7fb; margin: 0; font-family: Roboto, "Helvetica Neue", sa
     color: white;
   }
 
+  &.blue-outline {
+    color: var(--ac-blue);
+    border: 1px solid var(--ac-blue);
+  }
+
   &.green {
     background: var(--green);
     color: white;

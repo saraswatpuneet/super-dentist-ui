@@ -1,0 +1,50 @@
+.specialist {
+  min-height: 100%;
+  position: relative;
+  padding: 12px;
+  margin-top: 48px;
+
+  .container {
+    margin: 0 auto;
+    max-width: 700px
+  }
+
+  .card {
+    width: 100%;
+    border-bottom: 1px solid rgba(black, 0.07);
+    padding-bottom: 52px;
+
+    .specialist-title {
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+
+  .contact-info {
+    color: rgba(black, 0.7);
+    font-size: 12px;
+  }
+
+  .clinic {
+    margin-top: 12px;
+    > span {
+      font-size: 16px;
+    }
+  }
+
+  .sd-icon-button {
+    &.blue {
+      color: var(--ac-blue);
+    }
+
+  }
+
+  .pills {
+    > span {
+      padding: 4px 8px;
+      font-size: 12px;
+      background: rgba(black, 0.1);
+      border-radius: 24px;
+    }
+  }
+}
