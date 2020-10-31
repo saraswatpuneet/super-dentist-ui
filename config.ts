@@ -12,7 +12,6 @@ const envConfigFile = `export const environment = {
 `;
 
 writeFile(targetPath, envConfigFile, 'utf8', (err) => {
-  console.log('Did this go?');
   if (err) {
     return console.log(err);
   }

@@ -6,6 +6,7 @@ import { catchError, take } from 'rxjs/operators';
 import { Base } from 'src/app/shared/base/base-component';
 import { Router } from '@angular/router';
 import { DialogService } from 'src/app/shared/dialog/dialog.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -13,19 +14,22 @@ import { DialogService } from 'src/app/shared/dialog/dialog.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent extends Base implements OnInit {
-  email = '';
-  password = '';
-  verifyPassword = '';
   loading = false;
   errorMessage = '';
+  formGroup: FormGroup;
 
   constructor(
+    private fb: FormBuilder,
     private dialogService: DialogService,
     private auth: AngularFireAuth,
     private router: Router
   ) { super(); }
 
   ngOnInit(): void {
+    this.formGroup = this.fb.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
   createAccount(): void {
@@ -33,9 +37,13 @@ export class LoginComponent extends Base implements OnInit {
   }
 
   signIn(): void {
+    if (!this.formGroup.valid) {
+      return;
+    }
     this.loading = true;
     this.errorMessage = '';
-    from(this.auth.signInWithEmailAndPassword(this.email, this.password)).pipe(
+    const { email, password } = this.formGroup.value;
+    from(this.auth.signInWithEmailAndPassword(email, password)).pipe(
       catchError(err => {
         console.log(err);
         this.errorMessage = err.message;

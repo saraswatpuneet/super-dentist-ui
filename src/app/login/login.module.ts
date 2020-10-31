@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
@@ -15,6 +15,7 @@ import { LoginRoutingModule } from './login-routing.module';
     CommonModule,
     FormsModule,
     FlexLayoutModule,
+    ReactiveFormsModule,
     MatIconModule,
     MatProgressBarModule,
     MatInputModule,

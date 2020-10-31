@@ -9,19 +9,24 @@
     </div>
 
     <div>
-      <mat-progress-bar mode="indeterminate" *ngIf="loading" class="top-left"></mat-progress-bar>
-      <div class="login-form">
-        <div>
-          <input class="sd-input gap-24" [(ngModel)]="email" matInput placeholder="Email">
-        </div>
-        <div>
-          <input class="sd-input gap-8" type="password" [(ngModel)]="password" matInput placeholder="Password">
-        </div>
-        <div class="warning">{{errorMessage}}</div>
+      <form [formGroup]="formGroup">
+        <div class="login-form">
+          <div>
+            <input class="sd-input gap-24" formControlName="email" matInput placeholder="Email">
+          </div>
+          <div>
+            <input class="sd-input gap-8" type="password" formControlName="password" matInput placeholder="Password">
+          </div>
+          <div class="warning">{{errorMessage}}</div>
 
-        <button class="sd-button blue" (click)="signIn()">Login</button>
-        <div class="forgot">Forgot password?</div>
-      </div>
+          <button class="sd-button blue" (click)="signIn()">Login</button>
+          <div class="forgot">Forgot password?</div>
+          <div class="top-left">
+            <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+          </div>
+        </div>
+
+      </form>
 
       <div fxLayout="column" fxLayoutGap="4px">
         <div class="new-customer" fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
