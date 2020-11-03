@@ -12,6 +12,9 @@ import { take } from 'rxjs/operators';
   animations: dashboardAnimations
 })
 export class DashboardComponent implements OnInit {
+  generalDentist = false;
+  specialist = false;
+  active = 1;
 
   constructor(
     private dialogService: DialogService,
