@@ -2,7 +2,7 @@
 
 @include mat-core();
 
-$super-dentist-primary: mat-palette($mat-indigo);
+$super-dentist-primary: mat-palette($mat-light-blue);
 $super-dentist-accent: mat-palette($mat-pink, A200, A100, A400);
 $super-dentist-warn: mat-palette($mat-red);
 

@@ -3,10 +3,26 @@
 
   <div class="complete-account">
     <div class="clinic" fxLayout="column" fxLayoutAlign=" center" fxLayoutGap="24px">
-      <div class="stepper" fxLayout="row" fxLayoutAlign="space-between">
-        <div *ngFor="let step of [1,2,3,4]" (click)="active = step" [ngClass]="{'active': step === active}">
-          {{step}}
+      <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px" class="stepper">
+        <div class="spinner-progress">
+          <div class="step">{{active}} of 4</div>
+          <mat-progress-spinner mode="determinate" diameter="64" [value]="(active / 4) * 100"></mat-progress-spinner>
+          <mat-progress-spinner class="behind" mode="determinate" diameter="64" value="100">
+          </mat-progress-spinner>
         </div>
+        <div>
+          <h1>Registration</h1>
+          <p *ngIf="active === 1">Clinic details</p>
+          <p *ngIf="active === 2">PMS</p>
+          <p *ngIf="active === 3">Verify</p>
+          <p *ngIf="active === 4">Finalize</p>
+        </div>
+
+        <span fxFlex></span>
+
+        <button class="sd-button" [disabled]="active === 1" (click)="active = active - 1">Previous</button>
+        <button class="sd-button" *ngIf="active != 4" (click)="active = active + 1">Next</button>
+        <button class="sd-button blue" *ngIf="active === 4" (click)="active = active + 1">Finish</button>
       </div>
 
       <h1 *ngIf="active === 1">What type of clinic are you?</h1>
