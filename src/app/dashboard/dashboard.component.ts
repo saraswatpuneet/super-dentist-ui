@@ -14,7 +14,13 @@ import { take } from 'rxjs/operators';
 export class DashboardComponent implements OnInit {
   generalDentist = false;
   specialist = false;
-  active = 1;
+  active = 0;
+  steps = [
+    { label: 'Clinic Selection', subLabel: 'Clinic Details', step: 1 },
+    { label: 'Clinic Details', subLabel: 'Select PMS', step: 2 },
+    { label: 'Select PMS', subLabel: 'Verify', step: 3 },
+    { label: 'Verify', subLabel: 'Finalize', step: 4 },
+  ];
 
   constructor(
     private dialogService: DialogService,

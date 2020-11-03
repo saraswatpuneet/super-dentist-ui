@@ -5,44 +5,40 @@
     <div class="clinic" fxLayout="column" fxLayoutAlign=" center" fxLayoutGap="24px">
       <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px" class="stepper">
         <div class="spinner-progress">
-          <div class="step">{{active}} of 4</div>
-          <mat-progress-spinner mode="determinate" diameter="64" [value]="(active / 4) * 100"></mat-progress-spinner>
+          <div class="step">{{steps[active].step}} of 4</div>
+          <mat-progress-spinner mode="determinate" diameter="64" [value]="(steps[active].step / 4) * 100">
+          </mat-progress-spinner>
           <mat-progress-spinner class="behind" mode="determinate" diameter="64" value="100">
           </mat-progress-spinner>
         </div>
         <div>
-          <h1>Registration</h1>
-          <p *ngIf="active === 1">Clinic details</p>
-          <p *ngIf="active === 2">PMS</p>
-          <p *ngIf="active === 3">Verify</p>
-          <p *ngIf="active === 4">Finalize</p>
+          <h1>{{steps[active].label}}</h1>
+          <p>Next: {{steps[active].subLabel}}</p>
         </div>
 
         <span fxFlex></span>
 
-        <button class="sd-button" [disabled]="active === 1" (click)="active = active - 1">Previous</button>
-        <button class="sd-button" *ngIf="active != 4" (click)="active = active + 1">Next</button>
-        <button class="sd-button blue" *ngIf="active === 4" (click)="active = active + 1">Finish</button>
+        <button class="sd-button" [disabled]="active === 0" (click)="active = active - 1">Previous</button>
+        <button class="sd-button" *ngIf="active != 3" (click)="active = active + 1">Next</button>
+        <button class="sd-button blue" *ngIf="active === 3" (click)="active = active + 1">Finish</button>
       </div>
 
-      <h1 *ngIf="active === 1">What type of clinic are you?</h1>
-      <h1 *ngIf="active === 2 && specialist">Specialist Details</h1>
-      <h1 *ngIf="active === 2 && generalDentist">General Dentist</h1>
+      <h1 *ngIf="active === 0">What type of clinic are you?</h1>
 
-      <div *ngIf="active === 1" fxLayout="row" fxLayoutGap="32px">
-        <div class="clinic-type" (click)="generalDentist = true; active =2; specialist = false">
+      <div *ngIf="active === 0" fxLayout="row" fxLayoutGap="32px">
+        <div class="clinic-type" (click)="generalDentist = true; active = 1; specialist = false">
           <img src="assets/images/general-dentist.jpg" alt="">
           <p>General Dentist</p>
         </div>
 
-        <div class="clinic-type" (click)="specialist = true; active = 2; generalDentist = false">
+        <div class="clinic-type" (click)="specialist = true; active = 1; generalDentist = false">
           <img src="assets/images/specialist.jpg" alt="">
           <p>Specialist</p>
         </div>
       </div>
     </div>
 
-    <div class="specialist" *ngIf="active === 2 && specialist" fxLayoutGap="16px" fxLayout="column">
+    <div class="specialist" *ngIf="active === 1 && specialist" fxLayoutGap="16px" fxLayout="column">
       <input class="sd-input" placeholder="Specialist Type(s)" type="text">
       <input class="sd-input" placeholder="Name" type="text">
       <input class="sd-input" placeholder="Address" type="text">
@@ -50,7 +46,7 @@
       <input class="sd-input" placeholder="Phone Number" type="text">
     </div>
 
-    <div class="general-dentist" *ngIf="active === 2 && generalDentist" fxLayoutGap="16px" fxLayout="column">
+    <div class="general-dentist" *ngIf="active === 1 && generalDentist" fxLayoutGap="16px" fxLayout="column">
       <input class="sd-input" placeholder="Name" type="text">
       <input class="sd-input" placeholder="Address" type="text">
       <input class="sd-input" placeholder="Email" type="text">
