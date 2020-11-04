@@ -53,5 +53,26 @@
       <input class="sd-input" placeholder="Email" type="text">
       <input class="sd-input" placeholder="Phone Number" type="text">
     </div>
+
+    <div class="pms" *ngIf="active === 2">
+      <h3>Practice Management Softwares</h3>
+      <div fxLayout="row" fxLayoutGap="12px" fxLayoutAlign="space-between">
+        <div fxLayout="column" fxLayoutGap="4px">
+          <mat-checkbox color="primary" *ngFor="let p of pms" [(ngModel)]="p.selected">{{p.label}}</mat-checkbox>
+        </div>
+
+        <div fxLayout="column" fxLayoutGap="4px">
+          <mat-checkbox color="primary" *ngFor="let p of pms2" [(ngModel)]="p.selected">{{p.label}}</mat-checkbox>
+        </div>
+
+        <div fxLayout="column" fxLayoutGap="4px">
+          <mat-checkbox color="primary" *ngFor="let p of pms3" [(ngModel)]="p.selected">{{p.label}}</mat-checkbox>
+        </div>
+      </div>
+
+      <div class="custom-pms">
+        <input class="sd-input" placeholder="Add your own PMS">
+      </div>
+    </div>
+
   </div>
-</div>

@@ -3,6 +3,10 @@
   position: relative;
   padding: 48px;
 
+  .custom-pms {
+    margin-top: 48px;
+  }
+
   .complete-account {
     margin: 0 auto;
     max-width: 100%;
@@ -83,6 +87,21 @@
     p {
       text-align: center;
       font-weight: 500;
+    }
+  }
+
+  .chip {
+    background: rgba(black, 0.1);
+    cursor: pointer;
+    user-select: none;
+    padding: 4px 20px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+
+    &.active {
+      background: var(--ac-blue);
+      color: white;
+
     }
   }
 }
