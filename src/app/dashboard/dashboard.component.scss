@@ -17,7 +17,6 @@
   }
   
   .clinic {
-
     .stepper {      
       width: 100%;
       padding-bottom: 64px;
@@ -58,39 +57,18 @@
         }
       }
     }
-    
-    // .stepper {
-    //   width: 100%;
-    //   padding-bottom: 32px;
-
-    //   .step {
-    //     cursor: pointer;
-    //     transition: 0.3s;
-    //     border-radius: 16px;
-    //     height: 32px;
-    //     width: 32px;
-    //     line-height: 32px;
-    //     background: rgba(black, 0.2);
-    //     color: white;
-    //     text-align: center;
-
-    //     &.active {
-    //       background: var(--ac-blue);
-    //     }
-    //   }
-
-    //   .line {
-    //     height: 1px;
-    //     background: rgba(black, 0.1);
-    //   }
-    // }
 
     .clinic-type {
-      box-shadow: none;
+      padding: 20px 12px 0;
       transition: 0.3s;
       border-radius: 4px;
+      border: 1px solid transparent;
       box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
       cursor: pointer;
+
+      &.active {
+        border: 1px solid var(--ac-blue);
+      }
 
       &:hover {
         box-shadow: 0px 4px 5px -2px rgba(0, 0, 0, 0.2), 0px 7px 10px 1px rgba(0, 0, 0, 0.14), 0px 2px 16px 1px rgba(0, 0, 0, 0.12);

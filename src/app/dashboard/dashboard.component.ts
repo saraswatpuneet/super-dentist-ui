@@ -5,6 +5,11 @@ import { dashboardAnimations } from './dashboard.animations';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { take } from 'rxjs/operators';
 
+enum Clinic {
+  Specialist = 0,
+  GeneralDentist = 1
+}
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -12,8 +17,7 @@ import { take } from 'rxjs/operators';
   animations: dashboardAnimations
 })
 export class DashboardComponent implements OnInit {
-  generalDentist = false;
-  specialist = false;
+  selectedClinic: Clinic;
   active = 0;
   steps = [
     { label: 'Clinic Selection', subLabel: 'Clinic Details', step: 1 },
@@ -27,7 +31,19 @@ export class DashboardComponent implements OnInit {
     private clinicService: ClinicService
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    console.log(this.selectedClinic);
+  }
+
+  selectDentist(): void {
+    this.selectedClinic = Clinic.GeneralDentist;
+    this.active = 1;
+  }
+
+  selectSpecialist(): void {
+    this.selectedClinic = Clinic.Specialist;
+    this.active = 1;
+  }
 
   openCreateReferral(): void {
     this.dialogService.openCreateReferral();

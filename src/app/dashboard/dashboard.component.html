@@ -19,26 +19,27 @@
         <span fxFlex></span>
 
         <button class="sd-button" [disabled]="active === 0" (click)="active = active - 1">Previous</button>
-        <button class="sd-button" *ngIf="active != 3" (click)="active = active + 1">Next</button>
+        <button class="sd-button" *ngIf="active != 3" [disabled]="selectedClinic === undefined"
+          (click)="active = active + 1">Next</button>
         <button class="sd-button blue" *ngIf="active === 3" (click)="active = active + 1">Finish</button>
       </div>
 
       <h1 *ngIf="active === 0">What type of clinic are you?</h1>
 
       <div *ngIf="active === 0" fxLayout="row" fxLayoutGap="32px">
-        <div class="clinic-type" (click)="generalDentist = true; active = 1; specialist = false">
+        <div class="clinic-type" [ngClass]="{'active': selectedClinic === 1}" (click)="selectDentist()">
           <img src="assets/images/general-dentist.jpg" alt="">
           <p>General Dentist</p>
         </div>
 
-        <div class="clinic-type" (click)="specialist = true; active = 1; generalDentist = false">
+        <div class="clinic-type" [ngClass]="{'active': selectedClinic === 0}" (click)="selectSpecialist()">
           <img src="assets/images/specialist.jpg" alt="">
           <p>Specialist</p>
         </div>
       </div>
     </div>
 
-    <div class="specialist" *ngIf="active === 1 && specialist" fxLayoutGap="16px" fxLayout="column">
+    <div class="specialist" *ngIf="active === 1 && selectedClinic === 0" fxLayoutGap="16px" fxLayout="column">
       <input class="sd-input" placeholder="Specialist Type(s)" type="text">
       <input class="sd-input" placeholder="Name" type="text">
       <input class="sd-input" placeholder="Address" type="text">
@@ -46,7 +47,7 @@
       <input class="sd-input" placeholder="Phone Number" type="text">
     </div>
 
-    <div class="general-dentist" *ngIf="active === 1 && generalDentist" fxLayoutGap="16px" fxLayout="column">
+    <div class="general-dentist" *ngIf="active === 1 && selectedClinic === 1" fxLayoutGap="16px" fxLayout="column">
       <input class="sd-input" placeholder="Name" type="text">
       <input class="sd-input" placeholder="Address" type="text">
       <input class="sd-input" placeholder="Email" type="text">
