@@ -19,7 +19,6 @@ export class AuthGuard implements CanActivate {
     return this.auth.authState.pipe(
       take(1),
       map(authState => {
-        console.log(authState.emailVerified);
         const signedIn = !!authState;
         if (!signedIn) {
           this.router.navigate(['./login']);

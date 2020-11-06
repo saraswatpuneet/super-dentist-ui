@@ -7,9 +7,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { VerificationRoutingModule } from './verification-routing.module';
 import { VerificationComponent } from './verification.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 @NgModule({
-  declarations: [VerificationComponent],
+  declarations: [VerificationComponent, VerifyEmailComponent],
   imports: [
     CommonModule,
     MatIconModule,

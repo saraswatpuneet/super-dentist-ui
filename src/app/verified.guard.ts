@@ -20,7 +20,7 @@ export class VerifiedGuard implements CanActivate {
     return this.auth.authState.pipe(
       take(1),
       map(authState => {
-        console.log(authState.emailVerified);
+        console.log('Email verified:', authState.emailVerified);
 
         // if (!authState.emailVerified) {
         //   this.router.navigate(['./verification']);
