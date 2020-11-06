@@ -35,7 +35,6 @@ enum PMS {
   animations: dashboardAnimations
 })
 export class VerificationComponent implements OnInit {
-
   selectedClinic: Clinic;
   active = 0;
   steps = [

@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
+import jwt from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class VerifiedGuard implements CanActivate {
   constructor(
     private auth: AngularFireAuth,
     private router: Router
@@ -20,11 +21,11 @@ export class AuthGuard implements CanActivate {
       take(1),
       map(authState => {
         console.log(authState.emailVerified);
-        const signedIn = !!authState;
-        if (!signedIn) {
-          this.router.navigate(['./login']);
-          return false;
-        }
+
+        // if (!authState.emailVerified) {
+        //   this.router.navigate(['./verification']);
+        //   return false;
+        // }
 
         return true;
       }),

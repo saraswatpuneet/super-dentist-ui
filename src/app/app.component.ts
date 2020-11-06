@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { takeUntil } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { filter, takeUntil } from 'rxjs/operators';
+import { NavigationEnd, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { Base } from './shared/base/base-component';
@@ -28,16 +28,21 @@ export class AppComponent extends Base implements OnInit {
     private domSanitizer: DomSanitizer,
     private iconRegistry: MatIconRegistry,
     private auth: AngularFireAuth,
-    private router: Router
+    private router: Router,
   ) { super(); }
 
   ngOnInit(): void {
     const expanded = localStorage.getItem(this.expandedKey);
     if (expanded === 'false') {
       this.expanded = false;
+    } else if (expanded === 'true') {
+      this.expanded = true;
     }
-    this.auth.authState.pipe(takeUntil(this.unsubscribe$)).subscribe(res => {
-      if (res) {
+
+    this.router.events.pipe(filter(e => e instanceof NavigationEnd), takeUntil(this.unsubscribe$)).subscribe(e => {
+      if (this.router.url.includes('login') || this.router.url.includes('verification')) {
+        this.authenticated = false;
+      } else {
         this.authenticated = true;
       }
     });
