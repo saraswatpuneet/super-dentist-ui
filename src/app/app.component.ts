@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { Base } from './shared/base/base-component';
 import { appAnimations } from './app.animations';
+import { MatIconRegistry } from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
@@ -15,14 +17,19 @@ import { appAnimations } from './app.animations';
 export class AppComponent extends Base implements OnInit {
   title = 'super-dentist';
   authenticated = false;
-  expanded = true;
+  expanded = false;
   expandedKey = 'sdNavExpanded';
   navItems = [
-    { path: 'referrals', label: 'Referrals', icon: 'settings' },
-    { path: 'specialist', label: 'Specialist', icon: 'settings' }
+    { path: 'referrals', label: 'Referrals', icon: 'message' },
+    { path: 'specialist', label: 'Specialist', icon: 'date_range' }
   ];
 
-  constructor(private auth: AngularFireAuth, private router: Router) { super(); }
+  constructor(
+    private domSanitizer: DomSanitizer,
+    private iconRegistry: MatIconRegistry,
+    private auth: AngularFireAuth,
+    private router: Router
+  ) { super(); }
 
   ngOnInit(): void {
     const expanded = localStorage.getItem(this.expandedKey);
@@ -34,6 +41,8 @@ export class AppComponent extends Base implements OnInit {
         this.authenticated = true;
       }
     });
+
+    this.iconRegistry.addSvgIconSet(this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/icons.svg'));
   }
 
   signOut(): void {

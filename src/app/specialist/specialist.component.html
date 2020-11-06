@@ -3,35 +3,35 @@
   <div class="container" fxLayout="column" fxLayoutGap="48px">
     <div class="search-clinic">
       <h2>Specialists</h2>
-      <input class="sd-input" placeholder="Search for a speciality clinic">
+      <div fxLayout="row" fxLayoutGap="24px">
+        <input class="sd-input" placeholder="Search for a speciality clinic">
+        <input fxFlex="200px" placeholder="Filter specialists" class="sd-input">
+        <button fxFlex="42px" class="sd-icon-button">
+          <mat-icon>healing</mat-icon>
+        </button>
+      </div>
     </div>
 
     <div class="list" fxLayout="column" fxLayoutGap="52px">
-      <div class="card" fxLayout="row" fxLayoutGap="24px" *ngFor="let a of [1,2,3,4,5,6,7]">
+      <div class="sd-card" fxLayout="row" fxLayoutGap="24px" *ngFor="let a of [1,2,3,4,5,6,7]">
         <img src="assets/images/user-placeholder.jpg" alt="">
-        <div fxLayout="column">
+        <div fxFlex fxLayout="column">
           <div class="specialist-title">
             Pul Korb, DMD and Craig Taylor, DMD. Dental Implants, Oral, and Facial Surgey
           </div>
+
           <div class="specialist-type">Oral and Maxillofacial Surgeon</div>
+
           <span fxFlex></span>
-          <div class="contact-info" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px">
-            <button class="sd-icon-button">
-              <mat-icon>phone</mat-icon>
-            </button>
-            <button class="sd-icon-button">
-              <mat-icon>location_on</mat-icon>
-            </button>
-            <button class="sd-icon-button">
-              <mat-icon>email</mat-icon>
-            </button>
-            <button class="sd-button blue">Create Referral</button>
-            <!-- <span>info@korbtaylor.com</span> -->
-            <!-- <span>(770) 495-9193</span>
-            <span>4355 Johns Creek Pkwy Suite #530, Suwanee, GA 30024</span> -->
+
+          <div class="contact-info" fxLayout="row" fxLayoutAlign="space-between end" fxLayoutGap="12px">
+            <div fxLayout="column">
+              <span>info@korbtaylor.com</span>
+              <span>(770) 495-9193</span>
+              <span>4355 Johns Creek Pkwy Suite #530, Suwanee, GA 30024</span>
+            </div>
+            <button class="sd-button">Create Referral</button>
           </div>
-        </div>
-        <div>
         </div>
       </div>
     </div>

@@ -1,23 +1,33 @@
-<div class="app">
-  <div class="sidenav mat-elevation-z3" *ngIf="authenticated" [ngClass]="{'collapsed-sidenav': !expanded}">
+<div class="app" fxLayout="column">
+  <div class="sd-toolbar mat-elevation-z3" fxLayout="row" fxLayoutAlign=" center" *ngIf="authenticated">
     <div class="nav-title" routerLink=''>
-      <img src="assets/images/brand.svg" alt=""> <span>SuperDentist</span>
+      <img src="assets/images/brand.svg" alt=""> <span>Super Dentist</span>
     </div>
 
-    <a *ngFor="let navItem of navItems" routerLinkActive="active" [routerLink]="navItem.path" class="nav-item">
-      <mat-icon>{{navItem.icon}}</mat-icon>
-      <span *ngIf="expanded" [@sidebarToggle]>{{navItem.label}}</span>
-    </a>
+    <span fxFlex></span>
 
-    <div (click)="toggleNav()" class="nav-item collapse">
-      <mat-icon>keyboard_arrow_left</mat-icon>
-      <span *ngIf="expanded" [@sidebarToggle]>Collapse</span>
-    </div>
+    <button class="sd-button" *ngIf="authenticated" (click)="signOut()">Sign Out</button>
   </div>
 
-  <button class="sd-button sign-out" *ngIf="authenticated" (click)="signOut()">Sign Out</button>
+  <div class="contain" fxLayout="row">
+    <div class="sidenav mat-elevation-z7" *ngIf="authenticated" fxLayout="column" fxLayoutGap="20px"
+      [ngClass]="{'collapsed-sidenav': !expanded}">
 
-  <div class="content">
-    <router-outlet></router-outlet>
+      <a *ngFor="let navItem of navItems" routerLinkActive="active" [routerLink]="navItem.path"
+        class="sd-button nav-item">
+        <mat-icon>{{navItem.icon}}</mat-icon>
+        <span *ngIf="expanded" [@sidebarToggle]>{{navItem.label}}</span>
+      </a>
+      <span fxFlex></span>
+      <div (click)="toggleNav()" [ngClass]="{'active': !expanded}" class="nav-item collapse sd-button">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+        <span *ngIf="expanded" [@sidebarToggle]>Collapse</span>
+      </div>
+    </div>
+
+
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

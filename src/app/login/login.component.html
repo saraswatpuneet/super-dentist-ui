@@ -9,18 +9,18 @@
     </div>
 
     <div>
-      <form [formGroup]="formGroup">
+      <form [formGroup]="formGroup" autocomplete="off">
         <div class="login-form">
           <div>
             <input class="sd-input gap-24" formControlName="email" matInput placeholder="Email">
           </div>
           <div>
-            <input class="sd-input gap-8" type="password" formControlName="password" matInput placeholder="Password">
+            <input class="sd-input" type="password" formControlName="password" matInput placeholder="Password">
           </div>
+          <div class="forgot">Forgot password?</div>
           <div class="warning">{{errorMessage}}</div>
 
-          <button class="sd-button blue" (click)="signIn()">Login</button>
-          <!-- <div class="forgot">Forgot password?</div> -->
+          <button class="sd-button log" (click)="signIn()">Login</button>
           <div class="top-left">
             <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
           </div>

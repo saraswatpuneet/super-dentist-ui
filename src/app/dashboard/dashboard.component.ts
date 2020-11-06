@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
     { label: 'Clinic Selection', subLabel: 'Clinic Details', step: 1 },
     { label: 'Clinic Details', subLabel: 'Select PMS', step: 2 },
     { label: 'Select your PMS', subLabel: 'Verify', step: 3 },
-    { label: 'Verify', subLabel: 'Finalize', step: 4 },
+    { label: 'Verify Clinic', subLabel: 'Finalize', step: 4 },
   ];
   pms = [
     { label: 'Curve Dental', value: PMS.CurveDental, selected: false },
