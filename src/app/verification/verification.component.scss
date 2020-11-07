@@ -36,7 +36,7 @@
 
       p {
         font-size: 12px;
-        color: rgba(black, 0.5);
+        color: rgba(white, 0.5);
       }
     }
 
@@ -72,18 +72,12 @@
       transition: 0.3s;
       border-radius: 4px;
       border: 1px solid transparent;
-      box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
       cursor: pointer;
 
-      &.active {
+      &.active, &:hover {
         border: 1px solid var(--ac-blue);
       }
-
-      &:hover {
-        box-shadow: 0px 4px 5px -2px rgba(0, 0, 0, 0.2), 0px 7px 10px 1px rgba(0, 0, 0, 0.14), 0px 2px 16px 1px rgba(0, 0, 0, 0.12);
-      }
     }
-
 
     p {
       text-align: center;
@@ -91,18 +85,20 @@
     }
   }
 
-  .chip {
-    background: rgba(black, 0.1);
-    cursor: pointer;
-    user-select: none;
-    padding: 4px 20px;
-    border-radius: 20px;
-    margin-bottom: 12px;
+  .verify-clinic {
+    text-align: center;
 
-    &.active {
-      background: var(--ac-blue);
-      color: white;
+    > div {
+      color: rgba(white, 0.5);
+    }
 
+    .sd-card {
+      margin-top: 24px;
+      cursor: pointer;
+      p {
+        margin: 0;
+        padding-left: 16px;
+      }
     }
   }
 }

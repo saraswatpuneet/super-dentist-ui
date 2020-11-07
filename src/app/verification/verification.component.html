@@ -25,18 +25,18 @@
         <button class="sd-button" [disabled]="active === 0" (click)="active = active - 1">Previous</button>
         <button class="sd-button" *ngIf="active != 2" [disabled]="selectedClinic === undefined"
           (click)="active = active + 1">Next</button>
-        <button class="sd-button blue" *ngIf="active === 2" (click)="active = active + 1">Finish</button>
+        <button class="sd-button blue" *ngIf="active === 2">Finish</button>
       </div>
 
       <h1 *ngIf="active === 0">What type of clinic are you?</h1>
 
       <div *ngIf="active === 0" fxLayout="row" fxLayoutGap="32px">
-        <div class="clinic-type" [ngClass]="{'active': selectedClinic === 1}" (click)="selectDentist()">
+        <div class="clinic-type sd-card" [ngClass]="{'active': selectedClinic === 1}" (click)="selectDentist()">
           <img src="assets/icons/dentist.svg" alt="">
           <p>General Dentist</p>
         </div>
 
-        <div class="clinic-type" [ngClass]="{'active': selectedClinic === 0}" (click)="selectSpecialist()">
+        <div class="clinic-type sd-card" [ngClass]="{'active': selectedClinic === 0}" (click)="selectSpecialist()">
           <img src="assets/icons/specialist.svg" alt="">
           <p>Specialist</p>
         </div>
@@ -92,40 +92,27 @@
     </div>
 
     <div class="verify-clinic" *ngIf="active === 2">
-      <div>Verification Options</div>
+      <div>To protect you and your business we need to verify your clinic.</div>
+      <div>Please select one of the available options from below.</div>
 
-      <div fxLayout="row" fxLayoutAlign=" center">
+      <div class="sd-card" fxLayout="row" fxLayoutAlign=" center">
         <mat-icon>phone</mat-icon>
-
-        <div fxLayout="column">
-          <p>Call me at (603) 555-0123</p>
-          <p>We'll call you to give you the verification code you'll then enter.</p>
-        </div>
+        <p>Call me at (603) 555-0123</p>
       </div>
-      <div fxLayout="row" fxLayoutAlign=" center">
-        <mat-icon>phone</mat-icon>
 
-        <div fxLayout="column">
-          <p>Call me at (603) 555-0123</p>
-          <p>We'll call you to give you the verification code you'll then enter.</p>
-        </div>
+      <div class="sd-card" fxLayout="row" fxLayoutAlign=" center">
+        <mat-icon>chat</mat-icon>
+        <p>Text me as (603) 555-0123</p>
       </div>
-      <div fxLayout="row" fxLayoutAlign=" center">
-        <mat-icon>text</mat-icon>
 
-        <div fxLayout="column">
-          <p>Text me at (603) 555-0123</p>
-          <p>We'll call you to give you the verification code you'll then enter.</p>
-        </div>
-      </div>
-      <div fxLayout="row" fxLayoutAlign=" center">
+      <div class="sd-card" fxLayout="row" fxLayoutAlign=" center">
         <mat-icon>email</mat-icon>
+        <p>Email me at info@nyds.com</p>
+      </div>
 
-        <div fxLayout="column">
-          <p>Email me at (603) 555-0123</p>
-          <p>We'll call you to give you the verification code you'll then enter.</p>
-        </div>
+      <div class="sd-card" fxLayout="row" fxLayoutAlign=" center">
+        <mat-icon>description</mat-icon>
+        <p>Upload a verification document</p>
       </div>
     </div>
-
   </div>
