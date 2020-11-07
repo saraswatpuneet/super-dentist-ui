@@ -15,7 +15,11 @@
   }
 
   .contain {
-    height: calc(100% - 59px);
+    height: calc(100% - 58px);
+
+    &.full-h {
+      height: 100%;
+    }
   }
 
   .sd-toolbar {

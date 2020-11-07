@@ -9,7 +9,7 @@
     <button class="sd-button" *ngIf="authenticated" (click)="signOut()">Sign Out</button>
   </div>
 
-  <div class="contain" fxLayout="row">
+  <div [ngClass]="{'full-h': !authenticated}" class="contain" fxLayout="row">
     <div class="sidenav mat-elevation-z7" *ngIf="authenticated" fxLayout="column" fxLayoutGap="20px"
       [ngClass]="{'collapsed-sidenav': !expanded}">
 
