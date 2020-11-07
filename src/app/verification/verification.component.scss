@@ -2,6 +2,11 @@
   height: 100%;
   position: relative;
   padding: 48px;
+  
+  img {
+    height: 150px;
+    border-radius: 4px;
+  }
 
   .custom-pms {
     margin-top: 48px;
@@ -79,10 +84,6 @@
       }
     }
 
-    img {
-      height: 150px;
-      border-radius: 4px;
-    }
 
     p {
       text-align: center;

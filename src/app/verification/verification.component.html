@@ -32,56 +32,62 @@
 
       <div *ngIf="active === 0" fxLayout="row" fxLayoutGap="32px">
         <div class="clinic-type" [ngClass]="{'active': selectedClinic === 1}" (click)="selectDentist()">
-          <img src="assets/images/general-dentist.jpg" alt="">
+          <img src="assets/icons/dentist.svg" alt="">
           <p>General Dentist</p>
         </div>
 
         <div class="clinic-type" [ngClass]="{'active': selectedClinic === 0}" (click)="selectSpecialist()">
-          <img src="assets/images/specialist.jpg" alt="">
+          <img src="assets/icons/specialist.svg" alt="">
           <p>Specialist</p>
         </div>
       </div>
     </div>
 
-    <div class="specialist" *ngIf="active === 1 && selectedClinic === 0" fxLayoutGap="36px" fxLayout="column">
-      <div class="sd-input">
-        <label>Specialist Type(s)</label>
-        <input type="text">
-      </div>
-      <div class="sd-input">
-        <label>Name</label>
-        <input type="text">
-      </div>
-      <div class="sd-input">
-        <label>Address</label>
-        <input type="text">
-      </div>
-      <div class="sd-input">
-        <label>Email</label>
-        <input type="text">
-      </div>
-      <div class="sd-input">
-        <label>Phone Number</label>
-        <input type="text">
+    <div class="specialist" *ngIf="active === 1 && selectedClinic === 0" fxLayoutGap="36px" fxLayout="row">
+      <img src="assets/icons/specialist.svg" alt="">
+      <div fxLayout="column" fxFlex fxLayoutGap="36px">
+        <div class="sd-input">
+          <label>Specialist Type(s)</label>
+          <input type="text">
+        </div>
+        <div class="sd-input">
+          <label>Name</label>
+          <input type="text">
+        </div>
+        <div class="sd-input">
+          <label>Address</label>
+          <input type="text">
+        </div>
+        <div class="sd-input">
+          <label>Email</label>
+          <input type="text">
+        </div>
+        <div class="sd-input">
+          <label>Phone Number</label>
+          <input type="text">
+        </div>
       </div>
     </div>
 
-    <div class="general-dentist" *ngIf="active === 1 && selectedClinic === 1" fxLayoutGap="36px" fxLayout="column">
-      <div class="sd-input">
-        <label>Name</label>
-        <input type="text">
-      </div>
-      <div class="sd-input">
-        <label>Address</label>
-        <input type="text">
-      </div>
-      <div class="sd-input">
-        <label>Email</label>
-        <input type="text">
-      </div>
-      <div class="sd-input">
-        <label>Phone Number</label>
-        <input type="text">
+    <div class="general-dentist" *ngIf="active === 1 && selectedClinic === 1" fxLayoutGap="36px" fxLayout="row">
+      <img src="assets/icons/dentist.svg" alt="">
+      <div fxLayout="column" fxLayoutGap="36px" fxFlex>
+        <div class="sd-input">
+          <label>Name</label>
+          <input type="text">
+        </div>
+        <div class="sd-input">
+          <label>Address</label>
+          <input type="text">
+        </div>
+        <div class="sd-input">
+          <label>Email</label>
+          <input type="text">
+        </div>
+        <div class="sd-input">
+          <label>Phone Number</label>
+          <input type="text">
+        </div>
       </div>
     </div>
 
