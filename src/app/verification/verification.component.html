@@ -40,19 +40,46 @@
       </div>
     </div>
 
-    <div class="specialist" *ngIf="active === 1 && selectedClinic === 0" fxLayoutGap="16px" fxLayout="column">
-      <input class="sd-input" placeholder="Specialist Type(s)" type="text">
-      <input class="sd-input" placeholder="Name" type="text">
-      <input class="sd-input" placeholder="Address" type="text">
-      <input class="sd-input" placeholder="Email" type="text">
-      <input class="sd-input" placeholder="Phone Number" type="text">
+    <div class="specialist" *ngIf="active === 1 && selectedClinic === 0" fxLayoutGap="36px" fxLayout="column">
+      <div class="sd-input">
+        <label>Specialist Type(s)</label>
+        <input type="text">
+      </div>
+      <div class="sd-input">
+        <label>Name</label>
+        <input type="text">
+      </div>
+      <div class="sd-input">
+        <label>Address</label>
+        <input type="text">
+      </div>
+      <div class="sd-input">
+        <label>Email</label>
+        <input type="text">
+      </div>
+      <div class="sd-input">
+        <label>Phone Number</label>
+        <input type="text">
+      </div>
     </div>
 
-    <div class="general-dentist" *ngIf="active === 1 && selectedClinic === 1" fxLayoutGap="16px" fxLayout="column">
-      <input class="sd-input" placeholder="Name" type="text">
-      <input class="sd-input" placeholder="Address" type="text">
-      <input class="sd-input" placeholder="Email" type="text">
-      <input class="sd-input" placeholder="Phone Number" type="text">
+    <div class="general-dentist" *ngIf="active === 1 && selectedClinic === 1" fxLayoutGap="36px" fxLayout="column">
+      <div class="sd-input">
+        <label>Name</label>
+        <input type="text">
+      </div>
+      <div class="sd-input">
+        <label>Address</label>
+        <input type="text">
+      </div>
+      <div class="sd-input">
+        <label>Email</label>
+        <input type="text">
+      </div>
+      <div class="sd-input">
+        <label>Phone Number</label>
+        <input type="text">
+      </div>
     </div>
 
     <div class="pms" *ngIf="active === 2">

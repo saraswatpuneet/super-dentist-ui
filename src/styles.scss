@@ -69,21 +69,36 @@ body {
 }
 
 .sd-input {
-  height: 22px;
   border-radius: 4px;
-  padding: 20px 16px;
   background: transparent;
   border: 1px solid rgba(white, 0.05);
   color: white;
   font-size: 14px;
   width: 100%;
   box-sizing: border-box;
-  vertical-align: middle;
   transition: 0.3s;
   box-shadow: inset -3px -3px 4px rgba(132, 132, 132, 0.25), inset 1px 4px 4px rgba(0, 0, 0, 0.4);
- 
-  &:focus {
-    outline: transparent;
+  position: relative;
+
+  label {
+    position: absolute;
+    top: -22px;
+    left: 10px;
+  }
+
+  input {
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    color: rgba(white, 0.7);
+    background:transparent;
+    height: 40px;
+    padding: 0 12px;
+  
+    &:focus {
+      outline: none;
+    }
   }
 }
 
