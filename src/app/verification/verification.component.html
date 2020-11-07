@@ -1,13 +1,16 @@
 <div class="verification">
-  <app-verify-email></app-verify-email>
+  <button class="sd-icon-button" (click)="verifiedEmail = !verifiedEmail">
+    <mat-icon>cached</mat-icon>
+  </button>
+  <app-verify-email *ngIf="!verifiedEmail"></app-verify-email>
   <!-- <button class="sd-button blue" (click)="openCreateReferral()">Add Patient</button> -->
 
-  <div class="complete-account">
+  <div *ngIf="verifiedEmail" class="complete-account">
     <div class="clinic" fxLayout="column" fxLayoutAlign=" center" fxLayoutGap="24px">
       <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px" class="stepper">
         <div class="spinner-progress">
-          <div class="step">{{steps[active].step}} of 4</div>
-          <mat-progress-spinner mode="determinate" diameter="64" [value]="(steps[active].step / 4) * 100">
+          <div class="step">{{steps[active].step}} of 3</div>
+          <mat-progress-spinner mode="determinate" diameter="64" [value]="(steps[active].step / 3) * 100">
           </mat-progress-spinner>
           <mat-progress-spinner class="behind" mode="determinate" diameter="64" value="100">
           </mat-progress-spinner>
@@ -20,9 +23,9 @@
         <span fxFlex></span>
 
         <button class="sd-button" [disabled]="active === 0" (click)="active = active - 1">Previous</button>
-        <button class="sd-button" *ngIf="active != 3" [disabled]="selectedClinic === undefined"
+        <button class="sd-button" *ngIf="active != 2" [disabled]="selectedClinic === undefined"
           (click)="active = active + 1">Next</button>
-        <button class="sd-button blue" *ngIf="active === 3" (click)="active = active + 1">Finish</button>
+        <button class="sd-button blue" *ngIf="active === 2" (click)="active = active + 1">Finish</button>
       </div>
 
       <h1 *ngIf="active === 0">What type of clinic are you?</h1>
@@ -82,28 +85,7 @@
       </div>
     </div>
 
-    <div class="pms" *ngIf="active === 2">
-      <h3>Practice Management Softwares</h3>
-      <div fxLayout="row" fxLayoutGap="12px" fxLayoutAlign="space-between">
-        <div fxLayout="column" fxLayoutGap="4px">
-          <mat-checkbox color="primary" *ngFor="let p of pms" [(ngModel)]="p.selected">{{p.label}}</mat-checkbox>
-        </div>
-
-        <div fxLayout="column" fxLayoutGap="4px">
-          <mat-checkbox color="primary" *ngFor="let p of pms2" [(ngModel)]="p.selected">{{p.label}}</mat-checkbox>
-        </div>
-
-        <div fxLayout="column" fxLayoutGap="4px">
-          <mat-checkbox color="primary" *ngFor="let p of pms3" [(ngModel)]="p.selected">{{p.label}}</mat-checkbox>
-        </div>
-      </div>
-
-      <div class="custom-pms">
-        <input class="sd-input" placeholder="Add your own PMS">
-      </div>
-    </div>
-
-    <div class="verify-clinic" *ngIf="active === 3">
+    <div class="verify-clinic" *ngIf="active === 2">
       <div>Verification Options</div>
 
       <div fxLayout="row" fxLayoutAlign=" center">
