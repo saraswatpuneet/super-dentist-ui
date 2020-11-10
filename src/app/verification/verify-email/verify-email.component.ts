@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-verify-email',
@@ -6,10 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./verify-email.component.scss']
 })
 export class VerifyEmailComponent implements OnInit {
+  sentEmail = false;
 
-  constructor() { }
+  constructor(private auth: AngularFireAuth) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
+
+  resendEmail(): void {
+    this.auth.currentUser.then(user => user.sendEmailVerification());
+    this.auth.currentUser.then(res => {
+      res.sendEmailVerification().then(() => {
+        this.sentEmail = true;
+      });
+    });
   }
 
 }

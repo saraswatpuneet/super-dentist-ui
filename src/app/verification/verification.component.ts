@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../shared/dialog/dialog.service';
 
 import { dashboardAnimations } from './dashboard.animations';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
@@ -22,15 +21,11 @@ export class VerificationComponent implements OnInit {
   active = 0;
   steps = [
     { label: 'Clinic Selection', subLabel: 'Clinic Details', step: 1 },
-    { label: 'Clinic Details', subLabel: 'Select PMS', step: 2 },
-    { label: 'Select your PMS', subLabel: 'Verify', step: 3 },
-    { label: 'Verify Clinic', subLabel: 'Finalize', step: 4 },
+    { label: 'Clinic Details', subLabel: 'Verify Clinic', step: 2 },
+    { label: 'Verify Clinic', subLabel: 'Finalize', step: 2 },
   ];
 
-  constructor(
-    private dialogService: DialogService,
-    private clinicService: ClinicService
-  ) { }
+  constructor(private clinicService: ClinicService) { }
 
   ngOnInit(): void {
     console.log(this.selectedClinic);
@@ -44,10 +39,6 @@ export class VerificationComponent implements OnInit {
   selectSpecialist(): void {
     this.selectedClinic = Clinic.Specialist;
     this.active = 1;
-  }
-
-  openCreateReferral(): void {
-    this.dialogService.openCreateReferral();
   }
 
   getAllDoctors(): void {
