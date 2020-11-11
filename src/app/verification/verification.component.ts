@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { dashboardAnimations } from './dashboard.animations';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { take } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 enum Clinic {
   Specialist = 0,
@@ -18,11 +18,11 @@ enum Clinic {
 })
 export class VerificationComponent implements OnInit {
   active = 0;
-  selectedClinic: Clinic;
+  selectedClinic: Clinic = 1;
   verifiedEmail = false;
   steps = [
-    { label: 'Enter your clinic details', subLabel: 'Clinic Details', step: 1 },
-    { label: 'Create Account', subLabel: 'Verify Clinic', step: 2 },
+    { label: 'Enter your clinic details', step: 1 },
+    { label: 'Create Account', step: 2 },
   ];
 
   constructor(private router: Router, private clinicService: ClinicService) { }
@@ -35,8 +35,8 @@ export class VerificationComponent implements OnInit {
     this.router.navigate(['./login']);
   }
 
-  selectDentist(): void {
-    this.selectedClinic = Clinic.GeneralDentist;
+  selectClinic(): void {
+    // this.selectedClinic = this.selec;
   }
 
   selectSpecialist(): void {

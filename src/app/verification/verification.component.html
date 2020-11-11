@@ -26,7 +26,7 @@
           (click)="active = active + 1">Next</button>
       </div>
 
-      <div class="dentist-type" *ngIf="active === 0" fxLayout="row" fxLayoutAlign="space-around" fxLayoutGap="32px">
+      <!-- <div class="dentist-type" *ngIf="active === 0" fxLayout="row" fxLayoutAlign="space-around" fxLayoutGap="32px">
         <div class="clinic-type sd-card" [ngClass]="{'active': selectedClinic === 1}" (click)="selectDentist()">
           <img src="assets/icons/dentist.svg" alt="">
           <p>General Dentist</p>
@@ -36,9 +36,12 @@
           <img src="assets/icons/specialist.svg" alt="">
           <p>Specialist</p>
         </div>
-      </div>
-      <div class="clinic-info" *ngIf="active === 0"
-        [ngClass]="{'selected': selectedClinic === 0 || selectedClinic === 1}" fxLayout="column" fxFlex>
+      </div> -->
+      <div *ngIf="active === 0" fxLayout="column" fxFlex>
+        <mat-radio-group [(ngModel)]="selectedClinic">
+          <mat-radio-button [value]="1">General Dentist</mat-radio-button>
+          <mat-radio-button [value]="0">Specialist</mat-radio-button>
+        </mat-radio-group>
         <div *ngIf="selectedClinic === 0" class="sd-input">
           <label>Specialist Type(s)</label>
           <input type="text">

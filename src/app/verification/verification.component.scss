@@ -11,19 +11,18 @@
     height: 32px;
   }
 
+  mat-radio-group {
+    margin-bottom: 42px;
+
+    mat-radio-button {
+      margin-right: 20px;
+    }
+  }
+
   .close {
     position: fixed;
     top: 24px;
     right: 32px;
-  }
-
-  .clinic-info {
-    transition: 0.3s;
-    opacity: 0.5;
-
-    &.selected {
-      opacity: 1;
-    }
   }
 
   .dentist-type {

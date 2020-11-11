@@ -4,6 +4,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
 
 import { VerificationRoutingModule } from './verification-routing.module';
 import { VerificationComponent } from './verification.component';
@@ -13,9 +15,11 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
   declarations: [VerificationComponent, VerifyEmailComponent],
   imports: [
     CommonModule,
+    FormsModule,
     MatIconModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
+    MatRadioModule,
     FlexLayoutModule,
     VerificationRoutingModule
   ]
