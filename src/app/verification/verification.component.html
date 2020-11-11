@@ -1,35 +1,32 @@
 <div class="verification">
-  <button class="sd-icon-button" (click)="verifiedEmail = !verifiedEmail">
-    <mat-icon>cached</mat-icon>
+  <img class="logo" src="assets/images/brand.svg" alt="">
+  <button class="sd-icon-button close" (click)="goToLogin()">
+    <mat-icon>close</mat-icon>
   </button>
-  <app-verify-email *ngIf="!verifiedEmail"></app-verify-email>
+  <!-- <app-verify-email *ngIf="!verifiedEmail"></app-verify-email> -->
 
-  <div *ngIf="verifiedEmail" class="complete-account">
-    <div class="clinic" fxLayout="column" fxLayoutAlign=" center" fxLayoutGap="24px">
+  <div class="complete-account">
+    <div class="clinic" fxLayout="column" fxLayoutGap="24px">
       <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px" class="stepper">
         <div class="spinner-progress">
-          <div class="step">{{steps[active].step}} of 3</div>
-          <mat-progress-spinner mode="determinate" diameter="64" [value]="(steps[active].step / 3) * 100">
+          <div class="step">{{steps[active].step}} of 2</div>
+          <mat-progress-spinner mode="determinate" diameter="64" [value]="(steps[active].step / 2) * 100">
           </mat-progress-spinner>
           <mat-progress-spinner class="behind" mode="determinate" diameter="64" value="100">
           </mat-progress-spinner>
         </div>
         <div>
           <h1>{{steps[active].label}}</h1>
-          <p>Next: {{steps[active].subLabel}}</p>
         </div>
 
         <span fxFlex></span>
 
-        <button class="sd-button" [disabled]="active === 0" (click)="active = active - 1">Previous</button>
-        <button class="sd-button" *ngIf="active != 2" [disabled]="selectedClinic === undefined"
+        <button class="sd-button" *ngIf="active === 1" (click)="active = active - 1">Back</button>
+        <button class="sd-button" *ngIf="active === 0" [disabled]="selectedClinic === undefined"
           (click)="active = active + 1">Next</button>
-        <button class="sd-button blue" *ngIf="active === 2">Finish</button>
       </div>
 
-      <h1 *ngIf="active === 0">What type of clinic are you?</h1>
-
-      <div *ngIf="active === 0" fxLayout="row" fxLayoutGap="32px">
+      <div class="dentist-type" *ngIf="active === 0" fxLayout="row" fxLayoutAlign="space-around" fxLayoutGap="32px">
         <div class="clinic-type sd-card" [ngClass]="{'active': selectedClinic === 1}" (click)="selectDentist()">
           <img src="assets/icons/dentist.svg" alt="">
           <p>General Dentist</p>
@@ -40,53 +37,43 @@
           <p>Specialist</p>
         </div>
       </div>
-    </div>
-
-    <div class="specialist" *ngIf="active === 1 && selectedClinic === 0" fxLayoutGap="36px" fxLayout="row">
-      <img src="assets/icons/specialist.svg" alt="">
-      <div fxLayout="column" fxFlex fxLayoutGap="36px">
-        <div class="sd-input">
+      <div class="clinic-info" *ngIf="active === 0"
+        [ngClass]="{'selected': selectedClinic === 0 || selectedClinic === 1}" fxLayout="column" fxFlex>
+        <div *ngIf="selectedClinic === 0" class="sd-input">
           <label>Specialist Type(s)</label>
           <input type="text">
         </div>
         <div class="sd-input">
-          <label>Name</label>
+          <label>Clinic Name</label>
           <input type="text">
         </div>
         <div class="sd-input">
-          <label>Address</label>
+          <label>Clinic Address</label>
           <input type="text">
         </div>
         <div class="sd-input">
-          <label>Email</label>
-          <input type="text">
-        </div>
-        <div class="sd-input">
-          <label>Phone Number</label>
+          <label>Clinic Phone Number</label>
           <input type="text">
         </div>
       </div>
     </div>
 
-    <div class="general-dentist" *ngIf="active === 1 && selectedClinic === 1" fxLayoutGap="36px" fxLayout="row">
-      <img src="assets/icons/dentist.svg" alt="">
-      <div fxLayout="column" fxLayoutGap="36px" fxFlex>
-        <div class="sd-input">
-          <label>Name</label>
-          <input type="text">
-        </div>
-        <div class="sd-input">
-          <label>Address</label>
-          <input type="text">
-        </div>
-        <div class="sd-input">
-          <label>Email</label>
-          <input type="text">
-        </div>
-        <div class="sd-input">
-          <label>Phone Number</label>
-          <input type="text">
-        </div>
+    <div class="specialist" *ngIf="active === 1" fxLayout="column">
+      <div class="sd-input email">
+        <label>Email</label>
+        <input type="text">
+      </div>
+      <div class="sd-input pass">
+        <label>Password</label>
+        <input type="text">
+      </div>
+      <div class="sd-input">
+        <label>Confirm Password</label>
+        <input type="text">
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="end">
+        <button class="sd-button blue" *ngIf="active === 1" disabled>Register</button>
       </div>
     </div>
 

@@ -24,7 +24,6 @@ const routes: Routes = [
   {
     path: 'verification',
     loadChildren: () => import('./verification/verification.module').then(m => m.VerificationModule),
-    canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: '' }
 ];

@@ -33,7 +33,8 @@ export class LoginComponent extends Base implements OnInit {
   }
 
   createAccount(): void {
-    this.dialogService.openSignUp();
+    this.router.navigate(['./verification']);
+    // this.dialogService.openSignUp();
   }
 
   signIn(): void {

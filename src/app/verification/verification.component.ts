@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { dashboardAnimations } from './dashboard.animations';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { take } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 enum Clinic {
   Specialist = 0,
@@ -16,29 +17,30 @@ enum Clinic {
   animations: dashboardAnimations
 })
 export class VerificationComponent implements OnInit {
+  active = 0;
   selectedClinic: Clinic;
   verifiedEmail = false;
-  active = 0;
   steps = [
-    { label: 'Clinic Selection', subLabel: 'Clinic Details', step: 1 },
-    { label: 'Clinic Details', subLabel: 'Verify Clinic', step: 2 },
-    { label: 'Verify Clinic', subLabel: 'Finalize', step: 2 },
+    { label: 'Enter your clinic details', subLabel: 'Clinic Details', step: 1 },
+    { label: 'Create Account', subLabel: 'Verify Clinic', step: 2 },
   ];
 
-  constructor(private clinicService: ClinicService) { }
+  constructor(private router: Router, private clinicService: ClinicService) { }
 
   ngOnInit(): void {
     console.log(this.selectedClinic);
   }
 
+  goToLogin(): void {
+    this.router.navigate(['./login']);
+  }
+
   selectDentist(): void {
     this.selectedClinic = Clinic.GeneralDentist;
-    this.active = 1;
   }
 
   selectSpecialist(): void {
     this.selectedClinic = Clinic.Specialist;
-    this.active = 1;
   }
 
   getAllDoctors(): void {
