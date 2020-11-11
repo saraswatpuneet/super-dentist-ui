@@ -42,10 +42,6 @@
           <mat-radio-button [value]="1">General Dentist</mat-radio-button>
           <mat-radio-button [value]="0">Specialist</mat-radio-button>
         </mat-radio-group>
-        <div *ngIf="selectedClinic === 0" class="sd-input">
-          <label>Specialist Type(s)</label>
-          <input type="text">
-        </div>
         <div class="sd-input">
           <label>Clinic Name</label>
           <input type="text">
@@ -56,6 +52,10 @@
         </div>
         <div class="sd-input">
           <label>Clinic Phone Number</label>
+          <input type="text">
+        </div>
+        <div *ngIf="selectedClinic === 0" class="sd-input">
+          <label>Specialist Type(s)</label>
           <input type="text">
         </div>
       </div>
