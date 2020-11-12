@@ -5,7 +5,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { VerificationRoutingModule } from './verification-routing.module';
 import { VerificationComponent } from './verification.component';
@@ -16,6 +16,7 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     MatIconModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
