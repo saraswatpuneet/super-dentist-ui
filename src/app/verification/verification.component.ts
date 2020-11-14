@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 
 import { dashboardAnimations } from './dashboard.animations';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
-import { take } from 'rxjs/operators';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { catchError, delay, flatMap, switchMap, take, takeUntil } from 'rxjs/operators';
+import { Base } from '../shared/base/base-component';
+import { from, of } from 'rxjs';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 enum Clinic {
-  Specialist = 0,
-  GeneralDentist = 1
+  Specialist = 'specialist',
+  Dentist = 'dentist'
 }
 
 @Component({
@@ -17,25 +21,39 @@ enum Clinic {
   styleUrls: ['./verification.component.scss'],
   animations: dashboardAnimations
 })
-export class VerificationComponent implements OnInit {
+export class VerificationComponent extends Base implements OnInit {
   active = 0;
-  selectedClinic: Clinic = 1;
+  selectedClinic: Clinic = Clinic.Dentist;
+  connection$: WebSocketSubject<any>;
   verifiedEmail = false;
   clinicForm: FormGroup;
   accountForm: FormGroup;
+  errorMessage = '';
+  loading = false;
   steps = [
     { label: 'Enter your clinic details', step: 1 },
     { label: 'Create Account', step: 2 },
   ];
 
-  constructor(private router: Router, private fb: FormBuilder, private clinicService: ClinicService) { }
+  constructor(
+    private auth: AngularFireAuth,
+    private clinicService: ClinicService,
+    private fb: FormBuilder,
+    private router: Router,
+  ) { super(); }
 
   ngOnInit(): void {
     this.initForm();
+    // this.connection$ = webSocket(`wss://superdentist.io/api/sd/v1/clinic/queryAddress`);
+    // this.connection$.pipe(takeUntil(this.unsubscribe$)).subscribe(console.log);
   }
 
   goToLogin(): void {
     this.router.navigate(['./login']);
+  }
+
+  sendAddress(address: string): void {
+    this.connection$.next({ message: address });
   }
 
   getAllDoctors(): void {
@@ -47,12 +65,44 @@ export class VerificationComponent implements OnInit {
     this.clinicService.getClinics().pipe(take(1)).subscribe(console.log);
   }
 
+  // call verify first then add clinic
+  createSpecialist(): void {
+    const clinic = this.clinicForm.value;
+    const account = this.accountForm.value;
+    this.loading = true;
+    from(this.auth.createUserWithEmailAndPassword(account.email, account.password))
+      .pipe(
+        catchError(err => {
+          this.errorMessage = err.message;
+          this.loading = false;
+          return of(err);
+        }),
+        flatMap(() => this.auth.currentUser),
+        delay(1000),
+        switchMap(currentUser => {
+          currentUser.sendEmailVerification();
+          return this.clinicService.registerAdmin(account.email, true);
+        }),
+        switchMap(() => this.clinicService.addClinic([{
+          address: clinic.address,
+          emailAddress: account.email,
+          name: clinic.name,
+          phoneNumber: clinic.number,
+          speciality: [],
+          type: clinic.selectedClinic,
+        }])),
+        take(1)
+      ).subscribe(() => {
+        this.router.navigate(['']);
+      });
+  }
+
   private initForm(): void {
     this.clinicForm = this.fb.group({
-      selectedClinic: [1],
-      clinicName: ['', Validators.required],
-      clinicAddress: ['', Validators.required],
-      clinicNumber: [undefined, Validators.required],
+      selectedClinic: [Clinic.Dentist],
+      name: ['', Validators.required],
+      address: ['', Validators.required],
+      number: [undefined, Validators.required],
     });
 
     this.accountForm = this.fb.group({

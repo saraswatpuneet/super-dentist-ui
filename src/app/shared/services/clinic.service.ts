@@ -40,8 +40,8 @@ export class ClinicService {
     return this.http.post(`${this.baseUrl}/verifyAdmin`, { isVerified: verified });
   }
 
-  addClinic(clinicDetails: ClinicDetail[]): Observable<any> {
-    return this.http.post(`${this.baseUrl}/addClinics`, { clinicDetails });
+  addClinic(clinics: ClinicDetail[]): Observable<any> {
+    return this.http.post(`${this.baseUrl}/addClinics`, { clinicDetails: clinics });
   }
 
   registerDoctors(doctorDetails: DoctorDetail[]): Observable<any> {
@@ -55,5 +55,4 @@ export class ClinicService {
   registerServices(services: ClinicServicesOffered[]): Observable<any> {
     return this.http.post(`${this.baseUrl}/registerServices`, { services });
   }
-
 }

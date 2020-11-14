@@ -1,10 +1,10 @@
 export interface ClinicDetail {
-  clinicType: 'string';
-  clinicName: 'string';
-  clinicAddress: 'string';
-  clinicEmailAddress: 'string';
-  clinicPhoneNumber: 'string';
-  clinicSpeciality: string[];
+  address: string;
+  emailAddress: string;
+  name: string;
+  phoneNumber: string;
+  speciality: string[];
+  type: string;
 }
 
 export interface DoctorDetail {
@@ -13,11 +13,11 @@ export interface DoctorDetail {
 }
 
 export interface Doctor {
-  doctorPrefix: string;
-  doctorFirstName: string;
-  doctorLastName: string;
-  doctorEmailAddress: string;
-  doctorSpeciality: string[];
+  prefix: string;
+  firstName: string;
+  lastName: string;
+  emailAddress: string;
+  speciality: string[];
 }
 
 export interface ClinicServicesOffered {
