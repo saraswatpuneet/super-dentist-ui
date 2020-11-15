@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 
 import { dashboardAnimations } from './dashboard.animations';
@@ -15,6 +15,20 @@ enum Clinic {
   Dentist = 'dentist'
 }
 
+export function ConfirmedValidator(controlName: string, matchingControlName: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[controlName];
+    const matchingControl = formGroup.controls[matchingControlName];
+    if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
+      return;
+    }
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ confirmedValidator: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
+  };
+}
 @Component({
   selector: 'app-verification',
   templateUrl: './verification.component.html',
@@ -109,6 +123,8 @@ export class VerificationComponent extends Base implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
+    }, {
+      validators: ConfirmedValidator('password', 'confirmPassword')
     });
   }
 }

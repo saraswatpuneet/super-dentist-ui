@@ -91,6 +91,9 @@
           <div class="sd-input">
             <label>Confirm Password</label>
             <input type="password" formControlName="confirmPassword">
+            <div class="error" *ngIf="accountForm.get('password').value !== accountForm.get('confirmPassword').value">
+              Passwords should match
+            </div>
           </div>
 
           <div fxLayout="row" fxLayoutAlign="end">
