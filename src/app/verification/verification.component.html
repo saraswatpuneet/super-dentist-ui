@@ -3,7 +3,6 @@
   <button class="sd-icon-button close" (click)="goToLogin()">
     <mat-icon>close</mat-icon>
   </button>
-  <!-- <app-verify-email *ngIf="!verifiedEmail"></app-verify-email> -->
 
   <div class="loading-splash" *ngIf="loading" [@fadeInOut] fxLayout="column" fxLayoutGap="32px"
     fxLayoutAlign="center center">
@@ -42,17 +41,6 @@
           (click)="active=active + 1">Next</button>
       </div>
 
-      <!-- <div class="dentist-type" *ngIf="active === 0" fxLayout="row" fxLayoutAlign="space-around" fxLayoutGap="32px">
-        <div class="clinic-type sd-card" [ngClass]="{'active': selectedClinic === 1}" (click)="selectDentist()">
-          <img src="assets/icons/dentist.svg" alt="">
-          <p>General Dentist</p>
-        </div>
-
-        <div class="clinic-type sd-card" [ngClass]="{'active': selectedClinic === 0}" (click)="selectSpecialist()">
-          <img src="assets/icons/specialist.svg" alt="">
-          <p>Specialist</p>
-        </div>
-      </div> -->
       <form [formGroup]="clinicForm" *ngIf="active === 0">
         <div fxLayout="column" fxFlex>
           <mat-radio-group formControlName="selectedClinic" fxLayout="column" fxLayoutGap="12px">
@@ -71,9 +59,10 @@
             <label>Clinic Phone Number</label>
             <input type="text" formControlName="number">
           </div>
-          <div *ngIf="clinicForm.get('selectedClinic').value === 'specialist'" class="sd-input">
-            <label>Specialist Type(s)</label>
-            <input type="text" [(ngModel)]="clinicTypes" [ngModelOptions]="{standalone: true}">
+          <div *ngIf="clinicForm.get('selectedClinic').value === 'specialist'" fxLayout="column" fxLayoutGap="12px">
+            <label>Select your specialties</label>
+            <mat-checkbox *ngFor="let t of specialistTypes" (change)="setSelected()"
+              [ngModelOptions]="{standalone: true}" [(ngModel)]="t.selected">{{t.label}}</mat-checkbox>
           </div>
         </div>
       </form>
@@ -102,30 +91,5 @@
           </div>
         </div>
       </form>
-
-
-      <div class="verify-clinic" *ngIf="active === 2">
-        <div>To protect you and your business we need to verify your clinic.</div>
-
-        <div class="sd-card" fxLayout="row" fxLayoutAlign=" center">
-          <mat-icon>phone</mat-icon>
-          <p>Call me at (603) 555-0123</p>
-        </div>
-
-        <div class="sd-card" fxLayout="row" fxLayoutAlign=" center">
-          <mat-icon>chat</mat-icon>
-          <p>Text me at (603) 555-0123</p>
-        </div>
-
-        <div class="sd-card" fxLayout="row" fxLayoutAlign=" center">
-          <mat-icon>email</mat-icon>
-          <p>Email me at info@nyds.com</p>
-        </div>
-
-        <div class="sd-card" fxLayout="row" fxLayoutAlign=" center">
-          <mat-icon>description</mat-icon>
-          <p>Upload a verification document</p>
-        </div>
-      </div>
     </div>
   </div>
