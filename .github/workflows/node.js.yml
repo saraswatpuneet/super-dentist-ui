@@ -14,6 +14,7 @@ env:
   GKE_CLUSTER:  superdentist-main	
   GKE_ZONE: us-central1-c
   IMAGE: superdentist-frontend
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 jobs:
   build:
 
