@@ -51,11 +51,12 @@ export class VerificationComponent extends Base implements OnInit {
   clinicForm: FormGroup;
   accountForm: FormGroup;
   filteredOptions = [];
+  selectedAddress = {};
   errorMessage = '';
   count = 0;
   loading = false;
   steps = [
-    { label: 'Enter your clinic details', step: 1 },
+    { label: 'Search for your clinic', step: 1 },
     { label: 'Create Account', step: 2 },
   ];
   fromSelection = false;
@@ -84,9 +85,9 @@ export class VerificationComponent extends Base implements OnInit {
 
   selectAddress(addy: any): void {
     this.fromSelection = true;
+    this.selectedAddress = addy;
     this.clinicForm.patchValue({
-      name: addy.name,
-      address: addy.formatted_address
+      address: ''
     });
     this.filteredOptions = [];
   }
@@ -143,9 +144,9 @@ export class VerificationComponent extends Base implements OnInit {
   private initForm(): void {
     this.clinicForm = this.fb.group({
       selectedClinic: [Clinic.Dentist],
-      name: ['', Validators.required],
+      // name: ['', Validators.required],
       address: ['', Validators.required],
-      number: [undefined, Validators.required],
+      // number: [undefined, Validators.required],
     });
 
     this.accountForm = this.fb.group({

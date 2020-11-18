@@ -1,3 +1,19 @@
+.stars {
+  --percent: calc(var(--rating) / 5 * 100%);
+  display: inline-block;
+  font-size: 20px;
+  font-family: Times; // make sure ★ appears correctly
+  line-height: 1;
+  
+  &::before {
+    content: '★★★★★';
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, var(--yellow) var(--percent), white var(--percent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
 .verification {
   height: 100%;
   box-sizing: border-box;
@@ -20,14 +36,6 @@
     top: 12px;
     left: 12px;
     height: 32px;
-  }
-
-  mat-radio-group {
-    margin-bottom: 46px;
-
-    mat-radio-button {
-      margin-right: 20px;
-    }
   }
 
   .close {
@@ -116,6 +124,24 @@
       }
     }
   }
+
+  .clinic-details {
+
+    h3 {
+      margin: 0;
+    }
+
+    .name {
+      font-size: 18px;
+      color: white;
+    }
+
+    .address, .rating {
+      font-size: 14px;
+      margin-top: 4px;
+      color: rgba(white, 0.5);
+    }
+  }
   
   .clinic-type {
     width: 230px;
@@ -132,7 +158,7 @@
   }
 
   .sd-input {
-    margin-bottom: 36px;
+    margin-bottom: 24px;
     
     &.email {
       margin-bottom: 46px;
@@ -144,6 +170,7 @@
 .progress{
   height: 40px;
 }
+
 .progress span{
   transition: all 500ms ease;
   background: #4A72DA;
