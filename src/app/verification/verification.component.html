@@ -30,18 +30,12 @@
           <mat-progress-spinner class="behind" mode="determinate" diameter="64" value="100">
           </mat-progress-spinner>
         </div>
-        <div>
-          <h1>{{steps[active].label}}</h1>
-        </div>
 
-        <span fxFlex></span>
+        <h1>{{steps[active].label}}</h1>
 
-        <button class="sd-button" *ngIf="active === 1" (click)="active = active - 1">Back</button>
-        <button class="sd-button" *ngIf="active === 0" [disabled]="!selectedAddress.name"
-          (click)="active=active + 1">Next</button>
       </div>
 
-      <form [formGroup]="clinicForm" *ngIf="active === 0">
+      <form [formGroup]="clinicForm" *ngIf="active === 1">
         <div fxLayout="column" fxFlex fxLayoutGap="32px">
           <div class="sd-input">
             <input type="text" placeholder="Clinic name or clinic address" formControlName="address">
@@ -70,23 +64,22 @@
               <mat-radio-button value="specialist">Specialist</mat-radio-button>
             </mat-radio-group>
           </div>
-          <!-- <div class="sd-input">
-            <label>Clinic Name</label>
-            <input type="text" formControlName="name">
-          </div>
-          <div class="sd-input">
-            <label>Clinic Phone Number</label>
-            <input type="text" formControlName="number">
-          </div> -->
+
           <div *ngIf="clinicForm.get('selectedClinic').value === 'specialist'" fxLayout="column" fxLayoutGap="12px">
             <label>Select your specialties</label>
             <mat-checkbox color="primary" *ngFor="let t of specialistTypes" (change)="setSelected()"
               [ngModelOptions]="{standalone: true}" [(ngModel)]="t.selected">{{t.label}}</mat-checkbox>
           </div>
+
+          <div fxLayoutAlign=" start">
+            <button class="sd-button blue" [disabled]="!selectedAddress.name" (click)="registerClinic()">
+              Register Clinic
+            </button>
+          </div>
         </div>
       </form>
 
-      <form [formGroup]="accountForm" *ngIf="active === 1">
+      <form [formGroup]="accountForm" *ngIf="active === 0">
         <div class="specialist" fxLayout="column">
           <div class="sd-input email">
             <label>Email</label>
@@ -105,8 +98,8 @@
           </div>
 
           <div fxLayout="row" fxLayoutAlign="end">
-            <button class="sd-button blue" *ngIf="active === 1" [disabled]="!accountForm.valid"
-              (click)="createSpecialist()">Join</button>
+            <button class="sd-button blue" *ngIf="active === 0" [disabled]="!accountForm.valid"
+              (click)="join()">Join</button>
           </div>
         </div>
       </form>

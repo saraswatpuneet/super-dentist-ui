@@ -5,7 +5,7 @@ import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 
 import { dashboardAnimations } from './dashboard.animations';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
-import { catchError, debounceTime, delay, filter, flatMap, switchMap, take, takeUntil } from 'rxjs/operators';
+import { catchError, debounceTime, delay, filter, flatMap, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { Base } from '../shared/base/base-component';
 import { from, of } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -51,13 +51,13 @@ export class VerificationComponent extends Base implements OnInit {
   clinicForm: FormGroup;
   accountForm: FormGroup;
   filteredOptions = [];
-  selectedAddress = {};
+  selectedAddress = { name: '', formatted_address: '' };
   errorMessage = '';
   count = 0;
   loading = false;
   steps = [
-    { label: 'Search for your clinic', step: 1 },
-    { label: 'Create Account', step: 2 },
+    { label: 'Create Account', step: 1 },
+    { label: 'Search for your clinic', step: 2 },
   ];
   fromSelection = false;
 
@@ -109,9 +109,7 @@ export class VerificationComponent extends Base implements OnInit {
     this.clinicService.getClinics().pipe(take(1)).subscribe(console.log);
   }
 
-  // call verify first then add clinic
-  createSpecialist(): void {
-    const clinic = this.clinicForm.value;
+  join(): void {
     const account = this.accountForm.value;
     this.loading = true;
     from(this.auth.createUserWithEmailAndPassword(account.email, account.password))
@@ -123,30 +121,35 @@ export class VerificationComponent extends Base implements OnInit {
         }),
         flatMap(() => this.auth.currentUser),
         delay(1000),
-        switchMap(currentUser => {
-          currentUser.sendEmailVerification();
-          return this.clinicService.registerAdmin(account.email, true);
-        }),
-        switchMap(() => this.clinicService.addClinic([{
-          address: clinic.address,
-          emailAddress: account.email,
-          name: clinic.name,
-          phoneNumber: clinic.number,
-          speciality: this.specialistTypes.filter(s => s.selected).map(y => y.value),
-          type: clinic.selectedClinic,
-        }])),
+        tap(currentUser => currentUser.sendEmailVerification()),
         take(1)
       ).subscribe(() => {
-        this.router.navigate(['']);
+        this.loading = false;
+        this.active = 1;
       });
+  }
+
+  registerClinic(): void {
+    const clinic = this.clinicForm.value;
+    const account = this.accountForm.value;
+    this.loading = true;
+    this.clinicService.registerAdmin(account.email, true).pipe(
+      switchMap(() => this.clinicService.addClinic([{
+        address: this.selectedAddress.formatted_address,
+        emailAddress: account.email,
+        name: this.selectedAddress.name,
+        phoneNumber: '',
+        speciality: this.specialistTypes.filter(s => s.selected).map(y => y.value),
+        type: clinic.selectedClinic,
+      }])),
+      take(1)
+    ).subscribe(() => this.router.navigate(['']));
   }
 
   private initForm(): void {
     this.clinicForm = this.fb.group({
       selectedClinic: [Clinic.Dentist],
-      // name: ['', Validators.required],
       address: ['', Validators.required],
-      // number: [undefined, Validators.required],
     });
 
     this.accountForm = this.fb.group({
