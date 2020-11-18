@@ -5,7 +5,7 @@ import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 
 import { dashboardAnimations } from './dashboard.animations';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
-import { catchError, delay, flatMap, switchMap, take, takeUntil } from 'rxjs/operators';
+import { catchError, debounceTime, delay, filter, flatMap, switchMap, take, takeUntil } from 'rxjs/operators';
 import { Base } from '../shared/base/base-component';
 import { from, of } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -50,6 +50,7 @@ export class VerificationComponent extends Base implements OnInit {
   verifiedEmail = false;
   clinicForm: FormGroup;
   accountForm: FormGroup;
+  filteredOptions = [];
   errorMessage = '';
   count = 0;
   loading = false;
@@ -57,6 +58,7 @@ export class VerificationComponent extends Base implements OnInit {
     { label: 'Enter your clinic details', step: 1 },
     { label: 'Create Account', step: 2 },
   ];
+  fromSelection = false;
 
   constructor(
     private auth: AngularFireAuth,
@@ -67,12 +69,26 @@ export class VerificationComponent extends Base implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    // this.connection$ = webSocket(`wss://superdentist.io/api/sd/v1/clinic/queryAddress`, ['']);
-    // this.connection$.pipe(takeUntil(this.unsubscribe$)).subscribe(console.log);
+    // this.auth.idToken.pipe(take(1))
+    //   .subscribe(id => {
+    //     this.connection$ = webSocket({
+    //       url: `wss://superdentist.io/api/sd/v1/clinic/queryAddress?Bearer ${id}`,
+    //     });
+    //     this.connection$.pipe(takeUntil(this.unsubscribe$)).subscribe(console.log);
+    //   });
   }
 
   setSelected(): void {
     this.count = this.specialistTypes.filter(s => s.selected === true).length;
+  }
+
+  selectAddress(addy: any): void {
+    this.fromSelection = true;
+    this.clinicForm.patchValue({
+      name: addy.name,
+      address: addy.formatted_address
+    });
+    this.filteredOptions = [];
   }
 
   goToLogin(): void {
@@ -140,6 +156,18 @@ export class VerificationComponent extends Base implements OnInit {
       validators: ConfirmedValidator('password', 'confirmPassword')
     });
 
-    // this.clinicForm.get('address').valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(value => this.connection$.next(value));
+    this.clinicForm.get('address').valueChanges.pipe(
+      filter(() => {
+        let shouldSearch = true;
+        if (this.fromSelection) {
+          shouldSearch = false;
+          this.fromSelection = false;
+        }
+        return shouldSearch;
+      }),
+      debounceTime(300),
+      switchMap(value => this.clinicService.getAddress(value)),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(res => this.filteredOptions = res.data.addressList);
   }
 }
