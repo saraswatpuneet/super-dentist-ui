@@ -28,6 +28,14 @@ export class ClinicService {
     return this.http.get(`${this.baseUrl}/getNearbyClinics`);
   }
 
+  getNearbySpecialists(addressId: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/getNearbySpecialists`, {
+      addressId,
+      searchRadius: '',
+      specialties: '',
+    });
+  }
+
   getAddress(address: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/getAddressList?searchText=${address}`);
     // this needs to implement a websocket of some kind.

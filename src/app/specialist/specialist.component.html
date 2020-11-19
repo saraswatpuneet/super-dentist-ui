@@ -17,22 +17,23 @@
     </div>
 
     <div class="list" fxLayout="column" fxLayoutGap="52px">
-      <div class="sd-card" fxLayout="row" fxLayoutGap="24px" *ngFor="let a of [1,2,3,4,5,6,7]">
+      <app-loader class="loading" *ngIf="loading"></app-loader>
+      <div class="sd-card" fxLayout="row" fxLayoutGap="24px" *ngFor="let a of nearbySpecialists">
         <img src="assets/images/user-placeholder.jpg" alt="">
         <div fxFlex fxLayout="column">
           <div class="specialist-title">
-            Pul Korb, DMD and Craig Taylor, DMD. Dental Implants, Oral, and Facial Surgey
+            {{a.name}}
           </div>
 
-          <div class="specialist-type">Oral and Maxillofacial Surgeon</div>
+          <div class="specialist-type">{{a?.types[0]}}</div>
 
           <span fxFlex></span>
 
           <div class="contact-info" fxLayout="row" fxLayoutAlign="space-between end" fxLayoutGap="12px">
             <div fxLayout="column">
-              <span>info@korbtaylor.com</span>
-              <span>(770) 495-9193</span>
-              <span>4355 Johns Creek Pkwy Suite #530, Suwanee, GA 30024</span>
+              <!-- <span>info@korbtaylor.com</span>
+              <span>(770) 495-9193</span> -->
+              <span>{{a.vicinity}}</span>
             </div>
             <button class="sd-button">Create Referral</button>
           </div>
