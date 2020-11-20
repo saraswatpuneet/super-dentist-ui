@@ -25,15 +25,14 @@
             {{a.name}}
           </div>
 
-          <div class="specialist-type">{{a?.types[0]}}</div>
+          <div class="specialist-type" *ngIf="a.types">{{a.types[0]}}</div>
 
           <span fxFlex></span>
 
           <div class="contact-info" fxLayout="row" fxLayoutAlign="space-between end" fxLayoutGap="12px">
             <div fxLayout="column">
-              <!-- <span>info@korbtaylor.com</span>
-              <span>(770) 495-9193</span> -->
-              <span>{{a.vicinity}}</span>
+              <span>{{a.formatted_phone_number}}</span>
+              <span>{{a.formatted_address}}</span>
             </div>
             <button class="sd-button">Create Referral</button>
           </div>
