@@ -15,7 +15,7 @@ export class DialogService {
     return this.dialog.open(SignUpComponent);
   }
 
-  openCreateReferral(): MatDialogRef<CreateReferralComponent> {
-    return this.dialog.open(CreateReferralComponent);
+  openCreateReferral(specialist: any): MatDialogRef<CreateReferralComponent> {
+    return this.dialog.open(CreateReferralComponent, { data: specialist });
   }
 }

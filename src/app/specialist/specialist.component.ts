@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { map, switchMap, take } from 'rxjs/operators';
+
+import { DialogService } from '../shared/dialog/dialog.service';
 import { ClinicService } from '../shared/services/clinic.service';
 
 @Component({
@@ -11,7 +13,10 @@ export class SpecialistComponent implements OnInit {
   nearbySpecialists = [];
   loading = false;
 
-  constructor(private clinicService: ClinicService) { }
+  constructor(
+    private clinicService: ClinicService,
+    private dialogService: DialogService,
+  ) { }
 
   ngOnInit(): void {
     this.loading = true;
@@ -24,5 +29,9 @@ export class SpecialistComponent implements OnInit {
       this.nearbySpecialists = general;
       this.loading = false;
     });
+  }
+
+  createReferral(a: any): void {
+    this.dialogService.openCreateReferral(a);
   }
 }

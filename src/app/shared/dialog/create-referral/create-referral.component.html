@@ -1,35 +1,34 @@
-<div class="referral" fxLayout="column">
-  <button class="sd-icon-button close-dialog">
-    <mat-icon>close</mat-icon>
-  </button>
+<form [formGroup]="patientForm">
+  <div class="referral" fxLayout="column">
+    <button class="sd-icon-button close-dialog">
+      <mat-icon>close</mat-icon>
+    </button>
 
-  <h2 mat-dialog-title>Create Referral</h2>
-  <h4>Patient Info</h4>
+    <h2 mat-dialog-title>Create Referral</h2>
+    <h4>Patient Details</h4>
 
-  <div fxLayout="column" fxLayoutGap="24px">
-    <div fxLayout="row" fxLayoutGap="24px">
-      <input class="sd-input" placeholder="First Name">
-      <input class="sd-input" placeholder="Last Name">
-    </div>
 
-    <input class="sd-input" placeholder="Email address">
-    <input class="sd-input" placeholder="Phone Number">
-
-    <div fxLayout="row" fxLayoutGap="24px">
-      <textarea class="sd-input" placeholder="Comments" cols="7"></textarea>
-      <div fxLayout="column" fxFlex="150px">
-        <button class="sd-button">
-          Add Attachment
-        </button>
+    <div fxLayout="column" fxLayoutGap="36px">
+      <div class="sd-input">
+        <label>Full Name</label>
+        <input formControlName="fullName" placeholder="Patient's First and Last Name">
       </div>
+
+      <div class="sd-input">
+        <label>Email</label>
+        <input formControlName="email" placeholder="Patient's Email">
+      </div>
+      <div class="sd-input">
+        <label>Phone Number</label>
+        <input formControlName="phoneNumber" placeholder="Patient's Phone Number">
+      </div>
+
+      <textarea formControlName="comments" class="sd-input" placeholder="Comments" cols="7"></textarea>
     </div>
-
   </div>
-</div>
 
-<mat-dialog-actions fxLayoutGap="24px" class="tgap-12">
-  <button class="sd-button">Add More Info</button>
-  <button class="sd-button">Print</button>
-  <span fxFlex></span>
-  <button class="sd-button blue">Send Referral</button>
-</mat-dialog-actions>
+  <mat-dialog-actions fxLayoutGap="24px" class="tgap-12">
+    <span fxFlex></span>
+    <button class="sd-button blue" (click)="create()" [disabled]="!patientForm.valid || loading">Send Referral</button>
+  </mat-dialog-actions>
+</form>
