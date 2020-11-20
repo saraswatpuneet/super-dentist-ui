@@ -46,7 +46,6 @@ export class LoginComponent extends Base implements OnInit {
     const { email, password } = this.formGroup.value;
     from(this.auth.signInWithEmailAndPassword(email, password)).pipe(
       catchError(err => {
-        console.log(err);
         this.errorMessage = err.message;
         return of(null);
       }),

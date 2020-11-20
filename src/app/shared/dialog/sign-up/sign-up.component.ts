@@ -39,7 +39,6 @@ export class SignUpComponent implements OnInit {
   create(): void {
     this.errorMessage = '';
     this.loading = true;
-    console.log('sss');
     from(this.auth.createUserWithEmailAndPassword(this.email, this.password))
       .pipe(
         catchError(err => {

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { dashboardAnimations } from './dashboard.animations';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
@@ -38,7 +37,6 @@ export function ConfirmedValidator(controlName: string, matchingControlName: str
 export class VerificationComponent extends Base implements OnInit {
   active = 0;
   selectedClinic: Clinic = Clinic.Dentist;
-  connection$: WebSocketSubject<any>;
   specialistTypes = [
     { label: 'Endodontist', value: 'endodontist', selected: false },
     { label: 'Oral Surgeon', value: 'oralSurgeon', selected: false },
@@ -70,13 +68,6 @@ export class VerificationComponent extends Base implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    // this.auth.idToken.pipe(take(1))
-    //   .subscribe(id => {
-    //     this.connection$ = webSocket({
-    //       url: `wss://superdentist.io/api/sd/v1/clinic/queryAddress?Bearer ${id}`,
-    //     });
-    //     this.connection$.pipe(takeUntil(this.unsubscribe$)).subscribe(console.log);
-    //   });
   }
 
   setSelected(): void {
@@ -94,19 +85,6 @@ export class VerificationComponent extends Base implements OnInit {
 
   goToLogin(): void {
     this.router.navigate(['./login']);
-  }
-
-  sendAddress(address: string): void {
-    this.connection$.next({ message: address });
-  }
-
-  getAllDoctors(): void {
-    console.log('click');
-    this.clinicService.getAllDoctors().pipe(take(1)).subscribe(console.log);
-  }
-
-  getClinics(): void {
-    this.clinicService.getClinics().pipe(take(1)).subscribe(console.log);
   }
 
   join(): void {
