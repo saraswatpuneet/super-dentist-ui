@@ -48,6 +48,7 @@ export class CreateReferralComponent implements OnInit {
       comments: [{
         comment: comments,
       }],
+      tooth: Object.keys(this.selectedTeeth),
       toPlaceId: this.data.place_id
     }).pipe(take(1)).subscribe(() => this.dialogRef.close());
   }
