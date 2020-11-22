@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { take } from 'rxjs/operators';
+import { ReferralService } from '../shared/services/referral.service';
 
 @Component({
   selector: 'app-referrals',
@@ -6,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./referrals.component.scss']
 })
 export class ReferralsComponent implements OnInit {
+  referrals = [];
 
-  constructor() { }
+  constructor(private referralService: ReferralService) { }
 
   ngOnInit(): void {
+    this.referralService.getSpecialist().pipe(take(1)).subscribe(res => this.referrals = res.data);
   }
 
 }
