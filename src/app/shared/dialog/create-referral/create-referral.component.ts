@@ -13,6 +13,10 @@ import { ReferralService } from 'src/app/shared/services/referral.service';
 export class CreateReferralComponent implements OnInit {
   patientForm: FormGroup;
   loading = false;
+  topTeeth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+  bottomTeeth = [32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17
+  ];
+  selectedTeeth = {};
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -48,6 +52,14 @@ export class CreateReferralComponent implements OnInit {
     }).pipe(take(1)).subscribe(() => this.dialogRef.close());
   }
 
+  selectTooth(tooth: number): void {
+    if (this.selectedTeeth[tooth]) {
+      delete this.selectedTeeth[tooth];
+    } else {
+      this.selectedTeeth[tooth] = true;
+    }
+  }
+
   private initForm(): void {
     this.patientForm = this.fb.group({
       fullName: ['', Validators.required],
@@ -55,7 +67,5 @@ export class CreateReferralComponent implements OnInit {
       phoneNumber: ['', Validators.required],
       comments: [''],
     });
-
   }
-
 }
