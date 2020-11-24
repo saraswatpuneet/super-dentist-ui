@@ -32,7 +32,14 @@ export class ClinicService {
     return this.http.post<any>(`${this.baseUrl}/getNearbySpecialists`, {
       addressId,
       searchRadius: '',
-      specialties: '',
+      specialities: '',
+    });
+  }
+
+  getNearbySpecialists2(addressId: string, specialities: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/getNearbySpecialists`, {
+      addressId,
+      specialities,
     });
   }
 
