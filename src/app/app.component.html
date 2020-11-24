@@ -27,6 +27,9 @@
 
 
     <div class="content">
+      <div *ngIf="authenticated && !emailVerified" class="verify-banner">
+        Please verify your email.
+      </div>
       <router-outlet></router-outlet>
     </div>
   </div>

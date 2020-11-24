@@ -5,6 +5,16 @@
   display: flex;
   flex-direction: row;
 
+  .verify-banner {    
+    position: fixed;
+    top: 50px;
+    padding: 20px 12px 14px;
+    border-radius: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #242526;
+  }
+
   .content {
     flex: 1;
     overflow: auto;

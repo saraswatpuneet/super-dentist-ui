@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, take, takeUntil } from 'rxjs/operators';
 import { NavigationEnd, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material/icon';
+import { from } from 'rxjs';
 
 import { Base } from './shared/base/base-component';
 import { appAnimations } from './app.animations';
-import { MatIconRegistry } from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +16,8 @@ import { MatIconRegistry } from '@angular/material/icon';
   animations: appAnimations
 })
 export class AppComponent extends Base implements OnInit {
-  title = 'super-dentist';
   authenticated = false;
+  emailVerified = true;
   expanded = false;
   expandedKey = 'sdNavExpanded';
   navItems = [
@@ -32,6 +33,7 @@ export class AppComponent extends Base implements OnInit {
   ) { super(); }
 
   ngOnInit(): void {
+    console.log('init');
     const expanded = localStorage.getItem(this.expandedKey);
     if (expanded === 'false') {
       this.expanded = false;
@@ -44,6 +46,7 @@ export class AppComponent extends Base implements OnInit {
         this.authenticated = false;
       } else {
         this.authenticated = true;
+        from(this.auth.currentUser).pipe(take(1)).subscribe(user => this.emailVerified = user.emailVerified);
       }
     });
 
