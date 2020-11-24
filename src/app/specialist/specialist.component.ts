@@ -12,6 +12,7 @@ import { ClinicService } from '../shared/services/clinic.service';
 export class SpecialistComponent implements OnInit {
   nearbySpecialists = [];
   loading = false;
+  searchText = '';
 
   constructor(
     private clinicService: ClinicService,
@@ -33,5 +34,9 @@ export class SpecialistComponent implements OnInit {
 
   createReferral(a: any): void {
     this.dialogService.openCreateReferral(a);
+  }
+
+  searchForClinics(): void {
+    // this.clinicService.getAddress(this.searchText).pipe(take(1)).subscribe(console.log);
   }
 }

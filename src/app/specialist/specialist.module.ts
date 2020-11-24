@@ -6,11 +6,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { LoaderModule } from '../shared/loader/loader.module';
 import { SpecialistRoutingModule } from './specialist-routing.module';
 import { SpecialistComponent } from './specialist.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [SpecialistComponent],
   imports: [
     CommonModule,
+    FormsModule,
     FlexLayoutModule,
     MatIconModule,
     LoaderModule,
