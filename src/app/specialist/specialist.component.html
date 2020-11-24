@@ -21,8 +21,11 @@
       <div class="sd-card" fxLayout="row" fxLayoutGap="24px" *ngFor="let a of nearbySpecialists">
         <img src="assets/images/user-placeholder.jpg" alt="">
         <div fxFlex fxLayout="column">
-          <div class="specialist-title">
-            {{a.name}}
+          <div class="specialist-title" fxLayout="row" fxLayoutAlign="space-between">
+            <span>{{a.name}}</span>
+            <button class="sd-icon-button">
+              <mat-icon>favorite</mat-icon>
+            </button>
           </div>
 
           <div class="specialist-type" *ngIf="a.types">{{a.types[0]}}</div>
