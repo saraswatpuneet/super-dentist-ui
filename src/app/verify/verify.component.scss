@@ -1,8 +1,14 @@
 .verify-email {
   position: relative;
   width: 100%;
-  min-height: 100%;
+  min-height: 100vh;
   overflow: auto;
+
+  .close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+  }
 
   .content {
     padding-top: 150px;

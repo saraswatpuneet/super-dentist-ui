@@ -22,8 +22,13 @@ const routes: Routes = [
   },
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
   {
-    path: 'verification',
-    loadChildren: () => import('./verification/verification.module').then(m => m.VerificationModule),
+    path: 'verify',
+    loadChildren: () => import('./verify/verify.module').then(m => m.VerifyModule),
+    canActivate: [AuthGuard, VerifiedGuard]
+  },
+  {
+    path: 'join',
+    loadChildren: () => import('./join/join.module').then(m => m.JoinModule)
   },
   { path: '**', redirectTo: '' }
 ];

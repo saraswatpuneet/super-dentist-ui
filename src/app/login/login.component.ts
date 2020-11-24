@@ -5,8 +5,7 @@ import { catchError, take } from 'rxjs/operators';
 
 import { Base } from 'src/app/shared/base/base-component';
 import { Router } from '@angular/router';
-import { DialogService } from 'src/app/shared/dialog/dialog.service';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +19,6 @@ export class LoginComponent extends Base implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialogService: DialogService,
     private auth: AngularFireAuth,
     private router: Router
   ) { super(); }
@@ -33,8 +31,7 @@ export class LoginComponent extends Base implements OnInit {
   }
 
   createAccount(): void {
-    this.router.navigate(['./verification']);
-    // this.dialogService.openSignUp();
+    this.router.navigate(['./join']);
   }
 
   signIn(): void {

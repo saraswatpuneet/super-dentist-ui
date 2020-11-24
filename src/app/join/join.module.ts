@@ -9,13 +9,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 
-import { LoaderModule } from 'src/app/shared/loader/loader.module';
-import { VerificationRoutingModule } from './verification-routing.module';
-import { VerificationComponent } from './verification.component';
-import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { JoinRoutingModule } from './join-routing.module';
+import { JoinComponent } from './join.component';
+import { LoaderModule } from '../shared/loader/loader.module';
+
 
 @NgModule({
-  declarations: [VerificationComponent, VerifyEmailComponent],
+  declarations: [JoinComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -28,7 +28,7 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
     MatProgressSpinnerModule,
     MatRadioModule,
     FlexLayoutModule,
-    VerificationRoutingModule
+    JoinRoutingModule
   ]
 })
-export class VerificationModule { }
+export class JoinModule { }

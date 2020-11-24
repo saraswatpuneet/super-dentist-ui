@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { from, of } from 'rxjs';
 import { catchError, flatMap, take } from 'rxjs/operators';
-import { dashboardAnimations } from 'src/app/verification/dashboard.animations';
+import { dashboardAnimations } from 'src/app/dashboard.animations';
 
 enum Clinic {
   Specialist = 0,

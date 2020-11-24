@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { VerificationComponent } from './verification.component';
+import { VerifyComponent } from './verify.component';
 
 const routes: Routes = [
-  { path: '', component: VerificationComponent }
+  { path: '', component: VerifyComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class VerificationRoutingModule { }
+export class VerifyRoutingModule { }

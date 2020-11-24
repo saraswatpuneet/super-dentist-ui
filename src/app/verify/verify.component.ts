@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-verify-email',
-  templateUrl: './verify-email.component.html',
-  styleUrls: ['./verify-email.component.scss']
+  selector: 'app-verify',
+  templateUrl: './verify.component.html',
+  styleUrls: ['./verify.component.scss']
 })
-export class VerifyEmailComponent implements OnInit {
+export class VerifyComponent implements OnInit {
   sentEmail = false;
 
-  constructor(private auth: AngularFireAuth) { }
+  constructor(private auth: AngularFireAuth, private router: Router) { }
 
   ngOnInit(): void { }
 
@@ -22,4 +23,7 @@ export class VerifyEmailComponent implements OnInit {
     });
   }
 
+  home(): void {
+    this.router.navigate(['']);
+  }
 }

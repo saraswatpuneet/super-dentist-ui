@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-import { dashboardAnimations } from './dashboard.animations';
-import { ClinicService } from 'src/app/shared/services/clinic.service';
-import { catchError, debounceTime, delay, filter, flatMap, switchMap, take, takeUntil, tap } from 'rxjs/operators';
-import { Base } from '../shared/base/base-component';
 import { from, of } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { catchError, debounceTime, delay, filter, flatMap, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+
+import { joinAnimations } from './join.animations';
+import { ClinicService } from 'src/app/shared/services/clinic.service';
+import { Base } from 'src/app/shared/base/base-component';
 
 enum Clinic {
   Specialist = 'specialist',
@@ -29,12 +29,12 @@ export function ConfirmedValidator(controlName: string, matchingControlName: str
   };
 }
 @Component({
-  selector: 'app-verification',
-  templateUrl: './verification.component.html',
-  styleUrls: ['./verification.component.scss'],
-  animations: dashboardAnimations
+  selector: 'app-join',
+  templateUrl: './join.component.html',
+  styleUrls: ['./join.component.scss'],
+  animations: joinAnimations
 })
-export class VerificationComponent extends Base implements OnInit {
+export class JoinComponent extends Base implements OnInit {
   active = 0;
   selectedClinic: Clinic = Clinic.Dentist;
   specialistTypes = [
