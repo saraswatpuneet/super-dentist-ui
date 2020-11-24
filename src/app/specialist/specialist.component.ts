@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { map, switchMap, take, takeUntil, debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-import { DialogService } from '../shared/dialog/dialog.service';
-import { ClinicService } from '../shared/services/clinic.service';
 import { Base } from '../shared/base/base-component';
+import { ClinicService } from '../shared/services/clinic.service';
+import { DialogService } from '../shared/dialog/dialog.service';
 
 @Component({
   selector: 'app-specialist',
