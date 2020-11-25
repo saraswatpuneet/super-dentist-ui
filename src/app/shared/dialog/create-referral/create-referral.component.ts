@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
@@ -10,7 +10,9 @@ import { ReferralService } from 'src/app/shared/services/referral.service';
   templateUrl: './create-referral.component.html',
   styleUrls: ['./create-referral.component.scss']
 })
-export class CreateReferralComponent implements OnInit {
+export class CreateReferralComponent implements OnInit, AfterViewInit {
+  @ViewChild('fileUpload', { static: false }) fileUpload: ElementRef;
+  files = [];
   patientForm: FormGroup;
   loading = false;
   topTeeth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
@@ -28,6 +30,17 @@ export class CreateReferralComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+  }
+
+  ngAfterViewInit(): void {
+    const fileUpload = this.fileUpload.nativeElement;
+    fileUpload.onchange = () => {
+      this.files = [];
+      for (const file of fileUpload.files) {
+        this.files.push({ data: file, inProgress: false, progress: 0 });
+        console.log(this.files);
+      }
+    };
   }
 
   create(): void {

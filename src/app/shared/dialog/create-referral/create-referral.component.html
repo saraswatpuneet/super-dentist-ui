@@ -41,6 +41,15 @@
         </div>
         <span>Left</span>
       </div>
+
+      <input type="file" #fileUpload id="fileUpload" name="fileUpload" multiple="multiple" style="display:none;" />
+
+      <button class="sd-button" (click)="fileUpload.click()">Attach Documents</button>
+      <div fxLayout="column">
+        <span *ngFor="let file of files">
+          {{file.data.name}}
+        </span>
+      </div>
     </div>
   </div>
 

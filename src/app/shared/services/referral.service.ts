@@ -13,7 +13,7 @@ export class ReferralService {
   constructor(private http: HttpClient) { }
 
   create(referral: ReferralDetails): Observable<any> {
-    return this.http.post(`${this.baseUrl}/create`, referral);
+    return this.http.post(`${this.baseUrl}/create`, referral, { reportProgress: true, observe: 'events' });
   }
 
   delete(id: string): Observable<any> {
