@@ -21,8 +21,8 @@ export class AppComponent extends Base implements OnInit {
   expanded = false;
   expandedKey = 'sdNavExpanded';
   navItems = [
+    { path: 'specialist', label: 'Specialist', icon: 'date_range' },
     { path: 'referrals', label: 'Referrals', icon: 'message' },
-    { path: 'specialist', label: 'Specialist', icon: 'date_range' }
   ];
 
   constructor(

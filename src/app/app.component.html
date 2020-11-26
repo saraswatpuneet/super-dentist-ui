@@ -1,6 +1,6 @@
 <div class="app" fxLayout="column">
   <div class="sd-toolbar mat-elevation-z3" fxLayout="row" fxLayoutAlign=" center" *ngIf="authenticated">
-    <div class="nav-title" routerLink=''>
+    <div class="nav-title" routerLink='specialist'>
       <img src="assets/images/brand.svg" alt=""> <span>SuperDentist</span>
     </div>
 
@@ -27,8 +27,9 @@
 
 
     <div class="content">
+
       <div *ngIf="authenticated && !emailVerified" class="verify-banner">
-        Please verify your email.
+        Please verify your email. <span>Didn't get the email? </span> <a routerLink="verify">Click here</a>
       </div>
       <router-outlet></router-outlet>
     </div>

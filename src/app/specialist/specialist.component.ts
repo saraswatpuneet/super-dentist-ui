@@ -1,34 +1,35 @@
 import { Component, OnInit } from '@angular/core';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, switchMap, take, takeUntil, debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
-import { DialogService } from '../shared/dialog/dialog.service';
+import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
+import { DialogService } from '../shared/dialog/dialog.service';
 
 @Component({
   selector: 'app-specialist',
   templateUrl: './specialist.component.html',
   styleUrls: ['./specialist.component.scss']
 })
-export class SpecialistComponent implements OnInit {
+export class SpecialistComponent extends Base implements OnInit {
   nearbySpecialists = [];
   loading = false;
   searchText = '';
+  addId = '';
+  private triggerSearch = new Subject<void>();
 
   constructor(
     private clinicService: ClinicService,
     private dialogService: DialogService,
-  ) { }
+  ) { super(); }
 
   ngOnInit(): void {
     this.loading = true;
-    this.clinicService.getClinics().pipe(
-      map(res => res.data.clinicDetails[0]),
-      switchMap((addy: any) => this.clinicService.getNearbySpecialists(addy.addressId)),
-      map(r => r.data.clinicAddresses.map(a => a.generalDetails)),
-      take(1)
-    ).subscribe(general => {
-      this.nearbySpecialists = general;
-      this.loading = false;
+    this.watchSearch();
+
+    this.clinicService.getClinics().pipe(map(res => res.data.clinicDetails[0]), take(1)).subscribe(addy => {
+      this.addId = addy.addressId;
+      this.triggerSearch.next();
     });
   }
 
@@ -37,6 +38,18 @@ export class SpecialistComponent implements OnInit {
   }
 
   searchForClinics(): void {
-    // this.clinicService.getAddress(this.searchText).pipe(take(1)).subscribe(console.log);
+    this.triggerSearch.next();
+  }
+
+  private watchSearch(): void {
+    this.triggerSearch.pipe(
+      debounceTime(300),
+      switchMap(() => this.clinicService.getNearbySpecialists2(this.addId, this.searchText)),
+      map(r => r.data.clinicAddresses.map(a => a.generalDetails)),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(general => {
+      this.nearbySpecialists = general;
+      this.loading = false;
+    });
   }
 }
