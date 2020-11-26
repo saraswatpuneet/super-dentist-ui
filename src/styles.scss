@@ -14,7 +14,19 @@ $super-dentist-theme: mat-dark-theme((
   )
 ));
 
+$super-dentist-light-theme: mat-light-theme((
+  color: (
+    primary: $super-dentist-primary,
+    accent: $super-dentist-accent,
+    warn: $super-dentist-warn,
+  )
+));
+
 @include angular-material-theme($super-dentist-theme);
+
+.light {
+  @include angular-material-color($super-dentist-light-theme);
+}
 
 :root {
   --red: #ff453a;

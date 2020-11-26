@@ -8,6 +8,7 @@ import { from } from 'rxjs';
 
 import { Base } from './shared/base/base-component';
 import { appAnimations } from './app.animations';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +32,7 @@ export class AppComponent extends Base implements OnInit {
     private iconRegistry: MatIconRegistry,
     private auth: AngularFireAuth,
     private router: Router,
+    private overlayContainer: OverlayContainer,
   ) { super(); }
 
   ngOnInit(): void {
@@ -61,11 +63,13 @@ export class AppComponent extends Base implements OnInit {
   }
 
   toggleTheme(): void {
+    this.overlayContainer.getContainerElement().classList.remove(this.theme);
     if (this.theme === 'dark') {
       this.theme = 'light';
     } else {
       this.theme = 'dark';
     }
+    this.overlayContainer.getContainerElement().classList.add(this.theme);
   }
 
   toggleNav(): void {
