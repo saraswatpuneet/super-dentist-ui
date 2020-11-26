@@ -5,6 +5,13 @@
   display: flex;
   flex-direction: row;
 
+  .top-right {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 20;
+  }
+
   .verify-banner {    
     position: fixed;
     top: 50px;
@@ -44,7 +51,7 @@
 
   .sd-toolbar {
     background: #47494d;
-    padding: 8px 16px;
+    padding: 8px 68px 8px 16px;
     z-index: 12;
   }
   

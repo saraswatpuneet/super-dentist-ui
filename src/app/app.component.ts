@@ -16,6 +16,7 @@ import { appAnimations } from './app.animations';
   animations: appAnimations
 })
 export class AppComponent extends Base implements OnInit {
+  theme = 'dark';
   authenticated = false;
   emailVerified = true;
   expanded = false;
@@ -57,6 +58,14 @@ export class AppComponent extends Base implements OnInit {
       this.authenticated = false;
       this.router.navigate(['./login']);
     });
+  }
+
+  toggleTheme(): void {
+    if (this.theme === 'dark') {
+      this.theme = 'light';
+    } else {
+      this.theme = 'dark';
+    }
   }
 
   toggleNav(): void {

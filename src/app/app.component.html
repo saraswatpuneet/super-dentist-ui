@@ -1,4 +1,8 @@
 <div class="app" fxLayout="column">
+  <button class="sd-icon-button top-right" (click)="toggleTheme()">
+    <mat-icon>{{theme === 'dark' ? 'nights_stay': 'wb_sunny'}}</mat-icon>
+  </button>
+
   <div class="sd-toolbar mat-elevation-z3" fxLayout="row" fxLayoutAlign=" center" *ngIf="authenticated">
     <div class="nav-title" routerLink='specialist'>
       <img src="assets/images/brand.svg" alt=""> <span>SuperDentist</span>
@@ -6,7 +10,12 @@
 
     <span fxFlex></span>
 
-    <button class="sd-button" *ngIf="authenticated" (click)="signOut()">Sign Out</button>
+    <button class="sd-icon-button" [matMenuTriggerFor]="menu">
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="signOut()">Sign Out</button>
+    </mat-menu>
   </div>
 
   <div [ngClass]="{'full-h': !authenticated}" class="contain" fxLayout="row">

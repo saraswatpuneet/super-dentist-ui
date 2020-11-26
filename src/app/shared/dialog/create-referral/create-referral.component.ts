@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { take } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 
 import { ReferralService } from 'src/app/shared/services/referral.service';
 
@@ -50,20 +51,27 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
     this.loading = true;
 
     const { email, phoneNumber, fullName, comments } = this.patientForm.value;
-
-    this.referralService.create({
+    const bod = {
       patient: {
         email,
         phone: phoneNumber,
         firstName: fullName.split(' ')[0],
         lastName: fullName.split(' ')[1]
       },
-      comments: [{
-        comment: comments,
-      }],
+      comments: [{ comment: comments }],
       tooth: Object.keys(this.selectedTeeth),
       toPlaceId: this.data.place_id
-    }).pipe(take(1)).subscribe(() => this.dialogRef.close());
+    };
+    this.referralService.create(bod).pipe(
+      switchMap(res => {
+        if (this.files.length > 0) {
+          return this.referralService.uploadDocuments(res.referralId);
+        } else {
+          return of(null);
+        }
+      }),
+      take(1)
+    ).subscribe(() => this.dialogRef.close());
   }
 
   selectTooth(tooth: number): void {
