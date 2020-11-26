@@ -13,7 +13,6 @@
         <div fxLayout="column">
           <span class="specialist-title"> {{a.patientFirstName}} {{a.patientLastName}} </span>
           <div class="contact-info">
-            <!-- <div>info@korbtaylor.com</div> -->
             <div>{{a.patientPhone}}</div>
           </div>
           <div class="clinic">
@@ -33,10 +32,9 @@
             <button class="sd-icon-button blue">
               <mat-icon>verified_user</mat-icon>
             </button>
-            <button class="sd-icon-button">
-              <mat-icon>assignment</mat-icon>
+            <button class="sd-icon-button" *ngIf="a.documents" (click)="downloadFiles(a.referralId)">
+              <mat-icon>get_app</mat-icon>
             </button>
-            <button class="sd-button">Update Status</button>
           </div>
           <div> {{a.createdOn | date:"medium"}}</div>
         </div>

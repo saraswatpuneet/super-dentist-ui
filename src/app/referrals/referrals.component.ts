@@ -16,4 +16,11 @@ export class ReferralsComponent implements OnInit {
     this.referralService.getSpecialist().pipe(take(1)).subscribe(res => this.referrals = res.data);
   }
 
+  downloadFiles(id: string): void {
+    console.log(id);
+    this.referralService.downloadDocuments(id).pipe(take(1)).subscribe(res => {
+      const url = window.URL.createObjectURL(new Blob([res], { type: 'application/zip' }));
+      window.location.assign(url);
+    });
+  }
 }

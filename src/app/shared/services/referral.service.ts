@@ -13,7 +13,7 @@ export class ReferralService {
   constructor(private http: HttpClient) { }
 
   create(referral: ReferralDetails): Observable<any> {
-    return this.http.post(`${this.baseUrl}/create`, referral, { reportProgress: true, observe: 'events' });
+    return this.http.post(`${this.baseUrl}/create`, referral);
   }
 
   delete(id: string): Observable<any> {
@@ -28,8 +28,8 @@ export class ReferralService {
     return this.http.post(`${this.baseUrl}/updateStatus/${id}`, {});
   }
 
-  uploadDocuments(id: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/uploadDocuments/${id}`, {});
+  uploadDocuments(id: string, formData: FormData): Observable<any> {
+    return this.http.post(`${this.baseUrl}/uploadDocuments/${id}`, formData);
   }
 
   getDentist(): Observable<any> {
@@ -45,6 +45,6 @@ export class ReferralService {
   }
 
   downloadDocuments(id: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/downloadDocuments/${id}`);
+    return this.http.get(`${this.baseUrl}/downloadDocuments/${id}`, { responseType: 'arraybuffer' });
   }
 }
