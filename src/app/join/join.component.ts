@@ -35,7 +35,7 @@ export function ConfirmedValidator(controlName: string, matchingControlName: str
   animations: joinAnimations
 })
 export class JoinComponent extends Base implements OnInit {
-  active = 0;
+  active = 1;
   selectedClinic: Clinic = Clinic.Dentist;
   specialistTypes = [
     { label: 'Endodontist', value: 'endodontist', selected: false },

@@ -1,5 +1,5 @@
 <div class="verify-email">
-  <button class="sd-icon-button close" (click)="home()">
+  <button mat-icon-button class=" close" (click)="home()">
     <mat-icon>close</mat-icon>
   </button>
   <div class="content" fxLayout="column">
@@ -11,7 +11,7 @@
     <p>We sent an email to <b>xthecounsel@gmail.com</b> called "Activate your SuperDentist Account".</p>
 
     <div fxLayout="row" fxLayoutAlign="center">
-      <button class="sd-button" [disabled]="sentEmail"
+      <button mat-raised-button color="primary" [disabled]="sentEmail"
         (click)="resendEmail()">{{ sentEmail ? 'Email Sent':'Resend Confirmation'}}</button>
     </div>
     <!-- 

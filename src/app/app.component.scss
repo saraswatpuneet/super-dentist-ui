@@ -78,17 +78,37 @@
 }
 
 .sidenav {
-  width: 240px;
-  height: calc(100% - 24px);
-  border-radius: 0 4px 4px 0; 
-  margin: 12px 12px 12px 0;
+  width: 200px;
+  height: calc(100% - 32px);
+  border-radius: 0 4px 4px 0;
+  margin: 16px 12px 16px 0;
   position: relative;
   transition: 0.3s;
   background: #47494D;
-  padding: 12px 0;
+  overflow: hidden;
+
+  .active {
+    position: relative;
+    background: rgba(white, 0.05);
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 3px;
+      background: var(--ac-blue);
+      height: 100%;
+    }
+  }
+
+  .collapse {
+    mat-icon {
+      transition: 0.3s;
+    }
+  }
 
   &.collapsed-sidenav {
-    width: 72px;
+    width: 58px;
 
     .collapse mat-icon {
       transform: rotateY(180deg);
@@ -98,14 +118,19 @@
   .nav-item {
     user-select: none;
     cursor: pointer;
-    margin: 0 12px;
     height: 46px;
     display: flex;
     flex-direction: row;
-    padding: 0 12px;
+    padding: 0 16px;
     align-items: center;
     text-decoration: none;
     transition: 0.3s;
+    opacity: 0.5;
+    min-width: 58px;
+
+    &.active, &.collapse, &:hover {
+      opacity: 1;
+    }
 
     span {
       margin-left: 12px;

@@ -26,9 +26,11 @@
               <span>{{a.name}}</span>
               <div class="specialist-type" *ngIf="a.types">{{a.types[0]}}</div>
             </div>
-            <button class="sd-icon-button" (click)="removeFavorite(a)">
-              <mat-icon color="warn">favorite</mat-icon>
-            </button>
+            <div class="actions">
+              <button mat-icon-button color="warn" (click)="removeFavorite(a)">
+                <mat-icon>favorite</mat-icon>
+              </button>
+            </div>
           </div>
 
           <span fxFlex></span>
@@ -38,7 +40,7 @@
               <span>{{a.formatted_phone_number}}</span>
               <span>{{a.formatted_address}}</span>
             </div>
-            <button class="sd-button" (click)="createReferral(a)">Create Referral</button>
+            <button mat-raised-button (click)="createReferral(a)">Create Referral</button>
           </div>
         </div>
       </div>
@@ -50,9 +52,11 @@
               <span>{{a.name}}</span>
               <div class="specialist-type" *ngIf="a.types">{{a.types[0]}}</div>
             </div>
-            <button class="sd-icon-button" (click)="addFavorite(a)">
-              <mat-icon>favorite</mat-icon>
-            </button>
+            <div class="actions">
+              <button mat-icon-button (click)="addFavorite(a)">
+                <mat-icon>favorite</mat-icon>
+              </button>
+            </div>
           </div>
 
           <span fxFlex></span>
@@ -62,7 +66,7 @@
               <span>{{a.formatted_phone_number}}</span>
               <span>{{a.formatted_address}}</span>
             </div>
-            <button class="sd-button" (click)="createReferral(a)">Create Referral</button>
+            <button mat-raised-button (click)="createReferral(a)">Create Referral</button>
           </div>
         </div>
       </div>

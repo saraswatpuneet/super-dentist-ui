@@ -1,6 +1,6 @@
 <div class="verification">
   <img class="logo" src="assets/images/brand.svg" alt="">
-  <button class="sd-icon-button close" (click)="goToLogin()">
+  <button mat-icon-button class="close" (click)="goToLogin()">
     <mat-icon>close</mat-icon>
   </button>
 
@@ -63,7 +63,7 @@
           </div>
 
           <div fxLayoutAlign=" start">
-            <button class="sd-button blue" [disabled]="!selectedAddress.name" (click)="registerClinic()">
+            <button mat-raised-button color="primary" [disabled]="!selectedAddress.name" (click)="registerClinic()">
               Register Clinic
             </button>
           </div>
@@ -89,7 +89,7 @@
           </div>
 
           <div fxLayout="row" fxLayoutAlign="end">
-            <button class="sd-button blue" *ngIf="active === 0" [disabled]="!accountForm.valid"
+            <button mat-raised-button color="primary" *ngIf="active === 0" [disabled]="!accountForm.valid"
               (click)="join()">Join</button>
           </div>
         </div>

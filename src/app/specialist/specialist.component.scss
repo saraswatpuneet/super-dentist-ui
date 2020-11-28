@@ -4,6 +4,10 @@
   padding: 12px;
   margin-top: 48px;
 
+  .actions {
+    transform: translate(10px, -10px);
+  }
+
   .loading {
     position: fixed;
     top: 50%;

@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 
 import { LoaderModule } from '../shared/loader/loader.module';
 import { SpecialistRoutingModule } from './specialist-routing.module';
 import { SpecialistComponent } from './specialist.component';
-import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [SpecialistComponent],
@@ -15,6 +16,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     FlexLayoutModule,
     MatIconModule,
+    MatButtonModule,
     LoaderModule,
     SpecialistRoutingModule
   ]

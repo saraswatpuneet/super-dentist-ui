@@ -4,6 +4,10 @@
   padding: 12px;
   margin-top: 48px;
 
+  .actions {
+    transform: translate(10px, -10px);
+  }
+
   .container {
     margin: 0 auto;
     max-width: 900px

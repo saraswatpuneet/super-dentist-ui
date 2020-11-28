@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AuthInterceptor } from 'src/app/shared/interceptors/auth-interceptor';
 
@@ -20,6 +21,7 @@ import { AuthInterceptor } from 'src/app/shared/interceptors/auth-interceptor';
     BrowserAnimationsModule,
     DialogModule,
     MatIconModule,
+    MatButtonModule,
     MatMenuModule,
     FlexLayoutModule,
     HttpClientModule,

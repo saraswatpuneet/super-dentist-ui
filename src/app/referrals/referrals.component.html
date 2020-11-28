@@ -28,11 +28,9 @@
         <span fxFlex></span>
 
         <div fxLayout="column" fxLayoutAlign="space-between end">
-          <div fxLayoutAlign=" center" fxLayoutGap="16px">
-            <button class="sd-icon-button blue">
-              <mat-icon>verified_user</mat-icon>
-            </button>
-            <button class="sd-icon-button" *ngIf="a.documents" (click)="downloadFiles(a.referralId)">
+          <div fxLayoutAlign=" center" class="actions">
+            <button mat-icon-button *ngIf="a.documents" matTooltip="Download Attachments"
+              (click)="downloadFiles(a.referralId)">
               <mat-icon>get_app</mat-icon>
             </button>
           </div>

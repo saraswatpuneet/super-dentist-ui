@@ -1,5 +1,5 @@
 <div class="app" fxLayout="column" [ngClass]="theme">
-  <button class="sd-icon-button top-right" (click)="toggleTheme()">
+  <button mat-icon-button class="top-right" (click)="toggleTheme()">
     <mat-icon>{{theme === 'dark' ? 'nights_stay': 'wb_sunny'}}</mat-icon>
   </button>
 
@@ -10,7 +10,7 @@
 
     <span fxFlex></span>
 
-    <button class="sd-icon-button" [matMenuTriggerFor]="menu">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
@@ -19,16 +19,16 @@
   </div>
 
   <div [ngClass]="{'full-h': !authenticated}" class="contain" fxLayout="row">
-    <div class="sidenav mat-elevation-z7" *ngIf="authenticated" fxLayout="column" fxLayoutGap="20px"
+    <div class="sidenav mat-elevation-z7" *ngIf="authenticated" fxLayout="column"
       [ngClass]="{'collapsed-sidenav': !expanded}">
 
-      <a *ngFor="let navItem of navItems" routerLinkActive="active" [routerLink]="navItem.path"
-        class="sd-button nav-item">
+      <a *ngFor="let navItem of navItems" mat-button routerLinkActive="active" [routerLink]="navItem.path"
+        class="nav-item">
         <mat-icon>{{navItem.icon}}</mat-icon>
         <span *ngIf="expanded" [@sidebarToggle]>{{navItem.label}}</span>
       </a>
       <span fxFlex></span>
-      <div (click)="toggleNav()" [ngClass]="{'active': !expanded}" class="nav-item collapse sd-button">
+      <div (click)="toggleNav()" class="nav-item collapse">
         <mat-icon>keyboard_arrow_left</mat-icon>
         <span *ngIf="expanded" [@sidebarToggle]>Collapse</span>
       </div>
@@ -36,7 +36,6 @@
 
 
     <div class="content">
-
       <div *ngIf="authenticated && !emailVerified" class="verify-banner">
         Please verify your email. <span>Didn't get the email? </span> <a routerLink="verify">Click here</a>
       </div>

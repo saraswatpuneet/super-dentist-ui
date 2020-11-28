@@ -16,10 +16,10 @@
           <div class="sd-input">
             <input type="password" formControlName="password" matInput placeholder="Password">
           </div>
-          <div class="forgot">Forgot password?</div>
+          <!-- <div class="forgot">Forgot password?</div> -->
           <div class="warning">{{errorMessage}}</div>
 
-          <button class="sd-button log" (click)="signIn()">Login</button>
+          <button mat-raised-button color="primary" [disabled]="!formGroup.valid" (click)="signIn()">Login</button>
           <div class="top-left">
             <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
           </div>
@@ -33,7 +33,7 @@
           <span>New customer?</span>
           <div fxFlex></div>
         </div>
-        <button class="sd-button" [disabled]="loading" (click)="createAccount()">Create Account</button>
+        <button mat-raised-button [disabled]="loading" (click)="createAccount()">Create Account</button>
       </div>
     </div>
   </div>

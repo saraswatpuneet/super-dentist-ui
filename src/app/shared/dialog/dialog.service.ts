@@ -10,6 +10,6 @@ export class DialogService {
   constructor(private dialog: MatDialog) { }
 
   openCreateReferral(specialist: any): MatDialogRef<CreateReferralComponent> {
-    return this.dialog.open(CreateReferralComponent, { data: specialist });
+    return this.dialog.open(CreateReferralComponent, { data: specialist, autoFocus: false });
   }
 }

@@ -1,6 +1,6 @@
 <form [formGroup]="patientForm">
   <div class="referral" fxLayout="column">
-    <button class="sd-icon-button close-dialog" mat-dialog-close>
+    <button mat-icon-button class="close-dialog" mat-dialog-close>
       <mat-icon>close</mat-icon>
     </button>
 
@@ -44,7 +44,9 @@
 
       <input type="file" #fileUpload id="fileUpload" name="fileUpload" multiple="multiple" style="display:none;" />
 
-      <button class="sd-button" [disabled]="loading" (click)="fileUpload.click()">Attach Documents</button>
+      <div>
+        <button mat-raised-button [disabled]="loading" (click)="fileUpload.click()">Attach Documents</button>
+      </div>
       <div fxLayout="column">
         <span *ngFor="let file of files">
           {{file.data.name}}
@@ -55,6 +57,7 @@
 
   <mat-dialog-actions fxLayoutGap="24px" class="tgap-12">
     <span fxFlex></span>
-    <button class="sd-button blue" (click)="create()" [disabled]="!patientForm.valid || loading">Send Referral</button>
+    <button mat-raised-button color="primary" (click)="create()" [disabled]="!patientForm.valid || loading">Send
+      Referral</button>
   </mat-dialog-actions>
 </form>

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { ReferralsRoutingModule } from './referrals-routing.module';
-import { ReferralsComponent } from './referrals.component';
 import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ReferralsRoutingModule } from './referrals-routing.module';
+import { ReferralsComponent } from './referrals.component';
 
 @NgModule({
   declarations: [ReferralsComponent],
@@ -13,6 +13,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     CommonModule,
     FlexLayoutModule,
     MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
     ReferralsRoutingModule
   ]
 })
