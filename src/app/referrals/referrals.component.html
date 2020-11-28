@@ -34,7 +34,9 @@
               <mat-icon>get_app</mat-icon>
             </button>
           </div>
-          <div> {{a.createdOn | date:"medium"}}</div>
+          <div class="clinic">
+            <div class="pills"><span>Referred - {{a.createdOn | date:"MMM dd, yyyy"}}</span></div>
+          </div>
         </div>
       </div>
     </div>
