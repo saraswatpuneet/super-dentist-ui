@@ -45,6 +45,6 @@ export class ReferralService {
   }
 
   downloadDocuments(id: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/downloadDocuments/${id}`, { responseType: 'arraybuffer' });
+    return this.http.get(`${this.baseUrl}/downloadDocuments/${id}`, { responseType: 'blob' });
   }
 }

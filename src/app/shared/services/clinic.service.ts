@@ -48,6 +48,18 @@ export class ClinicService {
     // this needs to implement a websocket of some kind.
   }
 
+  addFavoriteClinic(addressId: string, placeIds: string[]): Observable<any> {
+    return this.http.post(`${this.baseUrl}/addFavorites/${addressId}`, { placeIds });
+  }
+
+  getFavoriteClinics(addressId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/getFavorites/${addressId}`);
+  }
+
+  removeFavoriteClinics(addressId: string, placeIds: string[]): Observable<any> {
+    return this.http.post(`${this.baseUrl}/removeFavorites/${addressId}`, { placeIds });
+  }
+
   registerAdmin(email: string, verified: boolean): Observable<any> {
     return this.http.post(`${this.baseUrl}/registerAdmin`, { emailId: email, isVerified: verified });
   }

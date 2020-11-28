@@ -18,6 +18,30 @@
 
     <div class="list" fxLayout="column" fxLayoutGap="52px">
       <app-loader class="loading" *ngIf="loading"></app-loader>
+      <div class="sd-card" fxLayout="row" fxLayoutGap="24px" *ngFor="let a of favoriteClinics">
+        <img src="assets/images/user-placeholder.jpg" alt="">
+        <div fxFlex fxLayout="column">
+          <div class="specialist-title" fxLayout="row" fxLayoutAlign="space-between">
+            <div fxLayout="column">
+              <span>{{a.name}}</span>
+              <div class="specialist-type" *ngIf="a.types">{{a.types[0]}}</div>
+            </div>
+            <button class="sd-icon-button" (click)="removeFavorite(a)">
+              <mat-icon color="warn">favorite</mat-icon>
+            </button>
+          </div>
+
+          <span fxFlex></span>
+
+          <div class="contact-info" fxLayout="row" fxLayoutAlign="space-between end" fxLayoutGap="12px">
+            <div fxLayout="column">
+              <span>{{a.formatted_phone_number}}</span>
+              <span>{{a.formatted_address}}</span>
+            </div>
+            <button class="sd-button" (click)="createReferral(a)">Create Referral</button>
+          </div>
+        </div>
+      </div>
       <div class="sd-card" fxLayout="row" fxLayoutGap="24px" *ngFor="let a of nearbySpecialists">
         <img src="assets/images/user-placeholder.jpg" alt="">
         <div fxFlex fxLayout="column">
@@ -26,11 +50,10 @@
               <span>{{a.name}}</span>
               <div class="specialist-type" *ngIf="a.types">{{a.types[0]}}</div>
             </div>
-            <button class="sd-icon-button">
+            <button class="sd-icon-button" (click)="addFavorite(a)">
               <mat-icon>favorite</mat-icon>
             </button>
           </div>
-
 
           <span fxFlex></span>
 
