@@ -9,6 +9,7 @@ import { ReferralService } from '../shared/services/referral.service';
 })
 export class ReferralsComponent implements OnInit {
   referrals = [];
+  selectedReferralIndex: number;
 
   constructor(private referralService: ReferralService) { }
 
@@ -22,5 +23,10 @@ export class ReferralsComponent implements OnInit {
       const url = window.URL.createObjectURL(new Blob([res], { type: 'application/zip' }));
       window.location.assign(url);
     });
+  }
+
+  referralChat(index: number): void {
+    this.selectedReferralIndex = index;
+    console.log(index);
   }
 }

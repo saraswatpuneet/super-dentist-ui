@@ -40,9 +40,9 @@ $super-dentist-light-theme: mat-light-theme((
     --pink: #ff375f;
     --grey-0: #bab9bd;
     --grey-1: #98989d;
-    --grey-2: #636366;
+    --grey-2: #59595d;
     --grey-3: #48484a;
-    --grey-4: #3a3a3c;
+    --grey-4: #3A3C3F;
     --grey-5: #2c2c2e;
     --grey-6: #1c1c1e;
     --grey-7: #0a0a0a;
@@ -234,7 +234,7 @@ body {
 
 .sd-card {
   border-radius: 4px;
-  background: #3A3C3F;
+  background: var(--grey-4);
   border: 1px solid rgba(white, 0.1);
   padding: 16px;
   width: 100%;
