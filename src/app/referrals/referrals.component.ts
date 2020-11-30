@@ -10,10 +10,13 @@ import { ReferralService } from '../shared/services/referral.service';
 export class ReferralsComponent implements OnInit {
   referrals = [];
   selectedReferralIndex: number;
+  messageToSend = '';
+  messages = [];
 
   constructor(private referralService: ReferralService) { }
 
   ngOnInit(): void {
+    this.referralService.mockComments().pipe(take(1)).subscribe(messages => this.messages = messages);
     this.referralService.getSpecialist().pipe(take(1)).subscribe(res => this.referrals = res.data);
   }
 
@@ -28,5 +31,10 @@ export class ReferralsComponent implements OnInit {
   referralChat(index: number): void {
     this.selectedReferralIndex = index;
     console.log(index);
+  }
+
+  enterComment(): void {
+    this.messages.push({ message: this.messageToSend, user: 'me' });
+    this.messageToSend = '';
   }
 }

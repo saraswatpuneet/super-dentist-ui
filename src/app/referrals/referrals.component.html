@@ -48,46 +48,17 @@
       </div>
 
       <div fxFlex="350px">
+
         <div class="sd-card clinic-chat" *ngIf="selectedReferralIndex !== undefined"
           [matTooltip]="referrals[selectedReferralIndex]?.toClinicName">
           {{referrals[selectedReferralIndex]?.toClinicName}}
         </div>
         <div class="sd-card chat" *ngIf="selectedReferralIndex !== undefined" fxLayout="column">
-          <div class="text sender" fxLayout="column" fxLayoutAlign=" end">
-            <div>Do you know the song?</div>
-          </div>
-          <div class="text receiver" fxLayoutAlign=" start">
-            <div>The Teenage Mutant Ninja Turtles?</div>
-          </div>
-          <div class="text sender" fxLayout="column" fxLayoutAlign=" end">
-            <div>Yea</div>
-          </div>
-          <div class="text receiver" fxLayoutAlign=" start">
-            <div>
-              They're the world's most fearsome fighting team (We're really hip!)
-              They're heroes in a half-shell and they're green (Hey - get a grip!)
-              When the evil Shredder attacks
+          <div class="ms" fxFlex>
+            <div class="text" [ngClass]="m.user === 'me' ? 'sender': 'receiver'" fxLayout="column"
+              *ngFor="let m of messages">
+              <div>{{m.message}}</div>
             </div>
-          </div>
-          <div class="text sender" fxLayout="column" fxLayoutAlign=" end">
-            <div>
-              These Turtle boys don't cut him no slack!
-
-              Teenage Mutant Ninja Turtles
-              Teenage Mutant Ninja Turtles
-            </div>
-          </div>
-          <div class="text receiver" fxLayoutAlign=" start">
-            <div>
-              Splinter taught them to be ninja teens (He's a radical rat!)
-              Leonardo leads, Donatello does machines (That's a fact, Jack!)
-              Raphael is cool but crude (Gimme a break!)
-              Michaelangelo is a party dude (Party!)
-            </div>
-          </div>
-          <div class="text sender" fxLayout="column" fxLayoutAlign=" end">
-            <div>HAHAH</div>
-            <div>Right on man!!!</div>
           </div>
 
           <div fxLayout="row" class="chat-input">
@@ -95,7 +66,7 @@
               <mat-icon>attach_file</mat-icon>
             </button>
             <div class="sd-input">
-              <input type="text" placeholder="SuperMessage">
+              <input type="text" [(ngModel)]="messageToSend" (keyup.enter)="enterComment()" placeholder="SuperMessage">
             </div>
           </div>
         </div>

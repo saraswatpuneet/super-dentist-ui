@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
-import { ReferralDetails } from './referral';
+import { comments, ReferralDetails } from './referral';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,10 @@ export class ReferralService {
 
   addComments(id: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/addComments/${id}`, {});
+  }
+
+  mockComments(): Observable<any> {
+    return of(comments);
   }
 
   updateStatus(id: string): Observable<any> {
