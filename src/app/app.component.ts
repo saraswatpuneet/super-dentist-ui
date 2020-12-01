@@ -57,9 +57,9 @@ export class AppComponent extends Base implements OnInit {
             const c = myClinics.data.clinicDetails[0];
             this.clinicService.setMyClinics(c);
             if (c.type === 'dentist') {
-              this.showSpecialist = false;
-            } else {
               this.showSpecialist = true;
+            } else {
+              this.showSpecialist = false;
             }
           });
         from(this.auth.currentUser).pipe(take(1)).subscribe(user => this.emailVerified = user.emailVerified);
