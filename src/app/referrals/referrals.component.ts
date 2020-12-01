@@ -3,6 +3,7 @@ import { map, take, takeUntil } from 'rxjs/operators';
 import { Base } from '../shared/base/base-component';
 
 import { ClinicService } from '../shared/services/clinic.service';
+import { ChatBox } from '../shared/services/referral';
 import { ReferralService } from '../shared/services/referral.service';
 
 @Component({
@@ -12,6 +13,7 @@ import { ReferralService } from '../shared/services/referral.service';
 })
 export class ReferralsComponent extends Base implements OnInit {
   addId = '';
+  clinicType: ChatBox = 'sp';
   referrals = [];
   selectedReferralIndex: number;
   messageToSend = '';
@@ -23,7 +25,10 @@ export class ReferralsComponent extends Base implements OnInit {
   ) { super(); }
 
   ngOnInit(): void {
-    this.clinicService.getMyClinics().pipe(takeUntil(this.unsubscribe$)).subscribe(addy => this.addId = addy.addressId);
+    this.clinicService.getMyClinics().pipe(takeUntil(this.unsubscribe$)).subscribe(addy => {
+      this.addId = addy.addressId;
+      this.clinicType = addy.type;
+    });
     this.referralService.getDentist().pipe(take(1)).subscribe(res => this.referrals = res.data);
   }
 
@@ -43,7 +48,7 @@ export class ReferralsComponent extends Base implements OnInit {
   enterComment(): void {
     const referral = this.referrals[this.selectedReferralIndex];
     this.messages.push({ message: this.messageToSend, user: 'me' });
-    this.referralService.addComments(referral.referralId, this.messageToSend, 'gd').pipe(take(1)).subscribe(console.log);
+    this.referralService.addComments(referral.referralId, this.messageToSend, this.clinicType).pipe(take(1)).subscribe(console.log);
     this.messageToSend = '';
   }
 }
