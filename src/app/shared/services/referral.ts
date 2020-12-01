@@ -11,11 +11,12 @@ export interface ReferralDetails {
 }
 
 export interface Comment {
-  chatBox?: string;
   comment: string;
-  createdBy?: string;
-  time?: string;
+  time?: number;
+  chatBox?: ChatBox;
 }
+
+export type ChatBox = 'gd' | 'sp' | 'patient';
 
 export interface Status {
   gdStatus: string;

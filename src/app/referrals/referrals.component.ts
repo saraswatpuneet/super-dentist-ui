@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { take } from 'rxjs/operators';
+import { map, take, takeUntil } from 'rxjs/operators';
+import { Base } from '../shared/base/base-component';
+
+import { ClinicService } from '../shared/services/clinic.service';
 import { ReferralService } from '../shared/services/referral.service';
 
 @Component({
@@ -7,21 +10,24 @@ import { ReferralService } from '../shared/services/referral.service';
   templateUrl: './referrals.component.html',
   styleUrls: ['./referrals.component.scss']
 })
-export class ReferralsComponent implements OnInit {
+export class ReferralsComponent extends Base implements OnInit {
+  addId = '';
   referrals = [];
   selectedReferralIndex: number;
   messageToSend = '';
   messages = [];
 
-  constructor(private referralService: ReferralService) { }
+  constructor(
+    private clinicService: ClinicService,
+    private referralService: ReferralService
+  ) { super(); }
 
   ngOnInit(): void {
-    this.referralService.mockComments().pipe(take(1)).subscribe(messages => this.messages = messages);
-    this.referralService.getSpecialist().pipe(take(1)).subscribe(res => this.referrals = res.data);
+    this.clinicService.getMyClinics().pipe(takeUntil(this.unsubscribe$)).subscribe(addy => this.addId = addy.addressId);
+    this.referralService.getDentist().pipe(take(1)).subscribe(res => this.referrals = res.data);
   }
 
   downloadFiles(id: string): void {
-    console.log(id);
     this.referralService.downloadDocuments(id).pipe(take(1)).subscribe(res => {
       const url = window.URL.createObjectURL(new Blob([res], { type: 'application/zip' }));
       window.location.assign(url);
@@ -30,11 +36,14 @@ export class ReferralsComponent implements OnInit {
 
   referralChat(index: number): void {
     this.selectedReferralIndex = index;
-    console.log(index);
+    this.referralService.get(this.referrals[this.selectedReferralIndex].referralId).pipe(take(1)).subscribe(console.log);
+    console.log(this.referrals[this.selectedReferralIndex]);
   }
 
   enterComment(): void {
+    const referral = this.referrals[this.selectedReferralIndex];
     this.messages.push({ message: this.messageToSend, user: 'me' });
+    this.referralService.addComments(referral.referralId, this.messageToSend, 'gd').pipe(take(1)).subscribe(console.log);
     this.messageToSend = '';
   }
 }

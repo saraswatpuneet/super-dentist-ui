@@ -7,7 +7,6 @@
     <h2 mat-dialog-title>Create Referral</h2>
     <h3>Patient Details</h3>
 
-
     <div fxLayout="column" fxLayoutGap="36px">
       <div class="sd-input">
         <label>Full Name</label>
@@ -57,7 +56,8 @@
 
   <mat-dialog-actions fxLayoutGap="24px" class="tgap-12">
     <span fxFlex></span>
-    <button mat-raised-button color="primary" (click)="create()" [disabled]="!patientForm.valid || loading">Send
-      Referral</button>
+    <button mat-raised-button color="primary" (click)="create()" [disabled]="!patientForm.valid || loading">
+      Send Referral
+    </button>
   </mat-dialog-actions>
 </form>

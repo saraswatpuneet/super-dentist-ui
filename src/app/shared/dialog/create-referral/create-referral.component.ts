@@ -37,10 +37,7 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
     const fileUpload = this.fileUpload.nativeElement;
     fileUpload.onchange = () => {
       this.files = [];
-      for (const file of fileUpload.files) {
-        this.files.push({ data: file, inProgress: false, progress: 0 });
-        console.log(this.files);
-      }
+      fileUpload.files.forEach(file => this.files.push({ data: file, inProgress: false, progress: 0 }));
     };
   }
 

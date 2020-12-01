@@ -24,6 +24,6 @@ export class VerifyComponent implements OnInit {
   }
 
   home(): void {
-    this.router.navigate(['specialist']);
+    this.router.navigate(['referrals']);
   }
 }

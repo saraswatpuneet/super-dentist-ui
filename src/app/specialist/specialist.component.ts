@@ -30,7 +30,7 @@ export class SpecialistComponent extends Base implements OnInit {
     this.watchSearch();
     this.watchFavorites();
 
-    this.clinicService.getClinics().pipe(map(res => res.data.clinicDetails[0]), take(1)).subscribe(addy => {
+    this.clinicService.getMyClinics().pipe(takeUntil(this.unsubscribe$)).subscribe(addy => {
       this.addId = addy.addressId;
       this.triggerFavoriteRefresh.next();
       this.triggerSearch.next();

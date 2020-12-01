@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { comments, ReferralDetails } from './referral';
+import { ChatBox, comments, ReferralDetails } from './referral';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +20,11 @@ export class ReferralService {
     return this.http.delete(`${this.baseUrl}/delete/${id}`, {});
   }
 
-  addComments(id: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/addComments/${id}`, {});
+  addComments(id: string, comment: string, chatBox: ChatBox): Observable<any> {
+    return this.http.post(`${this.baseUrl}/addComments/${id}`,
+      {
+        comments: [{ comment, chatBox, time: Date.now() }]
+      });
   }
 
   mockComments(): Observable<any> {

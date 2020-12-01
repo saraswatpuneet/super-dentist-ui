@@ -4,7 +4,7 @@
   </button>
 
   <div class="sd-toolbar mat-elevation-z3" fxLayout="row" fxLayoutAlign=" center" *ngIf="authenticated">
-    <div class="nav-title" routerLink='specialist'>
+    <div class="nav-title" routerLink='referrals'>
       <img src="assets/images/brand.svg" alt=""> <span>SuperDentist</span>
     </div>
 
@@ -22,18 +22,23 @@
     <div class="sidenav mat-elevation-z7" *ngIf="authenticated" fxLayout="column"
       [ngClass]="{'collapsed-sidenav': !expanded}">
 
-      <a *ngFor="let navItem of navItems" mat-button routerLinkActive="active" [routerLink]="navItem.path"
-        class="nav-item">
-        <mat-icon>{{navItem.icon}}</mat-icon>
-        <span *ngIf="expanded" [@sidebarToggle]>{{navItem.label}}</span>
+      <a *ngIf="showSpecialist" mat-button routerLinkActive="active" [routerLink]="navItems[0].path" class="nav-item">
+        <mat-icon>{{navItems[0].icon}}</mat-icon>
+        <span *ngIf="expanded" [@sidebarToggle]>{{navItems[0].label}}</span>
       </a>
+
+      <a mat-button routerLinkActive="active" [routerLink]="navItems[1].path" class="nav-item">
+        <mat-icon>{{navItems[1].icon}}</mat-icon>
+        <span *ngIf="expanded" [@sidebarToggle]>{{navItems[1].label}}</span>
+      </a>
+
       <span fxFlex></span>
+
       <div (click)="toggleNav()" class="nav-item collapse">
         <mat-icon>keyboard_arrow_left</mat-icon>
         <span *ngIf="expanded" [@sidebarToggle]>Collapse</span>
       </div>
     </div>
-
 
     <div class="content">
       <div *ngIf="authenticated && !emailVerified" class="verify-banner">

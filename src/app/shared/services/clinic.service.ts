@@ -1,16 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { ClinicDetail, DoctorDetail, ClinicServicesOffered } from './clinic';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClinicService {
   private baseUrl = 'https://superdentist.io/api/sd/v1/clinic';
+  private myClinics$ = new BehaviorSubject<any>(null);
 
   constructor(private http: HttpClient) { }
+
+  setMyClinics(clinics: any): void {
+    this.myClinics$.next(clinics);
+  }
+
+  getMyClinics(): Observable<any> {
+    return this.myClinics$.asObservable().pipe(filter(c => !!c));
+  }
 
   getDoctor(clinicAddressId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${clinicAddressId}`);

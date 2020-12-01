@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import { filter, switchMap, take, takeUntil } from 'rxjs/operators';
 import { NavigationEnd, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
+import { OverlayContainer } from '@angular/cdk/overlay';
 import { from } from 'rxjs';
 
 import { Base } from './shared/base/base-component';
 import { appAnimations } from './app.animations';
-import { OverlayContainer } from '@angular/cdk/overlay';
+import { ClinicService } from './shared/services/clinic.service';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
   animations: appAnimations
 })
 export class AppComponent extends Base implements OnInit {
+  showSpecialist = false;
   theme = 'dark';
   authenticated = false;
   emailVerified = true;
@@ -33,6 +35,7 @@ export class AppComponent extends Base implements OnInit {
     private auth: AngularFireAuth,
     private router: Router,
     private overlayContainer: OverlayContainer,
+    private clinicService: ClinicService,
   ) { super(); }
 
   ngOnInit(): void {
@@ -43,11 +46,22 @@ export class AppComponent extends Base implements OnInit {
       this.expanded = true;
     }
 
-    this.router.events.pipe(filter(e => e instanceof NavigationEnd), takeUntil(this.unsubscribe$)).subscribe(e => {
+    this.router.events.pipe(filter(e => e instanceof NavigationEnd), takeUntil(this.unsubscribe$)).subscribe(() => {
       if (this.router.url.includes('login') || this.router.url.includes('join') || this.router.url.includes('verify')) {
         this.authenticated = false;
       } else {
         this.authenticated = true;
+        this.clinicService.getClinics()
+          .pipe(take(1))
+          .subscribe(myClinics => {
+            const c = myClinics.data.clinicDetails[0];
+            this.clinicService.setMyClinics(c);
+            if (c.type === 'dentist') {
+              this.showSpecialist = false;
+            } else {
+              this.showSpecialist = true;
+            }
+          });
         from(this.auth.currentUser).pipe(take(1)).subscribe(user => this.emailVerified = user.emailVerified);
       }
     });
