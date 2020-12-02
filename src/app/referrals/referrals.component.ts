@@ -27,9 +27,10 @@ export class ReferralsComponent extends Base implements OnInit {
   ngOnInit(): void {
     this.clinicService.getMyClinics().pipe(takeUntil(this.unsubscribe$)).subscribe(addy => {
       this.addId = addy.addressId;
-      this.clinicType = addy.type;
+      console.log(addy);
+      this.clinicType = addy.type === 'dentist' ? 'gd' : 'sp';
+      this.referralService.getDentist(this.addId).pipe(take(1)).subscribe(res => this.referrals = res.data);
     });
-    this.referralService.getDentist().pipe(take(1)).subscribe(res => this.referrals = res.data);
   }
 
   downloadFiles(id: string): void {
@@ -41,7 +42,10 @@ export class ReferralsComponent extends Base implements OnInit {
 
   referralChat(index: number): void {
     this.selectedReferralIndex = index;
-    this.referralService.get(this.referrals[this.selectedReferralIndex].referralId).pipe(take(1)).subscribe(console.log);
+    this.referralService.get(this.referrals[this.selectedReferralIndex].referralId).pipe(
+      // map(),
+      take(1)
+    ).subscribe(console.log);
     console.log(this.referrals[this.selectedReferralIndex]);
   }
 

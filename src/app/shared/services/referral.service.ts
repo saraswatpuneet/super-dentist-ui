@@ -39,8 +39,8 @@ export class ReferralService {
     return this.http.post(`${this.baseUrl}/uploadDocuments/${id}`, formData);
   }
 
-  getDentist(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/gdReferrals`);
+  getDentist(addressId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/gdReferrals?addressId=${addressId}`);
   }
 
   getSpecialist(): Observable<any> {

@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 
 import { ReferralService } from 'src/app/shared/services/referral.service';
+import { ClinicService } from '../../services/clinic.service';
 
 @Component({
   selector: 'app-create-referral',
@@ -13,6 +14,7 @@ import { ReferralService } from 'src/app/shared/services/referral.service';
 })
 export class CreateReferralComponent implements OnInit, AfterViewInit {
   @ViewChild('fileUpload', { static: false }) fileUpload: ElementRef;
+  fromAddressId = '';
   files = [];
   patientForm: FormGroup;
   loading = false;
@@ -26,11 +28,13 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
     private data: any,
     private fb: FormBuilder,
     private referralService: ReferralService,
+    private clinicService: ClinicService,
     private dialogRef: MatDialogRef<CreateReferralComponent>
   ) { }
 
   ngOnInit(): void {
     this.initForm();
+    this.clinicService.getMyClinics().pipe(take(1)).subscribe(addy => this.fromAddressId = addy.addressId);
   }
 
   ngAfterViewInit(): void {
@@ -57,7 +61,8 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
       },
       comments: [{ comment: comments }],
       tooth: Object.keys(this.selectedTeeth),
-      toPlaceId: this.data.place_id
+      toPlaceId: this.data.place_id,
+      fromAddressId: this.fromAddressId
     };
     this.referralService.create(bod).pipe(
       switchMap(res => {
