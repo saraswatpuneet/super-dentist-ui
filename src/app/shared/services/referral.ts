@@ -18,6 +18,21 @@ export interface Comment {
 
 export type ChatBox = 'gd' | 'sp' | 'patient';
 
+export interface Conversation {
+  cursor: string; // The location id of the paginator. Should be handled by the backend to load the most recent 20 messages
+  messages: Message[];
+}
+
+export interface Message {
+  messageId: string; // This is necessary for scaling reactions on a message
+  text?: string;
+  timestamp: number;
+  channel: Channel;
+  userId: string; // id of the user
+}
+
+export type Channel = 'c2c' | 'c2p'; // Store as string in the backend so more channels can be created in the future.
+
 export interface Status {
   gdStatus: string;
   spStatus: string;
@@ -29,27 +44,3 @@ export interface Patient {
   lastName: string;
   phone: string;
 }
-
-export const comments = [
-  { message: 'Do you know the song?', user: 'me', date: '' },
-  { message: 'The Teenage Mutant Ninja Turtles?', user: '', date: '' },
-  { message: 'Yea', user: 'me', date: '' },
-  {
-    message: `They're the world's most fearsome fighting team (We're really hip!)
-  They're heroes in a half-shell and they're green (Hey - get a grip!)
-  When the evil Shredder attacks`, user: '', date: ''
-  },
-  {
-    message: `These Turtle boys don't cut him no slack!
-  Teenage Mutant Ninja Turtles
-  Teenage Mutant Ninja Turtles`, user: 'me', date: ''
-  },
-  {
-    message: `Splinter taught them to be ninja teens (He's a radical rat!)
-  Leonardo leads, Donatello does machines (That's a fact, Jack!)
-  Raphael is cool but crude (Gimme a break!)
-  Michaelangelo is a party dude (Party!)`, user: '', date: ''
-  },
-  { message: 'HAHAH', user: 'me', date: '' },
-  { message: 'Right on man!!!', user: 'me', date: '' },
-];

@@ -15,6 +15,7 @@ import { ClinicService } from '../../services/clinic.service';
 export class CreateReferralComponent implements OnInit, AfterViewInit {
   @ViewChild('fileUpload', { static: false }) fileUpload: ElementRef;
   fromAddressId = '';
+  chatBox = '';
   files = [];
   patientForm: FormGroup;
   loading = false;
@@ -34,7 +35,10 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.clinicService.getMyClinics().pipe(take(1)).subscribe(addy => this.fromAddressId = addy.addressId);
+    this.clinicService.getMyClinics().pipe(take(1)).subscribe(addy => {
+      this.fromAddressId = addy.addressId;
+      this.chatBox = addy.type === 'dentist' ? 'gd' : 'sp';
+    });
   }
 
   ngAfterViewInit(): void {
@@ -52,18 +56,21 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
     this.loading = true;
 
     const { email, phoneNumber, fullName, comments } = this.patientForm.value;
-    const bod = {
+    const bod: any = {
       patient: {
         email,
         phone: phoneNumber,
         firstName: fullName.split(' ')[0],
         lastName: fullName.split(' ')[1]
       },
-      comments: [{ comment: comments }],
       tooth: Object.keys(this.selectedTeeth),
       toPlaceId: this.data.place_id,
       fromAddressId: this.fromAddressId
     };
+
+    if (comments) {
+      bod.comments = [{ comment: comments, time: Date.now(), chatBox: this.chatBox }];
+    }
     this.referralService.create(bod).pipe(
       switchMap(res => {
         if (this.files.length > 0) {

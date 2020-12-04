@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { ChatBox, comments, ReferralDetails } from './referral';
+import { ChatBox, ReferralDetails } from './referral';
 
 @Injectable({
   providedIn: 'root'
@@ -25,10 +25,6 @@ export class ReferralService {
       {
         comments: [{ comment, chatBox, time: Date.now() }]
       });
-  }
-
-  mockComments(): Observable<any> {
-    return of(comments);
   }
 
   updateStatus(id: string): Observable<any> {
