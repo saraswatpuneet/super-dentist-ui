@@ -1,8 +1,3 @@
-export interface ConfirmationResponse {
-  success: boolean;
-  message?: string;
-}
-
 export interface Referral {
   referralId: string;
   document: string[];
@@ -34,7 +29,7 @@ export interface ReferralDetails {
   history?: string[];
   tooth?: string[];
   fromAddressId?: string;
-  toAddressId?: string;
+  toAddressId?: string; // send either toAddressId or toPlaceId
   toPlaceId?: string;
 }
 
