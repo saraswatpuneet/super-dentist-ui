@@ -4,7 +4,6 @@ import { Observable, of } from 'rxjs';
 
 import {
   Channel,
-  ConfirmationResponse,
   Conversation,
   Message,
   Referral,
