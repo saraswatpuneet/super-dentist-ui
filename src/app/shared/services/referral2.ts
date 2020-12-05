@@ -56,11 +56,11 @@ export interface Conversation {
 }
 
 export interface Message {
-  messageId: string; // This is necessary for scaling reactions on a message
+  messageId?: string; // This is necessary for scaling reactions on a message
   text?: string;
   timestamp?: number;
   channel: Channel;
-  userId: string; // id of the user
+  userId?: string; // id of the user
 }
 
 export type Channel = 'c2c' | 'c2p'; // Store as string in the backend so more channels can be created in the future.

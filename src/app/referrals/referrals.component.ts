@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { map, take, takeUntil } from 'rxjs/operators';
-import { Base } from '../shared/base/base-component';
+import { catchError, take, takeUntil } from 'rxjs/operators';
 
+import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
 import { ChatBox } from '../shared/services/referral';
-import { ReferralService } from '../shared/services/referral.service';
+import { Conversation, Referral } from '../shared/services/referral2';
+import { mockConversation, mockReferrals, ReferralService2 } from '../shared/services/referral2.service';
 
 @Component({
   selector: 'app-referrals',
@@ -14,27 +15,39 @@ import { ReferralService } from '../shared/services/referral.service';
 export class ReferralsComponent extends Base implements OnInit {
   addId = '';
   clinicType: ChatBox = 'sp';
-  referrals = [];
+  referrals: Referral[] = [];
   selectedReferralIndex: number;
   messageToSend = '';
-  messages = [];
+  conversation: Conversation;
 
   constructor(
     private clinicService: ClinicService,
-    private referralService: ReferralService
+    private referralService: ReferralService2
   ) { super(); }
 
   ngOnInit(): void {
     this.clinicService.getMyClinics().pipe(takeUntil(this.unsubscribe$)).subscribe(addy => {
       this.addId = addy.addressId;
       this.clinicType = addy.type === 'dentist' ? 'gd' : 'sp';
-      // Get specialist pass their addressId or their google placeId
-      this.referralService.getDentist(this.addId).pipe(take(1)).subscribe(res => this.referrals = res.data);
+      console.log('Did this go?');
+      if (addy.type === 'dentist') {
+        this.referralService.getDentistRerrals(this.addId).pipe(
+          catchError(() => mockReferrals()),
+          take(1)
+        )
+          .subscribe(res => this.referrals = res);
+      } else {
+        this.referralService.getSpecialistReferrals(this.addId).pipe(
+          catchError(() => mockReferrals()),
+          take(1)
+        )
+          .subscribe(res => this.referrals = res);
+      }
     });
   }
 
-  downloadFiles(id: string): void {
-    this.referralService.downloadDocuments(id).pipe(take(1)).subscribe(res => {
+  downloadFiles(referralId: string): void {
+    this.referralService.getAllDocuments(referralId).pipe(take(1)).subscribe(res => {
       const url = window.URL.createObjectURL(new Blob([res], { type: 'application/zip' }));
       window.location.assign(url);
     });
@@ -42,19 +55,20 @@ export class ReferralsComponent extends Base implements OnInit {
 
   referralChat(index: number): void {
     this.selectedReferralIndex = index;
-    this.referralService.get(this.referrals[this.selectedReferralIndex].referralId).pipe(
-      map(res => res.data.comments),
-      take(1)
-    ).subscribe(comments => {
-      this.messages = comments;
-    });
-    console.log(this.referrals[this.selectedReferralIndex]);
+    this.referralService.getMessages(this.referrals[this.selectedReferralIndex].referralId, 'c2c')
+      .pipe(
+        catchError(() => mockConversation()),
+        take(1)
+      )
+      .subscribe(conversation => this.conversation = conversation);
   }
 
   enterComment(): void {
     const referral = this.referrals[this.selectedReferralIndex];
-    this.messages.push({ message: this.messageToSend, chatBox: this.clinicType });
-    this.referralService.addComments(referral.referralId, this.messageToSend, this.clinicType)
+    this.referralService.createMessage(referral.referralId, {
+      text: this.messageToSend,
+      channel: 'c2c'
+    })
       .pipe(take(1))
       .subscribe(console.log);
     this.messageToSend = '';

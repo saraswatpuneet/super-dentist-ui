@@ -55,9 +55,9 @@
         </div>
         <div class="sd-card chat" *ngIf="selectedReferralIndex !== undefined" fxLayout="column">
           <div class="ms" fxFlex>
-            <div class="text" [ngClass]="m.chatBox === clinicType ? 'sender': 'receiver'" fxLayout="column"
-              *ngFor="let m of messages">
-              <div>{{m.comment}}</div>
+            <div class="text" [ngClass]="m.userId === 'xthecounsel@gmail.com' ? 'sender': 'receiver'" fxLayout="column"
+              *ngFor="let m of conversation?.messages">
+              <div>{{m.text}}</div>
             </div>
           </div>
 

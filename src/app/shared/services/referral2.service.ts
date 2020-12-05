@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import {
   Channel,
@@ -72,4 +72,54 @@ export class ReferralService2 {
   getSpecialistReferrals(addressId: string): Observable<Referral[]> {
     return this.http.get<Referral[]>(`${this.baseUrl}/referrals-by-clinic/specialist?addressId=${addressId}`);
   }
+}
+
+export function mockReferrals(): Observable<Referral[]> {
+  return of([ref(), ref(), ref()]);
+}
+
+export function mockConversation(): Observable<Conversation> {
+  return of({
+    cursor: '',
+    messages: [mes('xthecounsel@gmail.com'), mes('xthecounsel@gmail.com'), mes(''), mes('xthecounsel@gmail.com'), mes(''), mes(''), mes('xthecounsel@gmail.com')]
+  });
+}
+
+function ref(): Referral {
+  return {
+    referralId: 'string',
+    document: [],
+    fromPlaceId: 'string',
+    toPlaceId: 'string',
+    fromClinicName: 'string',
+    toClinicName: 'string',
+    fromClinicAddress: 'string',
+    toClinicAddress: 'string',
+    status: {
+      gdStatus: 'string',
+      spStatus: 'string'
+    },
+    reasons: [],
+    history: [],
+    tooth: [],
+    createdOn: Date.now(),
+    modifiedOn: Date.now(),
+    patientEmail: 'string',
+    patientFirstName: 'string',
+    patientLastName: 'string',
+    patientPhone: 'string',
+    fromEmail: 'string',
+    toEmail: 'string',
+    isDirty: false,
+  };
+}
+
+function mes(userId: string): Message {
+  return {
+    messageId: 'string', // This is necessary for scaling reactions on a message
+    text: 'string',
+    timestamp: Date.now(),
+    channel: 'c2c',
+    userId // id of the user
+  };
 }
