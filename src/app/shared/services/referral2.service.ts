@@ -24,8 +24,8 @@ export class ReferralService2 {
     return this.http.post<Referral>(`${this.baseUrl}/referrals`, referral);
   }
 
-  delete(referralId: string): Observable<ConfirmationResponse> {
-    return this.http.delete<ConfirmationResponse>(`${this.baseUrl}/referrals/${referralId}`);
+  delete(referralId: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/referrals/${referralId}`);
   }
 
   get(referralId: string): Observable<Referral> {
@@ -37,8 +37,8 @@ export class ReferralService2 {
     return this.http.get(`${this.baseUrl}/referrals/${referralId}/documents`, { responseType: 'blob' });
   }
 
-  uploadDocuments(referralId: string, formData: FormData): Observable<ConfirmationResponse> {
-    return this.http.post<ConfirmationResponse>(`${this.baseUrl}/referrals/${referralId}/documents`, formData);
+  uploadDocuments(referralId: string, formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/referrals/${referralId}/documents`, formData);
   }
 
   getDocument(referralId: string, documentId: string): Observable<any> {
@@ -69,8 +69,8 @@ export class ReferralService2 {
     return this.http.get<Referral[]>(`${this.baseUrl}/referrals-by-clinic/dentist?addressId=${addressId}`);
   }
 
-  getSpecialistReferrals(addressId: string): Observable<Referral[]> {
-    return this.http.get<Referral[]>(`${this.baseUrl}/referrals-by-clinic/specialist?addressId=${addressId}`);
+  getSpecialistReferrals(placeId: string): Observable<Referral[]> {
+    return this.http.get<Referral[]>(`${this.baseUrl}/referrals-by-clinic/specialist?placeId=${placeId}`);
   }
 }
 
