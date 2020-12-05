@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { of } from 'rxjs';
 import { catchError, take, takeUntil } from 'rxjs/operators';
 
 import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
-import { ChatBox } from '../shared/services/referral';
-import { Conversation, Message, Referral } from '../shared/services/referral2';
-import { mockConversation, mockReferrals, ReferralService2 } from '../shared/services/referral2.service';
+import { Conversation, Message, Referral } from '../shared/services/referral';
+import { mockConversation, mockReferrals, ReferralService } from '../shared/services/referral.service';
 
 @Component({
   selector: 'app-referrals',
@@ -15,7 +13,6 @@ import { mockConversation, mockReferrals, ReferralService2 } from '../shared/ser
 })
 export class ReferralsComponent extends Base implements OnInit {
   addId = '';
-  clinicType: ChatBox = 'sp';
   referrals: Referral[] = [];
   selectedReferralIndex: number;
   messageToSend = '';
@@ -23,14 +20,13 @@ export class ReferralsComponent extends Base implements OnInit {
 
   constructor(
     private clinicService: ClinicService,
-    private referralService: ReferralService2
+    private referralService: ReferralService
   ) { super(); }
 
   ngOnInit(): void {
     this.clinicService.getMyClinics().pipe(takeUntil(this.unsubscribe$)).subscribe(addy => {
       this.addId = addy.addressId;
-      this.clinicType = addy.type === 'dentist' ? 'gd' : 'sp';
-      console.log('Did this go?');
+
       if (addy.type === 'dentist') {
         this.referralService.getDentistRerrals(this.addId).pipe(
           catchError(() => mockReferrals()),

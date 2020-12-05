@@ -2,52 +2,123 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { ChatBox, ReferralDetails } from './referral';
+import {
+  Channel,
+  Conversation,
+  Message,
+  Referral,
+  ReferralDetails,
+  ReferralStatus
+} from './referral';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReferralService {
-  private baseUrl = 'https://superdentist.io/api/sd/v1/referral';
+  private baseUrl = 'https://superdentist.io/api/sd/v1';
 
   constructor(private http: HttpClient) { }
 
-  create(referral: ReferralDetails): Observable<any> {
-    return this.http.post(`${this.baseUrl}/create`, referral);
+  create(referral: ReferralDetails): Observable<Referral> {
+    return this.http.post<Referral>(`${this.baseUrl}/referrals`, referral);
   }
 
-  delete(id: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/delete/${id}`, {});
+  delete(referralId: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/referrals/${referralId}`);
   }
 
-  addComments(id: string, comment: string, chatBox: ChatBox): Observable<any> {
-    return this.http.post(`${this.baseUrl}/addComments/${id}`,
-      {
-        comments: [{ comment, chatBox, time: Date.now() }]
-      });
+  get(referralId: string): Observable<Referral> {
+    return this.http.get<Referral>(`${this.baseUrl}/referrals/${referralId}`);
   }
 
-  updateStatus(id: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/updateStatus/${id}`, {});
+  // Documents
+  getAllDocuments(referralId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/referrals/${referralId}/documents`, { responseType: 'blob' });
   }
 
-  uploadDocuments(id: string, formData: FormData): Observable<any> {
-    return this.http.post(`${this.baseUrl}/uploadDocuments/${id}`, formData);
+  uploadDocuments(referralId: string, formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/referrals/${referralId}/documents`, formData);
   }
 
-  getDentist(addressId: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/gdReferrals?addressId=${addressId}`);
+  getDocument(referralId: string, documentId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/referrals/${referralId}/documents/${documentId}`, { responseType: 'blob' });
   }
 
-  getSpecialist(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/spReferrals`);
+  // Status
+  updateStatus(referralId: string, status: ReferralStatus): Observable<Referral> {
+    return this.http.put<Referral>(`${this.baseUrl}/referrals/${referralId}/status`, status);
   }
 
-  get(id: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/getOne/${id}`);
+  // Messages
+  createMessage(referralId: string, message: Message): Observable<any> {
+    return this.http.post(`${this.baseUrl}/referrals/${referralId}/messages`, message);
   }
 
-  downloadDocuments(id: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/downloadDocuments/${id}`, { responseType: 'blob' });
+  getMessages(referralId: string, channel: Channel): Observable<Conversation> {
+    // cursor can be used as a query param in the future if we decide to allow for pagination.
+    return this.http.get<Conversation>(`${this.baseUrl}/referrals/${referralId}/messages?channel=${channel}`);
   }
+
+  getMessage(referralId: string, messageId: string): Observable<Message> {
+    return this.http.get<Message>(`${this.baseUrl}/referrals/${referralId}/messages/${messageId}`);
+  }
+
+  // Clinic Referrals
+  getDentistRerrals(addressId: string): Observable<Referral[]> {
+    return this.http.get<Referral[]>(`${this.baseUrl}/referrals-by-clinic/dentist?addressId=${addressId}`);
+  }
+
+  getSpecialistReferrals(placeId: string): Observable<Referral[]> {
+    return this.http.get<Referral[]>(`${this.baseUrl}/referrals-by-clinic/specialist?placeId=${placeId}`);
+  }
+}
+
+export function mockReferrals(): Observable<Referral[]> {
+  return of([ref(), ref(), ref()]);
+}
+
+export function mockConversation(): Observable<Conversation> {
+  return of({
+    cursor: '',
+    messages: [mes('xthecounsel@gmail.com'), mes('xthecounsel@gmail.com'), mes(''), mes('xthecounsel@gmail.com'), mes(''), mes(''), mes('xthecounsel@gmail.com')]
+  });
+}
+
+function ref(): Referral {
+  return {
+    referralId: 'string',
+    document: [],
+    fromPlaceId: 'string',
+    toPlaceId: 'string',
+    fromClinicName: 'string',
+    toClinicName: 'string',
+    fromClinicAddress: 'string',
+    toClinicAddress: 'string',
+    status: {
+      gdStatus: 'string',
+      spStatus: 'string'
+    },
+    reasons: [],
+    history: [],
+    tooth: [],
+    createdOn: Date.now(),
+    modifiedOn: Date.now(),
+    patientEmail: 'string',
+    patientFirstName: 'string',
+    patientLastName: 'string',
+    patientPhone: 'string',
+    fromEmail: 'string',
+    toEmail: 'string',
+    isDirty: false,
+  };
+}
+
+function mes(userId: string): Message {
+  return {
+    messageId: 'string', // This is necessary for scaling reactions on a message
+    text: 'string',
+    timestamp: Date.now(),
+    channel: 'c2c',
+    userId // id of the user
+  };
 }
