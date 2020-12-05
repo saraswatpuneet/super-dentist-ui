@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { of } from 'rxjs';
 import { catchError, take, takeUntil } from 'rxjs/operators';
 
 import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
 import { ChatBox } from '../shared/services/referral';
-import { Conversation, Referral } from '../shared/services/referral2';
+import { Conversation, Message, Referral } from '../shared/services/referral2';
 import { mockConversation, mockReferrals, ReferralService2 } from '../shared/services/referral2.service';
 
 @Component({
@@ -65,6 +66,13 @@ export class ReferralsComponent extends Base implements OnInit {
 
   enterComment(): void {
     const referral = this.referrals[this.selectedReferralIndex];
+    const message: Message = {
+      text: this.messageToSend,
+      userId: 'xthecounsel@gmail.com',
+      channel: 'c2c',
+      timestamp: Date.now()
+    };
+    this.conversation.messages.push(message);
     this.referralService.createMessage(referral.referralId, {
       text: this.messageToSend,
       channel: 'c2c'
