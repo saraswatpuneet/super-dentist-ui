@@ -74,7 +74,7 @@ export class ReferralService {
 }
 
 export function mockReferrals(): Observable<Referral[]> {
-  return of([ref(), ref(), ref()]);
+  return of([ref(), ref(), ref(), ref(), ref(), ref()]);
 }
 
 export function mockConversation(): Observable<Conversation> {
