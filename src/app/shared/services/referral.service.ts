@@ -21,7 +21,8 @@ export class ReferralService {
   constructor(private http: HttpClient) { }
 
   create(referral: ReferralDetails): Observable<Referral> {
-    return this.http.post<Referral>(`${this.baseUrl}/referrals`, referral);
+    return this.http.post<Referral>(`${this.baseUrl}/referrals`, referral)
+      .pipe(map((res: any) => res.data as Referral));
   }
 
   delete(referralId: string): Observable<any> {

@@ -3,9 +3,10 @@ import { catchError, take, takeUntil } from 'rxjs/operators';
 
 import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
-import { Conversation, Message, Referral } from '../shared/services/referral';
-import { mockConversation, mockReferrals, ReferralService, mockMessages } from '../shared/services/referral.service';
+import { Message, Referral } from '../shared/services/referral';
+import { mockReferrals, ReferralService } from '../shared/services/referral.service';
 import { of } from 'rxjs';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-referrals',
@@ -19,13 +20,16 @@ export class ReferralsComponent extends Base implements OnInit {
   messageToSend = '';
   messages: Message[];
   selectedTab = 'c2c';
+  user: firebase.User;
 
   constructor(
+    private auth: AngularFireAuth,
     private clinicService: ClinicService,
     private referralService: ReferralService
   ) { super(); }
 
   ngOnInit(): void {
+    this.auth.currentUser.then(user => this.user = user);
     this.clinicService.getMyClinics().pipe(takeUntil(this.unsubscribe$)).subscribe(addy => {
       this.addId = addy.addressId;
 
@@ -67,7 +71,7 @@ export class ReferralsComponent extends Base implements OnInit {
     const referral = this.referrals[this.selectedReferralIndex];
     const message: Message = {
       text: this.messageToSend,
-      userId: 'xthecounsel@gmail.com',
+      userId: this.user.email,
       channel: 'c2c',
       timeStamp: Date.now()
     };

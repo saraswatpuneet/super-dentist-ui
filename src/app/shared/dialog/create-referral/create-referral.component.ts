@@ -1,11 +1,13 @@
 import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { of } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { flatMap, switchMap, take, tap } from 'rxjs/operators';
 
 import { ReferralService } from 'src/app/shared/services/referral.service';
-import { ClinicService } from '../../services/clinic.service';
+import { ClinicService } from 'src/app/shared/services/clinic.service';
+import { Message, ReferralDetails } from 'src/app/shared/services/referral';
 
 @Component({
   selector: 'app-create-referral',
@@ -15,7 +17,6 @@ import { ClinicService } from '../../services/clinic.service';
 export class CreateReferralComponent implements OnInit, AfterViewInit {
   @ViewChild('fileUpload', { static: false }) fileUpload: ElementRef;
   fromAddressId = '';
-  chatBox = '';
   files = [];
   patientForm: FormGroup;
   loading = false;
@@ -23,10 +24,12 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
   bottomTeeth = [32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17
   ];
   selectedTeeth = {};
+  userEmail = '';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
     private fb: FormBuilder,
+    private auth: AngularFireAuth,
     private referralService: ReferralService,
     private clinicService: ClinicService,
     private dialogRef: MatDialogRef<CreateReferralComponent>
@@ -34,17 +37,15 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.clinicService.getMyClinics().pipe(take(1)).subscribe(addy => {
-      this.fromAddressId = addy.addressId;
-      this.chatBox = addy.type === 'dentist' ? 'gd' : 'sp';
-    });
+    this.auth.currentUser.then(user => this.userEmail = user.email);
+    this.clinicService.getMyClinics().pipe(take(1)).subscribe(addy => this.fromAddressId = addy.addressId);
   }
 
   ngAfterViewInit(): void {
     const fileUpload = this.fileUpload.nativeElement;
     fileUpload.onchange = () => {
       this.files = [];
-      fileUpload.files.forEach(file => this.files.push({ data: file, inProgress: false, progress: 0 }));
+      Array.from(fileUpload.files).forEach(file => this.files.push(file));
     };
   }
 
@@ -55,7 +56,7 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
     this.loading = true;
 
     const { email, phoneNumber, firstName, lastName, comments } = this.patientForm.value;
-    const bod: any = {
+    const referralDetails: ReferralDetails = {
       patient: {
         email,
         phone: phoneNumber,
@@ -67,16 +68,23 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
       fromAddressId: this.fromAddressId
     };
 
-    if (comments) {
-      bod.comments = [{ comment: comments, time: Date.now(), chatBox: this.chatBox }];
-    }
-    this.referralService.create(bod).pipe(
-      switchMap(res => {
+    let referralId = '';
+    this.referralService.create(referralDetails).pipe(
+      tap(referral => referralId = referral.referralId),
+      flatMap(() => {
+        if (comments) {
+          return this.referralService.createMessage(referralId, this.getMessage(comments));
+        }
+
+        return of(null);
+      }),
+      flatMap(() => {
         if (this.files.length > 0) {
           const formData = new FormData();
-          this.files.forEach((file, i) => formData.append(`file${i}`, file.data));
+          this.files.forEach((file, i) => formData.append(`file${i}`, file));
 
-          return this.referralService.uploadDocuments(res.referralId, formData);
+          return this.referralService.uploadDocuments(referralId, formData).
+            pipe(flatMap(() => this.referralService.createMessage(referralId, this.getMessage('Uploaded Patient Documents'))));
         } else {
           return of(null);
         }
@@ -91,6 +99,15 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
     } else {
       this.selectedTeeth[tooth] = true;
     }
+  }
+
+  private getMessage(text: string): Message[] {
+    return [{
+      userId: this.userEmail,
+      channel: 'c2c',
+      text,
+      timeStamp: Date.now()
+    }];
   }
 
   private initForm(): void {
