@@ -9,10 +9,13 @@ import { Router } from '@angular/router';
 })
 export class VerifyComponent implements OnInit {
   sentEmail = false;
+  userEmail = '';
 
   constructor(private auth: AngularFireAuth, private router: Router) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.auth.currentUser.then(user => this.userEmail = user.email);
+  }
 
   resendEmail(): void {
     this.auth.currentUser.then(user => user.sendEmailVerification());

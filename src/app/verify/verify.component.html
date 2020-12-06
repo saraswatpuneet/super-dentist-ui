@@ -8,21 +8,11 @@
       <h3>Verify your email to use SuperDentist</h3>
     </div>
 
-    <p>We sent an email to <b>xthecounsel@gmail.com</b> called "Activate your SuperDentist Account".</p>
+    <p>We sent an email to <b>{{userEmail}}</b> called "Activate your SuperDentist Account".</p>
 
     <div fxLayout="row" fxLayoutAlign="center">
       <button mat-raised-button color="primary" [disabled]="sentEmail"
         (click)="resendEmail()">{{ sentEmail ? 'Email Sent':'Resend Confirmation'}}</button>
     </div>
-    <!-- 
-    <div fxLayout="row" fxLayoutAlign=" end" fxLayoutGap="24px" class="change-email">
-      <div fxFlex fxLayout="column">
-        <div class="sd-input">
-          <label>Wrong email? Let's update it.</label>
-          <input class="sd-input" placeholder="Corrected Email">
-        </div>
-      </div>
-      <button class="sd-button">Update Email</button>
-    </div> -->
   </div>
 </div>
