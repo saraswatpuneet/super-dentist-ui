@@ -64,15 +64,15 @@ export class ReferralsComponent extends Base implements OnInit {
 
   enterComment(): void {
     const referral = this.referrals[this.selectedReferralIndex];
-    const message: Message[] = [{
+    const message: Message = {
       text: this.messageToSend,
       userId: 'xthecounsel@gmail.com',
       channel: 'c2c',
       timeStamp: Date.now()
-    }];
-    // this.conversation.messages.push(message[0]);
+    };
+    this.messages.push(message);
     this.referralService.createMessage(referral.referralId,
-      message
+      [message]
     )
       .pipe(take(1))
       .subscribe(console.log);
