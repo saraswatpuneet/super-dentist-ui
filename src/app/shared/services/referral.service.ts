@@ -10,6 +10,7 @@ import {
   ReferralDetails,
   ReferralStatus
 } from './referral';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -50,13 +51,14 @@ export class ReferralService {
   }
 
   // Messages
-  createMessage(referralId: string, message: Message): Observable<any> {
-    return this.http.post(`${this.baseUrl}/referrals/${referralId}/messages`, message);
+  createMessage(referralId: string, message: Message[]): Observable<any> {
+    return this.http.post(`${this.baseUrl}/referrals/${referralId}/messages`, { comments: message });
   }
 
-  getMessages(referralId: string, channel: Channel): Observable<Conversation> {
+  getMessages(referralId: string, channel?: Channel): Observable<Message[]> {
     // cursor can be used as a query param in the future if we decide to allow for pagination.
-    return this.http.get<Conversation>(`${this.baseUrl}/referrals/${referralId}/messages?channel=${channel}`);
+    return this.http.get<Conversation>(`${this.baseUrl}/referrals/${referralId}/messages`)
+      .pipe(map((res: any) => res.data.sort((a, b) => a.timeStamp - b.timeStamp) as Message[]));
   }
 
   getMessage(referralId: string, messageId: string): Observable<Message> {
@@ -65,11 +67,13 @@ export class ReferralService {
 
   // Clinic Referrals
   getDentistRerrals(addressId: string): Observable<Referral[]> {
-    return this.http.get<Referral[]>(`${this.baseUrl}/referrals-by-clinic/dentist?addressId=${addressId}`);
+    return this.http.get<Referral[]>(`${this.baseUrl}/referrals-by-clinic/dentist?addressId=${addressId}`)
+      .pipe(map((res: any) => res.data as Referral[]));
   }
 
   getSpecialistReferrals(placeId: string): Observable<Referral[]> {
-    return this.http.get<Referral[]>(`${this.baseUrl}/referrals-by-clinic/specialist?placeId=${placeId}`);
+    return this.http.get<Referral[]>(`${this.baseUrl}/referrals-by-clinic/specialist?placeId=${placeId}`)
+      .pipe(map((res: any) => res.data as Referral[]));
   }
 }
 
@@ -77,9 +81,13 @@ export function mockReferrals(): Observable<Referral[]> {
   return of([ref(), ref(), ref(), ref(), ref(), ref()]);
 }
 
+export function mockMessages(): Observable<Message[]> {
+  return of([mes('xthecounsel@gmail.com'), mes('xthecounsel@gmail.com'), mes(''), mes('xthecounsel@gmail.com'), mes(''), mes(''), mes('xthecounsel@gmail.com')]);
+}
+
 export function mockConversation(): Observable<Conversation> {
   return of({
-    cursor: '',
+    // cursor: '',
     messages: [mes('xthecounsel@gmail.com'), mes('xthecounsel@gmail.com'), mes(''), mes('xthecounsel@gmail.com'), mes(''), mes(''), mes('xthecounsel@gmail.com')]
   });
 }
@@ -117,7 +125,7 @@ function mes(userId: string): Message {
   return {
     messageId: 'string', // This is necessary for scaling reactions on a message
     text: 'string',
-    timestamp: Date.now(),
+    timeStamp: Date.now(),
     channel: 'c2c',
     userId // id of the user
   };

@@ -4,7 +4,8 @@ import { catchError, take, takeUntil } from 'rxjs/operators';
 import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
 import { Conversation, Message, Referral } from '../shared/services/referral';
-import { mockConversation, mockReferrals, ReferralService } from '../shared/services/referral.service';
+import { mockConversation, mockReferrals, ReferralService, mockMessages } from '../shared/services/referral.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-referrals',
@@ -16,7 +17,8 @@ export class ReferralsComponent extends Base implements OnInit {
   referrals: Referral[] = [];
   selectedReferralIndex: number;
   messageToSend = '';
-  conversation: Conversation;
+  messages: Message[];
+  selectedTab = 'c2c';
 
   constructor(
     private clinicService: ClinicService,
@@ -52,27 +54,26 @@ export class ReferralsComponent extends Base implements OnInit {
 
   referralChat(index: number): void {
     this.selectedReferralIndex = index;
-    this.referralService.getMessages(this.referrals[this.selectedReferralIndex].referralId, 'c2c')
+    this.referralService.getMessages(this.referrals[this.selectedReferralIndex].referralId)
       .pipe(
-        catchError(() => mockConversation()),
+        catchError(() => of([])),
         take(1)
       )
-      .subscribe(conversation => this.conversation = conversation);
+      .subscribe(messages => this.messages = messages);
   }
 
   enterComment(): void {
     const referral = this.referrals[this.selectedReferralIndex];
-    const message: Message = {
+    const message: Message[] = [{
       text: this.messageToSend,
       userId: 'xthecounsel@gmail.com',
       channel: 'c2c',
-      timestamp: Date.now()
-    };
-    this.conversation.messages.push(message);
-    this.referralService.createMessage(referral.referralId, {
-      text: this.messageToSend,
-      channel: 'c2c'
-    })
+      timeStamp: Date.now()
+    }];
+    // this.conversation.messages.push(message[0]);
+    this.referralService.createMessage(referral.referralId,
+      message
+    )
       .pipe(take(1))
       .subscribe(console.log);
     this.messageToSend = '';

@@ -53,7 +53,7 @@ export interface Conversation {
 export interface Message {
   messageId?: string; // This is necessary for scaling reactions on a message
   text?: string;
-  timestamp?: number;
+  timeStamp?: number;
   channel: Channel;
   userId?: string; // id of the user
 }

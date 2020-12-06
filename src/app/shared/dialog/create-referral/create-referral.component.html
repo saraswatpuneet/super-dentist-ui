@@ -8,9 +8,16 @@
     <h3>Patient Details</h3>
 
     <div fxLayout="column" fxLayoutGap="36px">
-      <div class="sd-input">
-        <label>Full Name</label>
-        <input formControlName="fullName" placeholder="Patient's First and Last Name">
+      <div fxLayout="row" fxLayoutGap="24px">
+        <div class="sd-input">
+          <label>First Name</label>
+          <input formControlName="firstName" placeholder="Patient's First Name">
+        </div>
+
+        <div class="sd-input">
+          <label>Last Name</label>
+          <input formControlName="lastName" placeholder="Patient's Last Name">
+        </div>
       </div>
 
       <div class="sd-input">

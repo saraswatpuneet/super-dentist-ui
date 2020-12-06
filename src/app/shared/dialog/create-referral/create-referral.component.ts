@@ -25,8 +25,7 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
   selectedTeeth = {};
 
   constructor(
-    @Inject(MAT_DIALOG_DATA)
-    private data: any,
+    @Inject(MAT_DIALOG_DATA) private data: any,
     private fb: FormBuilder,
     private referralService: ReferralService,
     private clinicService: ClinicService,
@@ -55,13 +54,13 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
     }
     this.loading = true;
 
-    const { email, phoneNumber, fullName, comments } = this.patientForm.value;
+    const { email, phoneNumber, firstName, lastName, comments } = this.patientForm.value;
     const bod: any = {
       patient: {
         email,
         phone: phoneNumber,
-        firstName: fullName.split(' ')[0],
-        lastName: fullName.split(' ')[1]
+        firstName,
+        lastName,
       },
       tooth: Object.keys(this.selectedTeeth),
       toPlaceId: this.data.place_id,
@@ -96,7 +95,8 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
 
   private initForm(): void {
     this.patientForm = this.fb.group({
-      fullName: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       email: ['', Validators.required],
       phoneNumber: ['', Validators.required],
       comments: [''],

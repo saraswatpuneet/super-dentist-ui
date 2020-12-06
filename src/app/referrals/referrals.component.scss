@@ -4,13 +4,19 @@
   padding: 12px;
   margin-top: 48px;
 
+  .vert {
+    width: 1px;
+    background: rgba(white, 0.1);
+    height: 100
+  }
+
   .actions {
     transform: translate(10px, -10px);
   }
 
   div.clinic-chat {
     margin: 0 auto;
-    width: 80%;
+    width: 85%;
     position: sticky;
     top: 24px;
     white-space: nowrap;
