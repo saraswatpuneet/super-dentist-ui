@@ -63,6 +63,7 @@ export class ReferralsComponent extends Base implements OnInit {
   }
 
   enterComment(): void {
+    const index = this.referrals.length;
     const referral = this.referrals[this.selectedReferralIndex];
     const message: Message = {
       text: this.messageToSend,
@@ -75,7 +76,7 @@ export class ReferralsComponent extends Base implements OnInit {
       [message]
     )
       .pipe(take(1))
-      .subscribe(console.log);
+      .subscribe(mes => this.messages[index] = mes);
     this.messageToSend = '';
   }
 }

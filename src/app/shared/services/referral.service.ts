@@ -51,8 +51,9 @@ export class ReferralService {
   }
 
   // Messages
-  createMessage(referralId: string, message: Message[]): Observable<any> {
-    return this.http.post(`${this.baseUrl}/referrals/${referralId}/messages`, { comments: message });
+  createMessage(referralId: string, message: Message[]): Observable<Message> {
+    return this.http.post<Message>(`${this.baseUrl}/referrals/${referralId}/messages`, { comments: message })
+      .pipe(map((res: any) => res.data[0] as Message));
   }
 
   getMessages(referralId: string, channel?: Channel): Observable<Message[]> {
