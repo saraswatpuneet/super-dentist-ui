@@ -76,7 +76,7 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
           return this.referralService.createMessage(referralId, this.getMessage(comments));
         }
 
-        return of(null);
+        return this.referralService.createMessage(referralId, this.getMessage('Referral was created by ABCD'));
       }),
       flatMap(() => {
         if (this.files.length > 0) {
