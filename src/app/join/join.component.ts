@@ -135,8 +135,8 @@ export class JoinComponent extends Base implements OnInit {
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
     }, {
-      validators: ConfirmedValidator('password', 'confirmPassword')
-    });
+        validators: ConfirmedValidator('password', 'confirmPassword')
+      });
 
     this.clinicForm.get('address').valueChanges.pipe(
       filter(() => {
