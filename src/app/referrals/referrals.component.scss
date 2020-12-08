@@ -19,9 +19,13 @@
     width: 85%;
     position: sticky;
     top: 24px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    
+    > div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
+    }
   }
 
   .chat {

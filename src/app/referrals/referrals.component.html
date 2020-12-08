@@ -48,15 +48,17 @@
       </div>
 
       <div fxFlex="350px">
-        <div class="sd-card clinic-chat" *ngIf="selectedReferralIndex !== undefined"
-          [matTooltip]="referrals[selectedReferralIndex]?.toClinicName" fxLayoutGap="4px" fxLayout="row">
-          <div fxFlex="50">{{referrals[selectedReferralIndex]?.toClinicName}}</div>
+        <div class="sd-card clinic-chat" *ngIf="selectedReferralIndex !== undefined" fxLayoutGap="12px" fxLayout="row">
+          <div fxFlex="50" matTooltipPosition="above" [matTooltip]="referrals[selectedReferralIndex]?.toClinicName">
+            {{referrals[selectedReferralIndex]?.toClinicName}}</div>
           <div class="vert"></div>
-          <div fxFlex="50">
+          <div fxFlex="50" matTooltipPosition="above"
+            [matTooltip]="referrals[selectedReferralIndex]?.patientFirstName + ' ' + referrals[selectedReferralIndex]?.patientLastName">
             {{referrals[selectedReferralIndex]?.patientFirstName}} {{referrals[selectedReferralIndex]?.patientLastName}}
           </div>
 
         </div>
+
         <div class="sd-card chat" *ngIf="selectedReferralIndex !== undefined" fxLayout="column">
           <div class="ms" fxFlex>
             <div class="text" [ngClass]="m.userId === user?.email ? 'sender': 'receiver'" fxLayout="column"
