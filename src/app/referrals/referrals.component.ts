@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, take, takeUntil } from 'rxjs/operators';
+import { catchError, switchMap, take, takeUntil } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
-import { Message, Referral } from '../shared/services/referral';
+import { Channel, Message, Referral } from '../shared/services/referral';
 import { mockReferrals, ReferralService } from '../shared/services/referral.service';
-import { of } from 'rxjs';
-import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-referrals',
@@ -19,8 +19,10 @@ export class ReferralsComponent extends Base implements OnInit {
   selectedReferralIndex: number;
   messageToSend = '';
   messages: Message[];
-  selectedTab = 'c2c';
+  clinicType = '';
+  selectedChannel: Channel = 'c2c';
   user: firebase.User;
+  private triggerMessage = new Subject();
 
   constructor(
     private auth: AngularFireAuth,
@@ -32,6 +34,8 @@ export class ReferralsComponent extends Base implements OnInit {
     this.auth.currentUser.then(user => this.user = user);
     this.clinicService.getMyClinics().pipe(takeUntil(this.unsubscribe$)).subscribe(addy => {
       this.addId = addy.addressId;
+      this.clinicType = addy.type;
+      console.log(this.clinicType);
 
       if (addy.type === 'dentist') {
         this.referralService.getDentistRerrals(this.addId).pipe(
@@ -47,6 +51,8 @@ export class ReferralsComponent extends Base implements OnInit {
           .subscribe(res => this.referrals = res);
       }
     });
+
+    this.watchMessages();
   }
 
   downloadFiles(referralId: string): void {
@@ -56,31 +62,46 @@ export class ReferralsComponent extends Base implements OnInit {
     });
   }
 
+  talkTo(isClinic: boolean): void {
+    if (isClinic) {
+      this.selectedChannel = 'c2c';
+    } else {
+      this.selectedChannel = 'c2p';
+    }
+
+    this.triggerMessage.next();
+  }
+
   referralChat(index: number): void {
     this.selectedReferralIndex = index;
-    this.referralService.getMessages(this.referrals[this.selectedReferralIndex].referralId)
-      .pipe(
-        catchError(() => of([])),
-        take(1)
-      )
-      .subscribe(messages => this.messages = messages);
+    this.triggerMessage.next();
   }
 
   enterComment(): void {
-    const index = this.referrals.length;
     const referral = this.referrals[this.selectedReferralIndex];
     const message: Message = {
       text: this.messageToSend,
       userId: this.user.email,
-      channel: 'c2c',
+      channel: this.selectedChannel,
       timeStamp: Date.now()
     };
     this.messages.push(message);
+    const index = this.messages.length - 1;
     this.referralService.createMessage(referral.referralId,
       [message]
     )
       .pipe(take(1))
       .subscribe(mes => this.messages[index] = mes);
     this.messageToSend = '';
+  }
+
+  private watchMessages(): void {
+    this.triggerMessage.pipe(
+      switchMap(() =>
+        this.referralService.getMessages(this.referrals[this.selectedReferralIndex].referralId, this.selectedChannel)
+          .pipe(catchError(() => of([])))
+      ),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(messages => this.messages = messages);
   }
 }

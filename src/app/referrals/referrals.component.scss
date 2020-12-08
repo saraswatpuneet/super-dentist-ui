@@ -6,8 +6,9 @@
 
   .vert {
     width: 1px;
-    background: rgba(white, 0.1);
-    height: 100
+    background: rgba(white, 0.2);
+    height: 20px;
+    transform: translateY(10px);
   }
 
   .actions {
@@ -19,12 +20,49 @@
     width: 85%;
     position: sticky;
     top: 24px;
+    padding: 0;
+    overflow: hidden;
     
     > div {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       cursor: pointer;
+      color: rgba(white, 0.4);
+      position: relative;
+      transition: 0.3s;
+
+      &:not(.vert) {
+        padding: 12px 16px 16px;
+      }
+
+      &:not(.vert)::before {
+        content: "";
+        position: absolute;
+        background: rgba(white, 0.7);
+        top: 0; 
+        width: 4px;
+        height: 100%;
+        transition: 0.3s;
+      }
+
+      &.l::before {
+        left: -4px;
+      }
+      &.r::before {
+        right: -4px;
+      }
+
+      &.active {
+        color: white;
+
+        &.l::before {
+          left: 0;
+        }
+        &.r::before {
+          right: 0;
+        }
+      }
     }
   }
 

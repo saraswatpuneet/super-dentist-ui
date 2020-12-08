@@ -59,7 +59,7 @@ export class ReferralService {
 
   getMessages(referralId: string, channel?: Channel): Observable<Message[]> {
     // cursor can be used as a query param in the future if we decide to allow for pagination.
-    return this.http.get<Conversation>(`${this.baseUrl}/referrals/${referralId}/messages`)
+    return this.http.get<Conversation>(`${this.baseUrl}/referrals/${referralId}/messages${!!channel ? `?channel=${channel}` : null}`)
       .pipe(map((res: any) => res.data.sort((a, b) => a.timeStamp - b.timeStamp) as Message[]));
   }
 
