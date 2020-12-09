@@ -3,6 +3,7 @@
   <div class="container" fxLayout="column" fxLayoutGap="48px">
     <div class="search-clinic">
       <h2>Referrals</h2>
+
       <div class="sd-input">
         <input placeholder="Search for a referral">
       </div>
@@ -70,7 +71,10 @@
           </div>
 
           <div fxLayout="row" class="chat-input">
-            <button mat-icon-button>
+            <input type="file" name="profile" multiple #fileUpload (change)="onFileSelect($event)"
+              style="display: none;" />
+            <button [disabled]="uploadingDocuments" mat-icon-button (click)="fileUpload.click()">
+              <mat-spinner class="abs" *ngIf="uploadingDocuments" diameter="24"></mat-spinner>
               <mat-icon>attach_file</mat-icon>
             </button>
             <div class="sd-input">

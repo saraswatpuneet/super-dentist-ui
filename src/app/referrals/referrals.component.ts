@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { catchError, filter, switchMap, take, takeUntil } from 'rxjs/operators';
 import { forkJoin, of, Subject } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
 import { Channel, Message, Referral } from '../shared/services/referral';
 import { mockReferrals, ReferralService } from '../shared/services/referral.service';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-referrals',
@@ -15,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./referrals.component.scss']
 })
 export class ReferralsComponent extends Base implements OnInit {
+  files: any;
   addId = '';
   referrals: Referral[] = [];
   selectedReferralIndex: number;
@@ -24,6 +25,7 @@ export class ReferralsComponent extends Base implements OnInit {
   selectedChannel: Channel = 'c2c';
   user: firebase.User;
   referral: Referral;
+  uploadingDocuments = false;
   private triggerMessage = new Subject();
 
   constructor(
@@ -39,7 +41,6 @@ export class ReferralsComponent extends Base implements OnInit {
     this.clinicService.getMyClinics().pipe(takeUntil(this.unsubscribe$)).subscribe(addy => {
       this.addId = addy.addressId;
       this.clinicType = addy.type;
-      console.log(this.clinicType);
 
       if (addy.type === 'dentist') {
         this.referralService.getDentistRerrals(this.addId).pipe(
@@ -65,6 +66,23 @@ export class ReferralsComponent extends Base implements OnInit {
       const url = window.URL.createObjectURL(new Blob([res], { type: 'application/zip' }));
       window.location.assign(url);
     });
+  }
+
+  onFileSelect($event): void {
+    this.uploadingDocuments = true;
+    const files = $event.target.files;
+    const formData = new FormData();
+    for (let x = 0, l = files.length; x < l; x++) {
+      formData.append(`File${x}`, files[x]);
+    }
+
+    this.referralService.uploadDocuments(this.referral.referralId, formData)
+      .pipe(take(1))
+      .subscribe(referral => {
+        this.uploadingDocuments = false;
+        const referralIndex = this.referrals.findIndex(r => r.referralId === referral.referralId);
+        this.referrals[referralIndex] = referral;
+      });
   }
 
   talkTo(isClinic: boolean): void {
@@ -97,9 +115,7 @@ export class ReferralsComponent extends Base implements OnInit {
     };
     this.messages.push(message);
     const index = this.messages.length - 1;
-    this.referralService.createMessage(this.referral.referralId,
-      [message]
-    )
+    this.referralService.createMessage(this.referral.referralId, [message])
       .pipe(take(1))
       .subscribe(mes => this.messages[index] = mes);
     this.messageToSend = '';
@@ -107,6 +123,7 @@ export class ReferralsComponent extends Base implements OnInit {
 
   private watchMessages(): void {
     this.triggerMessage.pipe(
+      filter(() => !!this.referral),
       switchMap(() =>
         this.referralService.getMessages(this.referral.referralId, this.selectedChannel)
           .pipe(catchError(() => of([])))
