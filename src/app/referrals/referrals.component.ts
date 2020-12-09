@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, switchMap, take, takeUntil } from 'rxjs/operators';
-import { of, Subject } from 'rxjs';
+import { catchError, filter, switchMap, take, takeUntil } from 'rxjs/operators';
+import { forkJoin, of, Subject } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
 import { Channel, Message, Referral } from '../shared/services/referral';
 import { mockReferrals, ReferralService } from '../shared/services/referral.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-referrals',
@@ -22,10 +23,13 @@ export class ReferralsComponent extends Base implements OnInit {
   clinicType = '';
   selectedChannel: Channel = 'c2c';
   user: firebase.User;
+  referral: Referral;
   private triggerMessage = new Subject();
 
   constructor(
     private auth: AngularFireAuth,
+    private router: Router,
+    private route: ActivatedRoute,
     private clinicService: ClinicService,
     private referralService: ReferralService
   ) { super(); }
@@ -53,6 +57,7 @@ export class ReferralsComponent extends Base implements OnInit {
     });
 
     this.watchMessages();
+    this.watchRoute();
   }
 
   downloadFiles(referralId: string): void {
@@ -74,11 +79,16 @@ export class ReferralsComponent extends Base implements OnInit {
 
   referralChat(index: number): void {
     this.selectedReferralIndex = index;
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        r: this.referrals[index].referralId
+      }
+    });
     this.triggerMessage.next();
   }
 
   enterComment(): void {
-    const referral = this.referrals[this.selectedReferralIndex];
     const message: Message = {
       text: this.messageToSend,
       userId: this.user.email,
@@ -87,7 +97,7 @@ export class ReferralsComponent extends Base implements OnInit {
     };
     this.messages.push(message);
     const index = this.messages.length - 1;
-    this.referralService.createMessage(referral.referralId,
+    this.referralService.createMessage(this.referral.referralId,
       [message]
     )
       .pipe(take(1))
@@ -98,10 +108,26 @@ export class ReferralsComponent extends Base implements OnInit {
   private watchMessages(): void {
     this.triggerMessage.pipe(
       switchMap(() =>
-        this.referralService.getMessages(this.referrals[this.selectedReferralIndex].referralId, this.selectedChannel)
+        this.referralService.getMessages(this.referral.referralId, this.selectedChannel)
           .pipe(catchError(() => of([])))
       ),
       takeUntil(this.unsubscribe$)
     ).subscribe(messages => this.messages = messages);
+  }
+
+  private watchRoute(): void {
+    this.route.queryParams.pipe(
+      filter(params => !!params.r),
+      switchMap(params => {
+        return forkJoin([
+          this.referralService.get(params.r).pipe(take(1)),
+          this.referralService.getMessages(params.r, this.selectedChannel).pipe(catchError(() => of([])), take(1))
+        ]);
+      }),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(([referral, messages]) => {
+      this.referral = referral;
+      this.messages = messages;
+    });
   }
 }

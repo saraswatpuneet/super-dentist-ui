@@ -30,7 +30,7 @@ export class ReferralService {
   }
 
   get(referralId: string): Observable<Referral> {
-    return this.http.get<Referral>(`${this.baseUrl}/referrals/${referralId}`);
+    return this.http.get<Referral>(`${this.baseUrl}/referrals/${referralId}`).pipe(map((res: any) => res.data as Referral));
   }
 
   // Documents
