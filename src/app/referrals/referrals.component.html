@@ -52,14 +52,14 @@
           <div [fxFlex]="clinicType === 'specialist' ? 50 : 100" (click)="talkTo(true)" class="l"
             [ngClass]="{'active': selectedChannel === 'c2c'}" matTooltipPosition="above" matTooltipShowDelay="750"
             [matTooltip]="referrals[selectedReferralIndex]?.toClinicName">
-            {{referrals[selectedReferralIndex]?.toClinicName}}</div>
+            {{clinicType === 'dentist' ? referrals[selectedReferralIndex].toClinicName : referrals[selectedReferralIndex].fromClinicName }}
+          </div>
           <div *ngIf="clinicType === 'specialist'" class="vert"></div>
           <div *ngIf="clinicType === 'specialist'" fxFlex="50" (click)="talkTo(false)" class="r"
             [ngClass]="{'active': selectedChannel === 'c2p'}" matTooltipPosition="above" matTooltipShowDelay="750"
             [matTooltip]="referrals[selectedReferralIndex]?.patientFirstName + ' ' + referrals[selectedReferralIndex]?.patientLastName">
             {{referrals[selectedReferralIndex]?.patientFirstName}} {{referrals[selectedReferralIndex]?.patientLastName}}
           </div>
-
         </div>
 
         <div class="sd-card chat" *ngIf="selectedReferralIndex !== undefined" fxLayout="column">
