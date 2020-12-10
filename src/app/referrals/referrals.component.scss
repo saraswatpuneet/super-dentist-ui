@@ -189,6 +189,9 @@
 
     .right {
       right: 0;
+      div {
+        transform: scaleX(-1);
+      }
     }
 
     .left {
