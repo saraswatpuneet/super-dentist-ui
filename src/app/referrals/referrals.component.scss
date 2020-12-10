@@ -12,7 +12,17 @@
   }
 
   .actions {
+    transition: 0.3s;
     transform: translate(10px, -10px);
+    opacity: 0.1;
+  }
+
+  .ref {
+    &:hover {
+      .actions {
+        opacity: 1;
+      }
+    }
   }
 
   div.clinic-chat {
@@ -155,6 +165,7 @@
   }
 
   .contact-info {
+    margin-top: 4px;
     color: rgba(white, 0.6);
     font-size: 12px;
   }

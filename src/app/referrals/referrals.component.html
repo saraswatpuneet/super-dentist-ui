@@ -11,13 +11,15 @@
 
     <div fxLayout="row" fxLayoutGap="48px">
       <div class="list" fxFlex fxLayout="column" fxLayoutGap="52px">
-        <div class="sd-card" fxLayout="row" fxLayoutGap="32px" *ngFor="let a of referrals; let i = index">
+        <div class="sd-card ref" fxLayout="row" fxLayoutGap="32px" *ngFor="let a of referrals; let i = index">
           <div fxLayout="column">
             <span class="specialist-title"> {{a.patientFirstName}} {{a.patientLastName}} </span>
             <div class="contact-info">
               <div>{{a.patientPhone}}</div>
+              <div>Referred - {{a.createdOn | date:"MMM dd, yyyy"}}</div>
             </div>
             <div class="clinic">
+              <button mat-raised-button>Update Status</button>
               <span>{{a.toClinicName}}</span>
               <!-- <div fxLayoutGap="4px" class="pills">
                 <span> Root Canal Therapy</span>
@@ -29,19 +31,18 @@
 
           <div fxLayout="column" fxLayoutAlign="space-between end">
             <div fxLayoutAlign=" center" class="actions">
-              <button mat-icon-button *ngIf="a.documents" matTooltip="Download Attachments"
+              <button mat-icon-button *ngIf="a.documents" matTooltipShowDelay="750"
+                matTooltip="Download Patient Documents" matTooltipPosition="above"
                 (click)="downloadFiles(a.referralId)">
                 <mat-icon>get_app</mat-icon>
               </button>
-              <button mat-icon-button>
+              <!-- <button mat-icon-button>
                 <mat-icon>description</mat-icon>
-              </button>
-              <button mat-icon-button (click)="referralChat(i)">
+              </button> -->
+              <button mat-icon-button (click)="referralChat(i)" matTooltipShowDelay="750"
+                matTooltip="Message Clinic or Patient" matTooltipPosition="above">
                 <mat-icon>chat</mat-icon>
               </button>
-            </div>
-            <div class="clinic">
-              <div class="pills"><span>Referred - {{a.createdOn | date:"MMM dd, yyyy"}}</span></div>
             </div>
           </div>
         </div>
