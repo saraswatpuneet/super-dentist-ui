@@ -14,7 +14,12 @@
   .actions {
     transition: 0.3s;
     transform: translate(10px, -10px);
-    opacity: 0.1;
+    opacity: 0.2;
+  }
+
+  .status-button {
+    transition: 0.3s;
+    opacity: 0.2;
   }
 
   .ref {
@@ -23,7 +28,7 @@
     }
 
     &:hover {
-      .actions {
+      .actions, .status-button {
         opacity: 1;
       }
     }

@@ -64,7 +64,8 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
       },
       tooth: Object.keys(this.selectedTeeth),
       toPlaceId: this.data.place_id,
-      fromAddressId: this.fromAddressId
+      fromAddressId: this.fromAddressId,
+      status: { gdStatus: 'referred', spStatus: 'referred' }
     };
 
     let referralId = '';
