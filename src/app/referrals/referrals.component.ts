@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { catchError, filter, switchMap, take, takeUntil } from 'rxjs/operators';
 import { forkJoin, of, Subject } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -6,8 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
-import { Channel, Message, Referral } from '../shared/services/referral';
-import { mockReferrals, ReferralService } from '../shared/services/referral.service';
+import { Channel, ClinicStatus, Message, Referral, referredStatus, sortReferredStatus } from '../shared/services/referral';
+import { ReferralService } from '../shared/services/referral.service';
 
 @Component({
   selector: 'app-referrals',
@@ -26,6 +26,8 @@ export class ReferralsComponent extends Base implements OnInit {
   user: firebase.User;
   referral: Referral;
   uploadingDocuments = false;
+  referredStatuses = referredStatus();
+  sortedStatuses = sortReferredStatus();
   private triggerMessage = new Subject();
 
   constructor(
@@ -44,13 +46,13 @@ export class ReferralsComponent extends Base implements OnInit {
 
       if (addy.type === 'dentist') {
         this.referralService.getDentistRerrals(this.addId).pipe(
-          catchError(() => mockReferrals()),
+          catchError(() => of([])),
           take(1)
         )
           .subscribe(res => this.referrals = res);
       } else {
         this.referralService.getSpecialistReferrals(this.addId).pipe(
-          catchError(() => mockReferrals()),
+          catchError(() => of([])),
           take(1)
         )
           .subscribe(res => this.referrals = res);
@@ -66,6 +68,16 @@ export class ReferralsComponent extends Base implements OnInit {
       const url = window.URL.createObjectURL(new Blob([res], { type: 'application/zip' }));
       window.location.assign(url);
     });
+  }
+
+  updateStatus(referralId: string, status: ClinicStatus): void {
+    console.log(referralId, status);
+    this.referralService.updateStatus(referralId, { gdStatus: status, spStatus: status })
+      .pipe(take(1))
+      .subscribe(referral => {
+        const index = this.referrals.findIndex(r => r.referralId === referral.referralId);
+        this.referrals[index].status = referral.status;
+      });
   }
 
   onFileSelect($event): void {

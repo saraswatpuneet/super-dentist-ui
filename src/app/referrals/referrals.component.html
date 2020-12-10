@@ -11,7 +11,7 @@
 
     <div fxLayout="row" fxLayoutGap="48px">
       <div class="list" fxFlex fxLayout="column" fxLayoutGap="52px">
-        <div class="sd-card ref" fxLayout="column" fxLayoutGap="48px" *ngFor="let a of referrals; let i = index">
+        <div class="sd-card ref" fxLayout="column" *ngFor="let a of referrals; let i = index">
           <div fxLayout="row" fxLayoutGap="24px">
             <div fxLayout="column" fxFlex>
               <span class="specialist-title"> {{a.patientFirstName}} {{a.patientLastName}} </span>
@@ -40,7 +40,8 @@
           <div fxLayout="row" fxLayoutGap="24px" fxLayoutAlign=" end">
             <div class="status" fxFlex fxLayout="row">
               <div class="gradient-bar"></div>
-              <div class="progress">
+              <div class="progress"
+                [style.width]="!!referredStatuses[a?.status.gdStatus] ? referredStatuses[a?.status.gdStatus]?.percentRemaining + '%': '100%'">
                 <div class="status-label point" matTooltipPosition="above" matTooltip="Status text goes here">
                   <img src="assets/images/brand.svg" alt="">
                 </div>
@@ -55,15 +56,6 @@
                 <div fxFlex></div>
                 <div fxFlex></div>
                 <div fxFlex></div>
-                <!-- <div></div>
-                    <div></div> -->
-
-                <!-- <div>Referred</div>
-                      <div>Scheduled</div>
-                    <div>Processing</div>
-                    <div>Completed</div>
-                    <div>Canceled</div>
-                    <div>Complete</div> -->
               </div>
 
               <div class="right point">
@@ -72,8 +64,12 @@
                 </div>
               </div>
             </div>
-            <button mat-raised-button>Update Status</button>
+            <button mat-raised-button [matMenuTriggerFor]="menu">Update Status</button>
           </div>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item *ngFor="let refStatus of sortedStatuses"
+              (click)="updateStatus(a?.referralId, refStatus)">{{referredStatuses[refStatus].label}}</button>
+          </mat-menu>
         </div>
       </div>
 

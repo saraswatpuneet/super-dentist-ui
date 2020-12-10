@@ -41,9 +41,12 @@ export interface Patient {
 }
 
 export interface ReferralStatus {
-  gdStatus: string;
-  spStatus: string;
+  gdStatus: ClinicStatus;
+  spStatus: ClinicStatus;
 }
+
+// OperationCompleted and Canceled are interchangable on the steps it's one or the other resulting in 4 steps to be selected
+export type ClinicStatus = 'referred' | 'scheduled' | 'operationCompleted' | 'canceled' | 'finished';
 
 export interface Conversation {
   cursor?: string; // The location id of the paginator. Should be handled by the backend to load the most recent 20 messages
@@ -51,11 +54,31 @@ export interface Conversation {
 }
 
 export interface Message {
-  messageId?: string; // This is necessary for scaling reactions on a message
+  messageId?: string;
   text?: string;
   timeStamp?: number;
   channel: Channel;
-  userId?: string; // id of the user
+  userId?: string;
 }
 
-export type Channel = 'c2c' | 'c2p'; // Store as string in the backend so more channels can be created in the future.
+export interface ReferredStatusMapping {
+  readonly label: string;
+  readonly percentRemaining: number;
+}
+
+export type Channel = 'c2c' | 'c2p';
+
+// referredStatus and sort must list all keys in the order preferred sorted
+export function referredStatus(): { [key: string]: ReferredStatusMapping } {
+  return {
+    referred: { label: 'Referred', percentRemaining: 75 },
+    scheduled: { label: 'Scheduled', percentRemaining: 50 },
+    operationCompleted: { label: 'Operation Completed', percentRemaining: 25 },
+    canceled: { label: 'Canceled', percentRemaining: 25 },
+    finished: { label: 'Finished', percentRemaining: 0 },
+  };
+}
+
+export function sortReferredStatus(): string[] {
+  return ['referred', 'scheduled', 'operationCompleted', 'canceled', 'finished'];
+}

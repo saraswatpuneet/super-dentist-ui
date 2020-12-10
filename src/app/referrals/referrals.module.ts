@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatMenuModule } from '@angular/material/menu';
 import { FormsModule } from '@angular/forms';
 
 import { ReferralsRoutingModule } from './referrals-routing.module';
@@ -19,6 +20,7 @@ import { ReferralsComponent } from './referrals.component';
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
+    MatMenuModule,
     MatProgressSpinnerModule,
     ReferralsRoutingModule
   ]

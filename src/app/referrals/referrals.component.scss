@@ -18,6 +18,10 @@
   }
 
   .ref {
+    > :first-child {
+      margin-bottom: 48px;
+    }
+
     &:hover {
       .actions {
         opacity: 1;
