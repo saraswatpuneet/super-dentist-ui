@@ -78,7 +78,8 @@
               <mat-icon>attach_file</mat-icon>
             </button>
             <div class="sd-input">
-              <input type="text" [(ngModel)]="messageToSend" (keyup.enter)="enterComment()" placeholder="SuperMessage">
+              <input type="text" [(ngModel)]="messageToSend" (keyup.enter)="enterComment(messageToSend)"
+                placeholder="SuperMessage">
             </div>
           </div>
         </div>

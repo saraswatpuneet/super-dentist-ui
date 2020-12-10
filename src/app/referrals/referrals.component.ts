@@ -82,6 +82,7 @@ export class ReferralsComponent extends Base implements OnInit {
         this.uploadingDocuments = false;
         const referralIndex = this.referrals.findIndex(r => r.referralId === referral.referralId);
         this.referrals[referralIndex] = referral;
+        this.enterComment('Uploaded document(s)');
       });
   }
 
@@ -106,9 +107,9 @@ export class ReferralsComponent extends Base implements OnInit {
     this.triggerMessage.next();
   }
 
-  enterComment(): void {
+  enterComment(text: string): void {
     const message: Message = {
-      text: this.messageToSend,
+      text,
       userId: this.user.email,
       channel: this.selectedChannel,
       timeStamp: Date.now()
