@@ -116,7 +116,6 @@ export class ReferralsComponent extends Base implements OnInit {
         r: this.referrals[index].referralId
       }
     });
-    this.triggerMessage.next();
   }
 
   enterComment(text: string): void {
