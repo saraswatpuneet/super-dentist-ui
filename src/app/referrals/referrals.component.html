@@ -42,7 +42,8 @@
               <div class="gradient-bar"></div>
               <div class="progress"
                 [style.width]="!!referredStatuses[a?.status.gdStatus] ? referredStatuses[a?.status.gdStatus]?.percentRemaining + '%': '100%'">
-                <div class="status-label point" matTooltipPosition="above" matTooltip="Status text goes here">
+                <div class="status-label point" matTooltipPosition="above"
+                  [matTooltip]="!!referredStatuses[a?.status.gdStatus] ? referredStatuses[a?.status.gdStatus]?.label: 'Super Dentist is on Track'">
                   <img src="assets/images/brand.svg" alt="">
                 </div>
               </div>
@@ -64,7 +65,8 @@
                 </div>
               </div>
             </div>
-            <button mat-raised-button [matMenuTriggerFor]="menu">Update Status</button>
+            <button mat-raised-button [matMenuTriggerFor]="menu">Status <mat-icon>keyboard_arrow_down</mat-icon>
+            </button>
           </div>
           <mat-menu #menu="matMenu">
             <button mat-menu-item *ngFor="let refStatus of sortedStatuses"
