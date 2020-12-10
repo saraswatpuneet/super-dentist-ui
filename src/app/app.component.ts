@@ -28,6 +28,7 @@ export class AppComponent extends Base implements OnInit {
     { path: 'specialist', label: 'Specialist', icon: 'date_range' },
     { path: 'referrals', label: 'Referrals', icon: 'message' },
   ];
+  requestedClinics = false;
 
   constructor(
     private domSanitizer: DomSanitizer,
@@ -51,17 +52,20 @@ export class AppComponent extends Base implements OnInit {
         this.authenticated = false;
       } else {
         this.authenticated = true;
-        this.clinicService.getClinics()
-          .pipe(take(1))
-          .subscribe(myClinics => {
-            const c = myClinics.data.clinicDetails[0];
-            this.clinicService.setMyClinics(c);
-            if (c.type === 'dentist') {
-              this.showSpecialist = true;
-            } else {
-              this.showSpecialist = false;
-            }
-          });
+        if (!this.requestedClinics) {
+          this.requestedClinics = true;
+          this.clinicService.getClinics()
+            .pipe(take(1))
+            .subscribe(myClinics => {
+              const c = myClinics.data.clinicDetails[0];
+              this.clinicService.setMyClinics(c);
+              if (c.type === 'dentist') {
+                this.showSpecialist = true;
+              } else {
+                this.showSpecialist = false;
+              }
+            });
+        }
         from(this.auth.currentUser).pipe(take(1)).subscribe(user => this.emailVerified = user.emailVerified);
       }
     });
