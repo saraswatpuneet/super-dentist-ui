@@ -11,12 +11,13 @@ import {
   ReferralStatus
 } from './referral';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReferralService {
-  private baseUrl = 'https://superdentist.io/api/sd/v1';
+  private baseUrl = `${environment.baseUrl}`;
 
   constructor(private http: HttpClient) { }
 

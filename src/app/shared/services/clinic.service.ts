@@ -4,12 +4,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 import { ClinicDetail, DoctorDetail, ClinicServicesOffered } from './clinic';
 import { filter } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClinicService {
-  private baseUrl = 'https://superdentist.io/api/sd/v1/clinic';
+  private baseUrl = `${environment.baseUrl}/clinic`;
   private myClinics$ = new BehaviorSubject<any>(null);
 
   constructor(private http: HttpClient) { }
@@ -38,15 +39,7 @@ export class ClinicService {
     return this.http.get(`${this.baseUrl}/getNearbyClinics`);
   }
 
-  getNearbySpecialists(addressId: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/getNearbySpecialists`, {
-      addressId,
-      searchRadius: '',
-      specialities: '',
-    });
-  }
-
-  getNearbySpecialists2(addressId: string, specialities: string): Observable<any> {
+  getNearbySpecialists(addressId: string, specialities: string): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/getNearbySpecialists`, {
       addressId,
       specialities,
@@ -58,7 +51,7 @@ export class ClinicService {
     // this needs to implement a websocket of some kind.
   }
 
-  addFavoriteClinic(addressId: string, placeIds: string[]): Observable<any> {
+  addFavoriteClinics(addressId: string, placeIds: string[]): Observable<any> {
     return this.http.post(`${this.baseUrl}/addFavorites/${addressId}`, { placeIds });
   }
 

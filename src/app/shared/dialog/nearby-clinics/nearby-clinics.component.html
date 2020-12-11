@@ -1,0 +1,65 @@
+<div mat-dialog-content class="n-content" fxLayout="row">
+
+  <div class="no-clinics" *ngIf="favorites.length === 0">
+    Add some favorites
+  </div>
+  <div fxFlex="40">
+    <div class="fav-title">Favorite Specialist</div>
+
+    <div class="list fav" fxLayout="column" fxLayoutGap="16px">
+      <div fxLayout="row" fxLayoutAlign="space-between" class="favorite-item" [@collapse] fxLayoutGap="24px"
+        *ngFor="let a of favorites; let i = index">
+        <div fxLayout="column">
+          <span>{{a.name}}</span>
+          <div class="specialist-type" *ngIf="a.types">{{a.types[0]}}</div>
+        </div>
+        <div class="actions">
+          <button mat-icon-button (click)="removeFavorite(a, i)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="vert"></div>
+
+  <div fxFlex="60">
+    <div class="sd-input">
+      <input placeholder="Search for a speciality clinic" (keyup)="searchForClinics()" [(ngModel)]="searchText">
+    </div>
+
+    <div class="list" fxLayout="column" fxLayoutGap="32px">
+      <div fxLayout="row" class="sd-card" [@collapseLeft] fxLayoutGap="24px"
+        *ngFor="let a of nearbySpecialists; let i = index">
+        <div fxFlex fxLayout="column">
+          <div class="specialist-title" fxLayout="row" fxLayoutAlign="space-between">
+            <div fxLayout="column">
+              <span>{{a.name}}</span>
+              <div class="specialist-type" *ngIf="a.types">{{a.types[0]}}</div>
+            </div>
+            <div class="actions">
+              <button mat-icon-button (click)="addFavorite(a, i)">
+                <mat-icon>favorite</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <span fxFlex></span>
+
+          <div class="contact-info" fxFlex="1 0" fxLayout="row" fxLayoutAlign="space-between end" fxLayoutGap="12px">
+            <div fxLayout="column">
+              <span>{{a.formatted_phone_number}}</span>
+              <span>{{a.formatted_address}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" (click)="updateFavorites()">Add to Favorites</button>
+</div>

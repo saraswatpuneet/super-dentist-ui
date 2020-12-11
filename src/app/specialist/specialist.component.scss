@@ -17,16 +17,18 @@
 
   .container {
     margin: 0 auto;
-    max-width: 900px
+    max-width: 900px;
+
+    .search-clinic {
+      h2 {
+        margin: 0;
+      }
+    }
   }
 
   .sd-card {
     height: 150px;
     position: relative;
-
-    img {
-      height: 100%;
-    }
 
     .specialist-title {
       font-size: 18px;

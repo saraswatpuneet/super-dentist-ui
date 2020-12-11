@@ -7,9 +7,10 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
 import { CreateReferralComponent } from './create-referral/create-referral.component';
+import { NearbyClinicsComponent } from './nearby-clinics/nearby-clinics.component';
 
 @NgModule({
-  declarations: [CreateReferralComponent],
+  declarations: [CreateReferralComponent, NearbyClinicsComponent],
   imports: [
     CommonModule,
     FormsModule,
