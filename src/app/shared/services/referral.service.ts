@@ -11,7 +11,7 @@ import {
   ReferralStatus
 } from './referral';
 import { map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
