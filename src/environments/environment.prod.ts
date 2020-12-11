@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  firebaseTenant:'',
+  firebaseTenant: null,
   baseUrl: 'undefined',
   firebase: {
     apiKey: 'undefined',
