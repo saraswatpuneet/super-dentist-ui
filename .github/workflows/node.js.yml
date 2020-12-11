@@ -12,7 +12,8 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
   BASE_URL: https://dev.superdentist.io/api/sd/v1
-  GKE_CLUSTER:  superdentist-main	
+  FIREBASE_TENANT: ''
+  GKE_CLUSTER:  superdentist-main
   GKE_ZONE: us-central1-c
   IMAGE: superdentist-frontend
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
