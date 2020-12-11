@@ -5,6 +5,7 @@ const targetPath = './src/environments/environment.prod.ts';
 const envConfigFile = `export const environment = {
    production: true,
    baseUrl: '${process.env.BASE_URL}',
+   firebaseTenant: '${process.env.FIREBASE_TENANT}'
    firebase: {
         apiKey: '${process.env.FIREBASE_API_KEY}',
         authDomain: 'superdentist.firebaseapp.com'
