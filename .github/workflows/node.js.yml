@@ -11,8 +11,8 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+  BASE_URL: https://dev.superdentist.io
   GKE_CLUSTER:  superdentist-main	
-  GKE_CLUSTER_PROD:  superdentist-prod
   GKE_ZONE: us-central1-c
   IMAGE: superdentist-frontend
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
@@ -80,7 +80,3 @@ jobs:
       run: |-
         gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
         helm upgrade superdentist-ui ./k8s/superdentist-ui --set image.tag=$GITHUB_SHA --install --wait --atomic
-    - name: Deploy to SuperDentist cluster to PROD
-      run: |-
-        gcloud container clusters get-credentials "$GKE_CLUSTER_PROD" --zone "$GKE_ZONE"
-        helm upgrade superdentist-ui ./k8sp/superdentist-ui --set image.tag=$GITHUB_SHA --install --wait --atomic
