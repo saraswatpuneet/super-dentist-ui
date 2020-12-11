@@ -4,12 +4,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 import { ClinicDetail, DoctorDetail, ClinicServicesOffered } from './clinic';
 import { filter } from 'rxjs/operators';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClinicService {
-  private baseUrl = 'https://superdentist.io/api/sd/v1/clinic';
+  private baseUrl = environment.baseurl+'/api/sd/v1/clinic';
   private myClinics$ = new BehaviorSubject<any>(null);
 
   constructor(private http: HttpClient) { }
