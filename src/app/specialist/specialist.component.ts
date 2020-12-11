@@ -37,7 +37,11 @@ export class SpecialistComponent extends Base implements OnInit {
   }
 
   editFavorites(): void {
-    this.dialogService.openNearbyClinics(this.addId, this.favoriteClinics).afterClosed().pipe(take(1)).subscribe(console.log);
+    this.dialogService.openNearbyClinics(this.addId, this.favoriteClinics).afterClosed().pipe(take(1)).subscribe(res => {
+      if (!!res) {
+        this.favoriteClinics = res;
+      }
+    });
   }
 
   private watchFavorites(): void {

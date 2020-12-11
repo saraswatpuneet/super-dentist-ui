@@ -61,5 +61,5 @@
 
 <div mat-dialog-actions>
   <button mat-raised-button mat-dialog-close>Cancel</button>
-  <button mat-raised-button color="primary" (click)="updateFavorites()">Add to Favorites</button>
+  <button mat-raised-button color="primary" [disabled]="saving" (click)="updateFavorites()">Update Favorites</button>
 </div>

@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Subject } from 'rxjs';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { forkJoin, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { ClinicService } from 'src/app/shared/services/clinic.service';
@@ -17,10 +17,15 @@ export class NearbyClinicsComponent extends Base implements OnInit {
   nearbySpecialists = [];
   favorites = [];
   loading = false;
+  saving = false;
   searchText = '';
   private triggerSearch = new Subject<void>();
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private clinicService: ClinicService,) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private data: any,
+    private clinicService: ClinicService,
+    private dialogRef: MatDialogRef<NearbyClinicsComponent>
+  ) {
     super();
   }
 
@@ -46,20 +51,41 @@ export class NearbyClinicsComponent extends Base implements OnInit {
   }
 
   updateFavorites(): void {
-    const newIndex = [];
-    console.log(this.data.favoriteClinics, this.favorites);
+    let clinicsToSave = [];
+    let clinicsToRemove = [];
+    const savedFavorites = this.data.favoriteClinics;
+
     this.favorites.forEach((f, i) => {
-      if (!this.data.favoriteClinics.includes(f.place_id)) {
-        newIndex.push(i);
+      if (!savedFavorites.some(s => s.place_id === f.place_id)) {
+        clinicsToSave.push(i);
       }
     });
 
-    // this.favorites.forEach((f, i) => {
+    savedFavorites.forEach((f, i) => {
+      if (!this.favorites.some(s => s.place_id === f.place_id)) {
+        clinicsToRemove.push(i);
+      }
+    });
 
-    // });
-    // this.clinicService.addFavoriteClinics(this.data.addressId, this.favorites.map(f => f.plac_id))
-    //   .pipe(take(1))
-    //   .subscribe();
+    const reqs = [];
+    if (clinicsToSave.length > 0) {
+      clinicsToSave = clinicsToSave.map(i => this.favorites[i].place_id);
+      reqs.push(this.clinicService.addFavoriteClinics(this.data.addressId, clinicsToSave).pipe(take(1)));
+    }
+
+    if (clinicsToRemove.length > 0) {
+      clinicsToRemove = clinicsToRemove.map(i => savedFavorites[i].place_id);
+      reqs.push(this.clinicService.removeFavoriteClinics(this.data.addressId, clinicsToRemove).pipe(take(1)));
+    }
+
+    if (reqs.length > 0) {
+      this.saving = true;
+      forkJoin(reqs)
+        .pipe(take(1))
+        .subscribe(() => this.dialogRef.close(this.favorites));
+    } else {
+      this.dialogRef.close();
+    }
   }
 
   private watchSearch(): void {
