@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 import { ClinicDetail, DoctorDetail, ClinicServicesOffered } from './clinic';
 import { filter } from 'rxjs/operators';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
