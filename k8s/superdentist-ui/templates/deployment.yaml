@@ -34,7 +34,7 @@ spec:
             readOnly: true
           env:
           - name: SD_API_URL
-            value: https://dev.superdentist.io
+            value: https://dev.superdentist.io/api/sd/v1
           - name: SUPER_DENTIST_KEY
             valueFrom:
               secretKeyRef:
