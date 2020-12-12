@@ -10,7 +10,7 @@ on:
     branches: [ main ]
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY_PROD }}
+  FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
   BASE_URL: https://superdentist.io/api/sd/v1
   GKE_CLUSTER_PROD:  superdentist-prod
   GKE_ZONE: us-central1-c
