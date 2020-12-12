@@ -99,7 +99,7 @@ export class JoinComponent extends Base implements OnInit {
         }),
         flatMap(() => this.auth.currentUser),
         delay(1000),
-        tap(currentUser => currentUser.sendEmailVerification()),
+        tap(() => this.auth.currentUser),
         take(1)
       ).subscribe(() => {
         this.loading = false;
