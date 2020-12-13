@@ -3,12 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from 'src/app/auth.guard';
 import { VerifiedGuard } from 'src/app/verified.guard';
-
+import { AccountGuard } from 'src/app/account.guard';
 const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-    canActivate: [AuthGuard, VerifiedGuard]
+    canActivate: [AuthGuard, AccountGuard, VerifiedGuard]
   },
   {
     path: 'referrals',
