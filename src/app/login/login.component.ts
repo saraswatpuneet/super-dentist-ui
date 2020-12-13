@@ -24,7 +24,7 @@ export class LoginComponent extends Base implements OnInit {
     private router: Router
   ) {
     super(); 
-    fauth.setPersistence(auth.Auth.Persistence.SESSION)
+    fauth.setPersistence(auth.Auth.Persistence.SESSION);
   }
 
   ngOnInit(): void {
