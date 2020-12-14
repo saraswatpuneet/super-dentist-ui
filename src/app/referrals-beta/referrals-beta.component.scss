@@ -251,6 +251,12 @@
     }
   }
 
+  .sd-icon-button {
+    &.blue {
+      color: var(--ac-blue);
+    }
+  }
+
   .pills {
     > span {
       font-size: 12px;
