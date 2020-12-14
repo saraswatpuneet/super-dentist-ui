@@ -21,7 +21,10 @@ const routes: Routes = [
     loadChildren: () => import('./specialist/specialist.module').then(m => m.SpecialistModule),
     canActivate: [AuthGuard, VerifiedGuard]
   },
-  { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
+  },
   {
     path: 'verify',
     loadChildren: () => import('./verify/verify.module').then(m => m.VerifyModule),
@@ -31,7 +34,15 @@ const routes: Routes = [
     path: 'join',
     loadChildren: () => import('./join/join.module').then(m => m.JoinModule)
   },
-  { path: '**', redirectTo: '404' }
+  {
+    path: '404',
+    loadChildren: () => import('./not-found/not-found.module').then(m => m.NotFoundModule),
+    canActivate: [AuthGuard, VerifiedGuard]
+  },
+  {
+    path: '**',
+    redirectTo: '404',
+  }
 ];
 
 @NgModule({

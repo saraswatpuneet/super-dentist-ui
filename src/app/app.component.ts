@@ -47,7 +47,12 @@ export class AppComponent extends Base implements OnInit {
     }
 
     this.router.events.pipe(filter(e => e instanceof NavigationEnd), takeUntil(this.unsubscribe$)).subscribe(() => {
-      if (this.router.url.includes('login') || this.router.url.includes('join') || this.router.url.includes('verify')) {
+      if (
+        this.router.url.includes('/login') ||
+        this.router.url.includes('/join') ||
+        this.router.url.includes('/verify') ||
+        this.router.url.includes('/404')
+      ) {
         this.authenticated = false;
       } else {
         this.authenticated = true;
