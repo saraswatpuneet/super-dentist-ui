@@ -5,7 +5,14 @@
 
   <div fxLayout="row" fxFlex fxLayoutGap="48px">
     <div fxFlex>
-      <mat-tab-group (selectedIndexChange)="filterReferrals($event)" [(selectedIndex)]="tabIndex">
+      <mat-tab-group *ngIf="clinicType === 'dentist'" (selectedIndexChange)="filterDentistReferrals($event)"
+        [(selectedIndex)]="tabIndex">
+        <mat-tab label="Ongoing"></mat-tab>
+        <mat-tab label="Closed"> </mat-tab>
+      </mat-tab-group>
+
+      <mat-tab-group *ngIf="clinicType === 'specialist'" (selectedIndexChange)="filterReferrals($event)"
+        [(selectedIndex)]="tabIndex">
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon class="example-tab-icon">pending_actions</mat-icon>
@@ -28,7 +35,7 @@
         </mat-tab>
       </mat-tab-group>
 
-      <div class="change-status">
+      <div *ngIf="clinicType === 'specialist'" class="change-status">
         <mat-checkbox color="primary" (change)="$event ? masterToggle() : null"
           [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"
           [aria-label]="checkboxLabel()">
@@ -85,6 +92,14 @@
               {{clinicType === 'dentist' ? element?.toClinicName : element?.fromClinicName }}{{element.symbol}} </td>
           </ng-container>
 
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+            <td mat-cell *matCellDef="let element">
+              <button [disabled]="!element.status || element.status.gdStatus !== 'completed'" mat-raised-button
+                (click)="markStatusDentist(element.referralId, 'closed')">{{element.status ? element.status.gdStatus === 'completed' ? 'Ready to Close': referredStatuses[element.status.gdStatus].label  : 'No status'}}</button>
+            </td>
+          </ng-container>
+
           <ng-container matColumnDef="actions">
             <th style="width: 80px" mat-header-cell *matHeaderCellDef> </th>
             <td mat-cell *matCellDef="let element; let i = index;">
@@ -102,7 +117,7 @@
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="referralColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: referralColumns;" (click)="selection.toggle(row)"></tr>
+          <tr mat-row *matRowDef="let row; columns: referralColumns;"></tr>
         </table>
       </div>
     </div>

@@ -20,7 +20,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   addId = '';
   referrals: Referral[] = [];
   filteredReferrals: Referral[] = [];
-  referralColumns: string[] = ['select', 'dateReferred', 'patientName', 'phoneNumber', 'referringClinic', 'actions'];
+  referralColumns: string[] = ['dateReferred', 'patientName', 'phoneNumber', 'referringClinic', 'actions'];
   selection = new SelectionModel<any>(true, []);
   selectedReferralIndex: number;
   messageToSend = '';
@@ -50,22 +50,24 @@ export class ReferralsBetaComponent extends Base implements OnInit {
       this.clinicType = addy.type;
 
       if (addy.type === 'dentist') {
+        this.referralColumns = ['dateReferred', 'patientName', 'phoneNumber', 'referringClinic', 'status', 'actions'];
         this.referralService.getDentistRerrals(this.addId).pipe(
           catchError(() => of([])),
           take(1)
         )
           .subscribe(res => {
             this.referrals = res;
-            this.setFilteredReferrals(res, this.tabIndex);
+            this.setFilteredDentistReferrals(this.referrals, this.tabIndex);
           });
       } else {
+        this.referralColumns = ['select', 'dateReferred', 'patientName', 'phoneNumber', 'referringClinic', 'actions'];
         this.referralService.getSpecialistReferrals(this.addId).pipe(
           catchError(() => of([])),
           take(1)
         )
           .subscribe(res => {
             this.referrals = res;
-            this.setFilteredReferrals(res, this.tabIndex);
+            this.setFilteredReferrals(this.referrals, this.tabIndex);
           });
       }
     });
@@ -86,28 +88,8 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     this.updateStatus(rids, status);
   }
 
-
-  setFilteredReferrals(referrals: Referral[], tabIndex: number): void {
-    let validStates = [];
-    if (tabIndex === 0) {
-      validStates = [this.sortedStatuses[0]];
-    } else if (tabIndex === 1) {
-      validStates = [this.sortedStatuses[1]];
-    } else {
-      validStates = [this.sortedStatuses[2], this.sortedStatuses[4]];
-    }
-
-    this.filteredReferrals = referrals.filter(r => {
-      if (!r.status) {
-        return false;
-      }
-
-      if (validStates.includes(r.status.gdStatus)) {
-        return true;
-      }
-
-      return false;
-    });
+  markStatusDentist(rid: string, status: ClinicStatus): void {
+    this.updateStatus([rid], status);
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -137,6 +119,55 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     this.setFilteredReferrals(this.referrals, tabIndex);
   }
 
+  setFilteredReferrals(referrals: Referral[], tabIndex: number): void {
+    let validStates = [];
+    if (tabIndex === 0) {
+      validStates = [this.sortedStatuses[0]];
+    } else if (tabIndex === 1) {
+      validStates = [this.sortedStatuses[1]];
+    } else {
+      validStates = [this.sortedStatuses[2], this.sortedStatuses[4]];
+    }
+
+    this.filteredReferrals = referrals.filter(r => {
+      if (!r.status) {
+        return false;
+      }
+
+      if (validStates.includes(r.status.gdStatus)) {
+        return true;
+      }
+
+      return false;
+    });
+  }
+
+  filterDentistReferrals(tabIndex: number): void {
+    this.selection.clear();
+    this.setFilteredDentistReferrals(this.referrals, tabIndex);
+  }
+
+  setFilteredDentistReferrals(referrals: Referral[], tabIndex: number): void {
+    let validStates = [];
+    if (tabIndex === 0) {
+      validStates = [this.sortedStatuses[0], this.sortedStatuses[1], this.sortedStatuses[2]];
+    } else {
+      validStates = [this.sortedStatuses[4]];
+    }
+
+    this.filteredReferrals = referrals.filter(r => {
+      if (!r.status) {
+        return false;
+      }
+
+      if (validStates.includes(r.status.gdStatus)) {
+        return true;
+      }
+
+      return false;
+    });
+  }
+
   updateStatus(referralIds: string[], status: ClinicStatus): void {
     const reqs = referralIds.map(r => this.referralService.updateStatus(r, { gdStatus: status, spStatus: status })
       .pipe(take(1)));
@@ -146,7 +177,11 @@ export class ReferralsBetaComponent extends Base implements OnInit {
         referrals.forEach(referral => {
           const index = this.referrals.findIndex(r => r.referralId === referral.referralId);
           this.referrals[index].status = referral.status;
-          this.filterReferrals(this.tabIndex);
+          if (this.clinicType === 'specialist') {
+            this.filterReferrals(this.tabIndex);
+          } else {
+            this.filterDentistReferrals(this.tabIndex);
+          }
         });
       });
   }

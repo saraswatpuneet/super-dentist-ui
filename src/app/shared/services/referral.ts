@@ -75,7 +75,7 @@ export function referredStatus(): { [key: string]: ReferredStatusMapping } {
     scheduled: { label: 'Scheduled', percentRemaining: 50 },
     completed: { label: 'Completed', percentRemaining: 25 },
     cancelled: { label: 'Cancelled', percentRemaining: 25 },
-    closed: { label: 'closed', percentRemaining: 0 },
+    closed: { label: 'Closed', percentRemaining: 0 },
   };
 }
 
