@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { from, of } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
-
-import { Base } from 'src/app/shared/base/base-component';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { auth } from 'firebase/app';
+
+import { Base } from 'src/app/shared/base/base-component';
 
 @Component({
   selector: 'app-login',
@@ -23,11 +23,12 @@ export class LoginComponent extends Base implements OnInit {
     private fauth: AngularFireAuth,
     private router: Router
   ) {
-    super(); 
-    fauth.setPersistence(auth.Auth.Persistence.SESSION);
+    super();
   }
 
   ngOnInit(): void {
+    this.fauth.setPersistence(auth.Auth.Persistence.SESSION);
+
     this.formGroup = this.fb.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
@@ -54,7 +55,7 @@ export class LoginComponent extends Base implements OnInit {
     ).subscribe(res => {
       this.loading = false;
       if (res) {
-        this.router.navigate(['dashboard']);
+        this.router.navigate(['']);
       }
     });
   }

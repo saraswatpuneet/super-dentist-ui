@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/auth.guard';
 import { VerifiedGuard } from 'src/app/verified.guard';
 import { AccountGuard } from 'src/app/account.guard';
+
 const routes: Routes = [
   {
     path: '',
@@ -30,7 +31,7 @@ const routes: Routes = [
     path: 'join',
     loadChildren: () => import('./join/join.module').then(m => m.JoinModule)
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '404' }
 ];
 
 @NgModule({

@@ -51,17 +51,17 @@ export class AppComponent extends Base implements OnInit {
         this.authenticated = false;
       } else {
         this.authenticated = true;
-          this.clinicService.getClinics()
-            .pipe(take(1))
-            .subscribe(myClinics => {
-              const c = myClinics.data.clinicDetails[0];
-              this.clinicService.setMyClinics(c);
-              if (c.type === 'dentist') {
-                this.showSpecialist = true;
-              } else {
-                this.showSpecialist = false;
-              }
-            });
+        this.clinicService.getClinics()
+          .pipe(take(1))
+          .subscribe(myClinics => {
+            const c = myClinics.data.clinicDetails[0];
+            this.clinicService.setMyClinics(c);
+            this.showSpecialist = false;
+
+            if (c.type === 'dentist') {
+              this.showSpecialist = true;
+            }
+          });
         from(this.auth.currentUser).pipe(take(1)).subscribe(user => this.emailVerified = user.emailVerified);
       }
     });
@@ -78,11 +78,13 @@ export class AppComponent extends Base implements OnInit {
 
   toggleTheme(): void {
     this.overlayContainer.getContainerElement().classList.remove(this.theme);
+
     if (this.theme === 'dark') {
       this.theme = 'light';
     } else {
       this.theme = 'dark';
     }
+
     this.overlayContainer.getContainerElement().classList.add(this.theme);
   }
 

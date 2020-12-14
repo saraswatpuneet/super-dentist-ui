@@ -1,21 +1,17 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
-import { ClinicService } from './shared/services/clinic.service';
+import { map, take } from 'rxjs/operators';
 
-import jwt from 'jwt-decode';
+import { ClinicService } from './shared/services/clinic.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountGuard implements CanActivate {
   constructor(
-    private auth: AngularFireAuth,
     private clinicService: ClinicService,
     private router: Router
-
   ) { }
 
   canActivate(
@@ -27,12 +23,12 @@ export class AccountGuard implements CanActivate {
         const c = myClinics.data.clinicDetails[0];
         this.clinicService.setMyClinics(c);
         if (c.type === 'specialist') {
-            this.router.navigate(['/referrals'])
-            return false
-        } else {
-          this.router.navigate(['/specialist'])
-          return true
+          this.router.navigate(['/referrals']);
+          return false;
         }
+
+        this.router.navigate(['/specialist']);
+        return true;
       }),
     );
   }
