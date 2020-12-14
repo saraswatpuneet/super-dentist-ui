@@ -13,6 +13,11 @@ const routes: Routes = [
   },
   {
     path: 'referrals',
+    loadChildren: () => import('./referrals-beta/referrals-beta.module').then(m => m.ReferralsBetaModule),
+    canActivate: [AuthGuard, VerifiedGuard]
+  },
+  {
+    path: 'referrals2',
     loadChildren: () => import('./referrals/referrals.module').then(m => m.ReferralsModule),
     canActivate: [AuthGuard, VerifiedGuard]
   },

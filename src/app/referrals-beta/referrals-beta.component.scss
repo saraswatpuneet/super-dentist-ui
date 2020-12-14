@@ -1,0 +1,263 @@
+.referrals {
+  min-height: 100%;
+  position: relative;
+  padding: 12px;
+  margin-top: 48px;
+
+  .vert {
+    width: 1px;
+    background: rgba(white, 0.2);
+    height: 20px;
+    transform: translateY(10px);
+  }
+
+  .actions {
+    transition: 0.3s;
+    transform: translate(10px, -10px);
+    opacity: 0.2;
+  }
+
+  .status-button {
+    transition: 0.3s;
+    opacity: 0.2;
+  }
+
+  .ref {
+    > :first-child {
+      margin-bottom: 48px;
+    }
+
+    &:hover {
+      .actions, .status-button {
+        opacity: 1;
+      }
+    }
+  }
+
+  div.clinic-chat {
+    margin: 0 auto;
+    width: 85%;
+    position: sticky;
+    top: 24px;
+    padding: 0;
+    overflow: hidden;
+    
+    > div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
+      color: rgba(white, 0.4);
+      position: relative;
+      transition: 0.3s;
+
+      &:not(.vert) {
+        padding: 12px 16px 16px;
+      }
+
+      &:not(.vert)::before {
+        content: "";
+        position: absolute;
+        background: rgba(white, 0.7);
+        top: 0; 
+        width: 4px;
+        height: 100%;
+        transition: 0.3s;
+      }
+
+      &.l::before {
+        left: -4px;
+      }
+      &.r::before {
+        right: -4px;
+      }
+
+      &.active {
+        color: white;
+
+        &.l::before {
+          left: 0;
+        }
+        &.r::before {
+          right: 0;
+        }
+      }
+    }
+  }
+
+  .abs {
+    top: 8px;
+    left: 9px;
+    position: absolute;
+  }
+
+  .chat {
+    position: sticky;
+    top: 78px;
+    box-sizing: border-box;
+    max-height: 500px;
+    height: 500px;
+    padding: 0;
+    transform: translateY(-10px);
+
+    .ms {
+      overflow-y: auto;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+
+    .chat-input {
+      padding: 16px 16px 16px 0;
+    }
+
+    .text {
+      margin-bottom: 8px;
+
+      > div {
+        margin-bottom: 8px;
+        max-width: 80%;
+        border-radius: 14px;
+        padding: 4px 12px;
+        position: relative;
+
+        &::before {
+          content: "";
+          width: 20px;
+          position: absolute;
+          height: 20px;
+          border-radius: 88%;
+        }
+      }
+    }
+
+    .sender {
+      align-items: flex-end;
+      > div {
+        background: var(--ac-blue);
+        
+        &::before {
+          box-shadow: inset 8px 0px var(--ac-blue);
+          right: -12px;
+          clip-path: inset(8px 0px 0px 0px);
+          bottom: 0;
+        }
+      }
+    }
+
+    .receiver {
+      align-items: flex-start;
+      > div {
+        background: var(--grey-2);
+
+        &::before {
+          box-shadow: inset -8px 0px var(--grey-2);
+          left: -12px;
+          clip-path: inset(8px 0px 0px 0px);
+          bottom: 0;
+        }
+      }
+    }
+  }
+
+  .container {
+    margin: 0 auto;
+    max-width: 900px
+  }
+
+  .sd-card {
+    width: 100%;
+
+    .specialist-title {
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+
+  .contact-info {
+    margin-top: 4px;
+    color: rgba(white, 0.6);
+    font-size: 12px;
+  }
+
+  .status {
+    font-size: 14px;
+    margin-bottom: 12px;
+    border-radius: 20px;
+    position: relative;
+
+    .point {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%) scale(0.9);
+      border-radius: 20px;
+      border: 3px solid var(--grey-2);
+      background: var(--grey-4);
+      width: 24px;
+      height: 24px;
+    }
+
+    .right {
+      right: 0;
+      div {
+        transform: scaleX(-1);
+      }
+    }
+
+    .left {
+      left: -2px;
+    }
+
+    .progress {
+      position: absolute;
+      right: 0;
+      height: 100%;
+      background: var(--grey-2);
+      width: 25%;
+      transition: 0.3s;
+      max-width: calc(100% - 14px);
+      min-width: calc(0% + 14px);
+
+      .status-label {
+        position: absolute;
+        left: -16px;
+        z-index: 12;
+
+        img {
+          height: 36px;
+          transform: translate(-6px, -6px);
+        }
+      }
+    }
+
+    .steps {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+
+      > div {
+        height: 100%;
+        border-right: 2px solid var(--grey-4);
+      }
+    }
+
+    .gradient-bar {
+      background: linear-gradient(to left, var(--green), var(--blue));
+      width: 100%;
+      height: 8px;
+      border-radius: 8px;
+    }
+  }
+
+  .sd-icon-button {
+    &.blue {
+      color: var(--ac-blue);
+    }
+  }
+
+  .pills {
+    > span {
+      font-size: 12px;
+      color: rgba(white, 0.7);
+    }
+  }
+}
