@@ -24,6 +24,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   selectedReferralIndex: number;
   messageToSend = '';
   messages: Message[];
+  tabIndex = 0;
   clinicType = '';
   selectedChannel: Channel = 'c2c';
   user: firebase.User;
@@ -95,7 +96,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   }
 
   filterReferrals(tabIndex: number): void {
-    console.log(tabIndex);
+    this.selection.clear();
   }
 
   updateStatus(referralId: string, status: ClinicStatus): void {

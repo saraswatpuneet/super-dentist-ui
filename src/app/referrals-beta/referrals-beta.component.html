@@ -5,7 +5,7 @@
 
   <div fxLayout="row" fxFlex fxLayoutGap="48px">
     <div fxFlex>
-      <mat-tab-group (selectedIndexChange)="filterReferrals($event)">
+      <mat-tab-group (selectedIndexChange)="filterReferrals($event)" [(selectedIndex)]="tabIndex">
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon class="example-tab-icon">pending_actions</mat-icon>
@@ -33,16 +33,19 @@
           [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"
           [aria-label]="checkboxLabel()">
         </mat-checkbox>
-        <button mat-icon-button [disabled]="!selection.hasValue()" matTooltip="Schedule selected referrals"
-          matTooltipPosition="above">
+
+        <button mat-icon-button [disabled]="!selection.hasValue() || tabIndex !== 0"
+          matTooltip="Schedule selected referrals" matTooltipPosition="above">
           <mat-icon>schedule</mat-icon>
         </button>
-        <button mat-icon-button [disabled]="!selection.hasValue()" matTooltip="Cancel selected referrals"
-          matTooltipPosition="above">
+
+        <button mat-icon-button [disabled]="!selection.hasValue() || tabIndex !== 1"
+          matTooltip="Cancel selected referrals" matTooltipPosition="above">
           <mat-icon>cancel_schedule_send</mat-icon>
         </button>
-        <button mat-icon-button [disabled]="!selection.hasValue()" matTooltip="Complete selected referrals"
-          matTooltipPosition="above">
+
+        <button mat-icon-button [disabled]="!selection.hasValue() || tabIndex !== 1"
+          matTooltip="Complete selected referrals" matTooltipPosition="above">
           <mat-icon>done</mat-icon>
         </button>
       </div>
