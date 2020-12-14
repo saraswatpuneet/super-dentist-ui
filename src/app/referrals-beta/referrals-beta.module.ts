@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
 
 import { ReferralsBetaRoutingModule } from './referrals-beta-routing.module';
 import { ReferralsBetaComponent } from './referrals-beta.component';
@@ -21,6 +22,7 @@ import { ReferralsBetaComponent } from './referrals-beta.component';
     MatButtonModule,
     MatTooltipModule,
     MatMenuModule,
+    MatTableModule,
     MatProgressSpinnerModule,
     ReferralsBetaRoutingModule
   ]

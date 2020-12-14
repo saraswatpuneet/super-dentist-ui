@@ -42,7 +42,7 @@ const routes: Routes = [
   {
     path: '404',
     loadChildren: () => import('./not-found/not-found.module').then(m => m.NotFoundModule),
-    canActivate: [AuthGuard, VerifiedGuard]
+    // canActivate: [AuthGuard, VerifiedGuard]
   },
   {
     path: '**',
