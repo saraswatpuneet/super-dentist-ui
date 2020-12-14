@@ -1,17 +1,22 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Node.js CI Production
+name: PROD
 
 on:
+  workflow_run:
+    workflows: ["DEV"]
+    branches: [ main ]
+    types: 
+    - completed
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 env:
+  BASE_URL: https://superdentist.io/api/sd/v1
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-  BASE_URL: https://superdentist.io/api/sd/v1
   GKE_CLUSTER_PROD:  superdentist-prod
   GKE_ZONE: us-central1-c
   IMAGE: superdentist-frontend

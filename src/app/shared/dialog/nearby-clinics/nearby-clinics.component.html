@@ -30,8 +30,7 @@
     </div>
 
     <div class="list" fxLayout="column" fxLayoutGap="32px">
-      <div fxLayout="row" class="sd-card" [@collapseLeft] fxLayoutGap="24px"
-        *ngFor="let a of nearbySpecialists; let i = index">
+      <mat-card fxLayout="row" [@collapseLeft] fxLayoutGap="24px" *ngFor="let a of nearbySpecialists; let i = index">
         <div fxFlex fxLayout="column">
           <div class="specialist-title" fxLayout="row" fxLayoutAlign="space-between">
             <div fxLayout="column">
@@ -54,7 +53,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </mat-card>
     </div>
   </div>
 </div>

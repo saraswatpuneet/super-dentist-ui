@@ -7,6 +7,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 
 import { ReferralsRoutingModule } from './referrals-routing.module';
 import { ReferralsComponent } from './referrals.component';
@@ -19,6 +20,7 @@ import { ReferralsComponent } from './referrals.component';
     FlexLayoutModule,
     MatIconModule,
     MatButtonModule,
+    MatCardModule,
     MatTooltipModule,
     MatMenuModule,
     MatProgressSpinnerModule,
