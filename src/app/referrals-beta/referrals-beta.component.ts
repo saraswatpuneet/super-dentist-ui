@@ -19,6 +19,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   files: any;
   addId = '';
   referrals: Referral[] = [];
+  filteredReferrals: Referral[] = [];
   referralColumns: string[] = ['select', 'dateReferred', 'patientName', 'phoneNumber', 'referringClinic', 'actions'];
   selection = new SelectionModel<any>(true, []);
   selectedReferralIndex: number;
@@ -53,13 +54,19 @@ export class ReferralsBetaComponent extends Base implements OnInit {
           catchError(() => of([])),
           take(1)
         )
-          .subscribe(res => this.referrals = res);
+          .subscribe(res => {
+            this.referrals = res;
+            this.setFilteredReferrals(res, this.tabIndex);
+          });
       } else {
         this.referralService.getSpecialistReferrals(this.addId).pipe(
           catchError(() => of([])),
           take(1)
         )
-          .subscribe(res => this.referrals = res);
+          .subscribe(res => {
+            this.referrals = res;
+            this.setFilteredReferrals(res, this.tabIndex);
+          });
       }
     });
 
@@ -73,6 +80,36 @@ export class ReferralsBetaComponent extends Base implements OnInit {
       window.location.assign(url);
     });
   }
+
+  markStatus(status: ClinicStatus): void {
+    const rids = this.selection.selected.map(r => r.referralId);
+    this.updateStatus(rids, status);
+  }
+
+
+  setFilteredReferrals(referrals: Referral[], tabIndex: number): void {
+    let sortedIndex = 0;
+    if (tabIndex === 0) {
+      sortedIndex = 0;
+    } else if (tabIndex === 1) {
+      sortedIndex = 1;
+    } else {
+      sortedIndex = 2;
+    }
+
+    this.filteredReferrals = referrals.filter(r => {
+      if (!r.status) {
+        return false;
+      }
+
+      if (r.status.gdStatus !== this.sortedStatuses[sortedIndex]) {
+        return false;
+      }
+
+      return true;
+    });
+  }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
@@ -84,7 +121,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   masterToggle(): void {
     this.isAllSelected() ?
       this.selection.clear() :
-      this.referrals.forEach(row => this.selection.select(row));
+      this.filteredReferrals.forEach(row => this.selection.select(row));
   }
 
   /** The label for the checkbox on the passed row */
@@ -97,15 +134,20 @@ export class ReferralsBetaComponent extends Base implements OnInit {
 
   filterReferrals(tabIndex: number): void {
     this.selection.clear();
+    this.setFilteredReferrals(this.referrals, tabIndex);
   }
 
-  updateStatus(referralId: string, status: ClinicStatus): void {
-    console.log(referralId, status);
-    this.referralService.updateStatus(referralId, { gdStatus: status, spStatus: status })
+  updateStatus(referralIds: string[], status: ClinicStatus): void {
+    const reqs = referralIds.map(r => this.referralService.updateStatus(r, { gdStatus: status, spStatus: status })
+      .pipe(take(1)));
+    forkJoin(reqs)
       .pipe(take(1))
-      .subscribe(referral => {
-        const index = this.referrals.findIndex(r => r.referralId === referral.referralId);
-        this.referrals[index].status = referral.status;
+      .subscribe(referrals => {
+        referrals.forEach(referral => {
+          const index = this.referrals.findIndex(r => r.referralId === referral.referralId);
+          this.referrals[index].status = referral.status;
+          this.filterReferrals(this.tabIndex);
+        });
       });
   }
 

@@ -34,24 +34,24 @@
           [aria-label]="checkboxLabel()">
         </mat-checkbox>
 
-        <button mat-icon-button [disabled]="!selection.hasValue() || tabIndex !== 0"
+        <button mat-icon-button [disabled]="!selection.hasValue() || tabIndex !== 0" (click)="markStatus('scheduled')"
           matTooltip="Schedule selected referrals" matTooltipPosition="above">
           <mat-icon>schedule</mat-icon>
         </button>
 
-        <button mat-icon-button [disabled]="!selection.hasValue() || tabIndex !== 1"
+        <!-- <button mat-icon-button [disabled]="!selection.hasValue() || tabIndex !== 1"
           matTooltip="Cancel selected referrals" matTooltipPosition="above">
           <mat-icon>cancel_schedule_send</mat-icon>
-        </button>
+        </button> -->
 
-        <button mat-icon-button [disabled]="!selection.hasValue() || tabIndex !== 1"
+        <button mat-icon-button [disabled]="!selection.hasValue() || tabIndex !== 1" (click)="markStatus('completed')"
           matTooltip="Complete selected referrals" matTooltipPosition="above">
           <mat-icon>done</mat-icon>
         </button>
       </div>
 
       <div>
-        <table mat-table fxFlex [dataSource]="referrals" class="mat-elevation-z8">
+        <table mat-table fxFlex [dataSource]="filteredReferrals" class="mat-elevation-z8">
           <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef style="width: 30px">
 
@@ -106,68 +106,6 @@
         </table>
       </div>
     </div>
-
-    <!-- <div class="list" fxFlex fxLayout="column" fxLayoutGap="52px">
-        <div class="sd-card ref" fxLayout="column" *ngFor="let a of referrals; let i = index">
-          <div fxLayout="row" fxLayoutGap="24px">
-            <div fxLayout="column" fxFlex>
-              <span class="specialist-title"> {{a.patientFirstName}} {{a.patientLastName}} </span>
-              <div class="contact-info">
-                <div>Referred - {{a.createdOn | date:"MMM dd, yyyy"}}</div>
-              </div>
-            </div>
-
-            <div class="actions">
-              <button mat-icon-button *ngIf="a.documents" matTooltipShowDelay="750"
-                matTooltip="Download Patient Documents" matTooltipPosition="above"
-                (click)="downloadFiles(a.referralId)">
-                <mat-icon>get_app</mat-icon>
-              </button>
-              <button mat-icon-button (click)="referralChat(i)" matTooltipShowDelay="750"
-                matTooltip="Message Clinic or Patient" matTooltipPosition="above">
-                <mat-icon>chat</mat-icon>
-              </button>
-            </div>
-          </div>
-
-          <div fxLayout="row" fxLayoutGap="24px" fxLayoutAlign=" end">
-            <div class="status" fxFlex fxLayout="row">
-              <div class="gradient-bar"></div>
-              <div class="progress"
-                [style.width]="!!referredStatuses[a?.status.gdStatus] ? referredStatuses[a?.status.gdStatus]?.percentRemaining + '%': '100%'">
-                <div class="status-label point" matTooltipPosition="above"
-                  [matTooltip]="!!referredStatuses[a?.status.gdStatus] ? referredStatuses[a?.status.gdStatus]?.label: 'Super Dentist is on Track'">
-                  <img src="assets/images/brand.svg" alt="">
-                </div>
-              </div>
-
-              <div class="left point">
-                <mat-icon>sports_golf</mat-icon>
-              </div>
-
-              <div class="steps" fxLayout="row">
-                <div fxFlex></div>
-                <div fxFlex></div>
-                <div fxFlex></div>
-                <div fxFlex></div>
-              </div>
-
-              <div class="right point">
-                <div>
-                  <mat-icon>golf_course</mat-icon>
-                </div>
-              </div>
-            </div>
-            <button mat-raised-button class="status-button" [matMenuTriggerFor]="menu">Status <mat-icon>
-                keyboard_arrow_down</mat-icon>
-            </button>
-          </div>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item *ngFor="let refStatus of sortedStatuses"
-              (click)="updateStatus(a?.referralId, refStatus)">{{referredStatuses[refStatus].label}}</button>
-          </mat-menu>
-        </div>
-      </div> -->
 
     <div fxFlex="350px">
       <mat-card class="clinic-chat" *ngIf="referral !== undefined" fxLayout="row">
