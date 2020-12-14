@@ -31,14 +31,16 @@
 
   .list {
     height: calc(100% - 66px);
+    padding: 0 2px;
     overflow-y: auto;
     overflow-x: hidden;
+    box-sizing: border-box;
 
     &.fav {
       padding-right: 0;
       height: calc(100% - 52px);
 
-      .sd-card {
+      mat-card {
         height: auto;
 
         .specialist-title {
@@ -71,7 +73,7 @@
     }
   }
 
-  .sd-card {
+  mat-card {
     height: 150px;
     position: relative;
 

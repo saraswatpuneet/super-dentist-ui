@@ -11,7 +11,7 @@
 
     <div fxLayout="row" fxLayoutGap="48px">
       <div class="list" fxFlex fxLayout="column" fxLayoutGap="52px">
-        <div class="sd-card ref" fxLayout="column" *ngFor="let a of referrals; let i = index">
+        <mat-card class="ref" fxLayout="column" *ngFor="let a of referrals; let i = index">
           <div fxLayout="row" fxLayoutGap="24px">
             <div fxLayout="column" fxFlex>
               <span class="specialist-title"> {{a.patientFirstName}} {{a.patientLastName}} </span>
@@ -69,11 +69,11 @@
             <button mat-menu-item *ngFor="let refStatus of sortedStatuses"
               (click)="updateStatus(a?.referralId, refStatus)">{{referredStatuses[refStatus].label}}</button>
           </mat-menu>
-        </div>
+        </mat-card>
       </div>
 
       <div fxFlex="350px">
-        <div class="sd-card clinic-chat" *ngIf="referral !== undefined" fxLayout="row">
+        <mat-card class="clinic-chat" *ngIf="referral !== undefined" fxLayout="row">
           <div [fxFlex]="clinicType === 'specialist' ? 50 : 100" (click)="talkTo(true)" class="l"
             [ngClass]="{'active': selectedChannel === 'c2c'}" matTooltipPosition="above" matTooltipShowDelay="750"
             [matTooltip]="referral.toClinicName">
@@ -85,9 +85,9 @@
             [matTooltip]="referral.patientFirstName + ' ' + referral.patientLastName">
             {{referral.patientFirstName}} {{referral.patientLastName}}
           </div>
-        </div>
+        </mat-card>
 
-        <div class="sd-card chat" *ngIf="referral !== undefined" fxLayout="column">
+        <mat-card class="chat" *ngIf="referral !== undefined" fxLayout="column">
           <div class="ms" fxFlex>
             <div class="text" [ngClass]="m.userId === user?.email ? 'sender': 'receiver'" fxLayout="column"
               *ngFor="let m of messages">
@@ -107,7 +107,7 @@
                 placeholder="SuperMessage">
             </div>
           </div>
-        </div>
+        </mat-card>
       </div>
     </div>
   </div>

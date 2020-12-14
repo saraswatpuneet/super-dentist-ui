@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 import { CreateReferralComponent } from './create-referral/create-referral.component';
 import { NearbyClinicsComponent } from './nearby-clinics/nearby-clinics.component';
@@ -17,6 +18,7 @@ import { NearbyClinicsComponent } from './nearby-clinics/nearby-clinics.componen
     ReactiveFormsModule,
     MatDialogModule,
     MatButtonModule,
+    MatCardModule,
     MatIconModule,
     FlexLayoutModule,
   ]
