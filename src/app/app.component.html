@@ -19,7 +19,7 @@
   </div>
 
   <div [ngClass]="{'full-h': !authenticated}" class="contain" fxLayout="row">
-    <mat-card class="sidenav mat-elevation-z7" *ngIf="authenticated" fxLayout="column"
+    <div class="sidenav mat-elevation-z7" *ngIf="authenticated" fxLayout="column"
       [ngClass]="{'collapsed-sidenav': !expanded}">
 
       <a *ngIf="showSpecialist" mat-button routerLinkActive="active" [routerLink]="navItems[0].path" class="nav-item">
@@ -38,7 +38,7 @@
         <mat-icon>keyboard_arrow_left</mat-icon>
         <span *ngIf="expanded" [@sidebarToggle]>Collapse</span>
       </div>
-    </mat-card>
+    </div>
 
     <div class="content">
       <div *ngIf="authenticated && !emailVerified" class="verify-banner">
