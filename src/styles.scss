@@ -146,13 +146,86 @@ body {
     width: 100%;
     box-sizing: border-box;
     border: none;
-    // color: rgba(white, 0.7);
+    color: rgba(white, 0.7);
     background:transparent;
     height: 40px;
     padding: 0 12px;
   
     &:focus {
       outline: none;
+    }
+  }
+}
+
+.light {
+  .sd-input {
+    border-radius: 4px;
+    background: transparent;
+    border: 1px solid rgba(black, 0.15);
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: 0.3s;
+    box-shadow: inset -3px -3px 4px rgba(132, 132, 132, 0), inset 1px 4px 4px rgba(0, 0, 0, 0);
+    position: relative;
+  
+    label {
+      position: absolute;
+      top: -22px;
+      left: 10px;
+    }
+  
+    .error {
+      position: absolute;
+      bottom: -24px;
+      left: 8px;
+      color: var(--red);
+    }
+  
+    .autocomplete {
+      max-height: 350px;
+      width:100%;
+      background: var(--grey-4);
+      position: absolute;
+      overflow: auto;
+      box-sizing: border-box;
+      top: 100%;
+      left: 0;
+      z-index: 12;
+  
+      .options {
+        cursor: pointer;
+        &:hover {
+          background: rgba(black, 0.1);
+        }
+        padding: 12px;
+      }
+  
+      .label {
+        margin: 0;
+        font-size: 16px;
+      }
+  
+      .sub-label {
+        margin: 0;
+        font-size: 14px;
+        opacity: 0.5;
+      }
+    }
+  
+    input {
+      border-radius: 8px;
+      width: 100%;
+      box-sizing: border-box;
+      border: none;
+      color: rgba(black, 0.7);
+      background:transparent;
+      height: 40px;
+      padding: 0 12px;
+    
+      &:focus {
+        outline: none;
+      }
     }
   }
 }
