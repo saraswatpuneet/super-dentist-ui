@@ -88,13 +88,13 @@ export class ReferralsBetaComponent extends Base implements OnInit {
 
 
   setFilteredReferrals(referrals: Referral[], tabIndex: number): void {
-    let sortedIndex = 0;
+    let validStates = [];
     if (tabIndex === 0) {
-      sortedIndex = 0;
+      validStates = [this.sortedStatuses[0]];
     } else if (tabIndex === 1) {
-      sortedIndex = 1;
+      validStates = [this.sortedStatuses[1]];
     } else {
-      sortedIndex = 2;
+      validStates = [this.sortedStatuses[2], this.sortedStatuses[4]];
     }
 
     this.filteredReferrals = referrals.filter(r => {
@@ -102,11 +102,11 @@ export class ReferralsBetaComponent extends Base implements OnInit {
         return false;
       }
 
-      if (r.status.gdStatus !== this.sortedStatuses[sortedIndex]) {
-        return false;
+      if (validStates.includes(r.status.gdStatus)) {
+        return true;
       }
 
-      return true;
+      return false;
     });
   }
 
