@@ -5,7 +5,7 @@
     </button>
   </mat-card>
 
-  <div class="sd-toolbar mat-elevation-z3" fxLayout="row" fxLayoutAlign=" center" *ngIf="authenticated">
+  <mat-card class="sd-toolbar mat-elevation-z3" fxLayout="row" fxLayoutAlign=" center" *ngIf="authenticated">
     <div class="nav-title" routerLink='referrals'>
       <img src="assets/images/brand.svg" alt=""> <span>SuperDentist</span>
     </div>
@@ -18,7 +18,7 @@
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="signOut()">Sign Out</button>
     </mat-menu>
-  </div>
+  </mat-card>
 
   <div [ngClass]="{'full-h': !authenticated}" class="contain" fxLayout="row">
     <mat-card class="sidenav mat-elevation-z7" *ngIf="authenticated" fxLayout="column"

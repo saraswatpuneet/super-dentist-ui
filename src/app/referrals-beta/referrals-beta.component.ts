@@ -219,7 +219,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
-        r: this.referrals[index].referralId
+        r: this.filteredReferrals[index].referralId
       }
     });
   }

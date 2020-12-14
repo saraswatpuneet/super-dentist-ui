@@ -71,7 +71,6 @@ export class ReferralsComponent extends Base implements OnInit {
   }
 
   updateStatus(referralId: string, status: ClinicStatus): void {
-    console.log(referralId, status);
     this.referralService.updateStatus(referralId, { gdStatus: status, spStatus: status })
       .pipe(take(1))
       .subscribe(referral => {

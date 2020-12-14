@@ -94,6 +94,7 @@ body {
   width: 100%;
   box-sizing: border-box;
   transition: 0.3s;
+  color: rgba(white, 0.8);
   box-shadow: inset -3px -3px 4px rgba(132, 132, 132, 0.25), inset 1px 4px 4px rgba(0, 0, 0, 0.4);
   position: relative;
 
@@ -159,6 +160,7 @@ body {
 
 .light {
   .sd-input {
+    color: rgba(black, 0.7);
     border-radius: 4px;
     background: transparent;
     border: 1px solid rgba(black, 0.15);
