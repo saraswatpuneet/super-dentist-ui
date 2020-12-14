@@ -1,8 +1,16 @@
 .referrals {
   min-height: 100%;
   position: relative;
-  padding: 12px;
-  margin-top: 48px;
+  padding: 12px 24px;
+  margin-top: 45px;
+
+  .change-status {
+    padding: 12px 24px;
+
+    mat-checkbox {
+      margin-right: 16px;
+    }
+  }
 
   .vert {
     width: 1px;
@@ -34,7 +42,7 @@
     }
   }
 
-  div.clinic-chat {
+  mat-card.clinic-chat {
     margin: 0 auto;
     width: 85%;
     position: sticky;
@@ -159,12 +167,7 @@
     }
   }
 
-  .container {
-    margin: 0 auto;
-    max-width: 900px
-  }
-
-  .sd-card {
+  mat-card {
     width: 100%;
 
     .specialist-title {

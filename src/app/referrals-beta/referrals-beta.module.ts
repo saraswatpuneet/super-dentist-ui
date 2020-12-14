@@ -8,6 +8,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { ReferralsBetaRoutingModule } from './referrals-beta-routing.module';
 import { ReferralsBetaComponent } from './referrals-beta.component';
@@ -19,7 +22,10 @@ import { ReferralsBetaComponent } from './referrals-beta.component';
     FormsModule,
     FlexLayoutModule,
     MatIconModule,
+    MatCardModule,
+    MatTabsModule,
     MatButtonModule,
+    MatCheckboxModule,
     MatTooltipModule,
     MatMenuModule,
     MatTableModule,

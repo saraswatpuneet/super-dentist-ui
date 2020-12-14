@@ -75,10 +75,10 @@ export function referredStatus(): { [key: string]: ReferredStatusMapping } {
     scheduled: { label: 'Scheduled', percentRemaining: 50 },
     completed: { label: 'Operation Completed', percentRemaining: 25 },
     cancelled: { label: 'Canceled', percentRemaining: 25 },
-    closed: { label: 'Finished', percentRemaining: 0 },
+    finished: { label: 'Finished', percentRemaining: 0 },
   };
 }
 
 export function sortReferredStatus(): string[] {
-  return ['referred', 'scheduled', 'completed', 'cancelled', 'closed'];
+  return ['referred', 'scheduled', 'completed', 'cancelled', 'finished'];
 }

@@ -1,17 +1,110 @@
-<div class="referrals">
+<div class="referrals" fxLayout="column" fxLayoutGap="48px">
+  <div class="search-clinic">
+    <h2>Referrals</h2>
+  </div>
 
-  <div class="container" fxLayout="column" fxLayoutGap="48px">
-    <div class="search-clinic">
-      <h2>Referrals</h2>
+  <div fxLayout="row" fxFlex fxLayoutGap="48px">
+    <div fxFlex>
+      <mat-tab-group (selectedIndexChange)="filterReferrals($event)">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">pending_actions</mat-icon>
+            Referred
+          </ng-template>
+        </mat-tab>
 
-      <div class="sd-input">
-        <input placeholder="Search for a referral">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">schedule</mat-icon>
+            Scheduled
+          </ng-template>
+        </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="example-tab-icon">done</mat-icon>
+            Completed
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+
+      <div class="change-status">
+        <mat-checkbox color="primary" (change)="$event ? masterToggle() : null"
+          [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"
+          [aria-label]="checkboxLabel()">
+        </mat-checkbox>
+        <button mat-icon-button [disabled]="!selection.hasValue()" matTooltip="Schedule selected referrals"
+          matTooltipPosition="above">
+          <mat-icon>schedule</mat-icon>
+        </button>
+        <button mat-icon-button [disabled]="!selection.hasValue()" matTooltip="Cancel selected referrals"
+          matTooltipPosition="above">
+          <mat-icon>cancel_schedule_send</mat-icon>
+        </button>
+        <button mat-icon-button [disabled]="!selection.hasValue()" matTooltip="Complete selected referrals"
+          matTooltipPosition="above">
+          <mat-icon>done</mat-icon>
+        </button>
+      </div>
+
+      <div>
+        <table mat-table fxFlex [dataSource]="referrals" class="mat-elevation-z8">
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef style="width: 30px">
+
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox color="primary" (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                [aria-label]="checkboxLabel(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="dateReferred">
+            <th mat-header-cell *matHeaderCellDef> Referred </th>
+            <td mat-cell *matCellDef="let element"> {{element.createdOn | date:"MMM dd, yyyy"}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="patientName">
+            <th mat-header-cell *matHeaderCellDef> Patient Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.patientFirstName}} {{element.patientLastName}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="phoneNumber">
+            <th mat-header-cell *matHeaderCellDef> Patient Phone Number </th>
+            <td mat-cell *matCellDef="let element"> {{element.patientPhone}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="referringClinic">
+            <th mat-header-cell *matHeaderCellDef> Referring Clinic </th>
+            <td mat-cell *matCellDef="let element">
+              {{clinicType === 'dentist' ? element?.toClinicName : element?.fromClinicName }}{{element.symbol}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th style="width: 80px" mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let element; let i = index;">
+              <button mat-icon-button [disabled]="!element.documents" matTooltipShowDelay="750"
+                matTooltip="Download Patient Documents" matTooltipPosition="above"
+                (click)="downloadFiles(element.referralId)">
+                <mat-icon>get_app</mat-icon>
+              </button>
+
+              <button mat-icon-button (click)="referralChat(i)" matTooltipShowDelay="750"
+                matTooltip="Message Clinic or Patient" matTooltipPosition="above">
+                <mat-icon>chat</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="referralColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: referralColumns;" (click)="selection.toggle(row)"></tr>
+        </table>
       </div>
     </div>
 
-    <div fxLayout="row" fxLayoutGap="48px">
-
-      <div class="list" fxFlex fxLayout="column" fxLayoutGap="52px">
+    <!-- <div class="list" fxFlex fxLayout="column" fxLayoutGap="52px">
         <div class="sd-card ref" fxLayout="column" *ngFor="let a of referrals; let i = index">
           <div fxLayout="row" fxLayoutGap="24px">
             <div fxLayout="column" fxFlex>
@@ -71,45 +164,44 @@
               (click)="updateStatus(a?.referralId, refStatus)">{{referredStatuses[refStatus].label}}</button>
           </mat-menu>
         </div>
-      </div>
+      </div> -->
 
-      <div fxFlex="350px">
-        <div class="sd-card clinic-chat" *ngIf="referral !== undefined" fxLayout="row">
-          <div [fxFlex]="clinicType === 'specialist' ? 50 : 100" (click)="talkTo(true)" class="l"
-            [ngClass]="{'active': selectedChannel === 'c2c'}" matTooltipPosition="above" matTooltipShowDelay="750"
-            [matTooltip]="referral.toClinicName">
-            {{clinicType === 'dentist' ? referral.toClinicName : referral.fromClinicName }}
-          </div>
-          <div *ngIf="clinicType === 'specialist'" class="vert"></div>
-          <div *ngIf="clinicType === 'specialist'" fxFlex="50" (click)="talkTo(false)" class="r"
-            [ngClass]="{'active': selectedChannel === 'c2p'}" matTooltipPosition="above" matTooltipShowDelay="750"
-            [matTooltip]="referral.patientFirstName + ' ' + referral.patientLastName">
-            {{referral.patientFirstName}} {{referral.patientLastName}}
+    <div fxFlex="350px">
+      <mat-card class="clinic-chat" *ngIf="referral !== undefined" fxLayout="row">
+        <div [fxFlex]="clinicType === 'specialist' ? 50 : 100" (click)="talkTo(true)" class="l"
+          [ngClass]="{'active': selectedChannel === 'c2c'}" matTooltipPosition="above" matTooltipShowDelay="750"
+          [matTooltip]="referral.toClinicName">
+          {{clinicType === 'dentist' ? referral.toClinicName : referral.fromClinicName }}
+        </div>
+        <div *ngIf="clinicType === 'specialist'" class="vert"></div>
+        <div *ngIf="clinicType === 'specialist'" fxFlex="50" (click)="talkTo(false)" class="r"
+          [ngClass]="{'active': selectedChannel === 'c2p'}" matTooltipPosition="above" matTooltipShowDelay="750"
+          [matTooltip]="referral.patientFirstName + ' ' + referral.patientLastName">
+          {{referral.patientFirstName}} {{referral.patientLastName}}
+        </div>
+      </mat-card>
+
+      <mat-card class="mat-elevation-z4 chat" *ngIf="referral !== undefined" fxLayout="column">
+        <div class="ms" fxFlex>
+          <div class="text" [ngClass]="m.userId === user?.email ? 'sender': 'receiver'" fxLayout="column"
+            *ngFor="let m of messages">
+            <div>{{m.text}}</div>
           </div>
         </div>
 
-        <div class="sd-card chat" *ngIf="referral !== undefined" fxLayout="column">
-          <div class="ms" fxFlex>
-            <div class="text" [ngClass]="m.userId === user?.email ? 'sender': 'receiver'" fxLayout="column"
-              *ngFor="let m of messages">
-              <div>{{m.text}}</div>
-            </div>
-          </div>
-
-          <div fxLayout="row" class="chat-input">
-            <input type="file" name="profile" multiple #fileUpload (change)="onFileSelect($event)"
-              style="display: none;" />
-            <button [disabled]="uploadingDocuments" mat-icon-button (click)="fileUpload.click()">
-              <mat-spinner class="abs" *ngIf="uploadingDocuments" diameter="24"></mat-spinner>
-              <mat-icon>attach_file</mat-icon>
-            </button>
-            <div class="sd-input">
-              <input type="text" [(ngModel)]="messageToSend" (keyup.enter)="enterComment(messageToSend)"
-                placeholder="SuperMessage">
-            </div>
+        <div fxLayout="row" class="chat-input">
+          <input type="file" name="profile" multiple #fileUpload (change)="onFileSelect($event)"
+            style="display: none;" />
+          <button [disabled]="uploadingDocuments" mat-icon-button (click)="fileUpload.click()">
+            <mat-spinner class="abs" *ngIf="uploadingDocuments" diameter="24"></mat-spinner>
+            <mat-icon>attach_file</mat-icon>
+          </button>
+          <div class="sd-input">
+            <input type="text" [(ngModel)]="messageToSend" (keyup.enter)="enterComment(messageToSend)"
+              placeholder="SuperMessage">
           </div>
         </div>
-      </div>
+      </mat-card>
     </div>
   </div>
 </div>

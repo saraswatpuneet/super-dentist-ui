@@ -8,6 +8,7 @@ import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
 import { Channel, ClinicStatus, Message, Referral, referredStatus, sortReferredStatus } from '../shared/services/referral';
 import { ReferralService } from '../shared/services/referral.service';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-referrals-beta',
@@ -18,6 +19,8 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   files: any;
   addId = '';
   referrals: Referral[] = [];
+  referralColumns: string[] = ['select', 'dateReferred', 'patientName', 'phoneNumber', 'referringClinic', 'actions'];
+  selection = new SelectionModel<any>(true, []);
   selectedReferralIndex: number;
   messageToSend = '';
   messages: Message[];
@@ -68,6 +71,31 @@ export class ReferralsBetaComponent extends Base implements OnInit {
       const url = window.URL.createObjectURL(new Blob([res], { type: 'application/zip' }));
       window.location.assign(url);
     });
+  }
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected(): boolean {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.referrals.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle(): void {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.referrals.forEach(row => this.selection.select(row));
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: any): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+  }
+
+  filterReferrals(tabIndex: number): void {
+    console.log(tabIndex);
   }
 
   updateStatus(referralId: string, status: ClinicStatus): void {
