@@ -80,11 +80,16 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif; 
 }
 
+.c-card {
+  padding: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
 .sd-input {
   border-radius: 4px;
   background: transparent;
   border: 1px solid rgba(white, 0.05);
-  color: white;
   font-size: 14px;
   width: 100%;
   box-sizing: border-box;
@@ -132,7 +137,7 @@ body {
     .sub-label {
       margin: 0;
       font-size: 14px;
-      color: rgba(white, 0.5);
+      opacity: 0.5;
     }
   }
 
@@ -141,7 +146,7 @@ body {
     width: 100%;
     box-sizing: border-box;
     border: none;
-    color: rgba(white, 0.7);
+    // color: rgba(white, 0.7);
     background:transparent;
     height: 40px;
     padding: 0 12px;
