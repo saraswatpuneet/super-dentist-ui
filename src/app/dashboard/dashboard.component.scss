@@ -1,107 +1,138 @@
 .dashboard {
-  height: 100%;
-  position: relative;
-  padding: 48px;
-
-  .custom-pms {
-    margin-top: 48px;
+  .main-c {
+    padding: 0;
+    border-radius: 0;
+    background: rgba(38, 38, 38, 0.75);
   }
 
-  .complete-account {
+  .m-w {
     margin: 0 auto;
+    // padding: 0 60px 0 24px;
     max-width: 100%;
-    width: 700px;
-    padding: 24px;
-    box-sizing: border-box;
-
-    h1 {
-      text-align: center;
-    }
-
+    width: 1200px;
   }
-  
-  .clinic {
-    .stepper {      
-      width: 100%;
-      padding-bottom: 64px;
-      p, h1 {
-        margin: 0;
-        text-align: left;
-      }
 
-      p {
-        font-size: 12px;
-        color: rgba(black, 0.5);
-      }
-    }
+  .sup {
+    height: 90%;
+    z-index: 1;
+    opacity: 0.3;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 
-    .spinner-progress {
-      position: relative;
+  .header {
+    height: 58px;
+    position: sticky;
+    top: 0;
+    z-index: 12;
 
-      .step {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        white-space: nowrap;
-      }
-
-      mat-progress-spinner {
-        z-index: 2;
-      }
-
-      .behind {
-        z-index: 1;
-        position: absolute;
-        top: 0;
-        left: 0;
-
-        ::ng-deep circle {
-          stroke: rgba(black, 0.1);
-        }
-      }
-    }
-
-    .clinic-type {
-      padding: 20px 12px 0;
-      transition: 0.3s;
-      border-radius: 4px;
-      border: 1px solid transparent;
-      box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-      cursor: pointer;
-
-      &.active {
-        border: 1px solid var(--ac-blue);
-      }
-
-      &:hover {
-        box-shadow: 0px 4px 5px -2px rgba(0, 0, 0, 0.2), 0px 7px 10px 1px rgba(0, 0, 0, 0.14), 0px 2px 16px 1px rgba(0, 0, 0, 0.12);
-      }
+    > div {
+      height: 100%;
     }
 
     img {
-      height: 150px;
-      border-radius: 4px;
+      height: 36px;
+      margin-right: 12px
     }
 
-    p {
-      text-align: center;
-      font-weight: 500;
+    h1 {
+      font-size: 21px;
+      margin: 0;
     }
   }
 
-  .chip {
-    background: rgba(black, 0.1);
-    cursor: pointer;
-    user-select: none;
-    padding: 4px 20px;
-    border-radius: 20px;
-    margin-bottom: 12px;
-
-    &.active {
-      background: var(--ac-blue);
-      color: white;
-
+  .message {
+    img {
+      width: 100%;
+      height: 300px;
     }
+  }
+
+  .main-pitch {
+    height: calc(100vh - 74px);
+    position: relative;
+  
+    h1 {
+      z-index: 2;
+      font-size: 72px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    p {
+      z-index: 2;
+      font-size: 20px;
+      margin: 16px 0 0;
+      font-weight: 600;
+      opacity: 0.7;
+    }
+  }
+
+  .c {
+    height: 75vh;
+    min-height: 400px;
+
+    h2 {
+      font-size: 40px;
+    }
+
+    p {
+      font-size: 20px;
+      opacity: 0.7;
+      margin-bottom: 4px
+    }
+  }
+
+  .opac-bot {
+    position: sticky;
+    z-index: 20;
+    top: 70vh;
+    left: 0;
+    width: 100%;
+    height: 30vh;
+    background: linear-gradient(to top, rgba(38, 38, 38, 0.80), rgba(38, 38, 38, 0));
+  }
+
+  .search {
+    position: relative;
+    img {
+      width: 100%;
+    }
+  }
+
+  .integration {
+    h2, p {
+      text-align: center;
+    }
+
+    img {
+      height: 46px;
+    }
+  }
+
+  .g-12 {
+    padding-bottom: 8px;
+  }
+
+  .join {
+    height: 50vh;
+    button {
+      margin-top: 24px;
+    }
+  }
+
+  .pms {
+    margin: 40px 0;
+  }
+
+  .footer {
+    padding: 48px 0;
+    box-sizing: border-box;
+  }
+
+  p, h1, h2 {
+    line-height: normal;
   }
 }

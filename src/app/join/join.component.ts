@@ -6,7 +6,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { catchError, debounceTime, delay, filter, flatMap, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { joinAnimations } from './join.animations';
-import { ClinicService } from 'src/app/shared/services/clinic.service';
+import { ClinicService } from '../shared/services/clinic.service';
 import { Base } from 'src/app/shared/base/base-component';
 
 enum Clinic {
@@ -109,17 +109,24 @@ export class JoinComponent extends Base implements OnInit {
     const clinic = this.clinicForm.value;
     const account = this.accountForm.value;
     this.loading = true;
-    this.clinicService.registerAdmin(account.email, true).pipe(
-      switchMap(() => this.clinicService.addClinic([{
-        address: this.selectedAddress.formatted_address,
-        emailAddress: account.email,
-        name: this.selectedAddress.name,
-        phoneNumber: '',
-        speciality: this.specialistTypes.filter(s => s.selected).map(y => y.value),
-        type: clinic.selectedClinic,
-      }])),
-      take(1)
-    ).subscribe(() => this.router.navigate(['']));
+    this.clinicService.registerAdmin(account.email, true)
+      .pipe(
+        switchMap(() => this.clinicService.addClinic([{
+          address: this.selectedAddress.formatted_address,
+          emailAddress: account.email,
+          name: this.selectedAddress.name,
+          phoneNumber: '',
+          speciality: this.specialistTypes.filter(s => s.selected).map(y => y.value),
+          type: clinic.selectedClinic,
+        }])),
+        take(1)
+      ).subscribe(() => {
+        if (clinic.selectedClinic === 'specialist') {
+          this.router.navigate(['referrals']);
+        } else {
+          this.router.navigate(['specialist']);
+        }
+      });
   }
 
   private initForm(): void {

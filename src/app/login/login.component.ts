@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { from, of } from 'rxjs';
-import { catchError, take } from 'rxjs/operators';
+import { catchError, take, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { auth } from 'firebase/app';
 
 import { Base } from 'src/app/shared/base/base-component';
+import { ClinicService } from '../shared/services/clinic.service';
 
 @Component({
   selector: 'app-login',
@@ -21,18 +22,24 @@ export class LoginComponent extends Base implements OnInit {
   constructor(
     private fb: FormBuilder,
     private fauth: AngularFireAuth,
-    private router: Router
+    private router: Router,
+    private clinicService: ClinicService
   ) {
     super();
   }
 
   ngOnInit(): void {
-    this.fauth.setPersistence(auth.Auth.Persistence.SESSION);
-
     this.formGroup = this.fb.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
+    setTimeout(() => this.fauth.setPersistence(auth.Auth.Persistence.SESSION));
+    this.fauth.idToken.pipe(take(1)).subscribe(token => {
+      if (token) {
+        this.routeToLogin();
+      }
+    });
+
   }
 
   createAccount(): void {
@@ -53,9 +60,26 @@ export class LoginComponent extends Base implements OnInit {
       }),
       take(1)
     ).subscribe(res => {
-      this.loading = false;
       if (res) {
-        this.router.navigate(['']);
+        this.routeToLogin()
+      } else {
+        this.loading = false;
+      }
+    });
+  }
+
+  private routeToLogin(): void {
+    this.clinicService.getClinics().pipe(
+      take(1),
+    ).subscribe(myClinics => {
+      this.fauth.setPersistence(auth.Auth.Persistence.SESSION);
+      const c = myClinics.data.clinicDetails[0];
+      this.clinicService.setMyClinics(c);
+      this.loading = false;
+      if (c.type === 'specialist') {
+        this.router.navigate(['/referrals']);
+      } else {
+        this.router.navigate(['/specialist']);
       }
     });
   }

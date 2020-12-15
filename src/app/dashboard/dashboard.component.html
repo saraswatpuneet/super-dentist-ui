@@ -1,3 +1,84 @@
 <div class="dashboard">
-  Working on this check out the other pages
+
+  <div class="header main-c mat-elevation-z2">
+    <div fxLayout="row" class="m-w" fxLayoutAlign=" center">
+      <img src="assets/images/brand.svg" alt="">
+      <h1>SuperDentist</h1>
+      <span fxFlex></span>
+      <button color="primary" mat-raised-button (click)="login()">Login</button>
+    </div>
+  </div>
+
+  <div class="main-pitch m-w" fxLayout="column" fxLayoutAlign="center center">
+    <h1>SuperDentist</h1>
+    <p>Instant Referrals, Fast Completion</p>
+
+    <div class="sup">
+      <!-- <img src="assets/images/super.svg" alt=""> -->
+    </div>
+  </div>
+
+  <div class="opac-bot"></div>
+
+  <div class="m-w c search" fxLayout="row">
+    <div fxLayout="column" fxFlex="50">
+      <h2>SuperReferral</h2>
+      <p class="g-12">Reduce your referral process from weeks to minutes.</p>
+      <p>1. Search and favorite nearby specialists.</p>
+      <p>2. Create referrals and upload patient documents.</p>
+      <p>3. Message patients or doctors and track referral status.</p>
+    </div>
+
+    <div>
+      <img src="assets/images/search.svg" alt="">
+    </div>
+  </div>
+
+  <div class="m-w c integration" fxLayout="column">
+    <h2>SuperIntegration</h2>
+    <p>We're integrated with many Practice Management Softwares. </p>
+    <div class="pms" fxLayout="row" fxLayoutGap="24px" fxLayoutAlign="space-between">
+      <div>
+        <img src="assets/images/endovision.png" alt="">
+      </div>
+      <div>
+        <img src="assets/images/omsvision.png" alt="">
+      </div>
+      <div>
+        <img src="assets/images/periovision.png" alt="">
+      </div>
+    </div>
+
+    <div class="pms" fxLayout="row" fxLayoutGap="24px" fxLayoutAlign="space-around center">
+      <img src="assets/images/xldent.png" alt="">
+      <img src="assets/images/pbsendo.png" alt="">
+    </div>
+  </div>
+
+  <div class="m-w c message" fxLayout="row" fxLayoutGap="24px">
+    <div>
+      <div>
+        <img src="assets/images/text.svg" alt="">
+      </div>
+    </div>
+    <div fxFlex="50">
+      <h2>Text or Email</h2>
+      <p>Patients and clinics can communicate from their phone without having to download an app. The referring clinic
+        manages everything through super dentist while they use the classic email or text.</p>
+      <p>You can send updates, get notifications on status, and schedule times with each other.</p>
+    </div>
+  </div>
+
+  <div class="m-w c join" fxLayout="column" fxLayoutAlign=" center">
+    <h2>Join in less than a minute</h2>
+    <p>Our goal is to increase turn around time, automate the flow, and make it easier for you and the front desk.</p>
+    <div>
+      <button mat-raised-button color="primary" (click)="join()">Join SuperDentist</button>
+    </div>
+  </div>
+
+  <div class="footer">
+
+    <div class="m-w" fxLayout="column">Copyright © 2020 SuperDoctor Labs, LLC. All rights reserved.</div>
+  </div>
 </div>

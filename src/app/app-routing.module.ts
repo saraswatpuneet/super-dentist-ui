@@ -8,8 +8,9 @@ import { AccountGuard } from 'src/app/account.guard';
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-    canActivate: [AuthGuard, AccountGuard, VerifiedGuard]
+    // canActivate: [AuthGuard, AccountGuard, VerifiedGuard]
   },
   {
     path: 'referrals',
