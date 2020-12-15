@@ -22,7 +22,7 @@ export class VerifyComponent implements OnInit {
   resendEmail(): void {
     
     this.auth.currentUser.then(user => {
-      this.clinicService.registerAdmin(user.email, false).pipe(take(1))
+      this.clinicService.registerAdmin(user.email, true).pipe(take(1))
       .subscribe(response => {
         if (response.error == null) {
           this.sentEmail = true;
