@@ -16,7 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return this.auth.user.pipe(map(user => 
       req.clone({
-      setHeaders: { Authorization: `Bearer `+ user.getIdToken() }
+      setHeaders: { Authorization: `Bearer ${user.getIdToken()}`}
     })),
       mergeMap(authReq => next.handle(authReq))
     );
