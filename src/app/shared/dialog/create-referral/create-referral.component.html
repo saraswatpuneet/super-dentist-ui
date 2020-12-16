@@ -31,21 +31,24 @@
 
     <textarea formControlName="comments" class="sd-input" placeholder="Comments" cols="7"></textarea>
 
-    <div class="teeth" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px">
-      <span>Right</span>
-      <div class="mouth" fxLayout="column">
-        <div class="top" fxLayout="row" fxLayoutGap="12px">
-          <div *ngFor="let tooth of topTeeth" (click)="selectTooth(tooth)" [ngClass]="{'active': selectedTeeth[tooth]}"
-            fxFlex="34px">{{tooth}}</div>
+    <div>
+      <p class="t-p">Select teeth or site(s) to be treated</p>
+      <div class="teeth" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px">
+        <span>Right</span>
+        <div class="mouth" fxLayout="column">
+          <div class="top" fxLayout="row" fxLayoutGap="12px">
+            <div *ngFor="let tooth of topTeeth" (click)="selectTooth(tooth)"
+              [ngClass]="{'active': selectedTeeth[tooth]}" fxFlex="34px">{{tooth}}</div>
+          </div>
+          <div class="horizontal"></div>
+          <div class="vertical"></div>
+          <div class="bottom" fxLayout="row" fxLayoutGap="12px">
+            <div *ngFor="let tooth of bottomTeeth" (click)="selectTooth(tooth)"
+              [ngClass]="{'active': selectedTeeth[tooth]}" fxFlex="34px">{{tooth}}</div>
+          </div>
         </div>
-        <div class="horizontal"></div>
-        <div class="vertical"></div>
-        <div class="bottom" fxLayout="row" fxLayoutGap="12px">
-          <div *ngFor="let tooth of bottomTeeth" (click)="selectTooth(tooth)"
-            [ngClass]="{'active': selectedTeeth[tooth]}" fxFlex="34px">{{tooth}}</div>
-        </div>
+        <span>Left</span>
       </div>
-      <span>Left</span>
     </div>
 
     <input type="file" #fileUpload id="fileUpload" name="fileUpload" multiple="multiple" style="display:none;" />
