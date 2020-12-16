@@ -50,6 +50,8 @@ export class AppComponent extends Base implements OnInit {
     const theme = localStorage.getItem(this.themeKey);
     if (theme === 'light') {
       this.theme = 'light';
+      this.overlayContainer.getContainerElement().classList.remove('dark');
+      this.overlayContainer.getContainerElement().classList.add(this.theme);
     }
 
     this.router.events.pipe(filter(e => e instanceof NavigationEnd), takeUntil(this.unsubscribe$)).subscribe(() => {
