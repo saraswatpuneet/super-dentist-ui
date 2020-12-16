@@ -1,4 +1,4 @@
-<div class="verify-email">
+<mat-card class="c-card verify-email">
   <button mat-icon-button class=" close" (click)="home()">
     <mat-icon>close</mat-icon>
   </button>
@@ -8,11 +8,12 @@
       <h3>Verify your email to use SuperDentist</h3>
     </div>
 
-    <p>We sent an email to <b>{{userEmail}}</b> called "Activate your SuperDentist Account".</p>
+    <p><span>We sent an email to </span> <b>{{userEmail}}</b> <span> called "Activate your SuperDentist Account".</span>
+    </p>
 
     <div fxLayout="row" fxLayoutAlign="center">
       <button mat-raised-button color="primary" [disabled]="sentEmail"
         (click)="resendEmail()">{{ sentEmail ? 'Email Sent':'Resend Confirmation'}}</button>
     </div>
   </div>
-</div>
+</mat-card>
