@@ -43,11 +43,6 @@
           <mat-icon>schedule</mat-icon>
         </button>
 
-        <!-- <button mat-icon-button [disabled]="!selection.hasValue() || tabIndex !== 1"
-          matTooltip="Cancel selected referrals" matTooltipPosition="above">
-          <mat-icon>cancel_schedule_send</mat-icon>
-        </button> -->
-
         <button mat-icon-button [disabled]="!selection.hasValue() || tabIndex !== 1" (click)="markStatus('completed')"
           matTooltip="Complete selected referrals" matTooltipPosition="above">
           <mat-icon>done</mat-icon>

@@ -56,7 +56,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       cursor: pointer;
-      color: rgba(white, 0.4);
+      opacity: 0.4;
       position: relative;
       transition: 0.3s;
 
@@ -82,7 +82,7 @@
       }
 
       &.active {
-        color: white;
+        opacity: 1;
 
         &.l::before {
           left: 0;
