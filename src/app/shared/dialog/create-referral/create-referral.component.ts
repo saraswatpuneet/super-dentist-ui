@@ -5,9 +5,9 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { of } from 'rxjs';
 import { flatMap, take, tap } from 'rxjs/operators';
 
-import { ReferralService } from 'src/app/shared/services/referral.service';
-import { ClinicService } from 'src/app/shared/services/clinic.service';
-import { Message, ReferralDetails } from 'src/app/shared/services/referral';
+import { ReferralService } from '../../../shared/services/referral.service';
+import { ClinicService } from '../../../shared/services/clinic.service';
+import { Message, ReferralDetails } from '../../../shared/services/referral';
 
 @Component({
   selector: 'app-create-referral',

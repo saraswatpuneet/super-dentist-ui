@@ -23,11 +23,12 @@ export class AppComponent extends Base implements OnInit {
   authenticated = false;
   emailVerified = true;
   expanded = false;
-  expandedKey = 'sdNavExpanded';
   navItems = [
     { path: 'specialist', label: 'Specialist', icon: 'date_range' },
     { path: 'referrals', label: 'Referrals', icon: 'message' },
   ];
+  private expandedKey = 'sdNavExpanded';
+  private themeKey = 'sdTheme';
 
   constructor(
     private domSanitizer: DomSanitizer,
@@ -44,6 +45,11 @@ export class AppComponent extends Base implements OnInit {
       this.expanded = false;
     } else if (expanded === 'true') {
       this.expanded = true;
+    }
+
+    const theme = localStorage.getItem(this.themeKey);
+    if (theme === 'light') {
+      this.theme = 'light';
     }
 
     this.router.events.pipe(filter(e => e instanceof NavigationEnd), takeUntil(this.unsubscribe$)).subscribe(() => {
@@ -92,6 +98,7 @@ export class AppComponent extends Base implements OnInit {
       this.theme = 'dark';
     }
 
+    localStorage.setItem(this.themeKey, this.theme);
     this.overlayContainer.getContainerElement().classList.add(this.theme);
   }
 
