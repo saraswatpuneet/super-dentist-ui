@@ -43,6 +43,10 @@
   }
 
   .message {
+    // p {
+    //   text-align: center;
+    // }
+
     img {
       width: 100%;
       height: 300px;
@@ -100,8 +104,9 @@
 
   .search {
     position: relative;
+
     img {
-      width: 100%;
+      height: 300px;
     }
   }
 
@@ -162,5 +167,11 @@
   p {
     width: 500px;
     max-width: 100%;
+  }
+
+  .hipaa {
+    img {
+      height: 245px;
+    }
   }
 }
