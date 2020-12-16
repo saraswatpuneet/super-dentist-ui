@@ -1,70 +1,68 @@
-<form [formGroup]="patientForm">
-  <div class="referral" fxLayout="column">
-    <button mat-icon-button class="close-dialog" mat-dialog-close>
-      <mat-icon>close</mat-icon>
-    </button>
+<div class="f-t" mat-dialog-title fxLayout="row" fxLayoutAlign="space-between">
+  <h2>Create Referral</h2>
 
-    <h2 mat-dialog-title>Create Referral</h2>
-    <h3>Patient Details</h3>
+  <button mat-icon-button class="close-dialog" mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
 
-    <div fxLayout="column" fxLayoutGap="36px">
-      <div fxLayout="row" fxLayoutGap="24px">
-        <div class="sd-input">
-          <label>First Name</label>
-          <input formControlName="firstName" placeholder="Patient's First Name">
-        </div>
-
-        <div class="sd-input">
-          <label>Last Name</label>
-          <input formControlName="lastName" placeholder="Patient's Last Name">
-        </div>
+<form mat-dialog-content [formGroup]="patientForm">
+  <div fxLayout="column" fxLayoutGap="36px">
+    <div fxLayout="row" fxLayoutGap="24px">
+      <div class="sd-input">
+        <label>First Name</label>
+        <input formControlName="firstName" placeholder="Patient">
       </div>
 
       <div class="sd-input">
-        <label>Email</label>
-        <input formControlName="email" placeholder="Patient's Email">
-      </div>
-      <div class="sd-input">
-        <label>Phone Number</label>
-        <input formControlName="phoneNumber" placeholder="Patient's Phone Number">
-      </div>
-
-      <textarea formControlName="comments" class="sd-input" placeholder="Comments" cols="7"></textarea>
-
-      <div class="teeth" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px">
-        <span>Right</span>
-        <div class="mouth" fxLayout="column">
-          <div class="top" fxLayout="row" fxLayoutGap="12px">
-            <div *ngFor="let tooth of topTeeth" (click)="selectTooth(tooth)"
-              [ngClass]="{'active': selectedTeeth[tooth]}" fxFlex="34px">{{tooth}}</div>
-          </div>
-          <div class="horizontal"></div>
-          <div class="vertical"></div>
-          <div class="bottom" fxLayout="row" fxLayoutGap="12px">
-            <div *ngFor="let tooth of bottomTeeth" (click)="selectTooth(tooth)"
-              [ngClass]="{'active': selectedTeeth[tooth]}" fxFlex="34px">{{tooth}}</div>
-          </div>
-        </div>
-        <span>Left</span>
-      </div>
-
-      <input type="file" #fileUpload id="fileUpload" name="fileUpload" multiple="multiple" style="display:none;" />
-
-      <div>
-        <button mat-raised-button [disabled]="loading" (click)="fileUpload.click()">Attach Documents</button>
-      </div>
-      <div fxLayout="column">
-        <span *ngFor="let file of files">
-          {{file.name}}
-        </span>
+        <label>Last Name</label>
+        <input formControlName="lastName" placeholder="Patient">
       </div>
     </div>
-  </div>
 
-  <mat-dialog-actions fxLayoutGap="24px" class="tgap-12">
-    <span fxFlex></span>
-    <button mat-raised-button color="primary" (click)="create()" [disabled]="!patientForm.valid || loading">
-      Send Referral
-    </button>
-  </mat-dialog-actions>
+    <div class="sd-input">
+      <label>Email</label>
+      <input formControlName="email" placeholder="Patient">
+    </div>
+    <div class="sd-input">
+      <label>Phone Number</label>
+      <input formControlName="phoneNumber" placeholder="Patient">
+    </div>
+
+    <textarea formControlName="comments" class="sd-input" placeholder="Comments" cols="7"></textarea>
+
+    <div class="teeth" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px">
+      <span>Right</span>
+      <div class="mouth" fxLayout="column">
+        <div class="top" fxLayout="row" fxLayoutGap="12px">
+          <div *ngFor="let tooth of topTeeth" (click)="selectTooth(tooth)" [ngClass]="{'active': selectedTeeth[tooth]}"
+            fxFlex="34px">{{tooth}}</div>
+        </div>
+        <div class="horizontal"></div>
+        <div class="vertical"></div>
+        <div class="bottom" fxLayout="row" fxLayoutGap="12px">
+          <div *ngFor="let tooth of bottomTeeth" (click)="selectTooth(tooth)"
+            [ngClass]="{'active': selectedTeeth[tooth]}" fxFlex="34px">{{tooth}}</div>
+        </div>
+      </div>
+      <span>Left</span>
+    </div>
+
+    <input type="file" #fileUpload id="fileUpload" name="fileUpload" multiple="multiple" style="display:none;" />
+
+    <div fxLayout="column" *ngIf="files && files.length > 0">
+      <p>Documents</p>
+      <span *ngFor="let file of files">
+        {{file.name}}
+      </span>
+    </div>
+  </div>
 </form>
+
+<mat-dialog-actions fxLayoutGap="24px" class="tgap-12">
+  <button mat-raised-button [disabled]="loading" (click)="fileUpload.click()">Attach Documents</button>
+  <span fxFlex></span>
+  <button mat-raised-button color="primary" (click)="create()" [disabled]="!patientForm.valid || loading">
+    Send Referral
+  </button>
+</mat-dialog-actions>

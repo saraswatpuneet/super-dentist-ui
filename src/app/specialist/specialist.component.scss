@@ -1,8 +1,17 @@
 .specialist {
-  min-height: 100%;
+  min-height: calc(100vh - 58px);
   position: relative;
-  padding: 12px;
-  margin-top: 48px;
+  padding: 20px;
+  box-sizing: border-box;
+  height: 100%;
+
+  .note {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 8px 12px;
+  }
 
   .actions {
     transform: translate(10px, -10px);
@@ -20,9 +29,7 @@
     max-width: 900px;
 
     .search-clinic {
-      h2 {
-        margin: 0;
-      }
+      padding-right: 16px;
     }
   }
 

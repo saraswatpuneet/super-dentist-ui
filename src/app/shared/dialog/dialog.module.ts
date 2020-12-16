@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { CreateReferralComponent } from './create-referral/create-referral.component';
 import { NearbyClinicsComponent } from './nearby-clinics/nearby-clinics.component';
@@ -19,6 +20,7 @@ import { NearbyClinicsComponent } from './nearby-clinics/nearby-clinics.componen
     MatDialogModule,
     MatButtonModule,
     MatCardModule,
+    MatProgressSpinnerModule,
     MatIconModule,
     FlexLayoutModule,
   ]

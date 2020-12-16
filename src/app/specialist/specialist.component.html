@@ -1,8 +1,12 @@
 <div class="specialist">
 
+  <div class="note" *ngIf="!loading && favoriteClinics.length === 0">
+    No Favorite Specialists.
+  </div>
+
+
   <div class="container" fxLayout="column" fxLayoutGap="48px">
-    <div class="search-clinic" fxLayout="row" fxLayoutAlign="space-between">
-      <h2>Specialists</h2>
+    <div class="search-clinic" fxLayout="row" fxLayoutAlign="end">
       <button mat-raised-button (click)="editFavorites()" [disabled]="loading">Edit Favorites</button>
     </div>
 

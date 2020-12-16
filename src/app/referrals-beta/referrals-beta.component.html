@@ -1,9 +1,6 @@
 <div class="referrals" fxLayout="column" fxLayoutGap="48px">
-  <div class="search-clinic">
-    <h2>Referrals</h2>
-  </div>
 
-  <div fxLayout="row" fxFlex fxLayoutGap="48px">
+  <div fxLayout="row" fxFlex fxLayoutGap="20px">
     <div fxFlex>
       <mat-tab-group *ngIf="clinicType === 'dentist'" (selectedIndexChange)="filterDentistReferrals($event)"
         [(selectedIndex)]="tabIndex">

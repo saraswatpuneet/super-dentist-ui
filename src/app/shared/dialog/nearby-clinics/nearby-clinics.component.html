@@ -24,9 +24,12 @@
 
   <div class="vert"></div>
 
-  <div fxFlex="60">
+  <div class="nearby" fxFlex="60">
     <div class="sd-input">
       <input placeholder="Search for a speciality clinic" (keyup)="searchForClinics()" [(ngModel)]="searchText">
+      <div class="progress" *ngIf="loading">
+        <mat-spinner class="abs" diameter="24"></mat-spinner>
+      </div>
     </div>
 
     <div class="list" fxLayout="column" fxLayoutGap="32px">

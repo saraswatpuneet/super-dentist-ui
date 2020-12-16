@@ -1,79 +1,75 @@
-form {
-  max-height: calc(90vh - 100px);
+.f-t {
+  button {
+    transform: translate(8px, -12px);
+  }
 }
-.referral {
+
+form {
+  padding-top: 16px;
+  height: 100vh
+}
+
+h3 {
+  margin-bottom: 28px;
+}
+
+p {
+  font-size: 20px;
+}
+
+textarea {
+  height: 120px;
+  outline: none;
+  padding: 8px 12px;
+}
+
+.smaller-icon {
+  mat-icon {
+    font-size: 18px;
+  }
+}
+
+.mouth {
   position: relative;
-  width: 808px;
-  max-width: 90vw;
+}
 
-  h3 {
-    margin-bottom: 28px;
-  }
+.top, .bottom {
+  > div {
+    text-align: center;
+    border: 1px solid rgba(white, 0.1);
+    line-height: 14px;
+    border-radius: 4px;
+    padding: 8px;
+    cursor: pointer;
+    transition: 0.3s;
 
-  p {
-    margin: 0;
-  }
+    &:hover {
+      border: 1px solid rgba(white, 0.5);
+    }
 
-  .close-dialog {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
-
-  textarea {
-    height: 120px;
-    outline: none;
-    padding: 8px 12px;
-  }
-
-  .smaller-icon {
-    mat-icon {
-      font-size: 18px;
+    &.active {
+      background: var(--ac-blue);
     }
   }
+}
 
-  .mouth {
-    position: relative;
-  }
+.horizontal {
+  border-bottom: 1px solid rgba(black, 0.3);
+  box-shadow: 0 1px 0 rgba(white, 0.2);
+  padding-top: 9px;
+  margin-bottom: 11px;
+}
 
-  .top, .bottom {
-    > div {
-      text-align: center;
-      border: 1px solid rgba(white, 0.1);
-      line-height: 14px;
-      border-radius: 4px;
-      padding: 8px;
-      cursor: pointer;
-      transition: 0.3s;
-
-      &:hover {
-        border: 1px solid rgba(white, 0.5);
-      }
-
-      &.active {
-        background: var(--ac-blue);
-      }
-    }
-  }
-
-  .horizontal {
-    border-bottom: 1px solid rgba(black, 0.3);
-    box-shadow: 0 1px 0 rgba(white, 0.2);
-    padding-top: 9px;
-    margin-bottom: 11px;
-  }
-  
-  .vertical {
-    border-right: 1px solid rgba(0, 0, 0, 0.3);
-    box-shadow: 1px 0 0 rgba(255, 255, 255, 0.2);
-    padding-left: 4px;
-    position: absolute;
-    margin-right: 5px;
-    top: -10px;
-    height: calc(100% + 20px);
-    left: calc(50% - 2px);
-    transform: translateX(-50%);
-  }
+.vertical {
+  border-right: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 0 0 rgba(255, 255, 255, 0.2);
+  padding-left: 4px;
+  position: absolute;
+  margin-right: 5px;
+  top: -10px;
+  height: calc(100% + 20px);
+  left: calc(50% - 2px);
+  transform: translateX(-50%);
 }
 
 .tgap-12 {

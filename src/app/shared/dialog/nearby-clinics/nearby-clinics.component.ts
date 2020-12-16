@@ -3,8 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { forkJoin, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
-import { ClinicService } from 'src/app/shared/services/clinic.service';
-import { Base } from 'src/app/shared/base/base-component';
+import { ClinicService } from '../../../shared/services/clinic.service';
+import { Base } from '../../../shared/base/base-component';
 import { nearbyClinicsAnimations } from './nearby-clinic.animations';
 
 @Component({
@@ -25,13 +25,10 @@ export class NearbyClinicsComponent extends Base implements OnInit {
     @Inject(MAT_DIALOG_DATA) private data: any,
     private clinicService: ClinicService,
     private dialogRef: MatDialogRef<NearbyClinicsComponent>
-  ) {
-    super();
-  }
+  ) { super(); }
 
   ngOnInit(): void {
     this.watchSearch();
-    console.log(this.data);
     this.favorites = [...this.data.favoriteClinics];
     this.triggerSearch.next();
   }
