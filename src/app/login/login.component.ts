@@ -52,6 +52,7 @@ export class LoginComponent extends Base implements OnInit {
     this.loading = true;
     this.errorMessage = '';
     const { email, password } = this.formGroup.value;
+
     from(this.fauth.setPersistence(auth.Auth.Persistence.SESSION)).pipe(
       flatMap(() => this.fauth.signInWithEmailAndPassword(email, password)),
       catchError(err => {
