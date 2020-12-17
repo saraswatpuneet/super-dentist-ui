@@ -33,7 +33,7 @@ export class LoginComponent extends Base implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
-    setTimeout(() => this.fauth.setPersistence(auth.Auth.Persistence.SESSION));
+
     this.fauth.idToken.pipe(take(1)).subscribe(token => {
       if (token) {
         this.routeToLogin();
@@ -53,7 +53,7 @@ export class LoginComponent extends Base implements OnInit {
     this.loading = true;
     this.errorMessage = '';
     const { email, password } = this.formGroup.value;
-    from(this.fauth.setPersistence(auth.Auth.Persistence.LOCAL)).pipe(
+    from(this.fauth.setPersistence(auth.Auth.Persistence.SESSION)).pipe(
       flatMap(() => this.fauth.signInWithEmailAndPassword(email, password)),
       catchError(err => {
         this.errorMessage = err.message;

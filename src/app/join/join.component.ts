@@ -91,7 +91,7 @@ export class JoinComponent extends Base implements OnInit {
   join(): void {
     const account = this.accountForm.value;
     this.loading = true;
-    from(this.fauth.setPersistence(auth.Auth.Persistence.LOCAL))
+    from(this.fauth.setPersistence(auth.Auth.Persistence.SESSION))
       .pipe(
         flatMap(() => this.fauth.createUserWithEmailAndPassword(account.email, account.password)),
         catchError(err => {
