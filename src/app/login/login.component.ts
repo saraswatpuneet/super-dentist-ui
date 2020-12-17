@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { from, of } from 'rxjs';
-import { catchError, take, map } from 'rxjs/operators';
+import { catchError, take, map, flatMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { auth } from 'firebase/app';
@@ -53,7 +53,8 @@ export class LoginComponent extends Base implements OnInit {
     this.loading = true;
     this.errorMessage = '';
     const { email, password } = this.formGroup.value;
-    from(this.fauth.signInWithEmailAndPassword(email, password)).pipe(
+    from(this.fauth.setPersistence(auth.Auth.Persistence.LOCAL)).pipe(
+      flatMap(() => this.fauth.signInWithEmailAndPassword(email, password)),
       catchError(err => {
         this.errorMessage = err.message;
         return of(null);
@@ -72,7 +73,6 @@ export class LoginComponent extends Base implements OnInit {
     this.clinicService.getClinics().pipe(
       take(1),
     ).subscribe(myClinics => {
-      this.fauth.setPersistence(auth.Auth.Persistence.SESSION);
       const c = myClinics.data.clinicDetails[0];
       this.clinicService.setMyClinics(c);
       this.loading = false;
