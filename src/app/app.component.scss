@@ -25,16 +25,16 @@
     left: 50%;
     z-index: 100;
     transform: translateX(-50%);
-    background: #242526;
 
     span {
-      color: rgba(white, 0.5);
+      opacity: 0.5;
     }
     
     a {
       text-decoration: none;
       font-weight: 500;
-      color: rgba(white, 0.7);
+      opacity: 0.7;
+      color: inherit;
     }
   }
 
