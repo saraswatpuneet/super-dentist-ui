@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { from, of } from 'rxjs';
-import { catchError, take, map, flatMap } from 'rxjs/operators';
+import { catchError, take, flatMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { auth } from 'firebase/app';
 
-import { Base } from 'src/app/shared/base/base-component';
+import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
 
 @Component({
