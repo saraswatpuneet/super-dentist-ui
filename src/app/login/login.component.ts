@@ -39,7 +39,6 @@ export class LoginComponent extends Base implements OnInit {
         this.routeToLogin();
       }
     });
-
   }
 
   createAccount(): void {
