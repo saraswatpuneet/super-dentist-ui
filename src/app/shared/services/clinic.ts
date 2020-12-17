@@ -43,6 +43,100 @@ export function sortSpecialistReasons(): string[] {
   return ['endodontics', 'oralSurgery', 'periodontics', 'pediatricDentist', 'prosthodontics'];
 }
 
+const a = [
+  "consultation",
+  "rootCanalTheropy",
+  "rootCanalRetreatment",
+  "apicoectomySurgery",
+  "postSpaceReparation",
+  "other"
+];
+
+const b = [
+  "extraction",
+  "wisdomTeeth",
+  "boneGrafting",
+  "allOn4",
+  "oralPathology",
+  "frenectomy",
+  "3dImaging",
+  "sedation",
+  "trauma",
+  "tmj",
+  "proProsthetic",
+  "sleepApnea",
+  "other"
+];
+
+const c = [
+  "completePeriodontalExamination",
+  "isolatedPeriodontalExamination",
+  "crownLengthening",
+  "gtr",
+  "recessional",
+  "extractions",
+  "implantConsultation",
+  "3dImaging",
+  "sinusLift",
+  "socketPreservation",
+  "laserTherapy",
+  "ridgeAugmentation",
+  "allOn4",
+  "other"
+];
+
+const d = [
+  "completePeriodontalExamination",
+  "isolatedPeriodontalExamination",
+  "crownLengthening",
+  "gtr",
+  "recessional",
+  "extractions",
+  "implantConsultation",
+  "3dImaging",
+  "sinusLift",
+  "socketPreservation",
+  "laserTherapy",
+  "ridgeAugmentation",
+  "allOn4",
+  "other"
+];
+
+const e = [
+  "completePeriodontalExamination",
+  "isolatedPeriodontalExamination",
+  "crownLengthening",
+  "gtr",
+  "recessional",
+  "extractions",
+  "implantConsultation",
+  "3dImaging",
+  "sinusLift",
+  "socketPreservation",
+  "laserTherapy",
+  "ridgeAugmentation",
+  "allOn4",
+  "other"
+];
+
+const f = [
+  "completePeriodontalExamination",
+  "isolatedPeriodontalExamination",
+  "crownLengthening",
+  "gtr",
+  "recessional",
+  "extractions",
+  "implantConsultation",
+  "3dImaging",
+  "sinusLift",
+  "socketPreservation",
+  "laserTherapy",
+  "ridgeAugmentation",
+  "allOn4",
+  "other"
+];
+
+
 function endodonticsReasons(): any {
   return {
     consultation: { label: 'Consultation', value: 'consultation' },

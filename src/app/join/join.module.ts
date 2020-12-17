@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 import { JoinRoutingModule } from './join-routing.module';
 import { JoinComponent } from './join.component';
@@ -22,6 +23,7 @@ import { LoaderModule } from '../shared/loader/loader.module';
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
+    MatCardModule,
     LoaderModule,
     MatAutocompleteModule,
     MatInputModule,

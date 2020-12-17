@@ -86,7 +86,7 @@
 
       p {
         font-size: 12px;
-        color: rgba(white, 0.5);
+        opacity: 0.5;
       }
     }
 
@@ -133,13 +133,12 @@
 
     .name {
       font-size: 18px;
-      color: white;
     }
 
     .address, .rating {
       font-size: 14px;
       margin-top: 4px;
-      color: rgba(white, 0.5);
+      opacity: 0.5;
     }
   }
   

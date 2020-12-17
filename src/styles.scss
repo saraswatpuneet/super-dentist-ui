@@ -1,33 +1,5 @@
 @import '~@angular/material/theming';
 
-@include mat-core();
-
-$super-dentist-primary: mat-palette($mat-light-blue);
-$super-dentist-accent: mat-palette($mat-pink, A200, A100, A400);
-$super-dentist-warn: mat-palette($mat-red);
-
-$super-dentist-theme: mat-dark-theme((
-  color: (
-    primary: $super-dentist-primary,
-    accent: $super-dentist-accent,
-    warn: $super-dentist-warn,
-  )
-));
-
-$super-dentist-light-theme: mat-light-theme((
-  color: (
-    primary: $super-dentist-primary,
-    accent: $super-dentist-accent,
-    warn: $super-dentist-warn,
-  )
-));
-
-@include angular-material-theme($super-dentist-theme);
-
-.light {
-  @include angular-material-color($super-dentist-light-theme);
-}
-
 :root {
   --red: #ff453a;
     --orange: #ff9f0a;
@@ -72,10 +44,55 @@ $super-dentist-light-theme: mat-light-theme((
     --ac-light-purple: #bdbacf;
 }
 
+@include mat-core();
+
+$mat-dark-theme-background: (
+  status-bar: #42464a,
+  app-bar: #42464a,
+  background: black,
+  hover:  #42464a,
+  card: #42464a,
+  dialog: #42464a,
+  disabled-button: #42464a,
+  raised-button: #42464a,
+  focused-button: #42464a,
+  selected-button: #42464a,
+  selected-disabled-button: #42464a,
+  disabled-button-toggle: #42464a,
+  unselected-chip: #42464a,
+  disabled-list-option: #42464a,
+  tooltip: rgba(#2a2d30, 0.7),
+);
+
+$super-dentist-primary: mat-palette($mat-light-blue);
+$super-dentist-accent: mat-palette($mat-pink, A200, A100, A400);
+$super-dentist-warn: mat-palette($mat-red);
+
+$super-dentist-theme: mat-dark-theme((
+  color: (
+    primary: $super-dentist-primary,
+    accent: $super-dentist-accent,
+    warn: $super-dentist-warn,
+  )
+));
+
+$super-dentist-light-theme: mat-light-theme((
+  color: (
+    primary: $super-dentist-primary,
+    accent: $super-dentist-accent,
+    warn: $super-dentist-warn,
+  )
+));
+
+@include angular-material-theme($super-dentist-theme);
+
+.light {
+  @include angular-material-color($super-dentist-light-theme);
+}
+
 html, body { height: 100%; }
 body { 
   color: white;
-  background: linear-gradient(#424448, #232425);
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif; 
 }
@@ -187,7 +204,7 @@ body {
     .autocomplete {
       max-height: 350px;
       width:100%;
-      background: var(--grey-4);
+      background: #d9dee6;
       position: absolute;
       overflow: auto;
       box-sizing: border-box;
@@ -250,6 +267,16 @@ body {
         height: 1px;
         background: rgba(black, 0.2) !important;
       }
+    }
+  }
+
+  .dashboard {
+    div.main-c {
+      background: rgba(white, 0.9) !important;
+    }
+
+    .opac-bot {
+      background: linear-gradient(to top, rgba(white, 0.8), rgba(white, 0)) !important;
     }
   }
 }

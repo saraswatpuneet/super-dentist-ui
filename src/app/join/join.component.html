@@ -1,8 +1,10 @@
 <div class="verification">
   <img class="logo" src="assets/images/brand.svg" alt="">
-  <button mat-icon-button class="close" (click)="goToLogin()">
-    <mat-icon>close</mat-icon>
-  </button>
+  <mat-card class="c-card">
+    <button mat-icon-button class="close" (click)="goToLogin()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-card>
 
   <div class="loading-splash" *ngIf="loading" [@fadeInOut] fxLayout="column" fxLayoutGap="32px"
     fxLayoutAlign="center center">
@@ -11,7 +13,8 @@
     <h1>SuperDentist is getting you setup.</h1>
     <app-loader></app-loader>
   </div>
-  <div class="complete-account">
+
+  <mat-card class="c-card complete-account">
     <div class="clinic" fxLayout="column" fxLayoutGap="24px">
       <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px" class="stepper">
         <div class="spinner-progress">
@@ -95,4 +98,4 @@
         </div>
       </form>
     </div>
-  </div>
+  </mat-card>
