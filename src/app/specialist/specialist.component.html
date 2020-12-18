@@ -4,7 +4,6 @@
     No Favorite Specialists.
   </div>
 
-
   <div class="container" fxLayout="column" fxLayoutGap="48px">
     <div class="search-clinic" fxLayout="row" fxLayoutAlign="end">
       <button mat-raised-button (click)="editFavorites()" [disabled]="loading">Edit Favorites</button>
@@ -17,7 +16,7 @@
           <div class="specialist-title" fxLayout="row" fxLayoutAlign="space-between start">
             <div fxLayout="column">
               <span>{{a.name}}</span>
-              <div class="specialist-type" *ngIf="a.types">{{a.types[0]}}</div>
+              <div class="specialist-type">{{a.type}}</div>
             </div>
           </div>
 
@@ -25,8 +24,8 @@
 
           <div class="contact-info" fxLayout="row" fxLayoutAlign="space-between end" fxLayoutGap="12px">
             <div fxLayout="column">
-              <span>{{a.formatted_phone_number}}</span>
-              <span>{{a.formatted_address}}</span>
+              <span>{{a.phoneNumber}}</span>
+              <span>{{a.address}}</span>
             </div>
             <button mat-raised-button (click)="createReferral(a)">Create Referral</button>
           </div>

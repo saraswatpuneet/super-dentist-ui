@@ -3,7 +3,7 @@ export interface ClinicDetail {
   emailAddress: string;
   name: string;
   phoneNumber: string;
-  speciality: string[];
+  specialty: string[];
   type: string;
 }
 
@@ -17,7 +17,7 @@ export interface Doctor {
   firstName: string;
   lastName: string;
   emailAddress: string;
-  speciality: string[];
+  specialty: string[];
 }
 
 export interface ClinicServicesOffered {
@@ -26,113 +26,91 @@ export interface ClinicServicesOffered {
 }
 
 // Key types for specialist
-export type SpecialistType = 'endodontics' | 'oralSurgery' | 'periodontics' | 'pediatricDentist' | 'prosthodontics';
+export type SpecialistType = 'endodontist' | 'oralSurgeon' | 'periodontist' | 'orthodontist' | 'pediatricDentist' | 'prosthodontist';
 
 export function sortSpecialistReasons(): string[] {
-  return ['endodontics', 'oralSurgery', 'periodontics', 'pediatricDentist', 'prosthodontics'];
+  return ['endodontist', 'oralSurgeon', 'periodontist', 'pediatricDentist', 'orthodontist', 'prosthodontist'];
 }
 
 export const sKeys = {
-  endodontics: [
-    "consultation",
-    "rootCanalTheropy",
-    "rootCanalRetreatment",
-    "apicoectomySurgery",
-    "postSpaceReparation",
-    "other"
+  endodontist: [
+    'consultation',
+    'rootCanalTheropy',
+    'rootCanalRetreatment',
+    'apicoectomySurgery',
+    'postSpaceReparation',
+    'other'
   ],
-  oralSurgery: [
-    "extraction",
-    "wisdomTeeth",
-    "boneGrafting",
-    "allOn4",
-    "oralPathology",
-    "frenectomy",
-    "3dImaging",
-    "sedation",
-    "trauma",
-    "tmj",
-    "proProsthetic",
-    "sleepApnea",
-    "other"
+  oralSurgeon: [
+    'extraction',
+    'wisdomTeeth',
+    'implantPlacement',
+    'boneGrafting',
+    'allOn4',
+    'oralPathology',
+    'frenectomy',
+    '3dImaging',
+    'sedation',
+    'trauma',
+    'tmj',
+    'preProsthetic',
+    'sleepApnea',
+    'other'
   ],
-  periodontics: [
-    "completePeriodontalExamination",
-    "isolatedPeriodontalExamination",
-    "crownLengthening",
-    "gtr",
-    "recessional",
-    "extractions",
-    "implantConsultation",
-    "3dImaging",
-    "sinusLift",
-    "socketPreservation",
-    "laserTherapy",
-    "ridgeAugmentation",
-    "allOn4",
-    "other"
+  periodontist: [
+    'completePeriodontalExamination',
+    'isolatedPeriodontalExamination',
+    'crownLengthening',
+    'gtr',
+    'recessional',
+    'extractions',
+    'implantConsultation',
+    '3dImaging',
+    'sinusLift',
+    'socketPreservation',
+    'laserTherapy',
+    'ridgeAugmentation',
+    'allOn4',
+    'other'
   ],
   pediatricDentist: [
-    "completePeriodontalExamination",
-    "isolatedPeriodontalExamination",
-    "crownLengthening",
-    "gtr",
-    "recessional",
-    "extractions",
-    "implantConsultation",
-    "3dImaging",
-    "sinusLift",
-    "socketPreservation",
-    "laserTherapy",
-    "ridgeAugmentation",
-    "allOn4",
-    "other"
+    '1stDentalVisit',
+    'toothache',
+    'decay',
+    'sealants',
+    'specialNeeds',
+    'xRays',
+    'sedation',
+    'other'
   ],
-  orthodontics: [
-    "completePeriodontalExamination",
-    "isolatedPeriodontalExamination",
-    "crownLengthening",
-    "gtr",
-    "recessional",
-    "extractions",
-    "implantConsultation",
-    "3dImaging",
-    "sinusLift",
-    "socketPreservation",
-    "laserTherapy",
-    "ridgeAugmentation",
-    "allOn4",
-    "other"
+  orthodontist: [
+    'interceptiveTreatmentEvaluation',
+    'comprehensiveTreatmentEvaluation',
+    'aligners',
+    'orthognathicSurgicalTreatmentEvaluation',
+    '3DImaging',
+    'other'
   ],
-  prosthodontics: [
-    "completePeriodontalExamination",
-    "isolatedPeriodontalExamination",
-    "crownLengthening",
-    "gtr",
-    "recessional",
-    "extractions",
-    "implantConsultation",
-    "3dImaging",
-    "sinusLift",
-    "socketPreservation",
-    "laserTherapy",
-    "ridgeAugmentation",
-    "allOn4",
-    "other"
+  prosthodontist: [
+    'fullMouthReconstruction',
+    'dentalImplants',
+    'estheticEvaluation',
+    'fixedProsthodontics',
+    'other',
   ],
 };
 
 export const reasonsMap = {
   other: { label: 'Other', value: 'other' },
 
-  // endodontics
+  // endodontist
   consultation: { label: 'Consultation', value: 'consultation' },
   rootCanalTheropy: { label: 'Root Canal Theropy', value: 'rootCanalTheropy' },
   rootCanalRetreatment: { label: 'Root Canal Retreatment', value: 'rootCanalRetreatment' },
   apicoectomySurgery: { label: 'Apicoectomy Surgery', value: 'apicoectomySurgery' },
   postSpaceReparation: { label: 'Post Space Reparation', value: 'postSpaceReparation' },
 
-  // oralSurgery
+  // oralSurgeon
   extraction: { label: 'Extraction(s)', value: 'extraction' },
   wisdomTeeth: { label: 'Wisdom Teeth', value: 'wisdomTeeth' },
   boneGrafting: { label: 'Bone Grafting', value: 'boneGrafting' },
@@ -143,10 +121,11 @@ export const reasonsMap = {
   sedation: { label: 'General Anesthia / IV Sedation', value: 'sedation' },
   trauma: { label: 'Trauma', value: 'trauma' },
   tmj: { label: 'TMJ', value: 'tmj' },
-  proProsthetic: { label: 'Pre Prosthetic ', value: 'proProsthetic' },
+  preProsthetic: { label: 'Pre Prosthetic ', value: 'preProsthetic' },
   sleepApnea: { label: 'Sleep Apnea', value: 'sleepApnea' },
+  implantPlacement: { label: 'Implant Placement', value: '' },
 
-  //Periodontics
+  //periodontist
   completePeriodontalExamination: { label: 'Complete Periodontal Examination', value: '' },
   isolatedPeriodontalExamination: { label: 'Isolated Periodontal Examination', value: '' },
   crownLengthening: { label: 'Crown Lengthening', value: '' },
@@ -177,7 +156,7 @@ export const reasonsMap = {
   orthognathicSurgicalTreatmentEvaluation: { label: 'Orthognathic Surgical Treatment Evaluation', value: '' },
   '3DImaging': { label: '3D Imaging', value: '' },
 
-  // prosthodontics
+  // prosthodontist
   fullMouthReconstruction: { label: 'Full Mouth Reconstruction', value: '' },
   dentalImplants: { label: 'Dental Implants', value: '' },
   estheticEvaluation: { label: 'Esthetic Evaluation', value: '' },
@@ -191,6 +170,6 @@ export function specialistReasonKeys(specialistType: SpecialistType): string[] {
 export function specialistReasons(specialistType: SpecialistType): any {
   return {
     order: sKeys[specialistType],
-    values: sKeys[specialistType].reduce((a, b) => (a[b] = reasonsMap[b], a), {})
+    value: sKeys[specialistType].reduce((a, b) => (a[b] = reasonsMap[b], a), {})
   };
 }

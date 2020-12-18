@@ -39,10 +39,10 @@ export class ClinicService {
     return this.http.get(`${this.baseUrl}/getNearbyClinics`);
   }
 
-  getNearbySpecialists(addressId: string, specialities: string): Observable<any> {
+  getNearbySpecialists(addressId: string, specialties: string): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/getNearbySpecialists`, {
       addressId,
-      specialities,
+      specialties,
     });
   }
 

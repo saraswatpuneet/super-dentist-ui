@@ -11,7 +11,7 @@
         *ngFor="let a of favorites; let i = index">
         <div fxLayout="column">
           <span>{{a.name}}</span>
-          <div class="specialist-type" *ngIf="a.types">{{a.types[0]}}</div>
+          <div class="specialist-type">{{a.type}}</div>
         </div>
         <div class="actions">
           <button mat-icon-button (click)="removeFavorite(a, i)">
@@ -26,7 +26,7 @@
 
   <div class="nearby" fxFlex="60">
     <div class="sd-input">
-      <input placeholder="Search for a speciality clinic" (keyup)="searchForClinics()" [(ngModel)]="searchText">
+      <input placeholder="Search for a specialty clinic" (keyup)="searchForClinics()" [(ngModel)]="searchText">
       <div class="progress" *ngIf="loading">
         <mat-spinner class="abs" diameter="24"></mat-spinner>
       </div>

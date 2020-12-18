@@ -118,7 +118,7 @@ export class JoinComponent extends Base implements OnInit {
           emailAddress: account.email,
           name: this.selectedAddress.name,
           phoneNumber: '',
-          speciality: this.specialistTypes.filter(s => s.selected).map(y => y.value),
+          specialty: this.specialistTypes.filter(s => s.selected).map(y => y.value),
           type: clinic.selectedClinic,
         }])),
         take(1)

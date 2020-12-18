@@ -8,7 +8,7 @@ import { flatMap, take, tap } from 'rxjs/operators';
 import { ReferralService } from '../../../shared/services/referral.service';
 import { ClinicService } from '../../../shared/services/clinic.service';
 import { Message, ReferralDetails } from '../../../shared/services/referral';
-import { specialistReasons } from '../../services/clinic';
+import { specialistReasons, specialistReasonKeys } from '../../services/clinic';
 
 @Component({
   selector: 'app-create-referral',
@@ -27,7 +27,7 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
   userEmail = '';
   opened = false;
   reasons: any;
-  selectedReasons: any;
+  selectedReasons: string[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -40,7 +40,9 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.initForm();
-    // this.reasons = specialistReasons('endodontics');
+    if (this.data.specialty && specialistReasonKeys(this.data.specialty)) {
+      this.reasons = specialistReasons(this.data.specialty);
+    }
     this.auth.currentUser.then(user => this.userEmail = user.email);
     this.clinicService.getMyClinics().pipe(take(1)).subscribe(addy => {
       this.fromAddressId = addy.addressId;
@@ -62,7 +64,17 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
     }
     this.loading = true;
 
-    const { email, phoneNumber, firstName, lastName, comments } = this.patientForm.value;
+    let { email, phoneNumber, firstName, lastName, comments } = this.patientForm.value;
+    if (this.selectedReasons.length > 0) {
+      comments += ` You've been referred for: `;
+      this.selectedReasons.forEach((reason, i) => {
+        if (i !== this.selectedReasons.length - 1) {
+          comments += ` ${this.reasons.value[reason].label},`;
+        } else {
+          comments += ` ${this.reasons.value[reason].label}.`;
+        }
+      });
+    }
     const referralDetails: ReferralDetails = {
       patient: {
         email,
@@ -71,9 +83,10 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
         lastName,
       },
       tooth: Object.keys(this.selectedTeeth),
-      toPlaceId: this.data.place_id,
+      toPlaceId: this.data.placeId,
       fromAddressId: this.fromAddressId,
-      status: { gdStatus: 'referred', spStatus: 'referred' }
+      status: { gdStatus: 'referred', spStatus: 'referred' },
+      reasons: this.selectedReasons,
     };
 
     let referralId = '';
