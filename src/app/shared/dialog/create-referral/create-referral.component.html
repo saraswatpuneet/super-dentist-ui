@@ -63,7 +63,7 @@
 </form>
 
 <mat-dialog-actions fxLayoutGap="24px" class="tgap-12">
-  <div class="reasons">
+  <!-- <div class="reasons">
     <mat-form-field>
       <mat-label>Reasons for Visit</mat-label>
       <mat-select [(ngModel)]="selectedReasons" multiple>
@@ -71,7 +71,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-  </div>
+  </div> -->
   <button mat-raised-button [disabled]="loading" (click)="fileUpload.click()">Attach Documents</button>
   <span fxFlex></span>
   <button mat-raised-button color="primary" (click)="create()" [disabled]="!patientForm.valid || loading">

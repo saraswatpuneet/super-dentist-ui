@@ -40,7 +40,7 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.reasons = specialistReasons('endodontics');
+    // this.reasons = specialistReasons('endodontics');
     this.auth.currentUser.then(user => this.userEmail = user.email);
     this.clinicService.getMyClinics().pipe(take(1)).subscribe(addy => {
       this.fromAddressId = addy.addressId;
