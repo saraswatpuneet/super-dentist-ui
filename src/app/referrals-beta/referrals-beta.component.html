@@ -114,7 +114,7 @@
       </div>
     </div>
 
-    <div fxFlex="350px">
+    <div class="c-chat" [@slideInOut] *ngIf="referralId">
       <mat-card class="clinic-chat" *ngIf="referral !== undefined" fxLayout="row">
         <div [fxFlex]="clinicType === 'specialist' ? 50 : 100" (click)="talkTo(true)" class="l"
           [ngClass]="{'active': selectedChannel === 'c2c'}" matTooltipPosition="above" matTooltipShowDelay="750"

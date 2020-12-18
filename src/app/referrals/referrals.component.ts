@@ -8,11 +8,13 @@ import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
 import { Channel, ClinicStatus, Message, Referral, referredStatus, sortReferredStatus } from '../shared/services/referral';
 import { ReferralService } from '../shared/services/referral.service';
+import { referralsAnimations } from './referrals.animations';
 
 @Component({
   selector: 'app-referrals',
   templateUrl: './referrals.component.html',
-  styleUrls: ['./referrals.component.scss']
+  styleUrls: ['./referrals.component.scss'],
+  animations: referralsAnimations
 })
 export class ReferralsComponent extends Base implements OnInit {
   files: any;
@@ -145,7 +147,16 @@ export class ReferralsComponent extends Base implements OnInit {
 
   private watchRoute(): void {
     this.route.queryParams.pipe(
-      filter(params => !!params.r),
+      filter(params => {
+        const hasReferralId = !!params.r;
+        console.log('params changed?');
+
+        if (!hasReferralId) {
+          this.referral = undefined;
+        }
+
+        return hasReferralId;
+      }),
       switchMap(params => {
         return forkJoin([
           this.referralService.get(params.r).pipe(take(1)),

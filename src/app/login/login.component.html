@@ -1,6 +1,6 @@
 <div class="login">
-  <div class="login-container" fxLayout="column" fxLayout.lt-md="column" fxLayoutAlign.lt-md=" center"
-    ngClass.lt-md="smaller" fxLayoutAlign=" center">
+  <div *ngIf="!clickedJoin" [@fade] class="login-container" fxLayout="column" fxLayout.lt-md="column"
+    fxLayoutAlign.lt-md=" center" ngClass.lt-md="smaller" fxLayoutAlign=" center">
 
     <mat-card class="c-card login-splash" fxLayout="column" fxLayoutAlign=" center">
       <h2>SuperDentist</h2>
@@ -10,7 +10,7 @@
     <mat-card class="c-card">
       <form [formGroup]="formGroup" autocomplete="off">
         <div class="login-form">
-          <div class="sd-input gap-24">
+          <div class="sd-input gap-16">
             <input formControlName="email" matInput placeholder="Email">
           </div>
           <div class="sd-input">
@@ -33,7 +33,7 @@
           <span>New customer?</span>
           <div class="l" fxFlex></div>
         </div>
-        <button mat-raised-button [disabled]="loading" (click)="createAccount()">Create Account</button>
+        <button mat-raised-button [disabled]="loading || clickedJoin" (click)="createAccount()">Create Account</button>
       </div>
     </mat-card>
   </div>

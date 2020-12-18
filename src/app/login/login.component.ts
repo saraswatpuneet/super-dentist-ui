@@ -8,25 +8,26 @@ import { auth } from 'firebase/app';
 
 import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
+import { loginAnimations } from './login.animations';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  animations: loginAnimations
 })
 export class LoginComponent extends Base implements OnInit {
   loading = false;
   errorMessage = '';
   formGroup: FormGroup;
+  clickedJoin = false;
 
   constructor(
     private fb: FormBuilder,
     private fauth: AngularFireAuth,
     private router: Router,
     private clinicService: ClinicService
-  ) {
-    super();
-  }
+  ) { super(); }
 
   ngOnInit(): void {
     this.formGroup = this.fb.group({
@@ -42,7 +43,8 @@ export class LoginComponent extends Base implements OnInit {
   }
 
   createAccount(): void {
-    this.router.navigate(['./join']);
+    this.clickedJoin = true;
+    setTimeout(() => this.router.navigate(['./join']), 150);
   }
 
   signIn(): void {

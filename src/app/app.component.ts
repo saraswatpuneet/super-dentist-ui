@@ -55,7 +55,6 @@ export class AppComponent extends Base implements OnInit {
     }
 
     this.router.events.pipe(filter(e => e instanceof NavigationEnd), takeUntil(this.unsubscribe$)).subscribe(() => {
-      console.log(this.router.url);
       if (
         this.router.url.includes('/login') ||
         this.router.url.includes('/join') ||

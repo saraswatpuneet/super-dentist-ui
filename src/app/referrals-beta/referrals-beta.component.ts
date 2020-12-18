@@ -9,11 +9,13 @@ import { ClinicService } from '../shared/services/clinic.service';
 import { Channel, ClinicStatus, Message, Referral, referredStatus, sortReferredStatus } from '../shared/services/referral';
 import { ReferralService } from '../shared/services/referral.service';
 import { SelectionModel } from '@angular/cdk/collections';
+import { referralsBetaAnimations } from './referrals-beta.animations';
 
 @Component({
   selector: 'app-referrals-beta',
   templateUrl: './referrals-beta.component.html',
-  styleUrls: ['./referrals-beta.component.scss']
+  styleUrls: ['./referrals-beta.component.scss'],
+  animations: referralsBetaAnimations
 })
 export class ReferralsBetaComponent extends Base implements OnInit {
   files: any;
@@ -32,6 +34,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   referral: Referral;
   uploadingDocuments = false;
   referredStatuses = referredStatus();
+  referralId = '';
   sortedStatuses = sortReferredStatus();
   private triggerMessage = new Subject();
 
@@ -252,7 +255,10 @@ export class ReferralsBetaComponent extends Base implements OnInit {
 
   private watchRoute(): void {
     this.route.queryParams.pipe(
-      filter(params => !!params.r),
+      filter(params => {
+        this.referralId = params.r;
+        return !!params.r;
+      }),
       switchMap(params => {
         return forkJoin([
           this.referralService.get(params.r).pipe(take(1)),
