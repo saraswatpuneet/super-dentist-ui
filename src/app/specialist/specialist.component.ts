@@ -71,7 +71,7 @@ export class SpecialistComponent extends Base implements OnInit {
       phoneNumber: verifiedDetails.phoneNumber,
       name: verifiedDetails.name,
       email: verifiedDetails.emailAddress,
-      placeId: verifiedDetails.PlaceId,
+      placeId: verifiedDetails.PlaceID,
       address: verifiedDetails.address,
       rating: generalDetails.rating,
       ratingCount: generalDetails.user_ratings_total

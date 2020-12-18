@@ -71,10 +71,18 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
         if (i !== this.selectedReasons.length - 1) {
           comments += ` ${this.reasons.value[reason].label},`;
         } else {
-          comments += ` ${this.reasons.value[reason].label}.`;
+          comments += ` and ${this.reasons.value[reason].label}.`;
         }
       });
     }
+    const tooth = Object.keys(this.selectedTeeth);
+    if (tooth && tooth.length > 0) {
+      comments += `Selected Teeth:`;
+      tooth.forEach(t => {
+        comments += ` ${t}`;
+      });
+    }
+
     const referralDetails: ReferralDetails = {
       patient: {
         email,
@@ -82,7 +90,7 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
         firstName,
         lastName,
       },
-      tooth: Object.keys(this.selectedTeeth),
+      tooth,
       toPlaceId: this.data.placeId,
       fromAddressId: this.fromAddressId,
       status: { gdStatus: 'referred', spStatus: 'referred' },
