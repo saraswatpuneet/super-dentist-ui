@@ -31,7 +31,7 @@
 
     <textarea formControlName="comments" class="sd-input" placeholder="Comments" cols="7"></textarea>
 
-    <div>
+    <div *ngIf="opened">
       <p class="t-p">Select teeth or site(s) to be treated</p>
       <div class="teeth" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px">
         <span>Right</span>
@@ -63,6 +63,15 @@
 </form>
 
 <mat-dialog-actions fxLayoutGap="24px" class="tgap-12">
+  <div class="reasons">
+    <mat-form-field>
+      <mat-label>Reasons for Visit</mat-label>
+      <mat-select [(ngModel)]="selectedReasons" multiple>
+        <mat-option *ngFor="let key of reasons.order" [value]="reasons.values[key].value">{{reasons.values[key].label}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
   <button mat-raised-button [disabled]="loading" (click)="fileUpload.click()">Attach Documents</button>
   <span fxFlex></span>
   <button mat-raised-button color="primary" (click)="create()" [disabled]="!patientForm.valid || loading">

@@ -1,7 +1,8 @@
 <div class="app" fxLayout="column" [ngClass]="theme">
   <mat-card class="c-card">
     <button mat-icon-button class="top-right" (click)="toggleTheme()">
-      <mat-icon>{{theme === 'dark' ? 'nights_stay': 'wb_sunny'}}</mat-icon>
+      <mat-icon [@coin] *ngIf="theme === 'dark'">nights_stay</mat-icon>
+      <mat-icon [@coin] *ngIf="theme !== 'dark'">wb_sunny</mat-icon>
     </button>
   </mat-card>
 

@@ -15,6 +15,13 @@
     top: 8px;
     right: 8px;
     z-index: 301;
+
+    mat-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
 
   .verify-banner {    

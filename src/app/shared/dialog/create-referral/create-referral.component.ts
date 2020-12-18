@@ -8,6 +8,7 @@ import { flatMap, take, tap } from 'rxjs/operators';
 import { ReferralService } from '../../../shared/services/referral.service';
 import { ClinicService } from '../../../shared/services/clinic.service';
 import { Message, ReferralDetails } from '../../../shared/services/referral';
+import { specialistReasons } from '../../services/clinic';
 
 @Component({
   selector: 'app-create-referral',
@@ -24,6 +25,9 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
   bottomTeeth = [32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17];
   selectedTeeth = {};
   userEmail = '';
+  opened = false;
+  reasons: any;
+  selectedReasons: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -36,11 +40,15 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.initForm();
+    this.reasons = specialistReasons('endodontics');
     this.auth.currentUser.then(user => this.userEmail = user.email);
-    this.clinicService.getMyClinics().pipe(take(1)).subscribe(addy => this.fromAddressId = addy.addressId);
+    this.clinicService.getMyClinics().pipe(take(1)).subscribe(addy => {
+      this.fromAddressId = addy.addressId;
+    });
   }
 
   ngAfterViewInit(): void {
+    setTimeout(() => this.opened = true, 500);
     const fileUpload = this.fileUpload.nativeElement;
     fileUpload.onchange = () => {
       this.files = [];

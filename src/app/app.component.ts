@@ -10,7 +10,6 @@ import { from } from 'rxjs';
 import { Base } from './shared/base/base-component';
 import { appAnimations } from './app.animations';
 import { ClinicService } from './shared/services/clinic.service';
-import { sortSpecialistReasons } from './shared/services/clinic';
 
 @Component({
   selector: 'app-root',
@@ -47,8 +46,6 @@ export class AppComponent extends Base implements OnInit {
     } else if (expanded === 'true') {
       this.expanded = true;
     }
-
-    sortSpecialistReasons();
 
     const theme = localStorage.getItem(this.themeKey);
     if (theme === 'light') {

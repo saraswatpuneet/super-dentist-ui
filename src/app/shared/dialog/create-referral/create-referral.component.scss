@@ -4,6 +4,17 @@
   }
 }
 
+.reasons {
+  height: 100%;
+  width: 180px;
+
+  mat-form-field {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
 form {
   padding-top: 16px;
   height: 100vh
@@ -15,7 +26,6 @@ h3 {
 
 .t-p {
   font-size: 16px;
-  // margin-bottom :0;
 }
 
 p {
@@ -80,4 +90,5 @@ textarea {
 .tgap-12 {
   margin-top: 12px;
   margin-bottom: -10px;
+  position: relative;
 }
