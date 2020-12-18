@@ -78,8 +78,12 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
     const tooth = Object.keys(this.selectedTeeth);
     if (tooth && tooth.length > 0) {
       comments += `Selected Teeth:`;
-      tooth.forEach(t => {
-        comments += ` ${t}`;
+      tooth.forEach((t, i) => {
+        if (i !== tooth.length - 1) {
+          comments += ` ${t},`;
+        } else {
+          comments += ` and ${t}.`;
+        }
       });
     }
 
