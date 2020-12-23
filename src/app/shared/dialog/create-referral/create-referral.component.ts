@@ -147,7 +147,7 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
     this.patientForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', Validators.required],
+      email: [''],
       phoneNumber: ['', Validators.required],
       comments: [''],
     });
