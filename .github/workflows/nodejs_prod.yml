@@ -4,7 +4,8 @@
 name: PROD
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ release ]
 env:
   BASE_URL: https://superdentist.io/api/sd/v1
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
