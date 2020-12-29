@@ -1,11 +1,5 @@
 <div class="referrals">
   <div class="container" fxLayout="column" fxLayoutGap="48px">
-    <div class="search-clinic">
-      <div class="sd-input">
-        <input placeholder="Search for a referral">
-      </div>
-    </div>
-
     <div fxLayout="row" fxLayoutGap="48px">
       <div class="list" fxFlex fxLayout="column" fxLayoutGap="52px">
         <mat-card class="ref" fxLayout="column" *ngFor="let a of referrals; let i = index">
@@ -13,7 +7,18 @@
             <div fxLayout="column" fxFlex>
               <span class="specialist-title"> {{a.patientFirstName}} {{a.patientLastName}} </span>
               <div class="contact-info">
-                <div>Referred - {{a.createdOn | date:"MMM dd, yyyy"}}</div>
+                <div class="info">
+                  <div>Patiant Phone</div>
+                  <div>{{a.patientPhone}}</div>
+                </div>
+                <div class="info">
+                  <div>Referred</div>
+                  <div>{{a.createdOn | date:"MMM dd, yyyy"}}</div>
+                </div>
+                <div class="info">
+                  <div>Referring Clinic</div>
+                  <div>{{clinicType === 'dentist' ? a?.toClinicName : a?.fromClinicName }}{{a.symbol}} </div>
+                </div>
               </div>
             </div>
 
@@ -22,6 +27,9 @@
                 matTooltip="Download Patient Documents" matTooltipPosition="above"
                 (click)="downloadFiles(a.referralId)">
                 <mat-icon>get_app</mat-icon>
+              </button>
+              <button mat-icon-button>
+                <mat-icon>description</mat-icon>
               </button>
               <button mat-icon-button (click)="referralChat(i)" matTooltipShowDelay="750"
                 matTooltip="Message Clinic or Patient" matTooltipPosition="above">
@@ -42,7 +50,7 @@
               </div>
 
               <div class="left point">
-                <mat-icon>sports_golf</mat-icon>
+                <mat-icon></mat-icon>
               </div>
 
               <div class="steps" fxLayout="row">
@@ -54,7 +62,7 @@
 
               <div class="right point">
                 <div>
-                  <mat-icon>golf_course</mat-icon>
+                  <mat-icon>done</mat-icon>
                 </div>
               </div>
             </div>
@@ -69,7 +77,7 @@
         </mat-card>
       </div>
 
-      <div fxFlex="350px" *ngIf="referral !== undefined">
+      <div *ngIf="referral !== undefined">
         <mat-card class="clinic-chat" *ngIf="referral !== undefined" fxLayout="row">
           <div [fxFlex]="clinicType === 'specialist' ? 50 : 100" (click)="talkTo(true)" class="l"
             [ngClass]="{'active': selectedChannel === 'c2c'}" matTooltipPosition="above" matTooltipShowDelay="750"

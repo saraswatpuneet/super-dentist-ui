@@ -1,24 +1,24 @@
 export interface Referral {
   referralId: string;
-  document: string[];
   fromPlaceId: string;
-  toPlaceId: string;
   fromClinicName: string;
-  toClinicName: string;
+  fromEmail: string;
   fromClinicAddress: string;
+  toPlaceId: string;
+  toClinicName: string;
   toClinicAddress: string;
+  toEmail: string;
+  patientEmail: string;
+  patientFirstName: string;
+  patientLastName: string;
+  patientPhone: string;
+  document: string[];
   status: ReferralStatus;
   reasons: string[];
   history: string[];
   tooth: string[];
   createdOn: number;
   modifiedOn: number;
-  patientEmail: string;
-  patientFirstName: string;
-  patientLastName: string;
-  patientPhone: string;
-  fromEmail: string;
-  toEmail: string;
   isDirty: boolean;
 }
 

@@ -36,6 +36,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   referredStatuses = referredStatus();
   referralId = '';
   sortedStatuses = sortReferredStatus();
+  showSummary = false;
   private triggerMessage = new Subject();
 
   constructor(
@@ -223,7 +224,19 @@ export class ReferralsBetaComponent extends Base implements OnInit {
       relativeTo: this.route,
       queryParams: {
         r: this.filteredReferrals[index].referralId
-      }
+      },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  referralSummary(index: number): void {
+    console.log(index);
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        s: this.filteredReferrals[index].referralId,
+      },
+      queryParamsHandling: 'merge'
     });
   }
 
@@ -257,6 +270,11 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     this.route.queryParams.pipe(
       filter(params => {
         this.referralId = params.r;
+        this.showSummary = false;
+
+        if (params.s) {
+          this.showSummary = true;
+        }
         return !!params.r;
       }),
       switchMap(params => {

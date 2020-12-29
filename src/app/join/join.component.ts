@@ -39,12 +39,12 @@ export class JoinComponent extends Base implements OnInit {
   active = 0;
   selectedClinic: Clinic = Clinic.Dentist;
   specialistTypes = [
-    { label: 'Endodontist', value: 'endodontist', selected: false },
+    { label: 'Endodontics', value: 'endodontist', selected: false },
     { label: 'Oral Surgeon', value: 'oralSurgeon', selected: false },
-    { label: 'Orthodontist', value: 'orthodontist', selected: false },
+    { label: 'Orthodontics', value: 'orthodontist', selected: false },
     { label: 'Pediatric Dentist', value: 'pediatricDentist', selected: false },
-    { label: 'Periodontist', value: 'periodontist', selected: false },
-    { label: 'Prosthodontist', value: 'prosthodontist', selected: false },
+    { label: 'Periodontics', value: 'periodontist', selected: false },
+    { label: 'Prosthodontics', value: 'prosthodontist', selected: false },
   ];
   verifiedEmail = false;
   clinicForm: FormGroup;

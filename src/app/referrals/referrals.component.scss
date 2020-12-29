@@ -24,10 +24,6 @@
   }
 
   .ref {
-    > :first-child {
-      margin-bottom: 48px;
-    }
-
     &:hover {
       .actions, .status-button {
         opacity: 1;
@@ -162,22 +158,34 @@
 
   .container {
     margin: 0 auto;
-    max-width: 900px
+    max-width: 1200px
   }
 
   mat-card {
-    width: 100%;
+    width: 500px;
 
     .specialist-title {
       font-size: 20px;
       font-weight: 500;
+      margin-bottom: 12px;
     }
   }
 
   .contact-info {
     margin-top: 4px;
-    color: rgba(white, 0.6);
     font-size: 12px;
+
+    .info {
+      padding-bottom: 8px;
+
+      > :first-child {
+        opacity: 0.5;
+      }
+
+      > :last-child {
+        font-size: 14px;
+      }
+    }
   }
 
   .status {
@@ -198,10 +206,7 @@
     }
 
     .right {
-      right: 0;
-      div {
-        transform: scaleX(-1);
-      }
+      right: -2px;
     }
 
     .left {

@@ -14,9 +14,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { ReferralsBetaRoutingModule } from './referrals-beta-routing.module';
 import { ReferralsBetaComponent } from './referrals-beta.component';
+import { ReferralSummaryComponent } from './shared/referral-summary/referral-summary.component';
 
 @NgModule({
-  declarations: [ReferralsBetaComponent],
+  declarations: [ReferralsBetaComponent, ReferralSummaryComponent],
   imports: [
     CommonModule,
     FormsModule,

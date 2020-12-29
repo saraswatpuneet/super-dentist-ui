@@ -125,7 +125,7 @@ export const reasonsMap = {
   sleepApnea: { label: 'Sleep Apnea', value: 'sleepApnea' },
   implantPlacement: { label: 'Implant Placement', value: '' },
 
-  //periodontist
+  // periodontist
   completePeriodontalExamination: { label: 'Complete Periodontal Examination', value: '' },
   isolatedPeriodontalExamination: { label: 'Isolated Periodontal Examination', value: '' },
   crownLengthening: { label: 'Crown Lengthening', value: '' },
