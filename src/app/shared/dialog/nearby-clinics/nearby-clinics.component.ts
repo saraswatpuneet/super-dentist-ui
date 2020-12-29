@@ -75,7 +75,6 @@ export class NearbyClinicsComponent extends Base implements OnInit {
       reqs.push(this.clinicService.removeFavoriteClinics(this.data.addressId, clinicsToRemove).pipe(take(1)));
     }
 
-    console.log(reqs);
     if (reqs.length > 0) {
       this.saving = true;
       forkJoin(reqs)

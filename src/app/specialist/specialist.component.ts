@@ -34,7 +34,6 @@ export class SpecialistComponent extends Base implements OnInit {
   }
 
   createReferral(a: any): void {
-    console.log(a);
     this.dialogService.openCreateReferral(a.placeId, a.specialties[0]);
   }
 

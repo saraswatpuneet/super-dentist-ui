@@ -230,7 +230,6 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   }
 
   referralSummary(index: number): void {
-    console.log(index);
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {

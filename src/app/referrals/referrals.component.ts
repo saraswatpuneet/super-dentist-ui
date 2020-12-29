@@ -149,7 +149,6 @@ export class ReferralsComponent extends Base implements OnInit {
     this.route.queryParams.pipe(
       filter(params => {
         const hasReferralId = !!params.r;
-        console.log('params changed?');
 
         if (!hasReferralId) {
           this.referral = undefined;
