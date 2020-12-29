@@ -12,7 +12,7 @@ export class DialogService {
   constructor(private dialog: MatDialog) { }
 
   openCreateReferral(placeId: string, specialty?: string): MatDialogRef<CreateReferralComponent> {
-    return this.dialog.open(CreateReferralComponent, { data: { placeId, specialty }, autoFocus: false });
+    return this.dialog.open(CreateReferralComponent, { disableClose: true, data: { placeId, specialty }, autoFocus: false });
   }
 
   openNearbyClinics(addressId: string, favoriteClinics: any[]): MatDialogRef<NearbyClinicsComponent> {
