@@ -53,28 +53,29 @@ export class NearbyClinicsComponent extends Base implements OnInit {
     const savedFavorites = this.data.favoriteClinics;
 
     this.favorites.forEach((f, i) => {
-      if (!savedFavorites.some(s => s.place_id === f.place_id)) {
+      if (!savedFavorites.some(s => s.placeId === f.placeId)) {
         clinicsToSave.push(i);
       }
     });
 
     savedFavorites.forEach((f, i) => {
-      if (!this.favorites.some(s => s.place_id === f.place_id)) {
+      if (!this.favorites.some(s => s.placeId === f.placeId)) {
         clinicsToRemove.push(i);
       }
     });
 
     const reqs = [];
     if (clinicsToSave.length > 0) {
-      clinicsToSave = clinicsToSave.map(i => this.favorites[i].place_id);
+      clinicsToSave = clinicsToSave.map(i => this.favorites[i].placeId);
       reqs.push(this.clinicService.addFavoriteClinics(this.data.addressId, clinicsToSave).pipe(take(1)));
     }
 
     if (clinicsToRemove.length > 0) {
-      clinicsToRemove = clinicsToRemove.map(i => savedFavorites[i].place_id);
+      clinicsToRemove = clinicsToRemove.map(i => savedFavorites[i].placeId);
       reqs.push(this.clinicService.removeFavoriteClinics(this.data.addressId, clinicsToRemove).pipe(take(1)));
     }
 
+    console.log(reqs);
     if (reqs.length > 0) {
       this.saving = true;
       forkJoin(reqs)

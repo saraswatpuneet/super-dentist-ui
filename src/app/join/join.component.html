@@ -45,8 +45,9 @@
             <div class="name">{{selectedAddress.name}}</div>
             <div class="address">{{selectedAddress.formatted_address}}</div>
             <div class="rating" *ngIf="selectedAddress.rating">
-              {{selectedAddress.rating}} <div class="stars" [style]="'--rating: ' + selectedAddress.rating"></div>
-              ({{selectedAddress.user_ratings_total}})
+              <span class="score">{{selectedAddress.rating}}</span>
+              <div class="stars" [style]="'--rating: ' + selectedAddress.rating"></div>
+              <span class="count">({{selectedAddress.user_ratings_total}})</span>
               <ng-container *ngIf="selectedAddress.types">&middot; {{selectedAddress.types[0]}}</ng-container>
             </div>
           </div>

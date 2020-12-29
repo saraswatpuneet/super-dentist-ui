@@ -4,32 +4,34 @@
     No Favorite Specialists.
   </div>
 
-  <div class="container" fxLayout="column" fxLayoutGap="48px">
-    <div class="search-clinic" fxLayout="row" fxLayoutAlign="end">
+  <div class="container" fxLayout="column" fxLayoutGap="24px">
+
+    <div class="search-clinic">
       <button mat-raised-button (click)="editFavorites()" [disabled]="loading">Edit Favorites</button>
     </div>
 
-    <div class="list" fxLayout="column" fxLayoutGap="52px">
+    <div class="list" fxLayout="column" fxLayoutGap="24px">
+
       <app-loader class="loading" *ngIf="loading"></app-loader>
-      <mat-card fxLayout="row" fxLayoutGap="24px" *ngFor="let a of favoriteClinics">
-        <div fxFlex fxLayout="column">
-          <div class="specialist-title" fxLayout="row" fxLayoutAlign="space-between start">
-            <div fxLayout="column">
-              <span>{{a.name}}</span>
-              <div class="specialist-type">{{a.type}}</div>
-            </div>
-          </div>
 
-          <span fxFlex></span>
+      <mat-card class="favorite-specialist" fxLayout="column" fxLayoutAlign=" start" *ngFor="let a of favoriteClinics">
+        <div class="specialist-title">{{a.name}}</div>
 
-          <div class="contact-info" fxLayout="row" fxLayoutAlign="space-between end" fxLayoutGap="12px">
-            <div fxLayout="column">
-              <span>{{a.phoneNumber}}</span>
-              <span>{{a.address}}</span>
-            </div>
-            <button mat-raised-button (click)="createReferral(a)">Create Referral</button>
-          </div>
+        <div>{{a.type}}</div>
+
+        <div class="rating" *ngIf="a.rating">
+          <span class="score">{{a.rating}}</span>
+          <div class="stars" [style]="'--rating: ' + a.rating"></div>
+          <span class="count">({{a.ratingCount}})</span>
+          <ng-container *ngIf="a.types">&middot; {{a.types[0]}}</ng-container>
         </div>
+
+        <div>{{a.phoneNumber}}</div>
+        <div>{{a.address}}</div>
+
+        <div fxFlex></div>
+
+        <button mat-raised-button (click)="createReferral(a)">Create Referral</button>
       </mat-card>
     </div>
   </div>

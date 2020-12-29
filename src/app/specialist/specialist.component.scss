@@ -5,6 +5,15 @@
   box-sizing: border-box;
   height: 100%;
 
+  .score {
+    color: var(--orange);
+    margin-right: 4px;
+  }
+
+  .count {
+    opacity: 0.7;
+  }
+
   .note {
     position: absolute;
     top: 50%;
@@ -25,29 +34,31 @@
   }
 
   .container {
-    margin: 0 auto;
-    max-width: 900px;
-
+    width: 500px;
     .search-clinic {
       padding-right: 16px;
     }
   }
 
-  mat-card {
-    height: 150px;
+  .favorite-specialist {
+    height: 200px;
     position: relative;
 
     .specialist-title {
       font-size: 18px;
-      font-weight: 500;
-      padding-bottom: 8px;
+      opacity: 1;
     }
 
-    .specialist-type {
+    > div {
       font-weight: 400;
       opacity: 0.7;
       text-transform: capitalize;
       font-size: 14px;
+    }
+
+    .rating {
+      opacity: 1;
+      padding: 8px 0;
     }
   }
 

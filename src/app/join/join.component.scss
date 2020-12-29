@@ -1,24 +1,17 @@
-.stars {
-  --percent: calc(var(--rating) / 5 * 100%);
-  display: inline-block;
-  font-size: 20px;
-  font-family: Times; // make sure ★ appears correctly
-  line-height: 1;
-  
-  &::before {
-    content: '★★★★★';
-    letter-spacing: 3px;
-    background: linear-gradient(90deg, var(--yellow) var(--percent), white var(--percent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-}
-
 .verification {
   height: 100%;
   box-sizing: border-box;
   position: relative;
   padding: 48px;
+
+  .score {
+    color: var(--orange);
+    margin-right: 4px;
+  }
+
+  .count {
+    opacity: 0.5;
+  }
 
   .loading-splash {
     position: fixed;
