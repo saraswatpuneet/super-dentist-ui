@@ -17,12 +17,12 @@ import { NearbyClinicsComponent } from './nearby-clinics/nearby-clinics.componen
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MatDialogModule,
     MatButtonModule,
-    MatSelectModule,
     MatCardModule,
-    MatProgressSpinnerModule,
+    MatDialogModule,
     MatIconModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
     FlexLayoutModule,
   ]
 })

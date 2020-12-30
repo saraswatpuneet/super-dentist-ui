@@ -37,9 +37,16 @@ export class SpecialistComponent extends Base implements OnInit {
   }
 
   createReferral(a: any): void {
+    console.log(a.specialties[0]);
     this.selectedPlaceId = a.placeId;
     this.selectedSpecialty = a.specialties[0];
     this.showCreateReferral = true;
+  }
+
+  cancel(): void {
+    this.selectedPlaceId = undefined;
+    this.selectedSpecialty = undefined;
+    this.showCreateReferral = false;
   }
 
   editFavorites(): void {

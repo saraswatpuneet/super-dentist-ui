@@ -1,11 +1,10 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, Input } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { of } from 'rxjs';
 import { flatMap, take, tap } from 'rxjs/operators';
 
 import { ReferralService } from '../../../shared/services/referral.service';
-import { ClinicService } from '../../../shared/services/clinic.service';
 import { Message, ReferralDetails } from '../../../shared/services/referral';
 import { specialistReasons, specialistReasonKeys, SpecialistType } from '../../../shared/services/clinic';
 
@@ -19,6 +18,7 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
   @Input() placeId: string;
   @Input() specialty: SpecialistType;
   @Input() fromAddressId = '';
+  @Output() cancel = new EventEmitter();
   files = [];
   patientForm: FormGroup;
   loading = false;
@@ -39,14 +39,15 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.initForm();
 
-    if (this.specialty && specialistReasonKeys(this.specialty)) {
-      this.reasons = specialistReasons(this.specialty);
-    }
 
     this.auth.currentUser.then(user => this.userEmail = user.email);
   }
 
   ngAfterViewInit(): void {
+    if (this.specialty && specialistReasonKeys(this.specialty)) {
+      this.reasons = specialistReasons(this.specialty);
+    }
+
     setTimeout(() => this.opened = true, 500);
     const fileUpload = this.fileUpload.nativeElement;
     fileUpload.onchange = () => {
@@ -121,7 +122,7 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
         }
       }),
       take(1)
-    ).subscribe();
+    ).subscribe(() => this.cancel.emit());
   }
 
   selectTooth(tooth: number): void {

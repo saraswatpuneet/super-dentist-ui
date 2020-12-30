@@ -1,43 +1,42 @@
-<div class="specialist">
+<div class="specialist" fxLayout="row">
 
   <div class="note" *ngIf="!loading && favoriteClinics.length === 0">
     No Favorite Specialists.
   </div>
 
-  <div class="container" fxLayout="column" fxLayoutGap="24px">
-
-    <div class="search-clinic">
+  <div class="list" fxFlex="500px" fxLayout="column" fxLayoutGap="24px">
+    <div>
       <button mat-raised-button (click)="editFavorites()" [disabled]="loading">Edit Favorites</button>
     </div>
 
-    <div class="list" fxLayout="column" fxLayoutGap="24px">
+    <app-loader class="loading" *ngIf="loading"></app-loader>
 
-      <app-loader class="loading" *ngIf="loading"></app-loader>
+    <mat-card class="favorite-specialist" fxLayout="column" fxLayoutAlign=" start" *ngFor="let a of favoriteClinics">
+      <div class="specialist-title">{{a.name}}</div>
 
-      <mat-card class="favorite-specialist" fxLayout="column" fxLayoutAlign=" start" *ngFor="let a of favoriteClinics">
-        <div class="specialist-title">{{a.name}}</div>
+      <div>{{a.type}}</div>
 
-        <div>{{a.type}}</div>
+      <div class="rating" *ngIf="a.rating">
+        <span class="score">{{a.rating}}</span>
+        <div class="stars" [style]="'--rating: ' + a.rating"></div>
+        <span class="count">({{a.ratingCount}})</span>
+        <ng-container *ngIf="a.types">&middot; {{a.types[0]}}</ng-container>
+      </div>
 
-        <div class="rating" *ngIf="a.rating">
-          <span class="score">{{a.rating}}</span>
-          <div class="stars" [style]="'--rating: ' + a.rating"></div>
-          <span class="count">({{a.ratingCount}})</span>
-          <ng-container *ngIf="a.types">&middot; {{a.types[0]}}</ng-container>
-        </div>
+      <div>{{a.phoneNumber}}</div>
+      <div>{{a.address}}</div>
 
-        <div>{{a.phoneNumber}}</div>
-        <div>{{a.address}}</div>
+      <div fxFlex></div>
 
-        <div fxFlex></div>
+      <button mat-raised-button (click)="createReferral(a)">Create Referral</button>
+    </mat-card>
+  </div>
 
-        <button mat-raised-button (click)="createReferral(a)">Create Referral</button>
-      </mat-card>
-    </div>
-
-    <div class="create-referral" *ngIf="showCreateReferral">
-      <app-create-referral [fromAddressId]="addressId" [specialty]="selectedSpecialty" [placeId]="selectedPlaceId">
+  <div class="create-referral" *ngIf="showCreateReferral">
+    <mat-card>
+      <app-create-referral (cancel)="cancel()" [fromAddressId]="addressId" [specialty]="selectedSpecialty"
+        [placeId]="selectedPlaceId">
       </app-create-referral>
-    </div>
+    </mat-card>
   </div>
 </div>

@@ -1,12 +1,12 @@
-<div class="f-t" mat-dialog-title fxLayout="row" fxLayoutAlign="space-between">
+<div class="f-t" fxLayout="row" fxLayoutAlign="space-between">
   <h2>Create Referral</h2>
 
-  <button mat-icon-button class="close-dialog" mat-dialog-close>
+  <button mat-icon-button class="close-dialog" (click)="cancel.emit()">
     <mat-icon>close</mat-icon>
   </button>
 </div>
 
-<form mat-dialog-content [formGroup]="patientForm">
+<form [formGroup]="patientForm">
   <div fxLayout="column" fxLayoutGap="36px">
     <div fxLayout="row" fxLayoutGap="24px">
       <div class="sd-input">
@@ -62,7 +62,7 @@
   </div>
 </form>
 
-<mat-dialog-actions fxLayoutGap="24px" class="tgap-12">
+<div fxLayoutGap="24px" class="tgap-12">
   <div class="reasons" *ngIf="reasons">
     <mat-form-field>
       <mat-label>Reasons for Visit</mat-label>
@@ -72,9 +72,15 @@
       </mat-select>
     </mat-form-field>
   </div>
+
   <button mat-raised-button [disabled]="loading" (click)="fileUpload.click()">Attach Documents</button>
+
   <span fxFlex></span>
+
   <button mat-raised-button color="primary" (click)="create()" [disabled]="!patientForm.valid || loading">
-    Send Referral
+    <span *ngIf="!loading">Send Referral</span>
+    <span *ngIf="loading" fxLayoutAlign=" center" fxLayout="row">Sending&nbsp; <mat-spinner diameter="20"></mat-spinner>
+    </span>
+
   </button>
-</mat-dialog-actions>
+</div>

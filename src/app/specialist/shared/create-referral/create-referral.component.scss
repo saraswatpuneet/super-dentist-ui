@@ -16,8 +16,9 @@
 }
 
 form {
+  height: calc(100% - 112px);
+  overflow: auto;
   padding-top: 16px;
-  height: 100vh
 }
 
 h3 {
@@ -64,6 +65,7 @@ textarea {
 
     &.active {
       background: var(--ac-blue);
+      border: 1px solid var(--ac-blue);
     }
   }
 }
