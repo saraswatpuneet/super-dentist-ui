@@ -4,7 +4,7 @@
     No Favorite Specialists.
   </div>
 
-  <div class="list" fxFlex="500px" fxLayout="column" fxLayoutGap="24px">
+  <div class="list" [ngClass]="{'fade': showCreateReferral}" fxFlex="500px" fxLayout="column" fxLayoutGap="24px">
     <div>
       <button mat-raised-button (click)="editFavorites()" [disabled]="loading">Edit Favorites</button>
     </div>
@@ -12,7 +12,7 @@
     <app-loader class="loading" *ngIf="loading"></app-loader>
 
     <mat-card class="favorite-specialist" fxLayout="column" fxLayoutAlign=" start" *ngFor="let a of favoriteClinics">
-      <div class="specialist-title">{{a.name}}</div>
+      <div #favoriteCardEls class="specialist-title">{{a.name}}</div>
 
       <div>{{a.type}}</div>
 
@@ -28,7 +28,25 @@
 
       <div fxFlex></div>
 
-      <button mat-raised-button (click)="createReferral(a)">Create Referral</button>
+      <button mat-raised-button (click)="createReferral(a, favoriteCardEls)">Create Referral</button>
+    </mat-card>
+  </div>
+
+  <div class="selected-referral" #refEl>
+    <mat-card class="favorite-specialist" fxLayout="column" fxLayoutAlign=" start">
+      <div #refCardEl class="specialist-title">{{selectedReferral?.name}}</div>
+
+      <div>{{selectedReferral?.type}}</div>
+
+      <div class="rating" *ngIf="selectedReferral && selectedReferral.rating">
+        <span class="score">{{selectedReferral.rating}}</span>
+        <div class="stars" [style]="'--rating: ' + selectedReferral.rating"></div>
+        <span class="count">({{selectedReferral.ratingCount}})</span>
+        <ng-container *ngIf="selectedReferral.types">&middot; {{selectedReferral.types[0]}}</ng-container>
+      </div>
+
+      <div>{{selectedReferral?.phoneNumber}}</div>
+      <div>{{selectedReferral?.address}}</div>
     </mat-card>
   </div>
 

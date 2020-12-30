@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, ElementRef, ViewChild } from '@angular/core';
 import { map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
@@ -13,12 +13,15 @@ import { specialistReasonKeys, SpecialistType } from '../shared/services/clinic'
   styleUrls: ['./specialist.component.scss']
 })
 export class SpecialistComponent extends Base implements OnInit {
+  @ViewChild('refEl') refEl: ElementRef;
+  @ViewChild('refCardEl') refCardEl: ElementRef;
   favoriteClinics = [];
   loading = false;
   addressId = '';
   selectedSpecialty: SpecialistType;
   selectedPlaceId = '';
   showCreateReferral = false;
+  selectedReferral: any;
   private triggerFavoriteRefresh = new Subject<void>();
 
   constructor(
@@ -36,17 +39,33 @@ export class SpecialistComponent extends Base implements OnInit {
     });
   }
 
-  createReferral(a: any): void {
-    console.log(a.specialties[0]);
+  createReferral(a: any, el: any): void {
     this.selectedPlaceId = a.placeId;
     this.selectedSpecialty = a.specialties[0];
     this.showCreateReferral = true;
+    this.selectedReferral = a;
+    this.refEl.nativeElement.style.height = '100%';
+    const referralBounds = el.parentElement.getBoundingClientRect();
+    this.refCardEl.nativeElement.parentElement.style.transition = 0;
+    this.refCardEl.nativeElement.parentElement.style.top = `${referralBounds.y - 58}px`;
+    setTimeout(() => this.refCardEl.nativeElement.parentElement.style.transition = '0.3s', 100);
+
+    setTimeout(() => {
+      this.refEl.nativeElement.style.transition = '0.3s';
+      this.refCardEl.nativeElement.parentElement.style.top = '20px';
+    }, 200);
   }
 
   cancel(): void {
     this.selectedPlaceId = undefined;
     this.selectedSpecialty = undefined;
     this.showCreateReferral = false;
+    this.refEl.nativeElement.style.height = 0;
+    this.refCardEl.nativeElement.parentElement.style.transition = '0s';
+    setTimeout(() => {
+      this.selectedReferral = undefined;
+      this.refEl.nativeElement.style.transition = '0s';
+    }, 300);
   }
 
   editFavorites(): void {
