@@ -34,5 +34,10 @@
         <button mat-raised-button (click)="createReferral(a)">Create Referral</button>
       </mat-card>
     </div>
+
+    <div class="create-referral" *ngIf="showCreateReferral">
+      <app-create-referral [fromAddressId]="addressId" [specialty]="selectedSpecialty" [placeId]="selectedPlaceId">
+      </app-create-referral>
+    </div>
   </div>
 </div>

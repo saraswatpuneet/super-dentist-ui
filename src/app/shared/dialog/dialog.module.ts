@@ -9,11 +9,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 
-import { CreateReferralComponent } from './create-referral/create-referral.component';
 import { NearbyClinicsComponent } from './nearby-clinics/nearby-clinics.component';
 
 @NgModule({
-  declarations: [CreateReferralComponent, NearbyClinicsComponent],
+  declarations: [NearbyClinicsComponent],
   imports: [
     CommonModule,
     FormsModule,

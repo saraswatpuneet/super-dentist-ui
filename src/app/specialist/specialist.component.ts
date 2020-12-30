@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
 import { DialogService } from '../shared/dialog/dialog.service';
-import { specialistReasonKeys } from '../shared/services/clinic';
+import { specialistReasonKeys, SpecialistType } from '../shared/services/clinic';
 
 @Component({
   selector: 'app-specialist',
@@ -15,7 +15,10 @@ import { specialistReasonKeys } from '../shared/services/clinic';
 export class SpecialistComponent extends Base implements OnInit {
   favoriteClinics = [];
   loading = false;
-  addId = '';
+  addressId = '';
+  selectedSpecialty: SpecialistType;
+  selectedPlaceId = '';
+  showCreateReferral = false;
   private triggerFavoriteRefresh = new Subject<void>();
 
   constructor(
@@ -28,17 +31,19 @@ export class SpecialistComponent extends Base implements OnInit {
     this.watchFavorites();
 
     this.clinicService.getMyClinics().pipe(takeUntil(this.unsubscribe$)).subscribe(addy => {
-      this.addId = addy.addressId;
+      this.addressId = addy.addressId;
       this.triggerFavoriteRefresh.next();
     });
   }
 
   createReferral(a: any): void {
-    this.dialogService.openCreateReferral(a.placeId, a.specialties[0]);
+    this.selectedPlaceId = a.placeId;
+    this.selectedSpecialty = a.specialties[0];
+    this.showCreateReferral = true;
   }
 
   editFavorites(): void {
-    this.dialogService.openNearbyClinics(this.addId, this.favoriteClinics).afterClosed().pipe(take(1)).subscribe(res => {
+    this.dialogService.openNearbyClinics(this.addressId, this.favoriteClinics).afterClosed().pipe(take(1)).subscribe(res => {
       if (!!res) {
         this.favoriteClinics = res;
       }
@@ -48,7 +53,7 @@ export class SpecialistComponent extends Base implements OnInit {
   private watchFavorites(): void {
     this.triggerFavoriteRefresh.pipe(
       tap(() => this.loading = true),
-      switchMap(() => this.clinicService.getFavoriteClinics(this.addId)),
+      switchMap(() => this.clinicService.getFavoriteClinics(this.addressId)),
       map(r => r.data.clinicAddresses.map(a => {
         if (a.verifiedDetails.IsVerified) {
           return this.mapFromVerified(a.verifiedDetails, a.generalDetails);

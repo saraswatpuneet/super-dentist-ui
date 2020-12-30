@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { of } from 'rxjs';
 import { flatMap, take, tap } from 'rxjs/operators';
@@ -8,7 +7,7 @@ import { flatMap, take, tap } from 'rxjs/operators';
 import { ReferralService } from '../../../shared/services/referral.service';
 import { ClinicService } from '../../../shared/services/clinic.service';
 import { Message, ReferralDetails } from '../../../shared/services/referral';
-import { specialistReasons, specialistReasonKeys } from '../../services/clinic';
+import { specialistReasons, specialistReasonKeys, SpecialistType } from '../../../shared/services/clinic';
 
 @Component({
   selector: 'app-create-referral',
@@ -17,7 +16,9 @@ import { specialistReasons, specialistReasonKeys } from '../../services/clinic';
 })
 export class CreateReferralComponent implements OnInit, AfterViewInit {
   @ViewChild('fileUpload', { static: false }) fileUpload: ElementRef;
-  fromAddressId = '';
+  @Input() placeId: string;
+  @Input() specialty: SpecialistType;
+  @Input() fromAddressId = '';
   files = [];
   patientForm: FormGroup;
   loading = false;
@@ -30,23 +31,19 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
   selectedReasons: string[] = [];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: any,
     private fb: FormBuilder,
     private auth: AngularFireAuth,
     private referralService: ReferralService,
-    private clinicService: ClinicService,
-    private dialogRef: MatDialogRef<CreateReferralComponent>
   ) { }
 
   ngOnInit(): void {
     this.initForm();
-    if (this.data.specialty && specialistReasonKeys(this.data.specialty)) {
-      this.reasons = specialistReasons(this.data.specialty);
+
+    if (this.specialty && specialistReasonKeys(this.specialty)) {
+      this.reasons = specialistReasons(this.specialty);
     }
+
     this.auth.currentUser.then(user => this.userEmail = user.email);
-    this.clinicService.getMyClinics().pipe(take(1)).subscribe(addy => {
-      this.fromAddressId = addy.addressId;
-    });
   }
 
   ngAfterViewInit(): void {
@@ -65,6 +62,7 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
     this.loading = true;
 
     let { email, phoneNumber, firstName, lastName, comments } = this.patientForm.value;
+
     if (this.selectedReasons.length > 0) {
       comments += ` You've been referred for: `;
       this.selectedReasons.forEach((reason, i) => {
@@ -95,7 +93,7 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
         lastName,
       },
       tooth,
-      toPlaceId: this.data.placeId,
+      toPlaceId: this.placeId,
       fromAddressId: this.fromAddressId,
       status: { gdStatus: 'referred', spStatus: 'referred' },
       reasons: this.selectedReasons,
@@ -123,7 +121,7 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
         }
       }),
       take(1)
-    ).subscribe(() => this.dialogRef.close());
+    ).subscribe();
   }
 
   selectTooth(tooth: number): void {

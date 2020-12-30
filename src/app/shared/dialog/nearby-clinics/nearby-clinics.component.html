@@ -38,7 +38,7 @@
           <div class="specialist-title" fxLayout="row" fxLayoutAlign="space-between">
             <div fxLayout="column">
               <span>{{a.name}}</span>
-              <div class="specialist-type" *ngIf="a.types">{{a.types[0]}}</div>
+              <div class="specialist-type" *ngIf="a.type">{{a.type}}</div>
             </div>
             <div class="actions">
               <button mat-icon-button (click)="addFavorite(a, i)">
@@ -51,8 +51,8 @@
 
           <div class="contact-info" fxFlex="1 0" fxLayout="row" fxLayoutAlign="space-between end" fxLayoutGap="12px">
             <div fxLayout="column">
-              <span>{{a.formatted_phone_number}}</span>
-              <span>{{a.formatted_address}}</span>
+              <span>{{a.phoneNumber}}</span>
+              <span>{{a.address}}</span>
             </div>
           </div>
         </div>
