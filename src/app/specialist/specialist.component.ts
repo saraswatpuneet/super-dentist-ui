@@ -6,11 +6,13 @@ import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
 import { DialogService } from '../shared/dialog/dialog.service';
 import { specialistReasonKeys, SpecialistType } from '../shared/services/clinic';
+import { specialistAnimations } from './specialist.animations';
 
 @Component({
   selector: 'app-specialist',
   templateUrl: './specialist.component.html',
-  styleUrls: ['./specialist.component.scss']
+  styleUrls: ['./specialist.component.scss'],
+  animations: specialistAnimations
 })
 export class SpecialistComponent extends Base implements OnInit {
   @ViewChild('refEl') refEl: ElementRef;

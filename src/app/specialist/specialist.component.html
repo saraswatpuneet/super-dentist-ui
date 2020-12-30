@@ -50,7 +50,7 @@
     </mat-card>
   </div>
 
-  <div class="create-referral" *ngIf="showCreateReferral">
+  <div [@fade] class="create-referral" *ngIf="showCreateReferral">
     <mat-card>
       <app-create-referral (cancel)="cancel()" [fromAddressId]="addressId" [specialty]="selectedSpecialty"
         [placeId]="selectedPlaceId">
