@@ -14,7 +14,8 @@ import { specialistReasons, specialistReasonKeys, SpecialistType } from '../../.
   styleUrls: ['./create-referral.component.scss']
 })
 export class CreateReferralComponent implements OnInit, AfterViewInit {
-  @ViewChild('fileUpload', { static: false }) fileUpload: ElementRef;
+  @ViewChild('fileUpload') fileUpload: ElementRef;
+  @ViewChild('firstName') firstNameEl: ElementRef;
   @Input() placeId: string;
   @Input() specialty: SpecialistType;
   @Input() fromAddressId = '';
@@ -26,7 +27,6 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
   bottomTeeth = [32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17];
   selectedTeeth = {};
   userEmail = '';
-  opened = false;
   reasons: any;
   selectedReasons: string[] = [];
 
@@ -39,7 +39,6 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.initForm();
 
-
     this.auth.currentUser.then(user => this.userEmail = user.email);
   }
 
@@ -48,8 +47,10 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
       this.reasons = specialistReasons(this.specialty);
     }
 
-    setTimeout(() => this.opened = true, 500);
+    setTimeout(() => this.firstNameEl.nativeElement.focus(), 150);
+
     const fileUpload = this.fileUpload.nativeElement;
+
     fileUpload.onchange = () => {
       this.files = [];
       Array.from(fileUpload.files).forEach(file => this.files.push(file));

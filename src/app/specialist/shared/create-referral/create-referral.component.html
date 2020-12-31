@@ -7,47 +7,58 @@
 </div>
 
 <form autocomplete="off" [formGroup]="patientForm">
-  <div fxLayout="column" fxLayoutGap="36px">
-    <div fxLayout="row" fxLayoutGap="24px">
-      <div class="sd-input">
-        <label>First Name</label>
-        <input autocomplete="off" formControlName="firstName" placeholder="Patient">
-      </div>
-
-      <div class="sd-input">
-        <label>Last Name</label>
-        <input autocomplete="off" formControlName="lastName" placeholder="Patient">
-      </div>
-    </div>
-
-    <div class="sd-input">
-      <label>Email</label>
-      <input autocomplete="off" formControlName="email" placeholder="Patient">
-    </div>
-    <div class="sd-input">
-      <label>Phone Number</label>
-      <input autocomplete="off" formControlName="phoneNumber" placeholder="Patient">
-    </div>
-
-    <textarea autocomplete="off" formControlName="comments" class="sd-input" placeholder="Comments" cols="7"></textarea>
-
-    <div *ngIf="opened">
-      <p class="t-p">Select teeth or site(s) to be treated</p>
-      <div class="teeth" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px">
-        <span>Right</span>
-        <div class="mouth" fxLayout="column">
-          <div class="top" fxLayout="row" fxLayoutGap="12px">
-            <div *ngFor="let tooth of topTeeth" (click)="selectTooth(tooth)"
-              [ngClass]="{'active': selectedTeeth[tooth]}" fxFlex="34px">{{tooth}}</div>
-          </div>
-          <div class="horizontal"></div>
-          <div class="vertical"></div>
-          <div class="bottom" fxLayout="row" fxLayoutGap="12px">
-            <div *ngFor="let tooth of bottomTeeth" (click)="selectTooth(tooth)"
-              [ngClass]="{'active': selectedTeeth[tooth]}" fxFlex="34px">{{tooth}}</div>
-          </div>
+  <div fxLayout="column">
+    <div fxLayout="column" fxLayoutGap="36px">
+      <div fxLayout="row" fxLayoutGap="24px">
+        <div class="sd-input">
+          <label>First Name</label>
+          <input #firstName autocomplete="off" formControlName="firstName" placeholder="Patient">
         </div>
-        <span>Left</span>
+
+        <div class="sd-input">
+          <label>Last Name</label>
+          <input autocomplete="off" formControlName="lastName" placeholder="Patient">
+        </div>
+      </div>
+
+      <div class="sd-input">
+        <label>Email</label>
+        <input autocomplete="off" formControlName="email" placeholder="Patient">
+      </div>
+      <div class="sd-input">
+        <label>Phone Number</label>
+        <input autocomplete="off" formControlName="phoneNumber" placeholder="Patient">
+      </div>
+    </div>
+
+    <div fxLayoutGap="24px" fxLayout="column">
+      <div class="optional-info" fxLayout="row" fxLayoutGap="4px" fxLayoutAlign=" center">
+        <div fxFlex="20px"></div>
+        <div> Additional Info (optional)</div>
+        <div fxFlex></div>
+      </div>
+
+      <textarea autocomplete="off" formControlName="comments" class="sd-input" placeholder="Comments"
+        cols="7"></textarea>
+
+      <div>
+        <p class="t-p">Select teeth or site(s) to be treated</p>
+        <div class="teeth" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px">
+          <span>Right</span>
+          <div class="mouth" fxLayout="column">
+            <div class="top" fxLayout="row" fxLayoutGap="12px">
+              <div *ngFor="let tooth of topTeeth" (click)="selectTooth(tooth)"
+                [ngClass]="{'active': selectedTeeth[tooth]}" fxFlex="34px">{{tooth}}</div>
+            </div>
+            <div class="horizontal"></div>
+            <div class="vertical"></div>
+            <div class="bottom" fxLayout="row" fxLayoutGap="12px">
+              <div *ngFor="let tooth of bottomTeeth" (click)="selectTooth(tooth)"
+                [ngClass]="{'active': selectedTeeth[tooth]}" fxFlex="34px">{{tooth}}</div>
+            </div>
+          </div>
+          <span>Left</span>
+        </div>
       </div>
     </div>
 

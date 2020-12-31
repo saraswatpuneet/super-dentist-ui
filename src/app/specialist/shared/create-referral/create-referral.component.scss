@@ -19,6 +19,21 @@ form {
   height: calc(100% - 112px);
   overflow: auto;
   padding-top: 16px;
+
+  .optional-info {
+    height: 12px;
+    margin-top: 40px;
+
+    & > :nth-child(2) {
+      opacity: 0.7;
+      font-size: 12px;
+    }
+
+    & > :first-child, & > :last-child {
+      height: 1px;
+      background: rgba(grey, 0.4);
+    }
+  }
 }
 
 h3 {
