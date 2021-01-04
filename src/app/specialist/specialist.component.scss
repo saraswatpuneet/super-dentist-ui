@@ -79,8 +79,15 @@
     position: relative;
 
     .specialist-title {
+      width: calc(100% - 36px);
       font-size: 18px;
       opacity: 1;
+    }
+
+    .verified {
+      position: absolute;
+      top: 16px;
+      right: 16px;
     }
 
     > div {

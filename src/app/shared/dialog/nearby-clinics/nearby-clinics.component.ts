@@ -115,7 +115,8 @@ export class NearbyClinicsComponent extends Base implements OnInit {
       placeId: verifiedDetails.PlaceID,
       address: verifiedDetails.address,
       rating: generalDetails.rating,
-      ratingCount: generalDetails.user_ratings_total
+      ratingCount: generalDetails.user_ratings_total,
+      verfied: true,
     };
   }
 
@@ -135,7 +136,8 @@ export class NearbyClinicsComponent extends Base implements OnInit {
       placeId: generalDetails.place_id,
       address: generalDetails.formatted_address,
       rating: generalDetails.rating,
-      ratingCount: generalDetails.user_ratings_total
+      ratingCount: generalDetails.user_ratings_total,
+      verfied: false
     };
   }
 }
