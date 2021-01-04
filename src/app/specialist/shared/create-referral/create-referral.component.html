@@ -27,7 +27,8 @@
       </div>
       <div class="sd-input">
         <label>Phone Number</label>
-        <input autocomplete="off" formControlName="phoneNumber" placeholder="Patient">
+        <input autocomplete="off" mask='(000) 000-0000' [showMaskTyped]="true" formControlName="phoneNumber"
+          placeholder="Patient">
       </div>
     </div>
 

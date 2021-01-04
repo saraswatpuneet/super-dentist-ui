@@ -12,6 +12,7 @@ import { LoaderModule } from '../shared/loader/loader.module';
 import { SpecialistRoutingModule } from './specialist-routing.module';
 import { SpecialistComponent } from './specialist.component';
 import { CreateReferralComponent } from './shared/create-referral/create-referral.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [CreateReferralComponent, SpecialistComponent],
@@ -23,6 +24,7 @@ import { CreateReferralComponent } from './shared/create-referral/create-referra
     MatButtonModule,
     MatCardModule,
     MatIconModule,
+    NgxMaskModule,
     MatSelectModule,
     MatProgressSpinnerModule,
     LoaderModule,
