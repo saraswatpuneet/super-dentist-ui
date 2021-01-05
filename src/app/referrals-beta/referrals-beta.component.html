@@ -34,7 +34,7 @@
         </mat-tab>
       </mat-tab-group>
 
-      <div *ngIf="clinicType === 'specialist'" class="change-status">
+      <mat-card *ngIf="clinicType === 'specialist'" class="c-card change-status">
         <mat-checkbox color="primary" (change)="$event ? masterToggle() : null"
           [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"
           [aria-label]="checkboxLabel()">
@@ -49,7 +49,7 @@
           matTooltip="Complete selected referrals" matTooltipPosition="above">
           <mat-icon>done</mat-icon>
         </button>
-      </div>
+      </mat-card>
 
       <div>
         <table mat-table fxFlex [dataSource]="filteredReferrals" class="mat-elevation-z8">
