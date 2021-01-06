@@ -7,17 +7,19 @@
             <div fxLayout="column" fxFlex>
               <span class="specialist-title"> {{a.patientFirstName}} {{a.patientLastName}} </span>
               <div class="contact-info">
-                <div class="info">
-                  <div>Patiant Phone</div>
-                  <div>{{a.patientPhone}}</div>
-                </div>
-                <div class="info">
-                  <div>Referred</div>
-                  <div>{{a.createdOn | date:"MMM dd, yyyy"}}</div>
-                </div>
-                <div class="info">
-                  <div>Referring Clinic</div>
-                  <div>{{clinicType === 'dentist' ? a?.toClinicName : a?.fromClinicName }}{{a.symbol}} </div>
+                <div fxLayout="row" fxLayoutGap="24px">
+                  <div class="info">
+                    <div>Patient Phone</div>
+                    <div>{{a.patientPhone |  mask: '(000) 000-0000'}}</div>
+                  </div>
+                  <div class="info">
+                    <div>Referred</div>
+                    <div>{{a.createdOn | date:"MMM dd, yyyy"}}</div>
+                  </div>
+                  <div class="info">
+                    <div>Referring Clinic</div>
+                    <div>{{clinicType === 'dentist' ? a?.toClinicName : a?.fromClinicName }}{{a.symbol}} </div>
+                  </div>
                 </div>
               </div>
             </div>

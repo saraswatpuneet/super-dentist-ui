@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { NgxMaskModule } from 'ngx-mask';
 
 import { ReferralsRoutingModule } from './referrals-routing.module';
 import { ReferralsComponent } from './referrals.component';
@@ -22,6 +23,7 @@ import { ReferralsComponent } from './referrals.component';
     MatButtonModule,
     MatCardModule,
     MatTooltipModule,
+    NgxMaskModule,
     MatMenuModule,
     MatProgressSpinnerModule,
     ReferralsRoutingModule

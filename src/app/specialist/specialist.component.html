@@ -13,10 +13,7 @@
 
     <mat-card class="favorite-specialist" fxLayout="column" *ngFor="let a of favoriteClinics">
       <mat-icon class="verified" *ngIf="a.verified" color="primary">verified</mat-icon>
-      <div #favoriteCardEls class="specialist-title" fxLayout="row" fxLayoutAlign="space-between start"
-        fxLayoutGap="12px">
-        <div> {{a.name}} </div>
-      </div>
+      <div #favoriteCardEls class="specialist-title">{{a.name}} </div>
 
       <div>{{a.type}}</div>
 
