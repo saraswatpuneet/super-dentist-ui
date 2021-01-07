@@ -20,6 +20,10 @@ form {
   overflow: auto;
   padding-top: 16px;
 
+  .fifty {
+    width: calc(50% - 13px);
+  }
+
   .optional-info {
     height: 12px;
     margin-top: 40px;

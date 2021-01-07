@@ -38,6 +38,7 @@
   <div class="selected-referral" #refEl>
     <mat-card class="favorite-specialist" fxLayout="column" fxLayoutAlign=" start">
       <div #refCardEl class="specialist-title">{{selectedReferral?.name}}</div>
+      <mat-icon class="verified" *ngIf="selectedReferral?.verified" color="primary">verified</mat-icon>
 
       <div>{{selectedReferral?.type}}</div>
 

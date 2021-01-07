@@ -21,11 +21,11 @@
         </div>
       </div>
 
-      <div class="sd-input">
+      <div class="sd-input fifty">
         <label>Email</label>
         <input autocomplete="off" formControlName="email" placeholder="Patient">
       </div>
-      <div class="sd-input">
+      <div class="sd-input fifty">
         <label>Phone Number</label>
         <input autocomplete="off" mask='(000) 000-0000' [showMaskTyped]="true" formControlName="phoneNumber"
           placeholder="Patient">
@@ -33,7 +33,7 @@
     </div>
 
     <div fxLayoutGap="24px" fxLayout="column">
-      <div class="optional-info" fxLayout="row" fxLayoutGap="4px" fxLayoutAlign=" center">
+      <div class="optional-info" fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
         <div fxFlex="20px"></div>
         <div> Additional Info (optional)</div>
         <div fxFlex></div>
@@ -61,16 +61,17 @@
           <span>Left</span>
         </div>
       </div>
+
+      <div fxLayout="column" *ngIf="files && files.length > 0">
+        <p>Documents</p>
+        <span *ngFor="let file of files">
+          {{file.name}}
+        </span>
+      </div>
     </div>
 
     <input type="file" #fileUpload id="fileUpload" name="fileUpload" multiple="multiple" style="display:none;" />
 
-    <div fxLayout="column" *ngIf="files && files.length > 0">
-      <p>Documents</p>
-      <span *ngFor="let file of files">
-        {{file.name}}
-      </span>
-    </div>
   </div>
 </form>
 
