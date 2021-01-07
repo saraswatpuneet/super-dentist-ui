@@ -69,14 +69,15 @@ textarea {
 }
 
 .top, .bottom {
-  > div {
+  > div > div {
     text-align: center;
-    border: 1px solid rgba(white, 0.1);
+    border: 1px solid rgba(grey, 0.4);
     line-height: 14px;
     border-radius: 4px;
-    padding: 8px;
+    padding: 6px;
     cursor: pointer;
     transition: 0.3s;
+    font-size: 12px;
 
     &:hover {
       border: 1px solid rgba(white, 0.5);
@@ -90,22 +91,20 @@ textarea {
 }
 
 .horizontal {
-  border-bottom: 1px solid rgba(black, 0.3);
-  box-shadow: 0 1px 0 rgba(white, 0.2);
-  padding-top: 9px;
-  margin-bottom: 11px;
+  border-bottom: 1px solid rgba(grey, 0.4);
+  padding-top: 13px;
+  margin-bottom: 15px;
 }
 
 .vertical {
-  border-right: 1px solid rgba(0, 0, 0, 0.3);
-  box-shadow: 1px 0 0 rgba(255, 255, 255, 0.2);
+  border-right: 1px solid rgba(128, 128, 128, 0.3);
   padding-left: 4px;
   position: absolute;
   margin-right: 5px;
-  top: -10px;
-  height: calc(100% + 20px);
+  top: 50%;
+  height: 64px;
   left: calc(50% - 2px);
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
 }
 
 .tgap-12 {

@@ -35,11 +35,11 @@
     <div fxLayoutGap="24px" fxLayout="column">
       <div class="optional-info" fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
         <div fxFlex="20px"></div>
-        <div> Additional Info (optional)</div>
+        <div> Optional </div>
         <div fxFlex></div>
       </div>
 
-      <textarea autocomplete="off" formControlName="comments" class="sd-input" placeholder="Comments"
+      <textarea autocomplete="off" formControlName="comments" class="sd-input fifty" placeholder="Comments"
         cols="7"></textarea>
 
       <div>
@@ -47,15 +47,30 @@
         <div class="teeth" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px">
           <span>Right</span>
           <div class="mouth" fxLayout="column">
-            <div class="top" fxLayout="row" fxLayoutGap="12px">
-              <div *ngFor="let tooth of topTeeth" (click)="selectTooth(tooth)"
-                [ngClass]="{'active': selectedTeeth[tooth]}" fxFlex="34px">{{tooth}}</div>
+            <div class="top" fxLayout="row" fxLayoutGap="36px">
+              <div fxLayout="row" fxLayoutGap="12px">
+                <div *ngFor="let tooth of topRight" (click)="selectTooth(tooth)"
+                  [ngClass]="{'active': selectedTeeth[tooth]}" fxFlex="30px">{{tooth}}</div>
+              </div>
+              <div fxLayout="row" fxLayoutGap="12px">
+                <div *ngFor="let tooth of topLeft" (click)="selectTooth(tooth)"
+                  [ngClass]="{'active': selectedTeeth[tooth]}" fxFlex="30px">{{tooth}}</div>
+              </div>
             </div>
+
             <div class="horizontal"></div>
+
             <div class="vertical"></div>
-            <div class="bottom" fxLayout="row" fxLayoutGap="12px">
-              <div *ngFor="let tooth of bottomTeeth" (click)="selectTooth(tooth)"
-                [ngClass]="{'active': selectedTeeth[tooth]}" fxFlex="34px">{{tooth}}</div>
+
+            <div class="bottom" fxLayout="row" fxLayoutGap="36px">
+              <div fxLayout="row" fxLayoutGap="12px">
+                <div *ngFor="let tooth of bottomRight" (click)="selectTooth(tooth)"
+                  [ngClass]="{'active': selectedTeeth[tooth]}" fxFlex="30px">{{tooth}}</div>
+              </div>
+              <div fxLayout="row" fxLayoutGap="12px">
+                <div *ngFor="let tooth of bottomLeft" (click)="selectTooth(tooth)"
+                  [ngClass]="{'active': selectedTeeth[tooth]}" fxFlex="30px">{{tooth}}</div>
+              </div>
             </div>
           </div>
           <span>Left</span>
