@@ -32,29 +32,34 @@
       </div>
     </div>
 
-    <div class="list" fxLayout="column" fxLayoutGap="32px">
-      <mat-card fxLayout="row" [@collapseLeft] fxLayoutGap="24px" *ngFor="let a of nearbySpecialists; let i = index">
-        <div fxFlex fxLayout="column">
-          <div class="specialist-title" fxLayout="row" fxLayoutAlign="space-between">
-            <div fxLayout="column">
-              <span>{{a.name}}</span>
-              <div class="specialist-type" *ngIf="a.type">{{a.type}}</div>
-            </div>
-            <div class="actions">
-              <button mat-icon-button (click)="addFavorite(a, i)">
-                <mat-icon>favorite</mat-icon>
-              </button>
-            </div>
+    <div class="list" fxLayout="column" fxLayoutGap="24px">
+      <mat-card fxLayout="column" [@collapseLeft] *ngFor="let a of nearbySpecialists; let i = index">
+        <div class="specialist-title" fxLayout="row" fxLayoutAlign="space-between start">
+          <div fxLayout="column">
+            <span>{{a.name}}</span>
+            <div class="specialist-type" *ngIf="a.type">{{a.type}}</div>
           </div>
 
-          <span fxFlex></span>
-
-          <div class="contact-info" fxFlex="1 0" fxLayout="row" fxLayoutAlign="space-between end" fxLayoutGap="12px">
-            <div fxLayout="column">
-              <span>{{a.phoneNumber}}</span>
-              <span>{{a.address}}</span>
-            </div>
+          <div fxLayout="row">
+            <button mat-icon-button color="primary" *ngIf="a.verified">
+              <mat-icon color="primary">verified</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="addFavorite(a, i)">
+              <mat-icon>favorite</mat-icon>
+            </button>
           </div>
+        </div>
+
+        <div class="rating" *ngIf="a.rating">
+          <span class="score">{{a.rating}}</span>
+          <div class="stars" [style]="'--rating: ' + a.rating"></div>
+          <span class="count">({{a.ratingCount}})</span>
+          <ng-container *ngIf="a.types">&middot; {{a.types[0]}}</ng-container>
+        </div>
+
+        <div class="contact-info" fxFlex="1 0">
+          <div>{{a.phoneNumber}}</div>
+          <div>{{a.address}}</div>
         </div>
       </mat-card>
     </div>

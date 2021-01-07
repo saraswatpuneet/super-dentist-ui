@@ -71,7 +71,7 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
         if (i !== this.selectedReasons.length - 1) {
           comments += ` ${this.reasons.value[reason].label},`;
         } else {
-          comments += ` and ${this.reasons.value[reason].label}.`;
+          comments += ` ${this.reasons.value[reason].label}.`;
         }
       });
     }
@@ -82,7 +82,7 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
         if (i !== tooth.length - 1) {
           comments += ` ${t},`;
         } else {
-          comments += ` and ${t}.`;
+          comments += ` ${t}.`;
         }
       });
     }

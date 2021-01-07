@@ -11,8 +11,9 @@
 
     <app-loader class="loading" *ngIf="loading"></app-loader>
 
-    <mat-card class="favorite-specialist" fxLayout="column" fxLayoutAlign=" start" *ngFor="let a of favoriteClinics">
-      <div #favoriteCardEls class="specialist-title">{{a.name}}</div>
+    <mat-card class="favorite-specialist" fxLayout="column" *ngFor="let a of favoriteClinics">
+      <mat-icon class="verified" *ngIf="a.verified" color="primary">verified</mat-icon>
+      <div #favoriteCardEls class="specialist-title">{{a.name}} </div>
 
       <div>{{a.type}}</div>
 
@@ -28,7 +29,9 @@
 
       <div fxFlex></div>
 
-      <button mat-raised-button (click)="createReferral(a, favoriteCardEls)">Create Referral</button>
+      <div>
+        <button mat-raised-button (click)="createReferral(a, favoriteCardEls)">Create Referral</button>
+      </div>
     </mat-card>
   </div>
 

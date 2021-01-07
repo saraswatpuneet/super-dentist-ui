@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,13 +6,10 @@ import { Router } from '@angular/router';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
 
   constructor(private router: Router) { }
 
-  ngOnInit() {
-    window.location.href = "https://landing.superdentist.io";
-  }
   join(): void {
     this.router.navigate(['join']);
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, filter, switchMap, take, takeUntil } from 'rxjs/operators';
+import { catchError, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { forkJoin, of, Subject } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -49,12 +49,14 @@ export class ReferralsComponent extends Base implements OnInit {
       if (addy.type === 'dentist') {
         this.referralService.getDentistRerrals(this.addId).pipe(
           catchError(() => of([])),
+          tap(r => r.forEach(d => d.patientPhone = d.patientPhone.replace('+1', ''))),
           take(1)
         )
           .subscribe(res => this.referrals = res);
       } else {
         this.referralService.getSpecialistReferrals(this.addId).pipe(
           catchError(() => of([])),
+          tap(r => r.forEach(d => d.patientPhone = d.patientPhone.replace('+1', ''))),
           take(1)
         )
           .subscribe(res => this.referrals = res);

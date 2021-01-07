@@ -11,9 +11,13 @@ import { MatCardModule } from '@angular/material/card';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DialogModule } from 'src/app/shared/dialog/dialog.module';
-import { environment } from 'src/environments/environment';
-import { AuthInterceptor } from 'src/app/shared/interceptors/auth-interceptor';
+import { DialogModule } from './shared/dialog/dialog.module';
+import { environment } from '../environments/environment';
+import { AuthInterceptor } from './shared/interceptors/auth-interceptor';
+
+import { NgxMaskModule, IConfig } from 'ngx-mask'
+
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +29,7 @@ import { AuthInterceptor } from 'src/app/shared/interceptors/auth-interceptor';
     MatButtonModule,
     MatMenuModule,
     MatCardModule,
+    NgxMaskModule.forRoot(),
     FlexLayoutModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
