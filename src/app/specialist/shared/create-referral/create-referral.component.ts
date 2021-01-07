@@ -23,8 +23,10 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
   files = [];
   patientForm: FormGroup;
   loading = false;
-  topTeeth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
-  bottomTeeth = [32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17];
+  topRight = [1, 2, 3, 4, 5, 6, 7, 8];
+  topLeft = [9, 10, 11, 12, 13, 14, 15, 16];
+  bottomRight = [32, 31, 30, 29, 28, 27, 26, 25];
+  bottomLeft = [24, 23, 22, 21, 20, 19, 18, 17];
   selectedTeeth = {};
   userEmail = '';
   reasons: any;
