@@ -26,6 +26,7 @@ export class AppComponent extends Base implements OnInit {
   navItems = [
     { path: 'specialist', label: 'Specialist', icon: 'date_range' },
     { path: 'referrals', label: 'Referrals', icon: 'message' },
+    { path: 'settings', label: 'Settings', icon: 'settings' },
   ];
   private expandedKey = 'sdNavExpanded';
   private themeKey = 'sdTheme';
