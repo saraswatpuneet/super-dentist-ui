@@ -4,7 +4,6 @@ import { from, of } from 'rxjs';
 import { catchError, take, flatMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { auth } from 'firebase/app';
 
 import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
@@ -55,7 +54,7 @@ export class LoginComponent extends Base implements OnInit {
     this.errorMessage = '';
     const { email, password } = this.formGroup.value;
 
-    from(this.fauth.setPersistence(auth.Auth.Persistence.SESSION)).pipe(
+    from(this.fauth.setPersistence('session')).pipe(
       flatMap(() => this.fauth.signInWithEmailAndPassword(email, password)),
       catchError(err => {
         this.errorMessage = err.message;

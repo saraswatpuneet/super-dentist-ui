@@ -25,7 +25,7 @@ export class ReferralsComponent extends Base implements OnInit {
   messages: Message[];
   clinicType = '';
   selectedChannel: Channel = 'c2c';
-  user: firebase.User;
+  user: firebase.default.User;
   referral: Referral;
   uploadingDocuments = false;
   referredStatuses = referredStatus();

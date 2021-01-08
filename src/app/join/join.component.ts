@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { from, of } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { auth } from 'firebase/app';
-import { catchError, debounceTime, delay, filter, flatMap, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { catchError, debounceTime, delay, filter, switchMap, take, takeUntil, tap, mergeMap } from 'rxjs/operators';
 
 import { joinAnimations } from './join.animations';
 import { ClinicService } from '../shared/services/clinic.service';
@@ -91,9 +90,9 @@ export class JoinComponent extends Base implements OnInit {
   join(): void {
     const account = this.accountForm.value;
     this.loading = true;
-    from(this.fauth.setPersistence(auth.Auth.Persistence.SESSION))
+    from(this.fauth.setPersistence('session'))
       .pipe(
-        flatMap(() => this.fauth.createUserWithEmailAndPassword(account.email, account.password)),
+        mergeMap(() => this.fauth.createUserWithEmailAndPassword(account.email, account.password)),
         catchError(err => {
           this.errorMessage = err.message;
           this.loading = false;
