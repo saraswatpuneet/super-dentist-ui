@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChildren, QueryList, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import * as L from 'leaflet';
 
 import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
@@ -17,6 +18,7 @@ import { specialistAnimations } from './specialist.animations';
 export class SpecialistComponent extends Base implements OnInit {
   @ViewChild('refEl') refEl: ElementRef;
   @ViewChild('refCardEl') refCardEl: ElementRef;
+  @ViewChild('refMap') refMap: ElementRef;
   favoriteClinics = [];
   loading = false;
   addressId = '';
@@ -24,6 +26,8 @@ export class SpecialistComponent extends Base implements OnInit {
   selectedPlaceId = '';
   showCreateReferral = false;
   selectedReferral: any;
+  map: any;
+  location: any;
   private triggerFavoriteRefresh = new Subject<void>();
 
   constructor(
@@ -37,6 +41,8 @@ export class SpecialistComponent extends Base implements OnInit {
 
     this.clinicService.getMyClinics().pipe(takeUntil(this.unsubscribe$)).subscribe(addy => {
       this.addressId = addy.addressId;
+      this.location = addy.Location;
+      setTimeout(() => this.initMap(), 150);
       this.triggerFavoriteRefresh.next();
     });
   }
@@ -76,6 +82,36 @@ export class SpecialistComponent extends Base implements OnInit {
         this.favoriteClinics = res;
       }
     });
+  }
+
+  private initMap(): void {
+    const latLong = [this.location.lat, this.location.long];
+    this.map = L.map(this.refMap.nativeElement, {
+      center: latLong,
+      zoom: 12,
+      minZoom: 1,
+      maxZoom: 19,
+    });
+
+    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    });
+    tiles.addTo(this.map);
+
+
+    // var icon = L.icon({
+    //   iconUrl: '../../assets/icons/leaf-green.png',
+    //   iconSize: [38, 95], // size of the icon
+    //   iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+    //   shadowAnchor: [4, 62],  // the same for the shadow
+    //   popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+    // });
+    L.marker(
+      latLong,
+      // { icon }
+    ).addTo(this.map);
+
   }
 
   private watchFavorites(): void {
