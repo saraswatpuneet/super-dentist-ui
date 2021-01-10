@@ -11,7 +11,7 @@ const envConfigFile = `export const environment = {
 };
 `;
 
-fs.writeFile(targetPath, envConfigFile, 'utf8', (err) => {
+fs.writeFile(targetPath, envConfigFile, (err, data) => {
   if (err) {
     return console.log(err);
   }
