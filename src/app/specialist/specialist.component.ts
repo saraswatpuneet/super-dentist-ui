@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import * as L from 'leaflet';
@@ -15,7 +15,7 @@ import { specialistAnimations } from './specialist.animations';
   styleUrls: ['./specialist.component.scss'],
   animations: specialistAnimations
 })
-export class SpecialistComponent extends Base implements OnInit {
+export class SpecialistComponent extends Base implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('refEl') refEl: ElementRef;
   @ViewChild('refCardEl') refCardEl: ElementRef;
   @ViewChild('refMap') refMap: ElementRef;
@@ -28,6 +28,7 @@ export class SpecialistComponent extends Base implements OnInit {
   selectedReferral: any;
   map: any;
   location: any;
+  private favoriteMarkers = [];
   private triggerFavoriteRefresh = new Subject<void>();
 
   constructor(
@@ -45,6 +46,35 @@ export class SpecialistComponent extends Base implements OnInit {
       setTimeout(() => this.initMap(), 150);
       this.triggerFavoriteRefresh.next();
     });
+  }
+
+  ngAfterViewInit(): void {
+    let latLong = [29.756271257121455, -95.36671136678271];
+
+    if (this.location) {
+      latLong = [this.location.lat, this.location.long];
+    }
+
+    this.map = L.map(this.refMap.nativeElement, {
+      center: latLong,
+      zoom: 12,
+      minZoom: 1,
+      maxZoom: 19,
+    });
+
+    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    });
+    tiles.addTo(this.map);
+  }
+
+  ngOnDestroy(): void {
+    super.ngOnDestroy();
+    if (this.map && this.map.remove) {
+      this.map.off();
+      this.map.remove();
+    }
   }
 
   createReferral(a: any, el: any): void {
@@ -79,39 +109,45 @@ export class SpecialistComponent extends Base implements OnInit {
   editFavorites(): void {
     this.dialogService.openNearbyClinics(this.addressId, this.favoriteClinics).afterClosed().pipe(take(1)).subscribe(res => {
       if (!!res) {
-        this.favoriteClinics = res;
+        this.triggerFavoriteRefresh.next();
+        // this.favoriteClinics = res;
       }
     });
   }
 
   private initMap(): void {
-    const latLong = [this.location.lat, this.location.long];
-    this.map = L.map(this.refMap.nativeElement, {
-      center: latLong,
-      zoom: 12,
-      minZoom: 1,
-      maxZoom: 19,
+    let latLong = [29.756271257121455, -95.36671136678271];
+
+    if (!this.map) {
+      this.map = L.map(this.refMap.nativeElement, {
+        center: latLong,
+        zoom: 12,
+        minZoom: 1,
+        maxZoom: 19,
+      });
+
+      const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      });
+      tiles.addTo(this.map);
+    }
+
+    if (this.location) {
+      latLong = [this.location.lat, this.location.long];
+      this.map.panTo(new L.latLng(this.location.lat, this.location.long));
+    }
+
+    const icon = L.icon({
+      iconUrl: 'assets/icons/home-marker.svg',
+      iconSize: [52, 52],
     });
 
-    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    });
-    tiles.addTo(this.map);
-
-
-    // var icon = L.icon({
-    //   iconUrl: '../../assets/icons/leaf-green.png',
-    //   iconSize: [38, 95], // size of the icon
-    //   iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-    //   shadowAnchor: [4, 62],  // the same for the shadow
-    //   popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
-    // });
     L.marker(
       latLong,
-      // { icon }
+      { icon }
     ).addTo(this.map);
-
+    window.dispatchEvent(new Event('resize'));
   }
 
   private watchFavorites(): void {
@@ -127,6 +163,21 @@ export class SpecialistComponent extends Base implements OnInit {
       })),
       takeUntil(this.unsubscribe$)
     ).subscribe(favorites => {
+      this.favoriteMarkers.forEach(m => this.map.removeLayer(m));
+
+      favorites.forEach(f => {
+        const icon = L.icon({
+          iconUrl: 'assets/icons/clinic-marker.svg',
+          iconSize: [52, 52], // size of the icon
+        });
+
+        const marker = L.marker(
+          [f.geoLocation.lat, f.geoLocation.long],
+          { icon }
+        );
+        this.favoriteMarkers.push(marker);
+        this.map.addLayer(marker);
+      });
       this.favoriteClinics = favorites;
       this.loading = false;
     });
@@ -136,6 +187,7 @@ export class SpecialistComponent extends Base implements OnInit {
     return {
       type: verifiedDetails.type,
       specialties: verifiedDetails.specialty,
+      geoLocation: verifiedDetails.Location,
       phoneNumber: verifiedDetails.phoneNumber,
       name: verifiedDetails.name,
       email: verifiedDetails.emailAddress,
@@ -149,6 +201,7 @@ export class SpecialistComponent extends Base implements OnInit {
 
   private mapFromGeneralDetails(generalDetails: any): any {
     let specialty = '';
+    const geo = generalDetails.geometry.location;
 
     if (generalDetails.types && generalDetails.types[0] && specialistReasonKeys[generalDetails.types[0]]) {
       specialty = generalDetails.types[0];
@@ -157,6 +210,7 @@ export class SpecialistComponent extends Base implements OnInit {
     return {
       type: generalDetails.types ? generalDetails.types[0] : '',
       specialties: [specialty],
+      geoLocation: { lat: geo.lat, long: geo.lng },
       phoneNumber: generalDetails.formatted_phone_number,
       name: generalDetails.name,
       email: undefined,
