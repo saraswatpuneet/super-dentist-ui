@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthGuard } from 'src/app/auth.guard';
-import { VerifiedGuard } from 'src/app/verified.guard';
-import { AccountGuard } from 'src/app/account.guard';
+import { AuthGuard } from './auth.guard';
+import { VerifiedGuard } from './verified.guard';
+import { AccountGuard } from './account.guard';
 
 const routes: Routes = [
   {
@@ -25,6 +25,11 @@ const routes: Routes = [
   {
     path: 'specialist',
     loadChildren: () => import('./specialist/specialist.module').then(m => m.SpecialistModule),
+    canActivate: [AuthGuard, VerifiedGuard]
+  },
+  {
+    path: 'settings',
+    loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),
     canActivate: [AuthGuard, VerifiedGuard]
   },
   {
@@ -52,7 +57,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

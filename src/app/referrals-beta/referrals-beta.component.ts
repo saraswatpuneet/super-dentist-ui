@@ -30,7 +30,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   tabIndex = 0;
   clinicType = '';
   selectedChannel: Channel = 'c2c';
-  user: firebase.User;
+  user: firebase.default.User;
   referral: Referral;
   uploadingDocuments = false;
   referredStatuses = referredStatus();
