@@ -140,7 +140,7 @@ export class SpecialistComponent extends Base implements OnInit, AfterViewInit, 
 
     const icon = L.icon({
       iconUrl: 'assets/icons/home-marker.svg',
-      iconSize: [52, 52],
+      iconSize: [64, 64],
     });
 
     L.marker(
@@ -168,7 +168,7 @@ export class SpecialistComponent extends Base implements OnInit, AfterViewInit, 
       favorites.forEach(f => {
         const icon = L.icon({
           iconUrl: 'assets/icons/clinic-marker.svg',
-          iconSize: [52, 52], // size of the icon
+          iconSize: [64, 64], // size of the icon
         });
 
         const marker = L.marker(
