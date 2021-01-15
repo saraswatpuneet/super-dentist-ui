@@ -28,7 +28,7 @@
 
       <div fxFlex></div>
 
-      <div>
+      <div *ngIf="clinicType === 'dentist'">
         <button mat-raised-button (click)="createReferral(a, favoriteCardEls)">Create Referral</button>
       </div>
     </mat-card>
@@ -58,7 +58,7 @@
 
       <div fxFlex></div>
 
-      <div>
+      <div *ngIf="clinicType === 'dentist'">
         <button mat-raised-button (click)="createReferral(a, favoriteCardEls)">Create Referral</button>
       </div>
     </mat-card>

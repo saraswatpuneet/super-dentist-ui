@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import { map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { map, switchMap, take, takeUntil, tap, catchError } from 'rxjs/operators';
+import { Subject, of } from 'rxjs';
 import * as L from 'leaflet';
 
 import { Base } from '../shared/base/base-component';
@@ -19,6 +19,7 @@ export class SpecialistComponent extends Base implements OnInit, AfterViewInit, 
   @ViewChild('refEl') refEl: ElementRef;
   @ViewChild('refCardEl') refCardEl: ElementRef;
   @ViewChild('refMap') refMap: ElementRef;
+  clinicType = '';
   favoriteClinics = [];
   networkClinics = [];
   placeId = '';
@@ -47,7 +48,7 @@ export class SpecialistComponent extends Base implements OnInit, AfterViewInit, 
     this.clinicService.getMyClinics().pipe(takeUntil(this.unsubscribe$)).subscribe(addy => {
       this.addressId = addy.addressId;
       this.location = addy.Location;
-      this.clinicService.getNetworkFavorites(this.addressId).pipe(take(1)).subscribe(console.log);
+      this.clinicType = addy.type;
       setTimeout(() => this.initMap(), 150);
       this.triggerFavoriteRefresh.next();
       this.triggerNetworkClinics.next();
@@ -194,20 +195,21 @@ export class SpecialistComponent extends Base implements OnInit, AfterViewInit, 
   private watchNetwork(): void {
     this.triggerNetworkClinics.pipe(
       tap(() => this.loading = true),
-      switchMap(() => this.clinicService.getNetworkFavorites(this.addressId)),
-      map(r => r.data.clinicAddresses.map(a => {
-        console.log(a);
-        if (a.verifiedDetails.IsVerified) {
-          return this.mapFromVerified(a.verifiedDetails, a.generalDetails);
+      switchMap(() => this.clinicService.getNetworkFavorites(this.addressId).pipe(() => of(undefined))),
+      map(r => {
+        if (!r) {
+          return [];
         }
+        return r.data.clinicAddresses.map(a => {
+          if (a.verifiedDetails.IsVerified) {
+            return this.mapFromVerified(a.verifiedDetails, a.generalDetails);
+          }
 
-        return this.mapFromGeneralDetails(a.generalDetails);
-      })),
+          return this.mapFromGeneralDetails(a.generalDetails);
+        });
+      }),
       takeUntil(this.unsubscribe$)
-    ).subscribe(networkClinics => {
-      console.log(networkClinics);
-      this.networkClinics = networkClinics;
-    });
+    ).subscribe(networkClinics => this.networkClinics = networkClinics);
   }
 
   private mapFromVerified(verifiedDetails: any, generalDetails: any): any {
