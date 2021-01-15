@@ -195,7 +195,7 @@ export class SpecialistComponent extends Base implements OnInit, AfterViewInit, 
   private watchNetwork(): void {
     this.triggerNetworkClinics.pipe(
       tap(() => this.loading = true),
-      switchMap(() => this.clinicService.getNetworkFavorites(this.addressId).pipe(() => of(undefined))),
+      switchMap(() => this.clinicService.getNetworkFavorites(this.addressId).pipe(catchError(() => of(undefined)))),
       map(r => {
         if (!r) {
           return [];
