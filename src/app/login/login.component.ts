@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { from, of } from 'rxjs';
-import { catchError, take, flatMap } from 'rxjs/operators';
+import { catchError, take, mergeMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -55,7 +55,7 @@ export class LoginComponent extends Base implements OnInit {
     const { email, password } = this.formGroup.value;
 
     from(this.fauth.setPersistence('session')).pipe(
-      flatMap(() => this.fauth.signInWithEmailAndPassword(email, password)),
+      mergeMap(() => this.fauth.signInWithEmailAndPassword(email, password)),
       catchError(err => {
         this.errorMessage = err.message;
         return of(null);
@@ -77,11 +77,7 @@ export class LoginComponent extends Base implements OnInit {
       const c = myClinics.data.clinicDetails[0];
       this.clinicService.setMyClinics(c);
       this.loading = false;
-      if (c.type === 'specialist') {
-        this.router.navigate(['/referrals']);
-      } else {
-        this.router.navigate(['/specialist']);
-      }
+      this.router.navigate(['/specialist']);
     });
   }
 

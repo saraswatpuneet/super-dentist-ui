@@ -63,6 +63,10 @@ export class ClinicService {
     return this.http.post(`${this.baseUrl}/removeFavorites/${addressId}`, { placeIds });
   }
 
+  getNetworkFavorites(addressId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/getNetwork/${addressId}`);
+  }
+
   registerAdmin(email: string, verified: boolean): Observable<any> {
     return this.http.post(`${this.baseUrl}/registerAdmin`, { emailId: email, isVerified: verified });
   }
