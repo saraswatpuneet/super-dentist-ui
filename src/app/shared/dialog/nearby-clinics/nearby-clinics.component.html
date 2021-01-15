@@ -26,7 +26,7 @@
 
   <div class="nearby" fxFlex="60">
     <div class="sd-input">
-      <input placeholder="Search for a specialty clinic" (keyup)="searchForClinics()" [(ngModel)]="searchText">
+      <input placeholder="Search for your referring clinics" (keyup)="searchForClinics()" [(ngModel)]="searchText">
       <div class="progress" *ngIf="loading">
         <mat-spinner class="abs" diameter="24"></mat-spinner>
       </div>
