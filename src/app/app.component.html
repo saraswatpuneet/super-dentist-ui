@@ -25,7 +25,7 @@
     <mat-card class="sidenav mat-elevation-z7" *ngIf="authenticated" fxLayout="column"
       [ngClass]="{'collapsed-sidenav': !expanded}">
 
-      <a *ngIf="showSpecialist" mat-button routerLinkActive="active" [routerLink]="navItems[0].path" class="nav-item">
+      <a mat-button routerLinkActive="active" [routerLink]="navItems[0].path" class="nav-item">
         <mat-icon>{{navItems[0].icon}}</mat-icon>
         <span *ngIf="expanded" [@sidebarToggle]>{{navItems[0].label}}</span>
       </a>

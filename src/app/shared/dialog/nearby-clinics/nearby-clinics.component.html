@@ -4,7 +4,7 @@
     Add some favorites
   </div>
   <div fxFlex="40">
-    <div class="fav-title">Favorite Specialist</div>
+    <div class="fav-title">Edit Favorite Referring Clinics</div>
 
     <div class="list fav" fxLayout="column" fxLayoutGap="16px">
       <div fxLayout="row" fxLayoutAlign="space-between" class="favorite-item" [@collapse] fxLayoutGap="24px"
@@ -68,5 +68,6 @@
 
 <div mat-dialog-actions>
   <button mat-raised-button mat-dialog-close>Cancel</button>
-  <button mat-raised-button color="primary" [disabled]="saving" (click)="updateFavorites()">Update Favorites</button>
+  <button mat-raised-button color="primary" [disabled]="saving" (click)="updateFavorites()">Save Referring
+    Clinics</button>
 </div>

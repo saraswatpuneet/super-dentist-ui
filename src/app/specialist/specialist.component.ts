@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import { map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { map, switchMap, take, takeUntil, tap, catchError } from 'rxjs/operators';
+import { Subject, of } from 'rxjs';
 import * as L from 'leaflet';
 
 import { Base } from '../shared/base/base-component';
@@ -19,7 +19,10 @@ export class SpecialistComponent extends Base implements OnInit, AfterViewInit, 
   @ViewChild('refEl') refEl: ElementRef;
   @ViewChild('refCardEl') refCardEl: ElementRef;
   @ViewChild('refMap') refMap: ElementRef;
+  clinicType = '';
   favoriteClinics = [];
+  networkClinics = [];
+  placeId = '';
   loading = false;
   addressId = '';
   selectedSpecialty: SpecialistType;
@@ -30,6 +33,7 @@ export class SpecialistComponent extends Base implements OnInit, AfterViewInit, 
   location: any;
   private favoriteMarkers = [];
   private triggerFavoriteRefresh = new Subject<void>();
+  private triggerNetworkClinics = new Subject<void>();
 
   constructor(
     private clinicService: ClinicService,
@@ -39,12 +43,15 @@ export class SpecialistComponent extends Base implements OnInit, AfterViewInit, 
   ngOnInit(): void {
     this.loading = true;
     this.watchFavorites();
+    this.watchNetwork();
 
     this.clinicService.getMyClinics().pipe(takeUntil(this.unsubscribe$)).subscribe(addy => {
       this.addressId = addy.addressId;
       this.location = addy.Location;
+      this.clinicType = addy.type;
       setTimeout(() => this.initMap(), 150);
       this.triggerFavoriteRefresh.next();
+      this.triggerNetworkClinics.next();
     });
   }
 
@@ -141,6 +148,7 @@ export class SpecialistComponent extends Base implements OnInit, AfterViewInit, 
     const icon = L.icon({
       iconUrl: 'assets/icons/home-marker.svg',
       iconSize: [64, 64],
+      riseOnHover: true
     });
 
     L.marker(
@@ -168,7 +176,8 @@ export class SpecialistComponent extends Base implements OnInit, AfterViewInit, 
       favorites.forEach(f => {
         const icon = L.icon({
           iconUrl: 'assets/icons/clinic-marker.svg',
-          iconSize: [64, 64], // size of the icon
+          iconSize: [64, 64], // size of the icon,
+          riseOnHover: true
         });
 
         const marker = L.marker(
@@ -181,6 +190,26 @@ export class SpecialistComponent extends Base implements OnInit, AfterViewInit, 
       this.favoriteClinics = favorites;
       this.loading = false;
     });
+  }
+
+  private watchNetwork(): void {
+    this.triggerNetworkClinics.pipe(
+      tap(() => this.loading = true),
+      switchMap(() => this.clinicService.getNetworkFavorites(this.addressId).pipe(catchError(() => of(undefined)))),
+      map(r => {
+        if (!r) {
+          return [];
+        }
+        return r.data.clinicAddresses.map(a => {
+          if (a.verifiedDetails.IsVerified) {
+            return this.mapFromVerified(a.verifiedDetails, a.generalDetails);
+          }
+
+          return this.mapFromGeneralDetails(a.generalDetails);
+        });
+      }),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(networkClinics => this.networkClinics = networkClinics);
   }
 
   private mapFromVerified(verifiedDetails: any, generalDetails: any): any {

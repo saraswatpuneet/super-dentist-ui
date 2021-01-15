@@ -18,7 +18,6 @@ import { ClinicService } from './shared/services/clinic.service';
   animations: appAnimations
 })
 export class AppComponent extends Base implements OnInit {
-  showSpecialist = false;
   theme = 'dark';
   authenticated = false;
   emailVerified = true;
@@ -71,11 +70,6 @@ export class AppComponent extends Base implements OnInit {
           .subscribe(myClinics => {
             const c = myClinics.data.clinicDetails[0];
             this.clinicService.setMyClinics(c);
-            this.showSpecialist = false;
-
-            if (c.type === 'dentist') {
-              this.showSpecialist = true;
-            }
           });
         from(this.auth.currentUser).pipe(take(1)).subscribe(user => this.emailVerified = user.emailVerified);
       }
