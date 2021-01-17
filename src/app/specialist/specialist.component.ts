@@ -28,6 +28,7 @@ export class SpecialistComponent extends Base implements OnInit, AfterViewInit, 
   selectedSpecialty: SpecialistType;
   selectedPlaceId = '';
   showCreateReferral = false;
+  showTreatmentSummary = false;
   selectedReferral: any;
   map: any;
   location: any;
@@ -101,10 +102,28 @@ export class SpecialistComponent extends Base implements OnInit, AfterViewInit, 
     }, 200);
   }
 
+  createTreatmentSummary(clinic: any, el: any): void {
+    this.showTreatmentSummary = true;
+    this.selectedPlaceId = clinic.placeId;
+    this.selectedReferral = clinic;
+
+    this.refEl.nativeElement.style.height = '100%';
+    const referralBounds = el.parentElement.getBoundingClientRect();
+    this.refCardEl.nativeElement.parentElement.style.transition = 0;
+    this.refCardEl.nativeElement.parentElement.style.top = `${referralBounds.y - 58}px`;
+    setTimeout(() => this.refCardEl.nativeElement.parentElement.style.transition = '0.3s', 100);
+
+    setTimeout(() => {
+      this.refEl.nativeElement.style.transition = '0.3s';
+      this.refCardEl.nativeElement.parentElement.style.top = '20px';
+    }, 200);
+  }
+
   cancel(): void {
     this.selectedPlaceId = undefined;
     this.selectedSpecialty = undefined;
     this.showCreateReferral = false;
+    this.showTreatmentSummary = false;
     this.refEl.nativeElement.style.height = 0;
     this.refCardEl.nativeElement.parentElement.style.transition = '0s';
     setTimeout(() => {
