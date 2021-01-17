@@ -29,15 +29,16 @@ export interface ReferralDetails {
   history?: string[];
   tooth?: string[];
   fromAddressId?: string;
+  fromPlaceId?: string; // send either fromAddressId or fromPlaceId
   toAddressId?: string; // send either toAddressId or toPlaceId
   toPlaceId?: string;
 }
 
 export interface Patient {
-  email: string;
+  email?: string;
   firstName: string;
   lastName: string;
-  phone: string;
+  phone?: string;
 }
 
 export interface ReferralStatus {

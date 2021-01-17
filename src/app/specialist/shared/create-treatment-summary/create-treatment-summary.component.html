@@ -1,0 +1,50 @@
+<div class="f-t" fxLayout="row" fxLayoutAlign="space-between">
+  <h2>Create Treatment Summary</h2>
+
+  <button mat-icon-button class="close-dialog" (click)="cancel.emit()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form autocomplete="off" [formGroup]="patientForm">
+  <div fxLayout="column">
+    <div fxLayout="column" fxLayoutGap="36px">
+      <div fxLayout="row" fxLayoutGap="24px">
+        <div class="sd-input">
+          <label>First Name</label>
+          <input #firstName autocomplete="off" formControlName="firstName" placeholder="Patient">
+        </div>
+
+        <div class="sd-input">
+          <label>Last Name</label>
+          <input autocomplete="off" formControlName="lastName" placeholder="Patient">
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-button">
+      <button mat-raised-button [disabled]="loading" (click)="fileUpload.click()">Attach Documents</button>
+    </div>
+
+    <div fxLayoutGap="24px" fxLayout="column">
+      <div fxLayout="column" *ngIf="files && files.length > 0">
+        <p>Documents</p>
+        <span *ngFor="let file of files">
+          {{file.name}}
+        </span>
+      </div>
+    </div>
+
+    <input type="file" #fileUpload id="fileUpload" name="fileUpload" multiple="multiple" style="display:none;" />
+
+  </div>
+</form>
+
+<div fxLayoutGap="24px" class="tgap-12">
+  <button mat-raised-button color="primary" (click)="create()" [disabled]="!patientForm.valid || loading">
+    <span *ngIf="!loading">Confirm Treatment Summary</span>
+    <span *ngIf="loading" fxLayoutAlign=" center" fxLayout="row">Sending&nbsp; <mat-spinner diameter="20"></mat-spinner>
+    </span>
+
+  </button>
+</div>

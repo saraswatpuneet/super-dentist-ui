@@ -1,9 +1,44 @@
 <div class="settings">
-  <mat-card class="nav">
 
+  <mat-card class="nav">
+    <div>Practices</div>
+    <div>Account</div>
+    <div>Group Portal</div>
   </mat-card>
 
-  <div class="settings-content">
-    <router-outlet></router-outlet>
+  <div class="settings-content" fxFlex fxLayout="column" fxLayoutGap="20px">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Practices</mat-card-title>
+      </mat-card-header>
+      <button class="top-right" mat-button>Add Clinic</button>
+
+      <div fxLayout="column" *ngFor="let a of myClinics">
+        <mat-icon class="verified" *ngIf="a.verified" color="primary">verified</mat-icon>
+        <div #favoriteCardEls class="specialist-title">{{a.name}} </div>
+
+        <div class="rating" *ngIf="a.rating">
+          <span class="score">{{a.rating}}</span>
+          <div class="stars" [style]="'--rating: ' + a.rating"></div>
+          <span class="count">({{a.ratingCount}})</span>
+          <ng-container *ngIf="a.types">&middot; {{a.types[0]}}</ng-container>
+        </div>
+
+        <div>{{a.phoneNumber}}</div>
+        <div>{{a.address}}</div>
+      </div>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Account</mat-card-title>
+      </mat-card-header>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Group Portal</mat-card-title>
+      </mat-card-header>
+    </mat-card>
   </div>
 </div>

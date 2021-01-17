@@ -13,9 +13,10 @@ import { LoaderModule } from '../shared/loader/loader.module';
 import { SpecialistRoutingModule } from './specialist-routing.module';
 import { SpecialistComponent } from './specialist.component';
 import { CreateReferralComponent } from './shared/create-referral/create-referral.component';
+import { CreateTreatmentSummaryComponent } from './shared/create-treatment-summary/create-treatment-summary.component';
 
 @NgModule({
-  declarations: [CreateReferralComponent, SpecialistComponent],
+  declarations: [CreateReferralComponent, SpecialistComponent, CreateTreatmentSummaryComponent],
   imports: [
     CommonModule,
     FormsModule,
