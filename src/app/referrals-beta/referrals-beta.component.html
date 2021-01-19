@@ -129,9 +129,9 @@
           {{clinicType === 'dentist' ? referral.toClinicName : referral.fromClinicName }}
         </div>
         <div *ngIf="clinicType === 'specialist'" class="vert"></div>
-        <div *ngIf="clinicType === 'specialist'" fxFlex="50" (click)="talkTo(false)" class="r"
-          [ngClass]="{'active': selectedChannel === 'c2p'}" matTooltipPosition="above" matTooltipShowDelay="750"
-          [matTooltip]="referral.patientFirstName + ' ' + referral.patientLastName">
+        <div *ngIf="clinicType === 'specialist' && (referral.patientPhone && referral.patientEmail)" fxFlex="50"
+          (click)="talkTo(false)" class="r" [ngClass]="{'active': selectedChannel === 'c2p'}" matTooltipPosition="above"
+          matTooltipShowDelay="750" [matTooltip]="referral.patientFirstName + ' ' + referral.patientLastName">
           {{referral.patientFirstName}} {{referral.patientLastName}}
         </div>
       </mat-card>

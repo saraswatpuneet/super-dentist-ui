@@ -1,13 +1,15 @@
 <div class="specialist" fxLayout="row">
-  <div class="list" [ngClass]="{'fade': showCreateReferral}" fxFlex="500px" fxLayout="column" fxLayoutGap="24px">
+  <div class="list" [ngClass]="{'fade': showCreateReferral || showTreatmentSummary}" fxFlex="500px" fxLayout="column"
+    fxLayoutGap="24px">
     <div>
-      <button mat-raised-button (click)="editFavorites()" [disabled]="loading">Edit Referring Clinics</button>
+      <button mat-raised-button (click)="editFavorites()"
+        [disabled]="loading">{{clinicType === 'dentist' ? 'Edit Favorites': 'Edit Referring Clinics'}}</button>
     </div>
 
     <app-loader class="loading" *ngIf="loading"></app-loader>
 
     <mat-card class="c-card note" *ngIf="!loading && favoriteClinics.length === 0">
-      You haven't added any referring clinics yet.
+      {{clinicType === 'dentist' ? "You haven't added any favorite clinics yet.": "You haven't added any referring clinics yet."}}
     </mat-card>
 
     <mat-card class="favorite-specialist" fxLayout="column" *ngFor="let a of favoriteClinics">
@@ -31,10 +33,14 @@
       <div *ngIf="clinicType === 'dentist'">
         <button mat-raised-button (click)="createReferral(a, favoriteCardEls)">Create Referral</button>
       </div>
+
+      <div *ngIf="clinicType === 'specialist'">
+        <button mat-raised-button (click)="createTreatmentSummary(a, favoriteCardEls)">Create Treatment Summary</button>
+      </div>
     </mat-card>
 
-    <mat-card *ngIf="networkClinics && networkClinics.length !== 0" fxLayout="row" fxLayoutAlign=" center"
-      fxLayoutGap="12px" class="network-message c-card">
+    <mat-card class="favorite-specialist" *ngIf="networkClinics && networkClinics.length !== 0" fxLayout="row"
+      fxLayoutAlign=" center" fxLayoutGap="12px" class="network-message c-card">
       <div class="l" fxFlex="48px"></div>
       <div class="message">Clinics who favorited you</div>
       <div class="l" fxFlex></div>
@@ -60,6 +66,10 @@
 
       <div *ngIf="clinicType === 'dentist'">
         <button mat-raised-button (click)="createReferral(a, favoriteCardEls)">Create Referral</button>
+      </div>
+
+      <div *ngIf="clinicType === 'specialist'">
+        <button mat-raised-button (click)="createTreatmentSummary(a, favoriteCardEls)">Create Treatment Summary</button>
       </div>
     </mat-card>
   </div>
@@ -91,6 +101,13 @@
     </mat-card>
   </div>
 
-  <div class="create-referral map" [ngClass]="{'active': !showCreateReferral}" #refMap>
+  <div [@fade] class="create-referral" *ngIf="showTreatmentSummary">
+    <mat-card>
+      <app-create-treatment-summary (cancel)="cancel()" [toAddressId]="addressId" [fromPlaceId]="selectedPlaceId">
+      </app-create-treatment-summary>
+    </mat-card>
+  </div>
+
+  <div class="create-referral map" [ngClass]="{'active': !showCreateReferral && !showTreatmentSummary}" #refMap>
   </div>
 </div>
