@@ -10,7 +10,7 @@
   <button class="top-right" [disabled]="loadingPractices" *ngIf="!selectedClinic && !addingClinic"
     (click)="addingClinic = true" mat-button>Add Clinic</button>
 
-  <div class="my-clinics" [ngClass]="{'hide': selectedClinic || addingClinic}" (click)="editClinic(a)" fxLayout="column"
+  <div class="my-clinics" [ngClass]="{'hide': selectedClinic || addingClinic}" fxLayout="column"
     *ngFor="let a of myClinics">
     <div #favoriteCardEls class="specialist-title">{{a.name}} </div>
     <div>{{a.phoneNumber}}</div>
