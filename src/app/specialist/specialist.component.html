@@ -2,13 +2,14 @@
   <div class="list" [ngClass]="{'fade': showCreateReferral || showTreatmentSummary}" fxFlex="500px" fxLayout="column"
     fxLayoutGap="24px">
     <div>
-      <button mat-raised-button (click)="editFavorites()" [disabled]="loading">Edit Referring Clinics</button>
+      <button mat-raised-button (click)="editFavorites()"
+        [disabled]="loading">{{clinicType === 'dentist' ? 'Edit Favorites': 'Edit Referring Clinics'}}</button>
     </div>
 
     <app-loader class="loading" *ngIf="loading"></app-loader>
 
     <mat-card class="c-card note" *ngIf="!loading && favoriteClinics.length === 0">
-      You haven't added any referring clinics yet.
+      {{clinicType === 'dentist' ? "You haven't added any favorite clinics yet.": "You haven't added any referring clinics yet."}}
     </mat-card>
 
     <mat-card class="favorite-specialist" fxLayout="column" *ngFor="let a of favoriteClinics">
