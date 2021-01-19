@@ -6,12 +6,7 @@
   display: flex;
   flex-direction: row;
   max-height: calc(100vh - 58px);
-  
-  .top-right {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-  }
+
 
   .nav {
     width: 350px;

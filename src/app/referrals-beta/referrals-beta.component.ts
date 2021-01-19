@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, filter, switchMap, take, takeUntil } from 'rxjs/operators';
+import { catchError, filter, switchMap, take, takeUntil, map } from 'rxjs/operators';
 import { forkJoin, of, Subject } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,12 +19,11 @@ import { referralsBetaAnimations } from './referrals-beta.animations';
 })
 export class ReferralsBetaComponent extends Base implements OnInit {
   files: any;
-  addId = '';
+  clinicReferrals: any[] = [];
   referrals: Referral[] = [];
   filteredReferrals: Referral[] = [];
   referralColumns: string[] = ['dateReferred', 'patientName', 'phoneNumber', 'referringClinic', 'actions'];
   selection = new SelectionModel<any>(true, []);
-  selectedReferralIndex: number;
   messageToSend = '';
   messages: Message[];
   tabIndex = 0;
@@ -37,6 +36,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   referralId = '';
   sortedStatuses = sortReferredStatus();
   showSummary = false;
+  private addId = '';
   private triggerMessage = new Subject();
 
   constructor(
@@ -49,11 +49,12 @@ export class ReferralsBetaComponent extends Base implements OnInit {
 
   ngOnInit(): void {
     this.auth.currentUser.then(user => this.user = user);
-    this.clinicService.getMyClinics().pipe(takeUntil(this.unsubscribe$)).subscribe(addy => {
-      this.addId = addy.addressId;
-      this.clinicType = addy.type;
+    this.clinicService.getClinics().pipe(map(d => d.data.clinicDetails), takeUntil(this.unsubscribe$)).subscribe(clinics => {
+      this.clinicReferrals = [];
 
-      if (addy.type === 'dentist') {
+      if (clinics.length === 1 && clinics[0].type === 'dentist') {
+        this.addId = clinics[0].addressId;
+        this.clinicType = 'dentist';
         this.referralColumns = ['dateReferred', 'patientName', 'phoneNumber', 'referringClinic', 'status', 'actions'];
         this.referralService.getDentistRerrals(this.addId).pipe(
           catchError(() => of([])),
@@ -61,17 +62,34 @@ export class ReferralsBetaComponent extends Base implements OnInit {
         )
           .subscribe(res => {
             this.referrals = res;
+            const referrals = [
+              this.getFilteredReferrals(res[0] as Referral[], 0),
+              this.getFilteredReferrals(res[1] as Referral[], 1),
+              this.getFilteredReferrals(res[2] as Referral[], 2)
+            ];
+            this.clinicReferrals = [{ clinicName: clinics[0].name, referrals }];
             this.setFilteredDentistReferrals(this.referrals, this.tabIndex);
           });
       } else {
+        this.clinicType = 'specialist';
         this.referralColumns = ['select', 'dateReferred', 'patientName', 'phoneNumber', 'referringClinic', 'actions'];
-        this.referralService.getSpecialistReferrals(this.addId).pipe(
-          catchError(() => of([])),
-          take(1)
-        )
+        const reqs = [];
+        clinics.forEach(clinic => {
+          reqs.push(this.referralService.getSpecialistReferrals(clinic.addressId).pipe(catchError(() => of([])), take(1)));
+        });
+        forkJoin(reqs).pipe(take(1))
           .subscribe(res => {
-            this.referrals = res;
-            this.setFilteredReferrals(this.referrals, this.tabIndex);
+            for (let x = 0, l = clinics.length; x < l; x++) {
+              const referrals = [
+                this.getFilteredReferrals(res[x] as Referral[], 0),
+                this.getFilteredReferrals(res[x] as Referral[], 1),
+                this.getFilteredReferrals(res[x] as Referral[], 2)
+              ];
+              this.clinicReferrals.push({ clinicName: clinics[x].name, referrals });
+            }
+            console.log(this.clinicReferrals);
+            // this.referrals = res;
+            // this.setFilteredReferrals(this.referrals, this.tabIndex);
           });
       }
     });
@@ -123,6 +141,30 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     this.setFilteredReferrals(this.referrals, tabIndex);
   }
 
+  getFilteredReferrals(referrals: Referral[], tabIndex: number): any {
+    let validStates = [];
+    if (tabIndex === 0) {
+      validStates = [this.sortedStatuses[0]];
+    } else if (tabIndex === 1) {
+      validStates = [this.sortedStatuses[1]];
+    } else {
+      validStates = [this.sortedStatuses[2], this.sortedStatuses[4]];
+    }
+
+    return referrals.filter(r => {
+      if (!r.status) {
+        return false;
+      }
+
+      if (validStates.includes(r.status.gdStatus)) {
+        return true;
+      }
+
+      return false;
+    });
+
+  }
+
   setFilteredReferrals(referrals: Referral[], tabIndex: number): void {
     let validStates = [];
     if (tabIndex === 0) {
@@ -151,6 +193,26 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     this.setFilteredDentistReferrals(this.referrals, tabIndex);
   }
 
+  getFilteredDentistReferrals(referrals: Referral[], tabIndex: number): any {
+    let validStates = [];
+    if (tabIndex === 0) {
+      validStates = [this.sortedStatuses[0], this.sortedStatuses[1], this.sortedStatuses[2]];
+    } else {
+      validStates = [this.sortedStatuses[4]];
+    }
+
+    return referrals.filter(r => {
+      if (!r.status) {
+        return false;
+      }
+
+      if (validStates.includes(r.status.gdStatus)) {
+        return true;
+      }
+
+      return false;
+    });
+  }
   setFilteredDentistReferrals(referrals: Referral[], tabIndex: number): void {
     let validStates = [];
     if (tabIndex === 0) {
@@ -218,22 +280,21 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     this.triggerMessage.next();
   }
 
-  referralChat(index: number): void {
-    this.selectedReferralIndex = index;
+  referralChat(referralId: string): void {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
-        r: this.filteredReferrals[index].referralId
+        r: referralId
       },
       queryParamsHandling: 'merge'
     });
   }
 
-  referralSummary(index: number): void {
+  referralSummary(referralId: string): void {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
-        s: this.filteredReferrals[index].referralId,
+        s: referralId,
       },
       queryParamsHandling: 'merge'
     });

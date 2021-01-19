@@ -27,6 +27,7 @@ export class AppComponent extends Base implements OnInit {
     { path: 'referrals', label: 'Referrals', icon: 'message' },
     { path: 'settings', label: 'Settings', icon: 'settings' },
   ];
+  isSpecialist = false;
   private expandedKey = 'sdNavExpanded';
   private themeKey = 'sdTheme';
 
@@ -68,8 +69,15 @@ export class AppComponent extends Base implements OnInit {
         this.clinicService.getClinics()
           .pipe(take(1))
           .subscribe(myClinics => {
-            const c = myClinics.data.clinicDetails[0];
-            this.clinicService.setMyClinics(c);
+            const c = myClinics.data.clinicDetails;
+            console.log(c);
+            if (c.length === 1 && c[0].type === 'dentist') {
+              this.isSpecialist = false;
+            } else {
+              this.isSpecialist = true;
+            }
+
+            this.clinicService.setMyClinics(c[0]);
           });
         from(this.auth.currentUser).pipe(take(1)).subscribe(user => this.emailVerified = user.emailVerified);
       }
@@ -81,7 +89,9 @@ export class AppComponent extends Base implements OnInit {
   signOut(): void {
     this.auth.signOut().then(() => {
       this.authenticated = false;
+      this.isSpecialist = false;
       this.router.navigate(['./login']);
+      this.clinicService.setMyClinics(undefined);
     });
   }
 

@@ -35,10 +35,10 @@
         <span *ngIf="expanded" [@sidebarToggle]>{{navItems[1].label}}</span>
       </a>
 
-      <!-- <a mat-button routerLinkActive="active" [routerLink]="navItems[2].path" class="nav-item">
+      <a mat-button routerLinkActive="active" *ngIf="isSpecialist" [routerLink]="navItems[2].path" class="nav-item">
         <mat-icon>{{navItems[2].icon}}</mat-icon>
         <span *ngIf="expanded" [@sidebarToggle]>{{navItems[2].label}}</span>
-      </a> -->
+      </a>
 
       <span fxFlex></span>
 

@@ -35,10 +35,10 @@
       </mat-tab-group>
 
       <mat-card *ngIf="clinicType === 'specialist'" class="c-card change-status">
-        <mat-checkbox color="primary" (change)="$event ? masterToggle() : null"
+        <!-- <mat-checkbox color="primary" (change)="$event ? masterToggle() : null"
           [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"
           [aria-label]="checkboxLabel()">
-        </mat-checkbox>
+        </mat-checkbox> -->
 
         <button mat-icon-button [disabled]="!selection.hasValue() || tabIndex !== 0" (click)="markStatus('scheduled')"
           matTooltip="Schedule selected referrals" matTooltipPosition="above">
@@ -51,73 +51,74 @@
         </button>
       </mat-card>
 
-      <div>
-        <table mat-table fxFlex [dataSource]="filteredReferrals" class="mat-elevation-z8">
-          <ng-container matColumnDef="select">
-            <th mat-header-cell *matHeaderCellDef style="width: 30px">
+      <div *ngFor="let c of clinicReferrals">
+        <h3>{{c.clinicName}}</h3>
+        <div>
+          <table mat-table fxFlex [dataSource]="c.referrals[tabIndex]" class="mat-elevation-z8">
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef style="width: 30px"></th>
+              <td mat-cell *matCellDef="let row">
+                <mat-checkbox color="primary" (click)="$event.stopPropagation()"
+                  (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                  [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+              </td>
+            </ng-container>
 
-            </th>
-            <td mat-cell *matCellDef="let row">
-              <mat-checkbox color="primary" (click)="$event.stopPropagation()"
-                (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
-                [aria-label]="checkboxLabel(row)">
-              </mat-checkbox>
-            </td>
-          </ng-container>
+            <ng-container matColumnDef="dateReferred">
+              <th mat-header-cell *matHeaderCellDef> Referred </th>
+              <td mat-cell *matCellDef="let element"> {{element.createdOn | date:"MMM dd, yyyy"}} </td>
+            </ng-container>
 
-          <ng-container matColumnDef="dateReferred">
-            <th mat-header-cell *matHeaderCellDef> Referred </th>
-            <td mat-cell *matCellDef="let element"> {{element.createdOn | date:"MMM dd, yyyy"}} </td>
-          </ng-container>
+            <ng-container matColumnDef="patientName">
+              <th mat-header-cell *matHeaderCellDef> Patient Name </th>
+              <td mat-cell *matCellDef="let element"> {{element.patientFirstName}} {{element.patientLastName}} </td>
+            </ng-container>
 
-          <ng-container matColumnDef="patientName">
-            <th mat-header-cell *matHeaderCellDef> Patient Name </th>
-            <td mat-cell *matCellDef="let element"> {{element.patientFirstName}} {{element.patientLastName}} </td>
-          </ng-container>
+            <ng-container matColumnDef="phoneNumber">
+              <th mat-header-cell *matHeaderCellDef> Patient Phone Number </th>
+              <td mat-cell *matCellDef="let element"> {{element.patientPhone}} </td>
+            </ng-container>
 
-          <ng-container matColumnDef="phoneNumber">
-            <th mat-header-cell *matHeaderCellDef> Patient Phone Number </th>
-            <td mat-cell *matCellDef="let element"> {{element.patientPhone}} </td>
-          </ng-container>
+            <ng-container matColumnDef="referringClinic">
+              <th mat-header-cell *matHeaderCellDef> Referring Clinic </th>
+              <td mat-cell *matCellDef="let element">
+                {{clinicType === 'dentist' ? element?.toClinicName : element?.fromClinicName }}{{element.symbol}} </td>
+            </ng-container>
 
-          <ng-container matColumnDef="referringClinic">
-            <th mat-header-cell *matHeaderCellDef> Referring Clinic </th>
-            <td mat-cell *matCellDef="let element">
-              {{clinicType === 'dentist' ? element?.toClinicName : element?.fromClinicName }}{{element.symbol}} </td>
-          </ng-container>
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef> Status </th>
+              <td mat-cell *matCellDef="let element">
+                <button [disabled]="!element.status || element.status.gdStatus !== 'completed'" mat-raised-button
+                  (click)="markStatusDentist(element.referralId, 'closed')">{{element.status ? element.status.gdStatus === 'completed' ? 'Ready to Close': referredStatuses[element.status.gdStatus].label  : 'No status'}}</button>
+              </td>
+            </ng-container>
 
-          <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef> Status </th>
-            <td mat-cell *matCellDef="let element">
-              <button [disabled]="!element.status || element.status.gdStatus !== 'completed'" mat-raised-button
-                (click)="markStatusDentist(element.referralId, 'closed')">{{element.status ? element.status.gdStatus === 'completed' ? 'Ready to Close': referredStatuses[element.status.gdStatus].label  : 'No status'}}</button>
-            </td>
-          </ng-container>
+            <ng-container matColumnDef="actions">
+              <th style="width: 120px" mat-header-cell *matHeaderCellDef> </th>
+              <td mat-cell *matCellDef="let element; let i = index;">
+                <button mat-icon-button matTooltip="Referral Summary" matTooltipPosition="above"
+                  matTooltipShowDelay="750" (click)="referralSummary(element.referralId)">
+                  <mat-icon>description</mat-icon>
+                </button>
 
-          <ng-container matColumnDef="actions">
-            <th style="width: 120px" mat-header-cell *matHeaderCellDef> </th>
-            <td mat-cell *matCellDef="let element; let i = index;">
-              <button mat-icon-button matTooltip="Referral Summary" matTooltipPosition="above" matTooltipShowDelay="750"
-                (click)="referralSummary(i)">
-                <mat-icon>description</mat-icon>
-              </button>
+                <button mat-icon-button [disabled]="!element.documents" matTooltipShowDelay="750"
+                  matTooltip="Download Patient Documents" matTooltipPosition="above"
+                  (click)="downloadFiles(element.referralId)">
+                  <mat-icon>get_app</mat-icon>
+                </button>
 
-              <button mat-icon-button [disabled]="!element.documents" matTooltipShowDelay="750"
-                matTooltip="Download Patient Documents" matTooltipPosition="above"
-                (click)="downloadFiles(element.referralId)">
-                <mat-icon>get_app</mat-icon>
-              </button>
+                <button mat-icon-button (click)="referralChat(element.referralId)" matTooltipShowDelay="750"
+                  matTooltip="Message Clinic or Patient" matTooltipPosition="above">
+                  <mat-icon>chat</mat-icon>
+                </button>
+              </td>
+            </ng-container>
 
-              <button mat-icon-button (click)="referralChat(i)" matTooltipShowDelay="750"
-                matTooltip="Message Clinic or Patient" matTooltipPosition="above">
-                <mat-icon>chat</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="referralColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: referralColumns;"></tr>
-        </table>
+            <tr mat-header-row *matHeaderRowDef="referralColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: referralColumns;"></tr>
+          </table>
+        </div>
       </div>
     </div>
 
