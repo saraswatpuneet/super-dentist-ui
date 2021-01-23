@@ -15,7 +15,7 @@ import { DialogModule } from './shared/dialog/dialog.module';
 import { environment } from '../environments/environment';
 import { AuthInterceptor } from './shared/interceptors/auth-interceptor';
 
-import { NgxMaskModule, IConfig } from 'ngx-mask'
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 

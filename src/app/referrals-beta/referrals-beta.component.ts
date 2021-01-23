@@ -22,7 +22,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   clinicReferrals: any[] = [];
   referrals: Referral[] = [];
   filteredReferrals: Referral[] = [];
-  referralColumns: string[] = ['dateReferred', 'patientName', 'phoneNumber', 'referringClinic', 'actions'];
+  referralColumns: string[] = ['dateReferred', 'patientName', 'referringClinic', 'actions'];
   selection = new SelectionModel<any>(true, []);
   messageToSend = '';
   messages: Message[];
@@ -55,7 +55,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
       if (clinics.length === 1 && clinics[0].type === 'dentist') {
         this.addId = clinics[0].addressId;
         this.clinicType = 'dentist';
-        this.referralColumns = ['dateReferred', 'patientName', 'phoneNumber', 'referringClinic', 'status', 'actions'];
+        this.referralColumns = ['dateReferred', 'patientName', 'referringClinic', 'status', 'actions'];
         this.referralService.getDentistRerrals(this.addId).pipe(
           catchError(() => of([])),
           take(1)
@@ -68,11 +68,10 @@ export class ReferralsBetaComponent extends Base implements OnInit {
               this.getFilteredReferrals(res as Referral[], 2)
             ];
             this.clinicReferrals = [{ clinicName: clinics[0].name, referrals }];
-            this.setFilteredDentistReferrals(this.referrals, this.tabIndex);
           });
       } else {
         this.clinicType = 'specialist';
-        this.referralColumns = ['select', 'dateReferred', 'patientName', 'phoneNumber', 'referringClinic', 'actions'];
+        this.referralColumns = ['select', 'dateReferred', 'patientName', 'referringClinic', 'actions'];
         const reqs = [];
         clinics.forEach(clinic => {
           reqs.push(this.referralService.getSpecialistReferrals(clinic.addressId).pipe(catchError(() => of([])), take(1)));
@@ -88,8 +87,6 @@ export class ReferralsBetaComponent extends Base implements OnInit {
               this.clinicReferrals.push({ clinicName: clinics[x].name, referrals });
             }
             console.log(this.clinicReferrals);
-            // this.referrals = res;
-            // this.setFilteredReferrals(this.referrals, this.tabIndex);
           });
       }
     });

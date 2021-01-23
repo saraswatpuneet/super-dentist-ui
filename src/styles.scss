@@ -278,6 +278,16 @@ body {
       background: linear-gradient(to top, rgba(white, 0.8), rgba(white, 0)) !important;
     }
   }
+
+  .referrals .chat .receiver {
+    > div {
+      background: #d0d0d8 !important;
+
+      &::before {
+        box-shadow: inset -8px 0px #d0d0d8 !important;
+      }
+    }
+  }
 }
 
 .stars {
