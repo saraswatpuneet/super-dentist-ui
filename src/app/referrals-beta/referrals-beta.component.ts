@@ -3,6 +3,7 @@ import { catchError, filter, switchMap, take, takeUntil, map } from 'rxjs/operat
 import { forkJoin, of, Subject } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 
 import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
@@ -158,8 +159,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
       }
 
       return false;
-    });
-
+    }).sort((a, b) => moment(b.createdOn).unix() - moment(a.createdOn).unix());
   }
 
   setFilteredReferrals(referrals: Referral[], tabIndex: number): void {
