@@ -89,6 +89,7 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
     this.showTreatmentSummary = false;
     this.refEl.nativeElement.style.height = 0;
     this.refCardEl.nativeElement.parentElement.style.transition = '0s';
+
     setTimeout(() => {
       this.selectedReferral = undefined;
       this.refEl.nativeElement.style.transition = '0s';
@@ -96,7 +97,7 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
   }
 
   editFavorites(): void {
-    this.dialogService.openNearbyClinics(this.addressId, this.favoriteClinics).afterClosed().pipe(take(1)).subscribe(res => {
+    this.dialogService.openNearbyClinics(this.clinics[0].addressId, this.favoriteClinics).afterClosed().pipe(take(1)).subscribe(res => {
       if (!!res) {
         this.triggerFavorites.next();
       }
