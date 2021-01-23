@@ -120,7 +120,7 @@
 
 <mat-menu #appMenu="matMenu">
   <ng-template matMenuContent let-clinicForTreatment="clinicForTreatment" let-favoritesEl="favoritesEl">
-    <button *ngFor="let myClinic of clinics" (click)="createTreatmentSummary(clinicForTreatment, favoritesEl)"
+    <button *ngFor="let myClinic of clinics" (click)="createTreatmentSummary(myClinic, clinicForTreatment, favoritesEl)"
       mat-menu-item>{{myClinic.name}}</button>
   </ng-template>
 </mat-menu>

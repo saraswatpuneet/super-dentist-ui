@@ -63,9 +63,9 @@ export class ReferralsBetaComponent extends Base implements OnInit {
           .subscribe(res => {
             this.referrals = res;
             const referrals = [
-              this.getFilteredReferrals(res[0] as Referral[], 0),
-              this.getFilteredReferrals(res[1] as Referral[], 1),
-              this.getFilteredReferrals(res[2] as Referral[], 2)
+              this.getFilteredReferrals(res as Referral[], 0),
+              this.getFilteredReferrals(res as Referral[], 1),
+              this.getFilteredReferrals(res as Referral[], 2)
             ];
             this.clinicReferrals = [{ clinicName: clinics[0].name, referrals }];
             this.setFilteredDentistReferrals(this.referrals, this.tabIndex);

@@ -68,21 +68,24 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
   }
 
   createReferral(clinic: any, el: any): void {
-    this.selectedPlaceId = clinic.placeId;
     this.selectedSpecialty = clinic.specialties[0];
     this.showCreateReferral = true;
+    this.selectedPlaceId = clinic.placeId;
+    this.addressId = this.clinics[0].addressId;
     this.selectedReferral = clinic;
     this.setRefElBounds(el);
   }
 
-  createTreatmentSummary(clinic: any, el: any): void {
+  createTreatmentSummary(myClinic: any, clinic: any, el: any): void {
     this.showTreatmentSummary = true;
+    this.addressId = myClinic.addressId;
     this.selectedPlaceId = clinic.placeId;
     this.selectedReferral = clinic;
     this.setRefElBounds(el);
   }
 
   cancel(): void {
+    this.addressId = undefined;
     this.selectedPlaceId = undefined;
     this.selectedSpecialty = undefined;
     this.showCreateReferral = false;
