@@ -14,21 +14,23 @@ import { SpecialistRoutingModule } from './specialist-routing.module';
 import { SpecialistComponent } from './specialist.component';
 import { CreateReferralComponent } from './shared/create-referral/create-referral.component';
 import { CreateTreatmentSummaryComponent } from './shared/create-treatment-summary/create-treatment-summary.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [CreateReferralComponent, SpecialistComponent, CreateTreatmentSummaryComponent],
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
     FlexLayoutModule,
+    FormsModule,
+    LoaderModule,
     MatButtonModule,
     MatCardModule,
     MatIconModule,
-    NgxMaskModule,
-    MatSelectModule,
     MatProgressSpinnerModule,
-    LoaderModule,
+    MatSelectModule,
+    MatMenuModule,
+    NgxMaskModule,
+    ReactiveFormsModule,
     SpecialistRoutingModule
   ]
 })

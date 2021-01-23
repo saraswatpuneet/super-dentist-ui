@@ -6,7 +6,7 @@ import { debounceTime, map, switchMap, take, takeUntil, tap } from 'rxjs/operato
 import { ClinicService } from '../../../shared/services/clinic.service';
 import { Base } from '../../../shared/base/base-component';
 import { nearbyClinicsAnimations } from './nearby-clinic.animations';
-import { specialistReasonKeys } from '../../services/clinic';
+import { mapFromGeneralDetails, mapFromVerified } from '../../utils/clinic-transforms';
 
 @Component({
   selector: 'app-nearby-clinics',
@@ -93,51 +93,15 @@ export class NearbyClinicsComponent extends Base implements OnInit {
       switchMap(() => this.clinicService.getNearbySpecialists(this.data.addressId, this.searchText)),
       map(r => r.data.clinicAddresses.map(a => {
         if (a.verifiedDetails.IsVerified) {
-          return this.mapFromVerified(a.verifiedDetails, a.generalDetails);
+          return mapFromVerified(a.verifiedDetails, a.generalDetails);
         }
 
-        return this.mapFromGeneralDetails(a.generalDetails);
+        return mapFromGeneralDetails(a.generalDetails);
       })),
       takeUntil(this.unsubscribe$)
     ).subscribe(general => {
       this.nearbySpecialists = general;
       this.loading = false;
     });
-  }
-
-  private mapFromVerified(verifiedDetails: any, generalDetails: any): any {
-    return {
-      type: verifiedDetails.type,
-      specialties: verifiedDetails.specialty,
-      phoneNumber: verifiedDetails.phoneNumber,
-      name: verifiedDetails.name,
-      email: verifiedDetails.emailAddress,
-      placeId: verifiedDetails.PlaceID,
-      address: verifiedDetails.address,
-      rating: generalDetails.rating,
-      ratingCount: generalDetails.user_ratings_total,
-      verfied: true,
-    };
-  }
-
-  private mapFromGeneralDetails(generalDetails: any): any {
-    let specialty = '';
-
-    if (generalDetails.types && generalDetails.types[0] && specialistReasonKeys[generalDetails.types[0]]) {
-      specialty = generalDetails.types[0];
-    }
-
-    return {
-      type: generalDetails.types ? generalDetails.types[0] : '',
-      specialties: [specialty],
-      phoneNumber: generalDetails.formatted_phone_number,
-      name: generalDetails.name,
-      email: undefined,
-      placeId: generalDetails.place_id,
-      address: generalDetails.formatted_address,
-      rating: generalDetails.rating,
-      ratingCount: generalDetails.user_ratings_total,
-      verfied: false
-    };
   }
 }
