@@ -10,9 +10,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings.component';
 import { PracticesComponent } from './shared/practices/practices.component';
+import { AccountComponent } from './shared/account/account.component';
 
 @NgModule({
-  declarations: [SettingsComponent, PracticesComponent],
+  declarations: [SettingsComponent, PracticesComponent, AccountComponent],
   imports: [
     CommonModule,
     FormsModule,
