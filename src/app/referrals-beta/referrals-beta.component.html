@@ -35,34 +35,12 @@
         </mat-tab>
       </mat-tab-group>
 
-      <mat-card *ngIf="clinicType === 'specialist'" class="c-card change-status">
-        <button mat-icon-button [disabled]="!selection.hasValue() || tabIndex !== 0" (click)="markStatus('scheduled')"
-          matTooltip="Schedule selected referrals" matTooltipPosition="above">
-          <mat-icon>schedule</mat-icon>
-        </button>
-
-        <button mat-icon-button [disabled]="!selection.hasValue() || tabIndex !== 1" (click)="markStatus('completed')"
-          matTooltip="Complete selected referrals" matTooltipPosition="above">
-          <mat-icon>done</mat-icon>
-        </button>
-      </mat-card>
-
-      <div *ngFor="let c of clinicReferrals">
+      <div *ngFor="let c of clinicReferrals; let clinicIndex = index">
         <mat-card class="c-card">
           <h3>{{c.clinicName}}</h3>
         </mat-card>
         <div>
           <table mat-table fxFlex [dataSource]="c.referrals[tabIndex]" class="mat-elevation-z8">
-            <ng-container matColumnDef="select">
-              <th mat-header-cell *matHeaderCellDef style="width: 30px"></th>
-              <td mat-cell *matCellDef="let row">
-                <mat-checkbox color="primary" (click)="$event.stopPropagation()"
-                  (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
-                  [aria-label]="checkboxLabel(row)">
-                </mat-checkbox>
-              </td>
-            </ng-container>
-
             <ng-container matColumnDef="dateReferred">
               <th mat-header-cell *matHeaderCellDef> Referred </th>
               <td mat-cell *matCellDef="let element"> {{element.createdOn | date:"MMM dd, yyyy"}} </td>
@@ -99,8 +77,14 @@
             </ng-container>
 
             <ng-container matColumnDef="actions">
-              <th style="width: 120px" mat-header-cell *matHeaderCellDef> </th>
+              <th mat-header-cell *matHeaderCellDef> Actions</th>
               <td mat-cell *matCellDef="let element; let i = index;">
+                <button [matMenuTriggerFor]="appMenu"
+                  [matMenuTriggerData]="{selectedRefIndex: i, selectedClinicIndex: clinicIndex}" mat-stroked-button
+                  *ngIf="clinicType === 'specialist' && tabIndex < 2">
+                  {{referredStatuses[element.status.gdStatus].label}} <mat-icon>arrow_drop_down</mat-icon>
+                </button>
+
                 <button mat-icon-button matTooltip="Referral Summary" matTooltipPosition="above"
                   matTooltipShowDelay="750" (click)="referralSummary(element.referralId)">
                   <mat-icon>description</mat-icon>
@@ -165,3 +149,10 @@
     </div>
   </div>
 </div>
+
+<mat-menu #appMenu="matMenu">
+  <ng-template matMenuContent let-selectedClinicIndex="selectedClinicIndex" let-selectedRefIndex="selectedRefIndex">
+    <button mat-menu-item
+      (click)="updateStatus2(selectedClinicIndex, selectedRefIndex, tabIndex, specialistTabs[tabIndex].value)">{{specialistTabs[tabIndex].label}}</button>
+  </ng-template>
+</mat-menu>

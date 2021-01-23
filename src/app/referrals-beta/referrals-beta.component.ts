@@ -9,7 +9,6 @@ import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
 import { Channel, ClinicStatus, Message, Referral, referredStatus, sortReferredStatus } from '../shared/services/referral';
 import { ReferralService } from '../shared/services/referral.service';
-import { SelectionModel } from '@angular/cdk/collections';
 import { referralsBetaAnimations } from './referrals-beta.animations';
 
 @Component({
@@ -24,10 +23,14 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   referrals: Referral[] = [];
   filteredReferrals: Referral[] = [];
   referralColumns: string[] = ['dateReferred', 'patientName', 'referringClinic', 'actions'];
-  selection = new SelectionModel<any>(true, []);
   messageToSend = '';
   messages: Message[];
   tabIndex = 0;
+  specialistTabs = [
+    { value: 'scheduled', label: 'Mark Scheduled' },
+    { value: 'completed', label: 'Mark Completed' },
+    { value: '', label: '' }
+  ];
   clinicType = '';
   selectedChannel: Channel = 'c2c';
   user: firebase.default.User;
@@ -72,7 +75,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
           });
       } else {
         this.clinicType = 'specialist';
-        this.referralColumns = ['select', 'dateReferred', 'patientName', 'referringClinic', 'actions'];
+        this.referralColumns = ['dateReferred', 'patientName', 'referringClinic', 'actions'];
         const reqs = [];
         clinics.forEach(clinic => {
           reqs.push(this.referralService.getSpecialistReferrals(clinic.addressId).pipe(catchError(() => of([])), take(1)));
@@ -87,7 +90,6 @@ export class ReferralsBetaComponent extends Base implements OnInit {
               ];
               this.clinicReferrals.push({ clinicName: clinics[x].name, referrals });
             }
-            console.log(this.clinicReferrals);
           });
       }
     });
@@ -103,39 +105,11 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     });
   }
 
-  markStatus(status: ClinicStatus): void {
-    const rids = this.selection.selected.map(r => r.referralId);
-    this.updateStatus(rids, status);
-  }
-
   markStatusDentist(rid: string, status: ClinicStatus): void {
-    this.updateStatus([rid], status);
-  }
-
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected(): boolean {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.referrals.length;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle(): void {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.filteredReferrals.forEach(row => this.selection.select(row));
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: any): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    this.updateStatus(rid, status);
   }
 
   filterReferrals(tabIndex: number): void {
-    this.selection.clear();
     this.setFilteredReferrals(this.referrals, tabIndex);
   }
 
@@ -186,7 +160,6 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   }
 
   filterDentistReferrals(tabIndex: number): void {
-    this.selection.clear();
     this.setFilteredDentistReferrals(this.referrals, tabIndex);
   }
 
@@ -231,22 +204,19 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     });
   }
 
-  updateStatus(referralIds: string[], status: ClinicStatus): void {
-    const reqs = referralIds.map(r => this.referralService.updateStatus(r, { gdStatus: status, spStatus: status })
-      .pipe(take(1)));
-    forkJoin(reqs)
+  updateStatus2(clinicIndex: number, referralIndex: number, tabIndex: number, status: ClinicStatus): void {
+    const ref = this.clinicReferrals[clinicIndex].referrals[tabIndex][referralIndex];
+    this.clinicReferrals[clinicIndex].referrals[this.tabIndex].splice(referralIndex, 1);
+
+    this.referralService.updateStatus(ref.referralId, { gdStatus: status, spStatus: status })
       .pipe(take(1))
-      .subscribe(referrals => {
-        referrals.forEach(referral => {
-          const index = this.referrals.findIndex(r => r.referralId === referral.referralId);
-          this.referrals[index].status = referral.status;
-          if (this.clinicType === 'specialist') {
-            this.filterReferrals(this.tabIndex);
-          } else {
-            this.filterDentistReferrals(this.tabIndex);
-          }
-        });
-      });
+      .subscribe();
+  }
+
+  updateStatus(referralId: string, status: ClinicStatus): void {
+    this.referralService.updateStatus(referralId, { gdStatus: status, spStatus: status })
+      .pipe(take(1))
+      .subscribe();
   }
 
   onFileSelect($event): void {
