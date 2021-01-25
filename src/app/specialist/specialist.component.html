@@ -13,7 +13,10 @@
     </mat-card>
 
     <mat-card class="favorite-specialist" fxLayout="column" *ngFor="let a of favoriteClinics">
-      <mat-icon class="verified" *ngIf="a.verified" color="primary">verified</mat-icon>
+      <mat-icon matTooltip="Verified Clinic" class="verified" *ngIf="a.verified" color="primary">verified</mat-icon>
+      <button class="qr-button" mat-icon-button>
+        <mat-icon>qr_code_2</mat-icon>
+      </button>
       <div #favoriteCardEls class="specialist-title">{{a.name}} </div>
 
       <div>{{a.type}}</div>
@@ -30,12 +33,11 @@
 
       <div fxFlex></div>
 
-      <div *ngIf="clinicType === 'dentist'">
-        <button mat-raised-button (click)="createReferral(a, favoriteCardEls)">Create Referral</button>
-      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <button mat-raised-button *ngIf="clinicType === 'dentist'" (click)="createReferral(a, favoriteCardEls)">Create
+          Referral</button>
 
-      <div *ngIf="clinicType === 'specialist'">
-        <button mat-raised-button [matMenuTriggerFor]="appMenu"
+        <button mat-raised-button *ngIf="clinicType === 'specialist'" [matMenuTriggerFor]="appMenu"
           [matMenuTriggerData]="{clinicForTreatment: a, favoritesEl: favoriteCardEls}">
           Create Treatment Summary <mat-icon>arrow_drop_down</mat-icon>
         </button>
@@ -111,6 +113,12 @@
     <mat-card>
       <app-create-treatment-summary (cancel)="cancel()" [toAddressId]="addressId" [fromPlaceId]="selectedPlaceId">
       </app-create-treatment-summary>
+    </mat-card>
+  </div>
+
+  <div [@fade] class="qr" *ngIf="qr">
+    <mat-card>
+      <app-qr></app-qr>
     </mat-card>
   </div>
 

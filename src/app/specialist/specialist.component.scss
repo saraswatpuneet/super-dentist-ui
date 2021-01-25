@@ -4,6 +4,13 @@
   box-sizing: border-box;
   overflow: hidden;
 
+  .qr-button {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    z-index: 100;
+  }
+
   .network-message {
     .l {
       height: 1px;

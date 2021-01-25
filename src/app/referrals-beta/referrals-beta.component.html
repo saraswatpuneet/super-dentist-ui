@@ -84,6 +84,11 @@
                   *ngIf="clinicType === 'specialist' && tabIndex < 2">
                   {{referredStatuses[element.status.gdStatus].label}} <mat-icon>arrow_drop_down</mat-icon>
                 </button>
+                <button [matMenuTriggerFor]="appMenu"
+                  [matMenuTriggerData]="{selectedRefIndex: i, selectedClinicIndex: clinicIndex}" mat-stroked-button
+                  *ngIf="clinicType === 'specialist' && tabIndex === 2">
+                  {{referredStatuses[element.status.gdStatus].label}} <mat-icon>arrow_drop_down</mat-icon>
+                </button>
 
                 <button mat-icon-button matTooltip="Referral Summary" matTooltipPosition="above"
                   matTooltipShowDelay="750" (click)="referralSummary(element.referralId)">

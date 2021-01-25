@@ -29,7 +29,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   specialistTabs = [
     { value: 'scheduled', label: 'Mark Scheduled' },
     { value: 'completed', label: 'Mark Completed' },
-    { value: '', label: '' }
+    { value: 'referred', label: 'Mark Referred' }
   ];
   clinicType = '';
   selectedChannel: Channel = 'c2c';
@@ -68,8 +68,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
             this.referrals = res;
             const referrals = [
               this.getFilteredDentistReferrals(res as Referral[], 0),
-              this.getFilteredDentistReferrals(res as Referral[], 1),
-              this.getFilteredDentistReferrals(res as Referral[], 2)
+              this.getFilteredDentistReferrals(res as Referral[], 1)
             ];
             this.clinicReferrals = [{ clinicName: clinics[0].name, referrals }];
           });
@@ -103,10 +102,6 @@ export class ReferralsBetaComponent extends Base implements OnInit {
       const url = window.URL.createObjectURL(new Blob([res], { type: 'application/zip' }));
       window.location.assign(url);
     });
-  }
-
-  markStatusDentist(rid: string, status: ClinicStatus): void {
-    this.updateStatus(rid, status);
   }
 
   filterReferrals(tabIndex: number): void {
@@ -204,17 +199,24 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     });
   }
 
-  updateStatus2(clinicIndex: number, referralIndex: number, tabIndex: number, status: ClinicStatus): void {
-    const ref = this.clinicReferrals[clinicIndex].referrals[tabIndex][referralIndex];
-    this.clinicReferrals[clinicIndex].referrals[this.tabIndex].splice(referralIndex, 1);
-
-    this.referralService.updateStatus(ref.referralId, { gdStatus: status, spStatus: status })
-      .pipe(take(1))
-      .subscribe();
+  markStatusDentist(referralId: string, status: ClinicStatus): void {
+    console.log(referralId, status);
+    // const ref = this.clinicReferrals[clinicIndex].referrals[this.tabIndex].splice(referralIndex, 1);
+    // this.referralService.updateStatus(referralId, { gdStatus: status, spStatus: status })
+    // .pipe(take(1))
+    // .subscribe();
   }
 
-  updateStatus(referralId: string, status: ClinicStatus): void {
-    this.referralService.updateStatus(referralId, { gdStatus: status, spStatus: status })
+  updateStatus2(clinicIndex: number, referralIndex: number, tabIndex: number, status: ClinicStatus): void {
+    const ref = this.clinicReferrals[clinicIndex].referrals[this.tabIndex].splice(referralIndex, 1);
+    if (tabIndex !== 2) {
+      this.clinicReferrals[clinicIndex].referrals[this.tabIndex + 1].push(ref[0]);
+    }
+
+    // Update tables
+    this.clinicReferrals[clinicIndex] = JSON.parse(JSON.stringify(this.clinicReferrals[clinicIndex]));
+
+    this.referralService.updateStatus(ref[0].referralId, { gdStatus: status, spStatus: status })
       .pipe(take(1))
       .subscribe();
   }
