@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, filter, switchMap, take, takeUntil, map } from 'rxjs/operators';
+import { catchError, filter, switchMap, take, takeUntil, map, tap } from 'rxjs/operators';
 import { forkJoin, of, Subject } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,8 +20,6 @@ import { referralsBetaAnimations } from './referrals-beta.animations';
 export class ReferralsBetaComponent extends Base implements OnInit {
   files: any;
   clinicReferrals: any[] = [];
-  referrals: Referral[] = [];
-  filteredReferrals: Referral[] = [];
   referralColumns: string[] = ['dateReferred', 'patientName', 'referringClinic', 'actions'];
   messageToSend = '';
   messages: Message[];
@@ -32,6 +30,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     { value: 'referred', label: 'Mark Referred' }
   ];
   clinicType = '';
+  myClinics: any[];
   selectedChannel: Channel = 'c2c';
   user: firebase.default.User;
   referral: Referral;
@@ -42,6 +41,8 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   showSummary = false;
   private addId = '';
   private triggerMessage = new Subject();
+  private triggerSpecialistReferrals = new Subject();
+  private triggerDentistReferrals = new Subject();
 
   constructor(
     private auth: AngularFireAuth,
@@ -53,48 +54,28 @@ export class ReferralsBetaComponent extends Base implements OnInit {
 
   ngOnInit(): void {
     this.auth.currentUser.then(user => this.user = user);
-    this.clinicService.getClinics().pipe(map(d => d.data.clinicDetails), takeUntil(this.unsubscribe$)).subscribe(clinics => {
-      this.clinicReferrals = [];
-
-      if (clinics.length === 1 && clinics[0].type === 'dentist') {
-        this.addId = clinics[0].addressId;
-        this.clinicType = 'dentist';
-        this.referralColumns = ['dateReferred', 'patientName', 'referringClinic', 'status', 'actions'];
-        this.referralService.getDentistRerrals(this.addId).pipe(
-          catchError(() => of([])),
-          take(1)
-        )
-          .subscribe(res => {
-            this.referrals = res;
-            const referrals = [
-              this.getFilteredDentistReferrals(res as Referral[], 0),
-              this.getFilteredDentistReferrals(res as Referral[], 1)
-            ];
-            this.clinicReferrals = [{ clinicName: clinics[0].name, referrals }];
-          });
-      } else {
-        this.clinicType = 'specialist';
-        this.referralColumns = ['dateReferred', 'patientName', 'referringClinic', 'actions'];
-        const reqs = [];
-        clinics.forEach(clinic => {
-          reqs.push(this.referralService.getSpecialistReferrals(clinic.addressId).pipe(catchError(() => of([])), take(1)));
-        });
-        forkJoin(reqs).pipe(take(1))
-          .subscribe(res => {
-            for (let x = 0, l = clinics.length; x < l; x++) {
-              const referrals = [
-                this.getFilteredReferrals(res[x] as Referral[], 0),
-                this.getFilteredReferrals(res[x] as Referral[], 1),
-                this.getFilteredReferrals(res[x] as Referral[], 2)
-              ];
-              this.clinicReferrals.push({ clinicName: clinics[x].name, referrals });
-            }
-          });
-      }
-    });
-
+    this.watchDentistReferrals();
+    this.watchSpecialistReferrals();
     this.watchMessages();
     this.watchRoute();
+
+    this.clinicService.getClinics().pipe(
+      map(d => d.data.clinicDetails),
+      takeUntil(this.unsubscribe$))
+      .subscribe(clinics => {
+        this.myClinics = clinics;
+
+        if (clinics.length === 1 && clinics[0].type === 'dentist') {
+          this.addId = clinics[0].addressId;
+          this.clinicType = 'dentist';
+          this.referralColumns = ['dateReferred', 'patientName', 'referringClinic', 'status', 'actions'];
+          this.triggerDentistReferrals.next();
+        } else {
+          this.clinicType = 'specialist';
+          this.referralColumns = ['dateReferred', 'patientName', 'referringClinic', 'actions'];
+          this.triggerSpecialistReferrals.next();
+        }
+      });
   }
 
   downloadFiles(referralId: string): void {
@@ -104,9 +85,6 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     });
   }
 
-  filterReferrals(tabIndex: number): void {
-    this.setFilteredReferrals(this.referrals, tabIndex);
-  }
 
   getFilteredReferrals(referrals: Referral[], tabIndex: number): any {
     let validStates = [];
@@ -131,33 +109,6 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     }).sort((a, b) => moment(b.createdOn).unix() - moment(a.createdOn).unix());
   }
 
-  setFilteredReferrals(referrals: Referral[], tabIndex: number): void {
-    let validStates = [];
-    if (tabIndex === 0) {
-      validStates = [this.sortedStatuses[0]];
-    } else if (tabIndex === 1) {
-      validStates = [this.sortedStatuses[1]];
-    } else {
-      validStates = [this.sortedStatuses[2], this.sortedStatuses[4]];
-    }
-
-    this.filteredReferrals = referrals.filter(r => {
-      if (!r.status) {
-        return false;
-      }
-
-      if (validStates.includes(r.status.gdStatus)) {
-        return true;
-      }
-
-      return false;
-    });
-  }
-
-  filterDentistReferrals(tabIndex: number): void {
-    this.setFilteredDentistReferrals(this.referrals, tabIndex);
-  }
-
   getFilteredDentistReferrals(referrals: Referral[], tabIndex: number): any {
     let validStates = [];
     if (tabIndex === 0) {
@@ -177,26 +128,6 @@ export class ReferralsBetaComponent extends Base implements OnInit {
 
       return false;
     }).sort((a, b) => moment(b.createdOn).unix() - moment(a.createdOn).unix());
-  }
-  setFilteredDentistReferrals(referrals: Referral[], tabIndex: number): void {
-    let validStates = [];
-    if (tabIndex === 0) {
-      validStates = [this.sortedStatuses[0], this.sortedStatuses[1], this.sortedStatuses[2]];
-    } else {
-      validStates = [this.sortedStatuses[4]];
-    }
-
-    this.filteredReferrals = referrals.filter(r => {
-      if (!r.status) {
-        return false;
-      }
-
-      if (validStates.includes(r.status.gdStatus)) {
-        return true;
-      }
-
-      return false;
-    });
   }
 
   markStatusDentist(referralIndex: number, status: ClinicStatus): void {
@@ -235,10 +166,13 @@ export class ReferralsBetaComponent extends Base implements OnInit {
 
     this.referralService.uploadDocuments(this.referral.referralId, formData)
       .pipe(take(1))
-      .subscribe(referral => {
+      .subscribe(() => {
+        if (this.clinicType === 'dentist') {
+          this.triggerDentistReferrals.next();
+        } else {
+          this.triggerSpecialistReferrals.next();
+        }
         this.uploadingDocuments = false;
-        const referralIndex = this.referrals.findIndex(r => r.referralId === referral.referralId);
-        this.referrals[referralIndex] = referral;
         this.enterComment('Uploaded document(s)');
       });
   }
@@ -297,6 +231,43 @@ export class ReferralsBetaComponent extends Base implements OnInit {
       ),
       takeUntil(this.unsubscribe$)
     ).subscribe(messages => this.messages = messages);
+  }
+
+  private watchDentistReferrals(): void {
+    this.triggerDentistReferrals.pipe(
+      switchMap(() => this.referralService.getDentistRerrals(this.addId)),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(res => {
+      this.clinicReferrals = [];
+      const referrals = [
+        this.getFilteredDentistReferrals(res as Referral[], 0),
+        this.getFilteredDentistReferrals(res as Referral[], 1)
+      ];
+      this.clinicReferrals = [{ clinicName: this.myClinics[0].name, referrals }];
+    });
+  }
+
+  private watchSpecialistReferrals(): void {
+    this.triggerSpecialistReferrals.pipe(
+      switchMap(() => {
+        const reqs = [];
+        this.myClinics.forEach(clinic => {
+          reqs.push(this.referralService.getSpecialistReferrals(clinic.addressId).pipe(catchError(() => of([])), take(1)));
+        });
+        return forkJoin(reqs);
+      }),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(res => {
+      this.clinicReferrals = [];
+      for (let x = 0, l = this.myClinics.length; x < l; x++) {
+        const referrals = [
+          this.getFilteredReferrals(res[x] as Referral[], 0),
+          this.getFilteredReferrals(res[x] as Referral[], 1),
+          this.getFilteredReferrals(res[x] as Referral[], 2)
+        ];
+        this.clinicReferrals.push({ clinicName: this.myClinics[x].name, referrals });
+      }
+    });
   }
 
   private watchRoute(): void {
