@@ -1,6 +1,6 @@
 <div class="specialist" fxLayout="row">
-  <div class="list" [ngClass]="{'fade': showCreateReferral || showTreatmentSummary}" fxFlex="500px" fxLayout="column"
-    fxLayoutGap="24px">
+  <div class="list" [ngClass]="{'fade': showCreateReferral || showTreatmentSummary || selectedQr}" fxFlex="500px"
+    fxLayout="column" fxLayoutGap="24px">
     <div>
       <button mat-raised-button (click)="editFavorites()"
         [disabled]="loading">{{clinicType === 'dentist' ? 'Edit Favorites': 'Edit Referring Clinics'}}</button>
@@ -14,7 +14,7 @@
 
     <mat-card class="favorite-specialist" fxLayout="column" *ngFor="let a of favoriteClinics">
       <mat-icon matTooltip="Verified Clinic" class="verified" *ngIf="a.verified" color="primary">verified</mat-icon>
-      <button class="qr-button" mat-icon-button>
+      <button *ngIf="a.qrCode" (click)="selectQrCode(a, favoriteCardEls)" class="qr-button" mat-icon-button>
         <mat-icon>qr_code_2</mat-icon>
       </button>
       <div #favoriteCardEls class="specialist-title">{{a.name}} </div>
@@ -116,13 +116,14 @@
     </mat-card>
   </div>
 
-  <!-- <div [@fade] class="qr" *ngIf="qr">
+  <div [@fade] class="create-referral" *ngIf="selectedQr">
     <mat-card>
-      <app-qr></app-qr>
+      <app-qr (cancel)="cancel()" [clinic]="selectedQr"></app-qr>
     </mat-card>
-  </div> -->
+  </div>
 
-  <div class="create-referral map" [ngClass]="{'active': !showCreateReferral && !showTreatmentSummary}" #refMap>
+  <div class="create-referral map" [ngClass]="{'active': !showCreateReferral && !showTreatmentSummary && !selectedQr}"
+    #refMap>
   </div>
 </div>
 

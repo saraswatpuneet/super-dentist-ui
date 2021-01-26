@@ -70,7 +70,6 @@ export class AppComponent extends Base implements OnInit {
           .pipe(take(1))
           .subscribe(myClinics => {
             const c = myClinics.data.clinicDetails;
-            console.log(c);
             if (c.length === 1 && c[0].type === 'dentist') {
               this.isSpecialist = false;
             } else {

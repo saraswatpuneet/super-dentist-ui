@@ -21,6 +21,7 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
   @ViewChild('refCardEl') refCardEl: ElementRef;
   @ViewChild('refMap') refMap: ElementRef;
   clinics = [];
+  selectedQr = '';
   clinicType = '';
   favoriteClinics = [];
   networkClinics = [];
@@ -84,7 +85,14 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
     this.setRefElBounds(el);
   }
 
+  selectQrCode(clinic: any, el: any): void {
+    this.selectedQr = { ...clinic };
+    this.selectedReferral = clinic;
+    this.setRefElBounds(el);
+  }
+
   cancel(): void {
+    this.selectedQr = undefined;
     this.addressId = undefined;
     this.selectedPlaceId = undefined;
     this.selectedSpecialty = undefined;
@@ -207,6 +215,8 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
           } else {
             b = mapFromGeneralDetails(a.generalDetails);
           }
+
+          b.qrCode = a.qrCode;
 
           if (!placeIds[b.placeId]) {
             placeIds[b.placeId] = true;

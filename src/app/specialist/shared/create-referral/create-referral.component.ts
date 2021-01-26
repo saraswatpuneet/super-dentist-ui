@@ -40,7 +40,6 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.initForm();
-    console.log(this);
 
     this.auth.currentUser.then(user => this.userEmail = user.email);
   }
