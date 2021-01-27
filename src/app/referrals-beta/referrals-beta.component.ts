@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, filter, switchMap, take, takeUntil, map, delay, repeat } from 'rxjs/operators';
-import { forkJoin, of, Subject, BehaviorSubject, merge, timer } from 'rxjs';
+import { catchError, filter, switchMap, take, takeUntil, map } from 'rxjs/operators';
+import { forkJoin, of, Subject } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
@@ -191,7 +191,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
         this.getFilteredDentistReferrals(res as Referral[], 0),
         this.getFilteredDentistReferrals(res as Referral[], 1)
       ];
-      this.clinicReferrals = [{ clinicName: this.myClinics[0].name, referrals }];
+      this.clinicReferrals = [{ clinicName: this.myClinics[0].name, clinicAddress: this.myClinics[0].address, referrals }];
     });
   }
 
@@ -213,7 +213,13 @@ export class ReferralsBetaComponent extends Base implements OnInit {
           this.getFilteredReferrals(res[x] as Referral[], 1),
           this.getFilteredReferrals(res[x] as Referral[], 2)
         ];
-        this.clinicReferrals.push({ clinicName: this.myClinics[x].name, referrals });
+        const splits = this.myClinics[x].address.split(',');
+        this.clinicReferrals.push({
+          clinicName: this.myClinics[x].name,
+          // clinicStreet: 'splits.shift',
+          clinicCity: this.myClinics[x].address.split(','),
+          referrals
+        });
       }
     });
   }

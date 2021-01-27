@@ -28,6 +28,7 @@ export class AppComponent extends Base implements OnInit {
     { path: 'settings', label: 'Settings', icon: 'settings' },
   ];
   isSpecialist = false;
+  clinicName = '';
   private expandedKey = 'sdNavExpanded';
   private themeKey = 'sdTheme';
 
@@ -71,10 +72,15 @@ export class AppComponent extends Base implements OnInit {
           .subscribe(myClinics => {
             const c = myClinics.data.clinicDetails;
             if (c.length === 1 && c[0].type === 'dentist') {
+              this.navItems[0].label = 'Specialist';
               this.isSpecialist = false;
             } else {
               this.isSpecialist = true;
               this.navItems[0].label = 'Referring Clinics';
+            }
+
+            if (c[0] && c[0].name) {
+              this.clinicName = c[0].name;
             }
 
             this.clinicService.setMyClinics(c[0]);
@@ -90,6 +96,7 @@ export class AppComponent extends Base implements OnInit {
     this.auth.signOut().then(() => {
       this.authenticated = false;
       this.isSpecialist = false;
+      this.clinicName = undefined;
       this.router.navigate(['./login']);
       this.clinicService.setMyClinics(undefined);
     });
