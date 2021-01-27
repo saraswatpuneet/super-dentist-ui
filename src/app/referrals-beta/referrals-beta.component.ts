@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, filter, switchMap, take, takeUntil, map, tap } from 'rxjs/operators';
-import { forkJoin, of, Subject } from 'rxjs';
+import { catchError, filter, switchMap, take, takeUntil, map, tap, delay, repeat } from 'rxjs/operators';
+import { forkJoin, of, Subject, BehaviorSubject, merge, timer } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
@@ -43,6 +43,11 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   private triggerMessage = new Subject();
   private triggerSpecialistReferrals = new Subject();
   private triggerDentistReferrals = new Subject();
+  private checked = false;
+
+  private cutoffTime = 900; // -> 15 minutes
+  private pollingTime = 0;
+  private polling = new BehaviorSubject<boolean>(this.checked);
 
   constructor(
     private auth: AngularFireAuth,
@@ -231,6 +236,42 @@ export class ReferralsBetaComponent extends Base implements OnInit {
       ),
       takeUntil(this.unsubscribe$)
     ).subscribe(messages => this.messages = messages);
+  }
+
+  private togglePoll(enabled: boolean): void {
+    this.polling.next(enabled);
+    if (enabled) {
+      this.pollingTime = 0;
+      this.watchTimer();
+      this.pollChat();
+    }
+  }
+
+  private pollChat(): void {
+    of('').pipe(
+      filter(() => !!this.referral.referralId),
+      switchMap(() => this.referralService.getMessages(this.referral.referralId, this.selectedChannel)
+        .pipe(catchError(() => of([])))
+      ),
+      delay(10000),
+      repeat(),
+      takeUntil(merge(this.unsubscribe$, this.polling.pipe(filter(res => res === false))))
+    ).subscribe(console.log);
+  }
+
+  private watchTimer(): void {
+    timer(0, 1000).pipe(
+      takeUntil(merge(
+        this.unsubscribe$,
+        this.polling.pipe(filter(res => res === false)))
+      )
+    ).subscribe(() => {
+      this.pollingTime++;
+      if (this.pollingTime > this.cutoffTime) {
+        this.checked = false;
+        this.polling.next(false);
+      }
+    });
   }
 
   private watchDentistReferrals(): void {
