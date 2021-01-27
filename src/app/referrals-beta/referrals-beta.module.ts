@@ -16,9 +16,10 @@ import { NgxMaskModule } from 'ngx-mask';
 import { ReferralsBetaRoutingModule } from './referrals-beta-routing.module';
 import { ReferralsBetaComponent } from './referrals-beta.component';
 import { ReferralSummaryComponent } from './shared/referral-summary/referral-summary.component';
+import { ChatComponent } from './shared/chat/chat.component';
 
 @NgModule({
-  declarations: [ReferralsBetaComponent, ReferralSummaryComponent],
+  declarations: [ReferralsBetaComponent, ReferralSummaryComponent, ChatComponent],
   imports: [
     CommonModule,
     FormsModule,

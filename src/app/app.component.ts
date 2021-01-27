@@ -74,6 +74,7 @@ export class AppComponent extends Base implements OnInit {
               this.isSpecialist = false;
             } else {
               this.isSpecialist = true;
+              this.navItems[0].label = 'Referring Clinics';
             }
 
             this.clinicService.setMyClinics(c[0]);

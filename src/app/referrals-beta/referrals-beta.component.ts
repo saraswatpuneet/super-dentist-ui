@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, filter, switchMap, take, takeUntil, map, tap, delay, repeat } from 'rxjs/operators';
+import { catchError, filter, switchMap, take, takeUntil, map, delay, repeat } from 'rxjs/operators';
 import { forkJoin, of, Subject, BehaviorSubject, merge, timer } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -40,14 +40,8 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   sortedStatuses = sortReferredStatus();
   showSummary = false;
   private addId = '';
-  private triggerMessage = new Subject();
   private triggerSpecialistReferrals = new Subject();
   private triggerDentistReferrals = new Subject();
-  private checked = false;
-
-  private cutoffTime = 900; // -> 15 minutes
-  private pollingTime = 0;
-  private polling = new BehaviorSubject<boolean>(this.checked);
 
   constructor(
     private auth: AngularFireAuth,
@@ -61,7 +55,6 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     this.auth.currentUser.then(user => this.user = user);
     this.watchDentistReferrals();
     this.watchSpecialistReferrals();
-    this.watchMessages();
     this.watchRoute();
 
     this.clinicService.getClinics().pipe(
@@ -90,7 +83,6 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     });
   }
 
-
   getFilteredReferrals(referrals: Referral[], tabIndex: number): any {
     let validStates = [];
     if (tabIndex === 0) {
@@ -112,6 +104,14 @@ export class ReferralsBetaComponent extends Base implements OnInit {
 
       return false;
     }).sort((a, b) => moment(b.createdOn).unix() - moment(a.createdOn).unix());
+  }
+
+  onFilesUploaded(): void {
+    if (this.clinicType === 'dentist') {
+      this.triggerDentistReferrals.next();
+    } else {
+      this.triggerSpecialistReferrals.next();
+    }
   }
 
   getFilteredDentistReferrals(referrals: Referral[], tabIndex: number): any {
@@ -161,37 +161,6 @@ export class ReferralsBetaComponent extends Base implements OnInit {
       .subscribe();
   }
 
-  onFileSelect($event): void {
-    this.uploadingDocuments = true;
-    const files = $event.target.files;
-    const formData = new FormData();
-    for (let x = 0, l = files.length; x < l; x++) {
-      formData.append(`File${x}`, files[x]);
-    }
-
-    this.referralService.uploadDocuments(this.referral.referralId, formData)
-      .pipe(take(1))
-      .subscribe(() => {
-        if (this.clinicType === 'dentist') {
-          this.triggerDentistReferrals.next();
-        } else {
-          this.triggerSpecialistReferrals.next();
-        }
-        this.uploadingDocuments = false;
-        this.enterComment('Uploaded document(s)');
-      });
-  }
-
-  talkTo(isClinic: boolean): void {
-    if (isClinic) {
-      this.selectedChannel = 'c2c';
-    } else {
-      this.selectedChannel = 'c2p';
-    }
-
-    this.triggerMessage.next();
-  }
-
   referralChat(referralId: string): void {
     this.router.navigate([], {
       relativeTo: this.route,
@@ -209,68 +178,6 @@ export class ReferralsBetaComponent extends Base implements OnInit {
         s: referralId,
       },
       queryParamsHandling: 'merge'
-    });
-  }
-
-  enterComment(text: string): void {
-    const message: Message = {
-      text,
-      userId: this.user.email,
-      channel: this.selectedChannel,
-      timeStamp: Date.now()
-    };
-    this.messages.push(message);
-    const index = this.messages.length - 1;
-    this.referralService.createMessage(this.referral.referralId, [message])
-      .pipe(take(1))
-      .subscribe(mes => this.messages[index] = mes);
-    this.messageToSend = '';
-  }
-
-  private watchMessages(): void {
-    this.triggerMessage.pipe(
-      filter(() => !!this.referral),
-      switchMap(() =>
-        this.referralService.getMessages(this.referral.referralId, this.selectedChannel)
-          .pipe(catchError(() => of([])))
-      ),
-      takeUntil(this.unsubscribe$)
-    ).subscribe(messages => this.messages = messages);
-  }
-
-  private togglePoll(enabled: boolean): void {
-    this.polling.next(enabled);
-    if (enabled) {
-      this.pollingTime = 0;
-      this.watchTimer();
-      this.pollChat();
-    }
-  }
-
-  private pollChat(): void {
-    of('').pipe(
-      filter(() => !!this.referral.referralId),
-      switchMap(() => this.referralService.getMessages(this.referral.referralId, this.selectedChannel)
-        .pipe(catchError(() => of([])))
-      ),
-      delay(10000),
-      repeat(),
-      takeUntil(merge(this.unsubscribe$, this.polling.pipe(filter(res => res === false))))
-    ).subscribe(console.log);
-  }
-
-  private watchTimer(): void {
-    timer(0, 1000).pipe(
-      takeUntil(merge(
-        this.unsubscribe$,
-        this.polling.pipe(filter(res => res === false)))
-      )
-    ).subscribe(() => {
-      this.pollingTime++;
-      if (this.pollingTime > this.cutoffTime) {
-        this.checked = false;
-        this.polling.next(false);
-      }
     });
   }
 
