@@ -112,7 +112,7 @@
     </div>
 
     <div class="c-chat" [@slideInOut] *ngIf="referralId">
-      <app-chat (filesUploaded)="onFilesUploaded()"></app-chat>
+      <app-chat [clinicType]="clinicType" (filesUploaded)="onFilesUploaded()"></app-chat>
     </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { of, merge, timer, BehaviorSubject, forkJoin } from 'rxjs';
 import { filter, switchMap, catchError, takeUntil, repeat, delay, tap, take } from 'rxjs/operators';
 
@@ -14,6 +14,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent extends Base implements OnInit {
+  @Input() clinicType = '';
   @Output() filesUploaded = new EventEmitter<boolean>();
   selectedChannel: Channel = 'c2c';
   referral: Referral;
@@ -46,6 +47,7 @@ export class ChatComponent extends Base implements OnInit {
       timeStamp: Date.now()
     };
 
+    this.pollingTime = 0;
     this.messages.push(message);
     const index = this.messages.length - 1;
 

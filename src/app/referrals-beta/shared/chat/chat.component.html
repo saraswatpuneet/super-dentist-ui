@@ -14,7 +14,7 @@
   </div>
 
   <div class="ms" fxFlex>
-    <div class="text" [ngClass]="m.userId === user?.email ? 'sender': 'receiver'" fxLayout="column"
+    <div class="text" [ngClass]="m.userId === userEmail ? 'sender': 'receiver'" fxLayout="column"
       *ngFor="let m of messages">
       <div>{{m.text}}</div>
     </div>
