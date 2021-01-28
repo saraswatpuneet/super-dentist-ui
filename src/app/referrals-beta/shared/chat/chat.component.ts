@@ -40,6 +40,10 @@ export class ChatComponent extends Base implements OnInit {
   }
 
   enterComment(text: string): void {
+    if (!text) {
+      return;
+    }
+
     const message: Message = {
       text,
       userId: this.userEmail,
