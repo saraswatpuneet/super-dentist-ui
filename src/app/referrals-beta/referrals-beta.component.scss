@@ -90,8 +90,8 @@
 
   .scr {
     height: 100%;
-    padding: 20px 12px;
-    overflow: auto;
+    position: relative;
+    padding: 20px 12px 0 12px;
 
     mat-tab-group {
       position: sticky;
@@ -101,6 +101,7 @@
   }
 
   .cs {
+    height: calc(100% - 48px);
     overflow: auto;
   }
 
