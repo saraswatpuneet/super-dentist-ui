@@ -18,6 +18,7 @@ import { referralsBetaAnimations } from './referrals-beta.animations';
   animations: referralsBetaAnimations
 })
 export class ReferralsBetaComponent extends Base implements OnInit {
+  tabCounts = [undefined, undefined, undefined];
   files: any;
   clinicReferrals: any[] = [];
   referralColumns: string[] = ['dateReferred', 'patientName', 'referringClinic', 'actions'];
@@ -146,6 +147,12 @@ export class ReferralsBetaComponent extends Base implements OnInit {
       .subscribe();
   }
 
+  onCloseChat(): void {
+    this.router.navigate([], {
+      relativeTo: this.route
+    });
+  }
+
   updateStatus2(clinicIndex: number, referralIndex: number, tabIndex: number, status: ClinicStatus): void {
     const ref = this.clinicReferrals[clinicIndex].referrals[this.tabIndex].splice(referralIndex, 1)[0];
     ref.status = { gdStatus: status, spStatus: status };
@@ -181,6 +188,21 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     });
   }
 
+  private calcTabCounts(arraySize: number): void {
+    this.tabCounts = [...Array(arraySize)].map((_, i) => {
+      let count = 0;
+      this.clinicReferrals.forEach(c => {
+        count += c.referrals[i].length;
+      });
+
+      if (count > 0) {
+        return count;
+      } else {
+        return undefined;
+      }
+    });
+  }
+
   private watchDentistReferrals(): void {
     this.triggerDentistReferrals.pipe(
       switchMap(() => this.referralService.getDentistRerrals(this.addId)),
@@ -192,6 +214,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
         this.getFilteredDentistReferrals(res as Referral[], 1)
       ];
       this.clinicReferrals = [{ clinicName: this.myClinics[0].name, clinicAddress: this.myClinics[0].address, referrals }];
+      this.calcTabCounts(2);
     });
   }
 
@@ -213,13 +236,12 @@ export class ReferralsBetaComponent extends Base implements OnInit {
           this.getFilteredReferrals(res[x] as Referral[], 1),
           this.getFilteredReferrals(res[x] as Referral[], 2)
         ];
-        const splits = this.myClinics[x].address.split(',');
         this.clinicReferrals.push({
           clinicName: this.myClinics[x].name,
-          // clinicStreet: 'splits.shift',
           clinicCity: this.myClinics[x].address.split(','),
           referrals
         });
+        this.calcTabCounts(3);
       }
     });
   }

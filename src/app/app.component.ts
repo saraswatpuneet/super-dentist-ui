@@ -18,7 +18,7 @@ import { ClinicService } from './shared/services/clinic.service';
   animations: appAnimations
 })
 export class AppComponent extends Base implements OnInit {
-  theme = 'dark';
+  theme = 'light';
   authenticated = false;
   emailVerified = true;
   expanded = false;
@@ -53,6 +53,10 @@ export class AppComponent extends Base implements OnInit {
     if (theme === 'light') {
       this.theme = 'light';
       this.overlayContainer.getContainerElement().classList.remove('dark');
+      this.overlayContainer.getContainerElement().classList.add(this.theme);
+    } else {
+      this.theme = 'dark';
+      this.overlayContainer.getContainerElement().classList.remove('light');
       this.overlayContainer.getContainerElement().classList.add(this.theme);
     }
 

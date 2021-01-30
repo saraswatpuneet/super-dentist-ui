@@ -11,6 +11,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatBadgeModule } from '@angular/material/badge';
 import { NgxMaskModule } from 'ngx-mask';
 
 import { ReferralsBetaRoutingModule } from './referrals-beta-routing.module';
@@ -26,6 +27,7 @@ import { ChatComponent } from './shared/chat/chat.component';
     FlexLayoutModule,
     MatIconModule,
     MatCardModule,
+    MatBadgeModule,
     MatTabsModule,
     MatButtonModule,
     MatCheckboxModule,

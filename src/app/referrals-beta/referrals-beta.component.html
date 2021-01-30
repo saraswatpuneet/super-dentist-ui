@@ -1,125 +1,104 @@
-<div class="referrals" fxLayout="column" fxLayoutGap="48px">
-  <div class="summary" *ngIf="showSummary">
-    <app-referral-summary></app-referral-summary>
-  </div>
+<div class="referrals" fxLayout="row">
 
-  <div fxLayout="row" fxFlex fxLayoutGap="20px" *ngIf="!showSummary">
-    <div fxFlex>
-      <mat-tab-group *ngIf="clinicType === 'dentist'" [(selectedIndex)]="tabIndex">
-        <mat-tab label="Ongoing"></mat-tab>
-        <mat-tab label="Closed"> </mat-tab>
-      </mat-tab-group>
+  <div class="scr" fxFlex="515px">
+    <mat-tab-group *ngIf="clinicType === 'dentist'" [(selectedIndex)]="tabIndex">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span [matBadge]="tabCounts[0]" matBadgeOverlap="false">Ongoing</span>
+        </ng-template>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span [matBadge]="tabCounts[1]" matBadgeOverlap="false">Closed</span>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
 
-      <mat-tab-group *ngIf="clinicType === 'specialist'" [(selectedIndex)]="tabIndex">
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <mat-icon class="example-tab-icon">pending_actions</mat-icon>
-            Referred
-          </ng-template>
-        </mat-tab>
+    <mat-tab-group *ngIf="clinicType === 'specialist'" [(selectedIndex)]="tabIndex">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon">pending_actions</mat-icon>
+          <span [matBadge]="tabCounts[0]" matBadgeOverlap="false">Referred</span>
+        </ng-template>
+      </mat-tab>
 
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <mat-icon class="example-tab-icon">schedule</mat-icon>
-            Scheduled
-          </ng-template>
-        </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon">schedule</mat-icon>
+          <span [matBadge]="tabCounts[1]" matBadgeOverlap="false">Scheduled</span>
+        </ng-template>
+      </mat-tab>
 
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <mat-icon class="example-tab-icon">done</mat-icon>
-            Completed
-          </ng-template>
-        </mat-tab>
-      </mat-tab-group>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon">done</mat-icon>
+          <span [matBadge]="tabCounts[2]" matBadgeOverlap="false">Completed</span>
 
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+
+    <div class="cs">
       <div *ngFor="let c of clinicReferrals; let clinicIndex = index">
         <mat-card class="c-card clinic-title">
           <h3>{{c.clinicName}}</h3>
           <span>{{c.clinicCity}}</span>
         </mat-card>
 
-        <div>
-          <table mat-table fxFlex [dataSource]="c.referrals[tabIndex]" class="mat-elevation-z8">
-            <ng-container matColumnDef="dateReferred">
-              <th mat-header-cell *matHeaderCellDef> Referred </th>
-              <td mat-cell *matCellDef="let element"> {{element.createdOn | date:"MMM dd, yyyy"}} </td>
+        <div fxLayout="column" fxLayoutGap="24px">
+          <mat-card class="r" *ngFor="let r of c.referrals[tabIndex]; let i = index">
+            <header (click)="referralChat(r.referralId)">
+              <h2>{{r.patientFirstName}} {{r.patientLastName}}</h2>
+              <div>{{r.createdOn | date:"MMM dd, yyyy"}} </div>
+            </header>
+
+            <ng-container *ngIf="clinicType === 'dentist' && r.status && tabIndex === 0">
+              <button color="primary" class="mark-complete-button"
+                [disabled]="!r.status || r.status.gdStatus !== 'completed'" mat-raised-button
+                (click)="markStatusDentist(i, 'closed')">{{r.status ? r?.status.gdStatus === 'completed' ? 'Close Referral': referredStatuses[r.status.gdStatus].label  : 'No status'}}
+              </button>
             </ng-container>
 
-            <ng-container matColumnDef="patientName">
-              <th mat-header-cell *matHeaderCellDef> Patient </th>
-              <td mat-cell *matCellDef="let element">
-                <div>
-                  {{element.patientFirstName}} {{element.patientLastName}}
-                </div>
-                <div class="phone">{{element.patientPhone.replace('+1', '') | mask: '(000) 000-0000'}}</div>
-              </td>
-            </ng-container>
+            <button mat-icon-button [matMenuTriggerFor]="refMenu"
+              [matMenuTriggerData]="{refId: r.referralId, documents: r.documents, selectedRefIndex: i, selectedClinicIndex: clinicIndex}">
+              <mat-icon>more_vert</mat-icon>
+            </button>
 
-            <ng-container matColumnDef="referringClinic">
-              <th mat-header-cell *matHeaderCellDef> Referring Clinic </th>
-              <td mat-cell *matCellDef="let element">
-                <div>
-                  {{clinicType === 'dentist' ? element?.toClinicName : element?.fromClinicName }}
-                </div>
-                <div *ngIf="clinicType === 'specialist'" class="phone">
-                  {{element?.fromClinicAddress }}
-                </div>
-              </td>
-            </ng-container>
+            <div fxLayout="row" fxLayoutGap="24px">
+              <div class="info">
+                <div>{{clinicType === 'dentist' ? r?.toClinicName : r?.fromClinicName }} </div>
+                <div class="address" *ngIf="clinicType === 'specialist'">{{r?.fromClinicAddress }} </div>
+              </div>
 
-            <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef> Status </th>
-              <td mat-cell *matCellDef="let element; let i = index;">
-                <button color="primary" [disabled]="!element.status || element.status.gdStatus !== 'completed'"
-                  mat-raised-button
-                  (click)="markStatusDentist(i, 'closed')">{{element.status ? element.status.gdStatus === 'completed' ? 'Ready to Close': referredStatuses[element.status.gdStatus].label  : 'No status'}}</button>
-              </td>
-            </ng-container>
-
-            <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef> Actions</th>
-              <td mat-cell style="white-space:nowrap" *matCellDef="let element; let i = index;">
-                <button [matMenuTriggerFor]="appMenu"
-                  [matMenuTriggerData]="{selectedRefIndex: i, selectedClinicIndex: clinicIndex}" mat-stroked-button
-                  *ngIf="clinicType === 'specialist' && tabIndex < 2">
-                  {{referredStatuses[element.status.gdStatus].label}} <mat-icon>arrow_drop_down</mat-icon>
-                </button>
-
-                <button mat-icon-button matTooltip="Referral Summary" matTooltipPosition="above"
-                  matTooltipShowDelay="750" (click)="referralSummary(element.referralId)">
-                  <mat-icon>description</mat-icon>
-                </button>
-
-                <button mat-icon-button [disabled]="!element.documents" matTooltipShowDelay="750"
-                  matTooltip="Download Patient Documents" matTooltipPosition="above"
-                  (click)="downloadFiles(element.referralId)">
-                  <mat-icon>get_app</mat-icon>
-                </button>
-
-                <button mat-icon-button (click)="referralChat(element.referralId)" matTooltipShowDelay="750"
-                  matTooltip="Message Clinic or Patient" matTooltipPosition="above">
-                  <mat-icon>chat</mat-icon>
-                </button>
-              </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="referralColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: referralColumns;"></tr>
-          </table>
+            </div>
+          </mat-card>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="c-chat" [@slideInOut] *ngIf="referralId">
-      <app-chat [clinicType]="clinicType" (filesUploaded)="onFilesUploaded()"></app-chat>
-    </div>
+  <div fxFlex class="c-chat">
+    <app-referral-summary *ngIf="showSummary"></app-referral-summary>
+    <app-chat *ngIf="!showSummary && referralId" [clinicType]="clinicType" (closeChat)="onCloseChat()"
+      (filesUploaded)="onFilesUploaded()">
+    </app-chat>
   </div>
 </div>
 
-<mat-menu #appMenu="matMenu">
-  <ng-template matMenuContent let-selectedClinicIndex="selectedClinicIndex" let-selectedRefIndex="selectedRefIndex">
-    <button mat-menu-item
-      (click)="updateStatus2(selectedClinicIndex, selectedRefIndex, tabIndex, specialistTabs[tabIndex].value)">{{specialistTabs[tabIndex].label}}</button>
+<mat-menu #refMenu="matMenu">
+  <ng-template matMenuContent let-refId="refId" let-documents=documents let-selectedClinicIndex="selectedClinicIndex"
+    let-selectedRefIndex="selectedRefIndex">
+    <button mat-menu-item (click)="referralSummary(refId)">
+      <mat-icon>description</mat-icon> View Summary
+    </button>
+
+    <button mat-menu-item [disabled]="!documents" (click)="downloadFiles(refId)">
+      <mat-icon>get_app</mat-icon> Download Patient Documents
+    </button>
+
+    <button mat-menu-item *ngIf="clinicType === 'specialist' && tabIndex < 2"
+      (click)="updateStatus2(selectedClinicIndex, selectedRefIndex, tabIndex, specialistTabs[tabIndex].value)">
+      <mat-icon>{{tabIndex === 0 ? 'schedule' : 'done'}}</mat-icon> {{specialistTabs[tabIndex].label}}
+    </button>
   </ng-template>
 </mat-menu>

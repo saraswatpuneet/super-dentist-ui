@@ -8,6 +8,17 @@ import { ReferralService } from 'src/app/shared/services/referral.service';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 
+interface MessageChunk {
+  icon: any;
+  header: MessageHeader;
+  messageIds: string[];
+}
+
+interface MessageHeader {
+  name: string;
+  timeStamp: number;
+}
+
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -16,11 +27,15 @@ import { AngularFireAuth } from '@angular/fire/auth';
 export class ChatComponent extends Base implements OnInit {
   @Input() clinicType = '';
   @Output() filesUploaded = new EventEmitter<boolean>();
+  @Output() closeChat = new EventEmitter();
   selectedChannel: Channel = 'c2c';
+  messagePlaceholder = '';
   referral: Referral;
   messages: Message[];
   messageToSend = '';
   uploadingDocuments = false;
+  conversation = {};
+  messageChunks: MessageChunk[] = [];
   private referralId: string;
   private checked = false;
   private cutoffTime = 900; // -> 15 minutes
@@ -86,6 +101,16 @@ export class ChatComponent extends Base implements OnInit {
       this.selectedChannel = 'c2p';
     }
 
+    if (this.clinicType === 'dentist') {
+      this.messagePlaceholder = `Message ${this.referral.toClinicName}`;
+    } else {
+      if (this.selectedChannel === 'c2c') {
+        this.messagePlaceholder = `Message ${this.referral.fromClinicName}`;
+      } else {
+        this.messagePlaceholder = `Message ${this.referral.patientFirstName} ${this.referral.patientLastName}`;
+      }
+    }
+
     this.togglePoll(false);
     this.togglePoll(true);
   }
@@ -106,6 +131,7 @@ export class ChatComponent extends Base implements OnInit {
         .pipe(catchError(() => of([])))
       ),
       tap(messages => this.messages = messages),
+      tap(() => this.messageChunks = this.mapMessages(this.messages)),
       delay(10000),
       repeat(),
       takeUntil(merge(this.unsubscribe$, this.polling.pipe(filter(res => res === false))))
@@ -143,9 +169,54 @@ export class ChatComponent extends Base implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(([referral, messages]) => {
       this.referral = referral;
+      if (this.clinicType === 'dentist') {
+        this.messagePlaceholder = `Message ${this.referral.toClinicName}`;
+      } else {
+        if (this.selectedChannel === 'c2c') {
+          this.messagePlaceholder = `Message ${this.referral.fromClinicName}`;
+        } else {
+          this.messagePlaceholder = `Message ${this.referral.patientFirstName} ${this.referral.patientLastName}`;
+        }
+      }
       this.togglePoll(false);
       this.togglePoll(true);
       this.messages = messages;
+      this.messageChunks = this.mapMessages(messages);
     });
+  }
+
+  private mapMessages(messages: Message[]): MessageChunk[] {
+    if (!messages || messages.length === 0) {
+      return [];
+    }
+
+    let currentId = messages[0].userId;
+    const messageIds = {};
+    const messageChunks: MessageChunk[] = [];
+    let messageChunk: MessageChunk = this.newMessageChunk(messages[0].timeStamp, currentId);
+
+    messages.forEach(m => {
+      messageIds[m.messageId] = m;
+
+      if (currentId !== m.userId) {
+        currentId = m.userId;
+        messageChunks.push({ ...messageChunk });
+        messageChunk = this.newMessageChunk(m.timeStamp, currentId);
+        messageChunk.messageIds.push(m.messageId);
+      } else {
+        messageChunk.messageIds.push(m.messageId);
+      }
+    });
+    this.conversation = messageIds;
+    messageChunks.push(messageChunk);
+    return messageChunks;
+  }
+
+  private newMessageChunk(timeStamp: number, name: string): MessageChunk {
+    return {
+      icon: undefined,
+      header: { name, timeStamp },
+      messageIds: []
+    };
   }
 }

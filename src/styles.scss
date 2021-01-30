@@ -51,7 +51,7 @@ $mat-dark-theme-background: (
   status-bar: #42464a,
   app-bar: #42464a,
   background: black,
-  hover:  #42464a,
+  hover:  #35383b,
   card: #42464a,
   dialog: #42464a,
   disabled-button: #42464a,
@@ -278,16 +278,6 @@ body {
       background: linear-gradient(to top, rgba(white, 0.8), rgba(white, 0)) !important;
     }
   }
-
-  .referrals .chat .receiver {
-    > div {
-      background: #d0d0d8 !important;
-
-      &::before {
-        box-shadow: inset -8px 0px #d0d0d8 !important;
-      }
-    }
-  }
 }
 
 .stars {
@@ -305,6 +295,11 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+}
+
+  
+div.mat-tab-label-active {
+  opacity: 1;
 }
 
 /* Chrome, Safari, Edge, Opera */
