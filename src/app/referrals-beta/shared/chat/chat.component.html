@@ -22,7 +22,8 @@
       <mat-icon>account_circle</mat-icon>
       <div class="convo" fxLayout="column">
         <header>{{m.header.name}} <span class="ts">{{m.header.timeStamp | date:'hh:mm a'}}</span></header>
-        <div *ngFor="let mIds of m.messageIds">{{conversation[mIds].text}}</div>
+        <div *ngFor="let mIds of m.messageIds">{{conversation[mIds].text}}
+          <span>{{conversation[mIds].timeStamp | date:"MMM dd, yyyy hh:mm a"}}</span></div>
       </div>
     </div>
   </div>

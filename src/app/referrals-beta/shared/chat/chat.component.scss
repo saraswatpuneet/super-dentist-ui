@@ -54,6 +54,11 @@
   .convo {
     > div {
       padding: 4px 0;
+
+      span {
+        font-size: 12px; 
+        opacity: 0.5;
+      }
     }
   }
 

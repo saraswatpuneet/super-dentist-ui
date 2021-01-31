@@ -193,7 +193,8 @@ export class ChatComponent extends Base implements OnInit {
     let currentId = messages[0].userId;
     const messageIds = {};
     const messageChunks: MessageChunk[] = [];
-    let messageChunk: MessageChunk = this.newMessageChunk(messages[0].timeStamp, currentId);
+    const mappedNames = this.mapNames();
+    let messageChunk: MessageChunk = this.newMessageChunk(messages[0].timeStamp, mappedNames[currentId] ? mappedNames[currentId] : `${this.referral.patientFirstName} ${this.referral.patientLastName}`);
 
     messages.forEach(m => {
       messageIds[m.messageId] = m;
@@ -201,7 +202,7 @@ export class ChatComponent extends Base implements OnInit {
       if (currentId !== m.userId) {
         currentId = m.userId;
         messageChunks.push({ ...messageChunk });
-        messageChunk = this.newMessageChunk(m.timeStamp, currentId);
+        messageChunk = this.newMessageChunk(m.timeStamp, mappedNames[currentId] ? mappedNames[currentId] : `${this.referral.patientFirstName} ${this.referral.patientLastName}`);
         messageChunk.messageIds.push(m.messageId);
       } else {
         messageChunk.messageIds.push(m.messageId);
@@ -210,6 +211,14 @@ export class ChatComponent extends Base implements OnInit {
     this.conversation = messageIds;
     messageChunks.push(messageChunk);
     return messageChunks;
+  }
+
+  private mapNames(): any {
+    const names = {};
+    names[this.referral.fromEmail] = this.referral.fromClinicName;
+    names[this.referral.toEmail] = this.referral.toClinicName;
+
+    return names;
   }
 
   private newMessageChunk(timeStamp: number, name: string): MessageChunk {
