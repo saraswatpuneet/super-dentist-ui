@@ -142,6 +142,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     this.clinicReferrals[0].referrals[1].push(ref);
 
     this.clinicReferrals = JSON.parse(JSON.stringify(this.clinicReferrals));
+    this.calcTabCounts(2);
     this.referralService.updateStatus(ref.referralId, { gdStatus: status, spStatus: status })
       .pipe(take(1))
       .subscribe();
@@ -162,7 +163,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
 
     // Update tables
     this.clinicReferrals = JSON.parse(JSON.stringify(this.clinicReferrals));
-
+    this.calcTabCounts(3);
     this.referralService.updateStatus(ref.referralId, { gdStatus: status, spStatus: status })
       .pipe(take(1))
       .subscribe();

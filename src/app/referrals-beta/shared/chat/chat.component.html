@@ -1,5 +1,6 @@
 <mat-card *ngIf="referral !== undefined" class="mat-elevation-z4 chat" fxLayout="column">
   <div class="clinic-chat" fxLayout="row">
+
     <div [fxFlex]="clinicType === 'specialist' ? 50 : 100" (click)="talkTo(true)" class="l"
       [ngClass]="{'active': selectedChannel === 'c2c'}" matTooltipPosition="above" matTooltipShowDelay="750"
       [matTooltip]="referral.toClinicName">
@@ -11,6 +12,10 @@
       matTooltipShowDelay="750" [matTooltip]="referral.patientFirstName + ' ' + referral.patientLastName">
       {{referral.patientFirstName}} {{referral.patientLastName}}
     </div>
+
+    <button mat-icon-button>
+      <mat-icon>info</mat-icon>
+    </button>
 
     <button mat-icon-button (click)="this.closeChat.emit()">
       <mat-icon>close</mat-icon>
