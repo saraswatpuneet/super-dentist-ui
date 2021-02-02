@@ -11,6 +11,10 @@ const routes: Routes = [
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
   },
   {
+    path: 'patient',
+    loadChildren: () => import('./patient/patient.module').then(m => m.PatientModule),
+  },
+  {
     path: 'referrals',
     loadChildren: () => import('./referrals-beta/referrals-beta.module').then(m => m.ReferralsBetaModule),
     canActivate: [AuthGuard, VerifiedGuard]
