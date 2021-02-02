@@ -21,8 +21,8 @@
     <div [@slideUpDown] *ngIf="showInfo" class="info" fxLayout="column" fxLayoutGap="12px">
       <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="24px">
         <div class="clinic" fxLayout="column">
-          <div>{{referral.fromClinicName}}</div>
-          <div>{{referral.fromClinicAddress}}</div>
+          <div>{{referral?.fromClinicName}}</div>
+          <div>{{referral?.fromClinicAddress}}</div>
         </div>
 
         <button mat-button disabled>
@@ -30,8 +30,8 @@
         </button>
 
         <div class="clinic" fxLayout="column">
-          <div>{{referral.toClinicName}}</div>
-          <div>{{referral.toClinicAddress}}</div>
+          <div>{{referral?.toClinicName}}</div>
+          <div>{{referral?.toClinicAddress}}</div>
         </div>
       </div>
 
