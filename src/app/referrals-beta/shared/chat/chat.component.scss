@@ -51,46 +51,36 @@
     padding: 0;
     overflow: hidden;
     border-bottom: 1px solid rgba(grey, 0.2);
-    
-    > div {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      cursor: pointer;
-      opacity: 0.4;
-      position: relative;
+  }
+
+  .channel-tab {
+    position: relative;
+
+    ::before {
+      content: "";
+      position: absolute;
+      background: var(--blue);
+      height: 2px;
+      width: 142px;
+      bottom: 0;
+      left: 0px;
       transition: 0.3s;
+    }
 
-      &:not(.vert) {
-        padding: 12px 16px 16px;
-      }
+    &.c2p ::before {
+      left: 142px;
+    }
 
-      &:not(.vert)::before {
-        content: "";
-        position: absolute;
-        background: rgba(white, 0.7);
-        top: 0; 
-        width: 4px;
-        height: 100%;
-        transition: 0.3s;
-      }
-
-      &.l::before {
-        left: -4px;
-      }
-      &.r::before {
-        right: -4px;
-      }
-
+    > div {
+      text-align: center;
+      cursor: pointer;
+      width: 110px;
+      padding: 14px 16px;
+      opacity: 0.5;
+      transition: 0.3s;
+      
       &.active {
         opacity: 1;
-
-        &.l::before {
-          left: 0;
-        }
-        &.r::before {
-          right: 0;
-        }
       }
     }
   }

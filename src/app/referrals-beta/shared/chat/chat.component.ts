@@ -95,6 +95,10 @@ export class ChatComponent extends Base implements OnInit {
   }
 
   talkTo(isClinic: boolean): void {
+    if ((isClinic && this.selectedChannel === 'c2c') || (!isClinic && this.selectedChannel === 'c2p')) {
+      return;
+    }
+
     if (isClinic) {
       this.selectedChannel = 'c2c';
     } else {
