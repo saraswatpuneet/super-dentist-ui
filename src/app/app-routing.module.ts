@@ -16,11 +16,6 @@ const routes: Routes = [
     canActivate: [AuthGuard, VerifiedGuard]
   },
   {
-    path: 'referrals2',
-    loadChildren: () => import('./referrals/referrals.module').then(m => m.ReferralsModule),
-    canActivate: [AuthGuard, VerifiedGuard]
-  },
-  {
     path: 'specialist',
     loadChildren: () => import('./specialist/specialist.module').then(m => m.SpecialistModule),
     canActivate: [AuthGuard, VerifiedGuard]
