@@ -1,57 +1,55 @@
-<div class="ref-summary">
-  <mat-card *ngIf="referral">
-    <div class="header">
-      <div fxLayout="row" fxLayoutGap="12px" fxLayoutAlign=" center">
-        <img src="assets/images/brand.svg" height="36px" alt="">
-        <h1>SuperDentist Referral</h1>
-      </div>
+<mat-card class="ref-summary" *ngIf="referral">
+  <div class="header">
+    <div fxLayout="row" fxLayoutGap="12px" fxLayoutAlign=" center">
+      <img src="assets/images/brand.svg" height="36px" alt="">
+      <h1>SuperDentist Referral</h1>
     </div>
+  </div>
 
-    <div class="top-right">
-      <!-- <button mat-button (click)="export()">
+  <div class="top-right">
+    <!-- <button mat-button (click)="export()">
         <mat-icon>get_app</mat-icon> PDF
       </button> -->
-      <button mat-icon-button (click)="closeSummary()">
-        <mat-icon>close</mat-icon>
-      </button>
+    <button mat-icon-button (click)="closeSummary()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+
+  <div fxLayout="row" fxLayoutAlign=" center">
+    <div class="clinic" fxLayout="column">
+      <div>{{referral.fromClinicName}}</div>
+      <div>{{referral.fromClinicAddress}}</div>
+      <div>{{referral.fromEmail}}</div>
     </div>
 
+    <button mat-button disabled>
+      Referred <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
 
-    <div fxLayout="row" fxLayoutAlign=" center">
-      <div class="clinic" fxLayout="column">
-        <div>{{referral.fromClinicName}}</div>
-        <div>{{referral.fromClinicAddress}}</div>
-        <div>{{referral.fromEmail}}</div>
-      </div>
-
-      <button mat-button disabled>
-        Referred <mat-icon>keyboard_arrow_right</mat-icon>
-      </button>
-
-      <div class="clinic" fxLayout="column">
-        <div>{{referral.toClinicName}}</div>
-        <div>{{referral.toClinicAddress}}</div>
-        <div>{{referral.toEmail}}</div>
-      </div>
+    <div class="clinic" fxLayout="column">
+      <div>{{referral.toClinicName}}</div>
+      <div>{{referral.toClinicAddress}}</div>
+      <div>{{referral.toEmail}}</div>
     </div>
+  </div>
 
-    <div class="patient" fxLayout="column">
-      <div>Patient</div>
-      <div>{{referral.patientFirstName}} {{referral.patientLastName}}</div>
-      <div>{{referral.patientPhone}}</div>
-      <div>{{referral.patientEmail}}</div>
-    </div>
+  <div class="patient" fxLayout="column">
+    <div>Patient</div>
+    <div>{{referral.patientFirstName}} {{referral.patientLastName}}</div>
+    <div>{{referral.patientPhone}}</div>
+    <div>{{referral.patientEmail}}</div>
+  </div>
 
-    <div *ngIf="referral.reasons && referral.reasons.length > 0" class="patient">
-      <div>Reasons for referral</div>
-      <div *ngFor="let reason of referral.reasons; let last = last">
-        {{reasonMap[reason].label}}
-      </div>
+  <div *ngIf="referral.reasons && referral.reasons.length > 0" class="patient">
+    <div>Reasons for referral</div>
+    <div *ngFor="let reason of referral.reasons; let last = last">
+      {{reasonMap[reason].label}}
     </div>
+  </div>
 
-    <div class="patient" *ngIf="referral.tooth && referral.tooth.length > 0">
-      <div>Teeth</div>
-      <span *ngFor="let tooth of referral.tooth; let last = last">{{tooth}}{{!last ? ', ': ''}}</span>
-    </div>
-  </mat-card>
-</div>
+  <div class="patient" *ngIf="referral.tooth && referral.tooth.length > 0">
+    <div>Teeth</div>
+    <span *ngFor="let tooth of referral.tooth; let last = last">{{tooth}}{{!last ? ', ': ''}}</span>
+  </div>
+</mat-card>

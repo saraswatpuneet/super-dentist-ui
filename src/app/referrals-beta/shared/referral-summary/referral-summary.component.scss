@@ -1,13 +1,5 @@
 .ref-summary {
-  margin: 20px 4px;
-  width: calc(100% - 20px);
-
-  > mat-card {
-    margin: 0 auto;
-    width: 900px;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
+  width: calc(100% - 32px);
 
   .header {
     margin-bottom: 36px;
