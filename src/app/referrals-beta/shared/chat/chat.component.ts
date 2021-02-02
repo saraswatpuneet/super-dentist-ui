@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef } from '@angular/core';
 import { of, merge, timer, BehaviorSubject, forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { filter, switchMap, catchError, takeUntil, repeat, delay, tap, take } from 'rxjs/operators';
@@ -27,6 +27,7 @@ interface MessageHeader {
   animations: chatAnimations
 })
 export class ChatComponent extends Base implements OnInit {
+  @ViewChild('scrollChatEl') scrollChatEl: ElementRef;
   @Input() clinicType = '';
   @Output() filesUploaded = new EventEmitter<boolean>();
   @Output() closeChat = new EventEmitter();
@@ -71,6 +72,7 @@ export class ChatComponent extends Base implements OnInit {
 
     this.pollingTime = 0;
     this.messages.push(message);
+    this.messageChunks = this.mapMessages(this.messages);
     const index = this.messages.length - 1;
 
     this.referralService.createMessage(this.referralId, [message])
@@ -78,6 +80,7 @@ export class ChatComponent extends Base implements OnInit {
       .subscribe(mes => this.messages[index] = mes);
 
     this.messageToSend = '';
+    this.scrollChatEl.nativeElement.scrollTo(0, this.scrollChatEl.nativeElement.scrollHeight);
   }
 
   onFileSelect($event): void {
