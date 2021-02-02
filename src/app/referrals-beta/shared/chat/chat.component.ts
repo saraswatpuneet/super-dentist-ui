@@ -1,12 +1,13 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { of, merge, timer, BehaviorSubject, forkJoin } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { filter, switchMap, catchError, takeUntil, repeat, delay, tap, take } from 'rxjs/operators';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 import { Referral, Message, Channel } from 'src/app/shared/services/referral';
 import { Base } from 'src/app/shared/base/base-component';
 import { ReferralService } from 'src/app/shared/services/referral.service';
-import { ActivatedRoute } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { chatAnimations } from './chat.animations';
 
 interface MessageChunk {
   icon: any;
@@ -22,7 +23,8 @@ interface MessageHeader {
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss']
+  styleUrls: ['./chat.component.scss'],
+  animations: chatAnimations
 })
 export class ChatComponent extends Base implements OnInit {
   @Input() clinicType = '';
@@ -36,6 +38,7 @@ export class ChatComponent extends Base implements OnInit {
   uploadingDocuments = false;
   conversation = {};
   messageChunks: MessageChunk[] = [];
+  showInfo = false;
   private referralId: string;
   private checked = false;
   private cutoffTime = 900; // -> 15 minutes

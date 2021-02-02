@@ -50,12 +50,41 @@
     top: 0px;
     padding: 0;
     overflow: hidden;
-    border-bottom: 1px solid rgba(grey, 0.2);
+
+    .clinic {
+      width: calc(50% - 48px);
+  
+      > * {
+        opacity: 0.7;
+      }
+  
+      >:first-child {
+        font-size: 14px;
+        opacity: 1;
+      }
+
+      >:last-child {
+        font-size: 12px;
+      }
+    }
+
+    .top-buttons {
+      position: absolute;
+      top: 4px;
+      right: 0;
+    }
+
+    .info {
+      padding: 16px;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(grey, 0.2);
+    } 
   }
 
   .channel-tab {
     position: relative;
-
+    border-bottom: 1px solid rgba(grey, 0.2);
+  
     ::before {
       content: "";
       position: absolute;
