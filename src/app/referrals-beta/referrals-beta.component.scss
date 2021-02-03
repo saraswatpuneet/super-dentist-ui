@@ -1,9 +1,79 @@
 .referrals {
-  min-height: calc(100vh - 58px);
+  height: calc(100vh - 58px);
   position: relative;
-  padding: 20px;
   box-sizing: border-box;
-  height: 100%;
+  overflow: hidden;
+
+  .example-tab-icon {
+    margin-right: 8px; 
+  }
+
+  .c-chat {
+    margin: 20px 20px 20px 8px;
+  }
+  .r {
+    button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+
+      &.mark-complete-button {
+        top: 12px;
+        right: 50px;
+      }
+    }
+    
+    header {
+      margin-bottom: 24px;
+      margin-right: 32px;
+      cursor: pointer;
+      transition: 0.3s;
+  
+      &:hover {
+        background: rgba(grey, 0.2);
+      }
+
+      h2 {
+        margin: 0;
+        line-height: normal;
+
+      }
+
+      div {
+        font-size: 14px;
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .clinic-title {
+    margin-bottom: 12px;
+
+    h3 {
+      margin-bottom: 0px;
+    }
+
+    span {
+      font-size: 12px;
+      opacity: 0.5;
+    }
+  }
+
+  .info {
+    .address {
+      opacity: 0.7;
+      font-size: 12px;
+    }
+  }
+
+  .phone {
+    font-size: 12px;
+    opacity: 0.59;
+  }
+
+  h3 {
+    margin: 28px 0  4px 0;
+  }
 
   .summary {
     position: absolute;
@@ -22,16 +92,27 @@
     }
   }
 
-  .c-chat {
-    width: 350px;
-    overflow-x: hidden;
-    padding: 0 4px;
+  .scr {
+    height: 100%;
+    position: relative;
+    padding: 20px 12px 0 12px;
+
+    mat-tab-group {
+      position: sticky;
+      top: -20px;
+      z-index: 10;
+    }
+  }
+
+  .cs {
+    height: calc(100% - 48px);
+    overflow: auto;
   }
 
   .vert {
     width: 1px;
     background: rgba(white, 0.2);
-    height: 20px;
+    height: 28px;
     transform: translateY(10px);
   }
 
@@ -58,128 +139,9 @@
     }
   }
 
-  mat-card.clinic-chat {
-    margin: 0 auto;
-    width: 85%;
-    position: sticky;
-    top: 24px;
-    padding: 0;
-    overflow: hidden;
-    
-    > div {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      cursor: pointer;
-      opacity: 0.4;
-      position: relative;
-      transition: 0.3s;
-
-      &:not(.vert) {
-        padding: 12px 16px 16px;
-      }
-
-      &:not(.vert)::before {
-        content: "";
-        position: absolute;
-        background: rgba(white, 0.7);
-        top: 0; 
-        width: 4px;
-        height: 100%;
-        transition: 0.3s;
-      }
-
-      &.l::before {
-        left: -4px;
-      }
-      &.r::before {
-        right: -4px;
-      }
-
-      &.active {
-        opacity: 1;
-
-        &.l::before {
-          left: 0;
-        }
-        &.r::before {
-          right: 0;
-        }
-      }
-    }
-  }
-
   .abs {
     top: 8px;
     left: 9px;
     position: absolute;
-  }
-
-  .chat {
-    position: sticky;
-    top: 78px;
-    box-sizing: border-box;
-    max-height: 500px;
-    height: 500px;
-    padding: 0;
-    transform: translateY(-10px);
-
-    .ms {
-      overflow-y: auto;
-      padding: 16px;
-      box-sizing: border-box;
-    }
-
-    .chat-input {
-      padding: 16px 16px 16px 0;
-    }
-
-    .text {
-      margin-bottom: 8px;
-
-      > div {
-        margin-bottom: 8px;
-        max-width: 80%;
-        border-radius: 14px;
-        padding: 4px 12px;
-        position: relative;
-
-        &::before {
-          content: "";
-          width: 20px;
-          position: absolute;
-          height: 20px;
-          border-radius: 88%;
-        }
-      }
-    }
-
-    .sender {
-      align-items: flex-end;
-      > div {
-        background: var(--ac-blue);
-        
-        &::before {
-          box-shadow: inset 8px 0px var(--ac-blue);
-          right: -12px;
-          clip-path: inset(8px 0px 0px 0px);
-          bottom: 0;
-        }
-      }
-    }
-
-    .receiver {
-      align-items: flex-start;
-      > div {
-        background: var(--grey-2);
-
-        &::before {
-          box-shadow: inset -8px 0px var(--grey-2);
-          left: -12px;
-          clip-path: inset(8px 0px 0px 0px);
-          bottom: 0;
-        }
-      }
-    }
   }
 }

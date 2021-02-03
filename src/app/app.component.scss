@@ -81,8 +81,6 @@
       font-weight: 500;
       padding-left: 12px;
       font-style: italic;
-      
-      // color: var(--ac-blue);
     }
 
     img {
@@ -92,7 +90,7 @@
 }
 
 .sidenav {
-  width: 200px;
+  width: 240px;
   height: calc(100% - 40px);
   border-radius: 0 4px 4px 0;
   margin: 20px 12px 20px 0;
@@ -118,6 +116,12 @@
   .collapse {
     mat-icon {
       transition: 0.3s;
+    }
+
+    > span {
+      font-size: 12px;
+      opacity: 0.5;
+      white-space: nowrap;
     }
   }
 

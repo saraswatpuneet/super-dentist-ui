@@ -51,7 +51,7 @@ $mat-dark-theme-background: (
   status-bar: #42464a,
   app-bar: #42464a,
   background: black,
-  hover:  #42464a,
+  hover:  #35383b,
   card: #42464a,
   dialog: #42464a,
   disabled-button: #42464a,
@@ -295,6 +295,11 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+}
+
+  
+div.mat-tab-label-active {
+  opacity: 1;
 }
 
 /* Chrome, Safari, Edge, Opera */

@@ -18,7 +18,7 @@ import { ClinicService } from './shared/services/clinic.service';
   animations: appAnimations
 })
 export class AppComponent extends Base implements OnInit {
-  theme = 'dark';
+  theme = 'light';
   authenticated = false;
   emailVerified = true;
   expanded = false;
@@ -27,6 +27,8 @@ export class AppComponent extends Base implements OnInit {
     { path: 'referrals', label: 'Referrals', icon: 'message' },
     { path: 'settings', label: 'Settings', icon: 'settings' },
   ];
+  isSpecialist = false;
+  clinicName = '';
   private expandedKey = 'sdNavExpanded';
   private themeKey = 'sdTheme';
 
@@ -52,12 +54,17 @@ export class AppComponent extends Base implements OnInit {
       this.theme = 'light';
       this.overlayContainer.getContainerElement().classList.remove('dark');
       this.overlayContainer.getContainerElement().classList.add(this.theme);
+    } else {
+      this.theme = 'dark';
+      this.overlayContainer.getContainerElement().classList.remove('light');
+      this.overlayContainer.getContainerElement().classList.add(this.theme);
     }
 
     this.router.events.pipe(filter(e => e instanceof NavigationEnd), takeUntil(this.unsubscribe$)).subscribe(() => {
       if (
         this.router.url.includes('/login') ||
         this.router.url.includes('/join') ||
+        this.router.url.includes('/patient') ||
         this.router.url.includes('/verify') ||
         this.router.url.includes('/404') ||
         this.router.url === '/'
@@ -68,8 +75,20 @@ export class AppComponent extends Base implements OnInit {
         this.clinicService.getClinics()
           .pipe(take(1))
           .subscribe(myClinics => {
-            const c = myClinics.data.clinicDetails[0];
-            this.clinicService.setMyClinics(c);
+            const c = myClinics.data.clinicDetails;
+            if (c.length === 1 && c[0].type === 'dentist') {
+              this.navItems[0].label = 'Specialist';
+              this.isSpecialist = false;
+            } else {
+              this.isSpecialist = true;
+              this.navItems[0].label = 'Referring Clinics';
+            }
+
+            if (c[0] && c[0].name) {
+              this.clinicName = c[0].name;
+            }
+
+            this.clinicService.setMyClinics(c[0]);
           });
         from(this.auth.currentUser).pipe(take(1)).subscribe(user => this.emailVerified = user.emailVerified);
       }
@@ -81,7 +100,10 @@ export class AppComponent extends Base implements OnInit {
   signOut(): void {
     this.auth.signOut().then(() => {
       this.authenticated = false;
+      this.isSpecialist = false;
+      this.clinicName = undefined;
       this.router.navigate(['./login']);
+      this.clinicService.setMyClinics(undefined);
     });
   }
 

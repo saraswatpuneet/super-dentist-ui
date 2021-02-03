@@ -1,0 +1,78 @@
+<mat-card class="practices">
+  <div class="top-left" *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+
+  <mat-card-header>
+    <mat-card-title>Practices</mat-card-title>
+  </mat-card-header>
+
+  <button class="top-right" [disabled]="loadingPractices" *ngIf="!selectedClinic && !addingClinic"
+    (click)="addingClinic = true" mat-button>Add Clinic</button>
+
+  <div class="my-clinics" [ngClass]="{'hide': selectedClinic || addingClinic}" fxLayout="column"
+    *ngFor="let a of myClinics">
+    <div #favoriteCardEls class="specialist-title">{{a.name}} </div>
+    <div>{{a.phoneNumber}}</div>
+    <div>{{a.address}}</div>
+  </div>
+
+  <div class="edit-clinic" fxLayout="column" fxLayoutAlign="center center" *ngIf="selectedClinic" fxLayoutGap="20px">
+    <div class="sd-input">
+      <label>Edit Clinic Name</label>
+      <input type="text" [(ngModel)]="selectedClinic.name">
+    </div>
+
+    <div>
+      <div>Address</div>
+      <div>{{selectedClinic.address}}</div>
+    </div>
+  </div>
+
+  <div class="add-clinic" fxLayout="row" fxLayoutGap="24px" *ngIf="addingClinic">
+    <div fxLayout="column" fxFlex="60" fxLayoutGap="12px">
+      <div class="sd-input">
+        <input type="text" placeholder="Clinic name or clinic address" (ngModelChange)="addressChanged($event)"
+          [(ngModel)]="address">
+        <div class="autocomplete">
+          <div class="options" (click)="selectAddress(addy)" *ngFor="let addy of filteredClinics">
+            <p class="label">{{addy.name}}</p>
+            <p class="sub-label">{{addy.formatted_address}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="clinic-details" *ngIf="selectedAddress">
+        <div class="name">{{selectedAddress.name}}</div>
+        <div class="address">{{selectedAddress.formatted_address}}</div>
+        <div class="rating" *ngIf="selectedAddress.rating">
+          <span class="score">{{selectedAddress.rating}}</span>
+          <div class="stars" [style]="'--rating: ' + selectedAddress.rating"></div>
+          <span class="count">({{selectedAddress.user_ratings_total}})</span>
+          <ng-container *ngIf="selectedAddress.types">&middot; {{selectedAddress.types[0]}}</ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div fxLayout="column" fxFlex="40" fxLayoutGap="12px">
+      <label>Select your specialties</label>
+      <mat-checkbox color="primary" *ngFor="let t of specialistTypes" (change)="setSelected()"
+        [ngModelOptions]="{standalone: true}" [(ngModel)]="t.selected">{{t.label}}</mat-checkbox>
+    </div>
+  </div>
+
+  <div class="actions" *ngIf="selectedClinic" fxLayoutGap="12px">
+    <button mat-raised-button (click)="selectedClinic = undefined" [disabled]="loading">Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="loading" (click)="updateClinic()">
+      {{loading === false ? 'Update Clinic': 'Updating...'}}
+    </button>
+  </div>
+
+  <div class="actions" *ngIf="addingClinic" fxLayoutGap="12px">
+    <button mat-raised-button (click)="cancelAddClinic()" [disabled]="loading">Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="loading || !selectedAddress || count === 0"
+      (click)="addClinic()">
+      {{loading === false ? 'Add Clinic': 'Adding...'}}
+    </button>
+  </div>
+</mat-card>

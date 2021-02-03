@@ -10,9 +10,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 
 import { NearbyClinicsComponent } from './nearby-clinics/nearby-clinics.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
-  declarations: [NearbyClinicsComponent],
+  declarations: [NearbyClinicsComponent, ForgotPasswordComponent],
   imports: [
     CommonModule,
     FormsModule,

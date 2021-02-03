@@ -13,6 +13,8 @@
 
     <span fxFlex></span>
 
+    <span *ngIf="clinicName">Welcome, {{clinicName}}</span>
+
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
@@ -35,16 +37,16 @@
         <span *ngIf="expanded" [@sidebarToggle]>{{navItems[1].label}}</span>
       </a>
 
-      <!-- <a mat-button routerLinkActive="active" [routerLink]="navItems[2].path" class="nav-item">
+      <a mat-button routerLinkActive="active" *ngIf="isSpecialist" [routerLink]="navItems[2].path" class="nav-item">
         <mat-icon>{{navItems[2].icon}}</mat-icon>
         <span *ngIf="expanded" [@sidebarToggle]>{{navItems[2].label}}</span>
-      </a> -->
+      </a>
 
       <span fxFlex></span>
 
       <div (click)="toggleNav()" class="nav-item collapse">
         <mat-icon>keyboard_arrow_left</mat-icon>
-        <span *ngIf="expanded" [@sidebarToggle]>Collapse</span>
+        <span *ngIf="expanded" [@sidebarToggle]>&copy; 2021 Super Doctor Labs LLC</span>
       </div>
     </mat-card>
 

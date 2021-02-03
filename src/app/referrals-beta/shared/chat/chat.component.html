@@ -1,0 +1,67 @@
+<mat-card *ngIf="referral !== undefined" class="mat-elevation-z4 chat" fxLayout="column">
+  <div class="clinic-chat" fxLayout="column">
+
+    <div fxLayout="row" fxFlex class="channel-tab" [ngClass]="{'c2p': selectedChannel === 'c2p' }">
+      <div (click)="talkTo(true)" [ngClass]="{'active': selectedChannel === 'c2c'}">Clinic Channel</div>
+      <div (click)="talkTo(false)" *ngIf="clinicType === 'specialist'"
+        [ngClass]="{'active': selectedChannel === 'c2p'}">Patient Channel</div>
+    </div>
+
+    <div class="top-buttons">
+      <button mat-icon-button [color]="showInfo ? 'primary' : ''" matTooltip="Referral Details"
+        (click)="showInfo = !showInfo">
+        <mat-icon>info</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="this.closeChat.emit()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div [@slideUpDown] *ngIf="showInfo" class="info" fxLayout="column" fxLayoutGap="12px">
+      <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="24px">
+        <div class="clinic" fxLayout="column">
+          <div>{{referral?.fromClinicName}}</div>
+          <div>{{referral?.fromClinicAddress}}</div>
+        </div>
+
+        <button mat-button disabled>
+          Referred by <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+
+        <div class="clinic" fxLayout="column">
+          <div>{{referral?.toClinicName}}</div>
+          <div>{{referral?.toClinicAddress}}</div>
+        </div>
+      </div>
+
+      <div class="clinic">
+        <div>Patient</div>
+        <div>{{referral.patientFirstName}} {{referral.patientLastName}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ms" #scrollChatEl fxFlex>
+    <div class="text" fxLayout="row" *ngFor="let m of messageChunks">
+      <mat-icon>account_circle</mat-icon>
+      <div class="convo" fxLayout="column">
+        <header>{{m.header.name}} <span class="ts">{{m.header.timeStamp | date:'hh:mm a'}}</span></header>
+        <div *ngFor="let mIds of m.messageIds">{{conversation[mIds].text}}
+          <span>{{conversation[mIds].timeStamp | date:"MMM dd, yyyy hh:mm a"}}</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row" class="chat-input">
+    <input type="file" name="profile" multiple #fileUpload (change)="onFileSelect($event)" style="display: none;" />
+    <button [disabled]="uploadingDocuments" mat-icon-button (click)="fileUpload.click()">
+      <mat-spinner class="abs" *ngIf="uploadingDocuments" diameter="24"></mat-spinner>
+      <mat-icon>attach_file</mat-icon>
+    </button>
+    <div class="sd-input">
+      <input type="text" [(ngModel)]="messageToSend" (keyup.enter)="enterComment(messageToSend)"
+        [placeholder]="messagePlaceholder">
+    </div>
+  </div>
+</mat-card>
