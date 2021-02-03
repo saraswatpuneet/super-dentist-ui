@@ -19,6 +19,7 @@ interface QRParamPlaceIds {
 })
 export class PatientComponent implements OnInit {
   qrInfo: QRInfo;
+
   constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
@@ -27,10 +28,12 @@ export class PatientComponent implements OnInit {
 
   private watchRoute(): void {
     this.route.queryParams.pipe(take(1)).subscribe((params) => {
-      this.qrInfo = {
-        secureyKey: params.secureKey,
-        placeIds: JSON.parse(params.placeIds)
-      };
+      if (params.secureKey) {
+        this.qrInfo = {
+          secureyKey: params.secureKey,
+          placeIds: JSON.parse(params.placeIds)
+        };
+      }
     });
   }
 }
