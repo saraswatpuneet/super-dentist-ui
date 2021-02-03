@@ -1,3 +1,15 @@
 <div class="patient">
-  In progress
+  <h1>We found your clinic</h1>
+
+  <div fxLayout="row" fxLayoutGap="32px">
+    <div>
+      <p>From</p>
+      <div *ngFor="let id of qrInfo?.placeIds?.from">{{id}}</div>
+    </div>
+
+    <div>
+      <p>To</p>
+      <div *ngFor="let id of qrInfo?.placeIds?.to">{{id}}</div>
+    </div>
+  </div>
 </div>
