@@ -1,7 +1,9 @@
-<div class="patient">
-  <h1>We found your clinic</h1>
+<mat-card class="c-card patient" fxLayout="column" fxLayoutAlign="center center">
+  <h1>We're working on QR! Come back later.</h1>
+  <p>What do dentist call X-Rays? Tooth Pics!</p>
+  <img src="assets/images/under-construction.svg" alt="">
 
-  <div fxLayout="row" fxLayoutGap="32px">
+  <!-- <div fxLayout="row" fxLayoutGap="32px">
     <div>
       <p>From</p>
       <div *ngFor="let id of qrInfo?.placeIds?.from">{{id}}</div>
@@ -11,5 +13,5 @@
       <p>To</p>
       <div *ngFor="let id of qrInfo?.placeIds?.to">{{id}}</div>
     </div>
-  </div>
-</div>
+  </div> -->
+</mat-card>
