@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment.local';
 
 interface QRInfo {
   secureyKey: string;
@@ -19,8 +21,9 @@ interface QRParamPlaceIds {
 })
 export class PatientComponent implements OnInit {
   qrInfo: QRInfo;
+  private googleApi = 'https://maps.googleapis.com/maps/api/place/details/output';
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.watchRoute();
@@ -33,6 +36,9 @@ export class PatientComponent implements OnInit {
           secureyKey: params.secureKey,
           placeIds: JSON.parse(params.placeIds)
         };
+
+        this.http.get(`${this.googleApi}?key=${environment.firebase.apiKey}&place_id=${this.qrInfo.placeIds.to[0]}`)
+          .pipe(take(1)).subscribe(console.log);
       }
     });
   }

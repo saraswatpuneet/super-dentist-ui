@@ -12,6 +12,10 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private auth: AngularFireAuth) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (req.url.includes('maps.googleapis.com/maps/api/place/details/output')) {
+      return next.handle(req);
+    }
+
     return from(this.auth.currentUser).pipe(
       mergeMap(user => user.getIdToken()),
       map(token => req.clone({ setHeaders: { Authorization: `Bearer ${token}` } })),

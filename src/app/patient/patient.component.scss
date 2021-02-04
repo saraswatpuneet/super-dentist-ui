@@ -2,8 +2,12 @@
   position: relative;
   height: 100vh;
 
+  p {
+    margin-bottom: 64px;
+  }
+
   img {
-    height: 70%;
+    max-height: 70%;
     width: 70%;
   }
 }
