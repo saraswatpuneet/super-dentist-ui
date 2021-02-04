@@ -12,7 +12,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private auth: AngularFireAuth) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url.includes('maps.googleapis.com/maps/api/place/details/output')) {
+    if (req.url.includes('maps.googleapis.com/maps/api')) {
       return next.handle(req);
     }
 
