@@ -1,9 +1,21 @@
 .patient {
   position: relative;
   height: 100vh;
-
+  box-sizing: border-box;
+  
+  p, h1 {
+    padding: 20px;
+    text-align: center;
+  }
   p {
     margin-bottom: 64px;
+  }
+
+  &.smaller {
+    img {
+      max-height: 70%;
+      width: 100%;
+    }
   }
 
   img {
