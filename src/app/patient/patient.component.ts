@@ -1,13 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { take, map, catchError, mergeMap } from 'rxjs/operators';
+import { take, map, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.local';
-import { Observable, of, from } from 'rxjs';
+import { of } from 'rxjs';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 declare var google;
 interface QRInfo {
-  secureyKey: string;
+  secureKey: string;
   placeIds: QRParamPlaceIds;
 }
 
@@ -23,24 +24,51 @@ interface QRParamPlaceIds {
 })
 export class PatientComponent implements OnInit {
   @ViewChild('m') m: ElementRef;
+  patientForm: FormGroup;
+  selectedToClinic: any;
   qrInfo: QRInfo;
   toPlaceDetails = [];
   fromPlaceDetails = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) { }
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private http: HttpClient
+  ) { }
 
   ngOnInit(): void {
     this.setQrParams();
 
-    if (!this.qrInfo || !this.qrInfo.secureyKey) {
+    if (!this.qrInfo || !this.qrInfo.secureKey) {
       return;
     }
+
+    this.initForm();
 
     if ((window as any).google && (window as any).google.maps) {
       this.getPlaces();
     } else {
       this.initializeGoogleMapsApi();
     }
+
+    setTimeout(() => console.log(this), 3000);
+  }
+
+  completeReferral(): void {
+    const patient = this.patientForm.value;
+    const url = `https://us-central1-superdentist.cloudfunctions.net/sd-qr-referral?secureKey=${this.qrInfo.secureKey}&from=${this.fromPlaceDetails[0].place_id}&to=${this.toPlaceDetails[0].place_id}&firstName=${patient.firstName}&lastName=${patient.lastName}&phone=${patient.phoneNumber}&email=${patient.email}&env=dev`;
+    this.http.post(url, null).pipe(take(1)).subscribe(console.log);
+  }
+
+  private initForm(): void {
+    this.patientForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
+    });
   }
 
   private getPlaces(): void {
@@ -50,13 +78,14 @@ export class PatientComponent implements OnInit {
   }
 
   private addToPlaceId(place, status): void {
-    console.log(place, status);
     this.toPlaceDetails.push(place);
+    console.log(place, this);
+    this.cdr.detectChanges();
   }
 
   private addFromPlaceId(place, status): void {
-    console.log(place, status);
     this.fromPlaceDetails.push(place);
+    this.cdr.detectChanges();
   }
 
   private initializeGoogleMapsApi(): void {
@@ -75,7 +104,7 @@ export class PatientComponent implements OnInit {
     this.route.queryParams.pipe(take(1)).subscribe((params) => {
       if (params.secureKey) {
         this.qrInfo = {
-          secureyKey: params.secureKey,
+          secureKey: params.secureKey,
           placeIds: JSON.parse(params.placeIds)
         };
       }

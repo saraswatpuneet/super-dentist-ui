@@ -1,18 +1,41 @@
 <mat-card class="c-card patient" ngClass.lt-md="smaller" fxLayout="column" fxLayoutAlign="center center">
-  <h1>We're working on QR! Come back later.</h1>
+  <!-- <h1>We're working on QR! Come back later.</h1>
   <p>What do dentist call X-Rays? Tooth Pics!</p>
-  <img src="assets/images/under-construction.svg" alt="">
+  <img src="assets/images/under-construction.svg" alt=""> -->
+
   <span #m style="display:none"></span>
 
-  <!-- <div fxLayout="row" fxLayoutGap="32px">
+  <form fxLayout="column" fxLayoutGap="36px" *ngIf="qrInfo && qrInfo.secureKey" autocomplete="off"
+    [formGroup]="patientForm">
     <div>
-      <p>From</p>
-      <div *ngFor="let id of qrInfo?.placeIds?.from">{{id}}</div>
+      <div>Clinic Details (> '')></div>
+      <div>To</div>
+      <div *ngFor="let clinic of fromPlaceDetails">{{clinic.name}}</div>
+      <div>From</div>
+      <div *ngFor="let clinic of toPlaceDetails">{{clinic.name}}</div>
     </div>
 
-    <div>
-      <p>To</p>
-      <div *ngFor="let id of qrInfo?.placeIds?.to">{{id}}</div>
+    <div class="sd-input">
+      <label>First Name</label>
+      <input #firstName autocomplete="off" formControlName="firstName">
     </div>
-  </div> -->
+
+    <div class="sd-input">
+      <label>Last Name</label>
+      <input autocomplete="off" formControlName="lastName">
+    </div>
+
+    <div class="sd-input">
+      <label>Email</label>
+      <input autocomplete="off" formControlName="email">
+    </div>
+
+    <div class="sd-input">
+      <label>Phone Number</label>
+      <input autocomplete="off" mask='(000) 000-0000' [showMaskTyped]="true" formControlName="phoneNumber">
+    </div>
+
+    <button mat-raised-button (click)="completeReferral()" [disabled]="!patientForm.valid" color="primary">Complete
+      Referral</button>
+  </form>
 </mat-card>
