@@ -38,10 +38,10 @@ const routes: Routes = [
     loadChildren: () => import('./verify/verify.module').then(m => m.VerifyModule),
     canActivate: [AuthGuard, VerifiedGuard]
   },
-  {
-    path: 'join',
-    loadChildren: () => import('./join/join.module').then(m => m.JoinModule)
-  },
+  // {
+  //   path: 'join',
+  //   loadChildren: () => import('./join/join.module').then(m => m.JoinModule)
+  // },
   {
     path: '404',
     loadChildren: () => import('./not-found/not-found.module').then(m => m.NotFoundModule),
