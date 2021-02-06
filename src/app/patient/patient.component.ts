@@ -2,9 +2,11 @@ import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@an
 import { ActivatedRoute, Router } from '@angular/router';
 import { take, map, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment.local';
 import { of } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { environment } from 'src/environments/environment.local';
+import { patientAnimations } from './patient.animations';
 
 declare var google;
 interface QRInfo {
@@ -20,15 +22,18 @@ interface QRParamPlaceIds {
 @Component({
   selector: 'app-patient',
   templateUrl: './patient.component.html',
-  styleUrls: ['./patient.component.scss']
+  styleUrls: ['./patient.component.scss'],
+  animations: patientAnimations
 })
 export class PatientComponent implements OnInit {
   @ViewChild('m') m: ElementRef;
   patientForm: FormGroup;
-  selectedToClinic: any;
+  selectedIndex: number;
   qrInfo: QRInfo;
   toPlaceDetails = [];
   fromPlaceDetails = [];
+  show = false;
+  loading = false;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -52,14 +57,21 @@ export class PatientComponent implements OnInit {
     } else {
       this.initializeGoogleMapsApi();
     }
-
-    setTimeout(() => console.log(this), 3000);
   }
 
   completeReferral(): void {
-    const patient = this.patientForm.value;
-    const url = `https://us-central1-superdentist.cloudfunctions.net/sd-qr-referral?secureKey=${this.qrInfo.secureKey}&from=${this.fromPlaceDetails[0].place_id}&to=${this.toPlaceDetails[0].place_id}&firstName=${patient.firstName}&lastName=${patient.lastName}&phone=${patient.phoneNumber}&email=${patient.email}&env=dev`;
-    this.http.post(url, null).pipe(take(1)).subscribe(console.log);
+    this.loading = true;
+    const p = this.patientForm.value;
+    const url = `https://us-central1-superdentist.cloudfunctions.net/sd-qr-referral?secureKey=${this.qrInfo.secureKey}&from=${this.fromPlaceDetails[0].place_id}&to=${this.toPlaceDetails[this.selectedIndex].place_id}&firstName=${p.firstName}&lastName=${p.lastName}&phone=${p.phoneNumber}&email=${p.email}&env=dev`;
+    this.http.post(url, null).pipe(take(1)).subscribe(() => this.loading = false);
+  }
+
+  selectClinic(index: number): void {
+    if (this.loading) {
+      return;
+    }
+    this.selectedIndex = index;
+    this.cdr.detectChanges();
   }
 
   private initForm(): void {
@@ -73,13 +85,14 @@ export class PatientComponent implements OnInit {
 
   private getPlaces(): void {
     const service = new google.maps.places.PlacesService(this.m.nativeElement);
+
     this.qrInfo.placeIds.to.forEach(toId => service.getDetails({ placeId: toId }, this.addToPlaceId.bind(this)));
     this.qrInfo.placeIds.from.forEach(toId => service.getDetails({ placeId: toId }, this.addFromPlaceId.bind(this)));
   }
 
   private addToPlaceId(place, status): void {
     this.toPlaceDetails.push(place);
-    console.log(place, this);
+    console.log(place);
     this.cdr.detectChanges();
   }
 
@@ -96,6 +109,9 @@ export class PatientComponent implements OnInit {
     ).subscribe(enabled => {
       if (enabled) {
         this.getPlaces();
+        this.show = true;
+      } else {
+        this.show = false;
       }
     });
   }

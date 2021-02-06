@@ -2,6 +2,58 @@
   position: relative;
   height: 100vh;
   box-sizing: border-box;
+
+  .selected-clinic {
+    cursor: pointer;
+
+    .ref {
+      opacity: 0.5;
+      margin-bottom: 16px;
+    }
+    
+    .back-arrow {
+      max-width: 0;
+      overflow: hidden;
+      transition: 0.3s;
+      margin-right: 0;
+    }
+
+    &:hover {
+      .back-arrow {
+        margin-right: 12px;
+        max-width: 40px;
+      }
+    }
+  }
+
+  .to-clinics {
+    h1 {
+      padding: 0;
+      text-align: left;
+    }
+  }
+
+  .from-clinics {
+    overflow: hidden;
+
+    h3 {
+      opacity: 0.7;
+    }
+     > div {
+      padding: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        background: rgba(grey, 0.2);
+      }
+    }
+  }
+  
+  .address {
+    opacity: 0.5;
+    font-size: 12px;
+  }
   
   form {
     padding: 24px;
