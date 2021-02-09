@@ -115,6 +115,7 @@
   .favorite-specialist {
     height: 200px;
     position: relative;
+    flex-shrink: 0;
 
     .specialist-title {
       width: calc(100% - 36px);
