@@ -54,7 +54,7 @@ export class AppComponent extends Base implements OnInit {
       this.theme = 'light';
       this.overlayContainer.getContainerElement().classList.remove('dark');
       this.overlayContainer.getContainerElement().classList.add(this.theme);
-    } else {
+    } else if (theme === 'dark') {
       this.theme = 'dark';
       this.overlayContainer.getContainerElement().classList.remove('light');
       this.overlayContainer.getContainerElement().classList.add(this.theme);

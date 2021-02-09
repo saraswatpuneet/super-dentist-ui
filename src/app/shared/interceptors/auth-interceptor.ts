@@ -12,7 +12,8 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private auth: AngularFireAuth) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.url.includes('maps.googleapis.com/maps/api')) {
+    if (req.url.includes('maps.googleapis.com/maps/api') ||
+      req.url.includes('us-central1-superdentist.cloudfunctions.net/sd-qr-referral')) {
       return next.handle(req);
     }
 

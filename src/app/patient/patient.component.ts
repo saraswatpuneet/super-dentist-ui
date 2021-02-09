@@ -1,13 +1,16 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { take, map, catchError, mergeMap } from 'rxjs/operators';
+import { take, map, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 import { environment } from 'src/environments/environment.local';
-import { Observable, of, from } from 'rxjs';
+import { patientAnimations } from './patient.animations';
 
 declare var google;
 interface QRInfo {
-  secureyKey: string;
+  secureKey: string;
   placeIds: QRParamPlaceIds;
 }
 
@@ -19,22 +22,35 @@ interface QRParamPlaceIds {
 @Component({
   selector: 'app-patient',
   templateUrl: './patient.component.html',
-  styleUrls: ['./patient.component.scss']
+  styleUrls: ['./patient.component.scss'],
+  animations: patientAnimations
 })
 export class PatientComponent implements OnInit {
   @ViewChild('m') m: ElementRef;
+  patientForm: FormGroup;
+  selectedIndex: number;
   qrInfo: QRInfo;
   toPlaceDetails = [];
   fromPlaceDetails = [];
+  show = false;
+  loading = false;
 
-  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) { }
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private http: HttpClient
+  ) { }
 
   ngOnInit(): void {
     this.setQrParams();
 
-    if (!this.qrInfo || !this.qrInfo.secureyKey) {
+    if (!this.qrInfo || !this.qrInfo.secureKey) {
       return;
     }
+
+    this.initForm();
 
     if ((window as any).google && (window as any).google.maps) {
       this.getPlaces();
@@ -43,20 +59,46 @@ export class PatientComponent implements OnInit {
     }
   }
 
+  completeReferral(): void {
+    this.loading = true;
+    const p = this.patientForm.value;
+    const url = `https://us-central1-superdentist.cloudfunctions.net/sd-qr-referral?secureKey=${this.qrInfo.secureKey}&from=${this.fromPlaceDetails[0].place_id}&to=${this.toPlaceDetails[this.selectedIndex].place_id}&firstName=${p.firstName}&lastName=${p.lastName}&phone=${p.phoneNumber}&email=${p.email}&env=dev`;
+    this.http.post(url, null).pipe(take(1)).subscribe(() => this.loading = false);
+  }
+
+  selectClinic(index: number): void {
+    if (this.loading) {
+      return;
+    }
+    this.selectedIndex = index;
+    this.cdr.detectChanges();
+  }
+
+  private initForm(): void {
+    this.patientForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
+    });
+  }
+
   private getPlaces(): void {
     const service = new google.maps.places.PlacesService(this.m.nativeElement);
+
     this.qrInfo.placeIds.to.forEach(toId => service.getDetails({ placeId: toId }, this.addToPlaceId.bind(this)));
     this.qrInfo.placeIds.from.forEach(toId => service.getDetails({ placeId: toId }, this.addFromPlaceId.bind(this)));
   }
 
   private addToPlaceId(place, status): void {
-    console.log(place, status);
     this.toPlaceDetails.push(place);
+    console.log(place);
+    this.cdr.detectChanges();
   }
 
   private addFromPlaceId(place, status): void {
-    console.log(place, status);
     this.fromPlaceDetails.push(place);
+    this.cdr.detectChanges();
   }
 
   private initializeGoogleMapsApi(): void {
@@ -67,6 +109,9 @@ export class PatientComponent implements OnInit {
     ).subscribe(enabled => {
       if (enabled) {
         this.getPlaces();
+        this.show = true;
+      } else {
+        this.show = false;
       }
     });
   }
@@ -75,7 +120,7 @@ export class PatientComponent implements OnInit {
     this.route.queryParams.pipe(take(1)).subscribe((params) => {
       if (params.secureKey) {
         this.qrInfo = {
-          secureyKey: params.secureKey,
+          secureKey: params.secureKey,
           placeIds: JSON.parse(params.placeIds)
         };
       }
