@@ -51,9 +51,11 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
     this.clinicService.getClinics().pipe(map(r => r.data.clinicDetails), takeUntil(this.unsubscribe$)).subscribe(clinics => {
       this.clinics = clinics;
       this.clinicType = 'specialist';
-      if (clinics.length === 1 && clinics[0].type === 'dentist') {
+
+      if (clinics && clinics.length > 0 && clinics[0].type === 'dentist') {
         this.clinicType = 'dentist';
       }
+
       this.initMap();
       this.triggerFavorites.next();
       this.triggerNetwork.next();
