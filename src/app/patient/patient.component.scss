@@ -3,30 +3,27 @@
   height: 100vh;
   box-sizing: border-box;
 
-  .selected-clinic {
-    cursor: pointer;
+  .success {
+    padding: 24px;
 
-    .ref {
-      opacity: 0.5;
-      margin-bottom: 16px;
-    }
-    
-    .back-arrow {
-      max-width: 0;
-      overflow: hidden;
-      transition: 0.3s;
-      margin-right: 0;
-    }
-
-    &:hover {
-      .back-arrow {
-        margin-right: 12px;
-        max-width: 40px;
-      }
+    p {
+      margin: 0;
+      font-size: 16px;
     }
   }
 
+  .fixed {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
   .to-clinics {
+    > div {
+      opacity: 0.5;
+      font-size: 14px;
+    }
+
     h1 {
       padding: 0;
       text-align: left;
@@ -56,36 +53,9 @@
   }
   
   form {
-    padding: 24px;
+    padding: 90px 24px 24px 24px;
     width: 100%;
     max-width: 400px;
     box-sizing: border-box;
-  }
-  
-  p, h1 {
-    padding: 20px;
-    text-align: center;
-  }
-  p {
-    margin-bottom: 64px;
-  }
-
-  &.smaller {
-    img {
-      max-height: 70%;
-      width: 100%;
-    }
-  }
-
-  img {
-    max-height: 70%;
-    width: 70%;
-  }
-
-  .from-to {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 }

@@ -1,59 +1,43 @@
 <mat-card class="c-card patient" ngClass.lt-md="smaller" fxLayout="column" fxLayoutAlign="center center">
-  <h1 *ngIf="!show">We're working on QR! Come back later.</h1>
-  <p *ngIf="!show">What do dentist call X-Rays? Tooth Pics!</p>
-  <img *ngIf="!show" src="assets/images/under-construction.svg" alt="">
+  <h1 *ngIf="state === patientStates.Invalid">We're working on QR! Come back later.</h1>
+
+  <p *ngIf="state === patientStates.Invalid">What do dentist call X-Rays? Tooth Pics!</p>
+
+  <img *ngIf="state === patientStates.Invalid" src="assets/images/under-construction.svg" alt="">
+
+  <!-- <div class="fixed">
+    <button mat-button (click)="state = patientStates.Init">Init</button>
+    <button mat-button (click)="state = patientStates.Form">Form</button>
+    <button mat-button (click)="state = patientStates.Processing">Processing</button>
+    <button mat-button (click)="state = patientStates.Success">Success</button>
+    <button mat-button (click)="state = patientStates.Invalid">Invalid</button>
+    <button mat-button (click)="state = patientStates.Failed">Failed</button>
+  </div> -->
 
   <span #m style="display:none"></span>
 
-  <form fxLayout="column" fxLayoutGap="36px" *ngIf="qrInfo && qrInfo.secureKey && show" autocomplete="off"
-    [formGroup]="patientForm">
+  <form fxLayout="column" fxLayoutGap="36px" *ngIf="state === patientStates.Processing || state === patientStates.Form"
+    autocomplete="off" [formGroup]="patientForm">
 
-    <div>
-      <div class="to-clinics">
-        <h1 *ngFor="let clinic of fromPlaceDetails">
-          {{clinic.name}}
-        </h1>
-      </div>
-
-      <div (click)="selectClinic(undefined)" class="selected-clinic" *ngIf="selectedIndex !== undefined">
-        <div class="ref" fxLayout="row">
-          <div fxLayout="column" fxLayoutAlign=" center">
-            <div>Referred to</div>
-            <mat-icon>keyboard_arrow_down</mat-icon>
-          </div>
-        </div>
-        <div fxLayoutAlign=" center" fxLayout="row">
-          <mat-icon class="back-arrow">keyboard_backspace</mat-icon>
-          <div>
-            <div> {{toPlaceDetails[selectedIndex]?.name}} </div>
-            <div class="address"> {{toPlaceDetails[selectedIndex]?.formatted_address}} </div>
-          </div>
-        </div>
-      </div>
-
-      <div *ngIf="selectedIndex === undefined" class="from-clinics">
-        <h3>Wants to know who's your specialist</h3>
-        <div (click)="selectClinic(i)" *ngFor="let clinic of toPlaceDetails; let i = index">
-          <div> {{clinic.name}} </div>
-          <div class="address"> {{clinic.formatted_address}} </div>
-        </div>
-      </div>
+    <div class="to-clinics" *ngFor="let clinic of fromPlaceDetails">
+      <div>Welcome to </div>
+      <h1> {{clinic.name}} </h1>
     </div>
 
-    <div *ngIf="selectedIndex !== undefined" fxLayout="column" fxLayoutGap="36px">
+    <div fxLayout="column" fxLayoutGap="36px">
       <div class="sd-input">
         <label>First Name</label>
-        <input #firstName autocomplete="off" formControlName="firstName">
+        <input type="text" #firstName autocomplete="off" formControlName="firstName">
       </div>
 
       <div class="sd-input">
         <label>Last Name</label>
-        <input autocomplete="off" formControlName="lastName">
+        <input type="text" autocomplete="off" formControlName="lastName">
       </div>
 
       <div class="sd-input">
         <label>Email</label>
-        <input autocomplete="off" formControlName="email">
+        <input type="text" autocomplete="off" formControlName="email">
       </div>
 
       <div class="sd-input">
@@ -61,13 +45,48 @@
         <input autocomplete="off" mask='(000) 000-0000' [showMaskTyped]="true" formControlName="phoneNumber">
       </div>
 
-      <button mat-raised-button (click)="completeReferral()" [disabled]="!patientForm.valid || loading" color="primary">
+      <div class="from-clinics">
+        <h3>Select your specialist</h3>
+
+        <mat-radio-group formControlName="selectedClinic" fxLayout="column" fxLayoutGap="12px">
+          <mat-radio-button (click)="update()" *ngFor="let clinic of toPlaceDetails" [value]="clinic">
+            <div> {{clinic.name}} </div>
+            <div class="address"> {{clinic.formatted_address}} </div>
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <button mat-raised-button (click)="completeReferral()"
+        [disabled]="!patientForm.valid || state === patientStates.Processing" color="primary">
         <span fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="12px">
-          <mat-progress-spinner *ngIf="loading" mode="indeterminate" diameter="24"></mat-progress-spinner>
-          <span>{{loading === false ? 'Complete Referral': 'Processing Referral...'}}</span>
+          <mat-progress-spinner *ngIf="state === patientStates.Processing" mode="indeterminate" diameter="24">
+          </mat-progress-spinner>
+          <span>{{state !== patientStates.Processing ? 'Send': 'Sending...'}}</span>
         </span>
       </button>
     </div>
-
   </form>
+
+  <div class="success" fxLayout="column" fxLayoutAlign="center" *ngIf="state === patientStates.Success"
+    fxLayoutGap="32px">
+    <div>
+      <h1>Hi {{patientForm?.value?.firstName}} : )</h1>
+      <p> You can now text {{patientForm?.value?.selectedClinic?.name}} your preferred appointment
+        time.
+      </p>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px">
+      <mat-icon>location_on</mat-icon>
+      <div>
+        <div> {{patientForm?.value?.selectedClinic?.name}} </div>
+        <div> {{patientForm?.value?.selectedClinic?.formatted_address}} </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="failed" *ngIf="state === patientStates.Failed">
+    <h2>Failed </h2>
+    <div></div>
+  </div>
 </mat-card>

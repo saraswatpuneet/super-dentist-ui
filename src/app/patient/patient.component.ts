@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, NgZone } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { take, map, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
@@ -19,6 +19,15 @@ interface QRParamPlaceIds {
   to: string[];
 }
 
+enum PatientStates {
+  Init,
+  Invalid,
+  Processing,
+  Form,
+  Success,
+  Failed
+}
+
 @Component({
   selector: 'app-patient',
   templateUrl: './patient.component.html',
@@ -29,17 +38,18 @@ export class PatientComponent implements OnInit {
   @ViewChild('m') m: ElementRef;
   patientForm: FormGroup;
   selectedIndex: number;
+  selectedClinic: any;
   qrInfo: QRInfo;
   toPlaceDetails = [];
   fromPlaceDetails = [];
-  show = false;
-  loading = false;
+  patientStates = PatientStates;
+  state = PatientStates.Init;
 
   constructor(
+    private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router,
     private http: HttpClient
   ) { }
 
@@ -47,6 +57,7 @@ export class PatientComponent implements OnInit {
     this.setQrParams();
 
     if (!this.qrInfo || !this.qrInfo.secureKey) {
+      this.state = PatientStates.Invalid;
       return;
     }
 
@@ -57,21 +68,32 @@ export class PatientComponent implements OnInit {
     } else {
       this.initializeGoogleMapsApi();
     }
+
+    this.state = PatientStates.Form;
   }
 
   completeReferral(): void {
-    this.loading = true;
+    this.state = PatientStates.Processing;
     const p = this.patientForm.value;
-    const url = `https://us-central1-superdentist.cloudfunctions.net/sd-qr-referral?secureKey=${this.qrInfo.secureKey}&from=${this.fromPlaceDetails[0].place_id}&to=${this.toPlaceDetails[this.selectedIndex].place_id}&firstName=${p.firstName}&lastName=${p.lastName}&phone=${p.phoneNumber}&email=${p.email}&env=dev`;
-    this.http.post(url, null).pipe(take(1)).subscribe(() => this.loading = false);
+    console.log(p);
+    const url = `https://us-central1-superdentist.cloudfunctions.net/sd-qr-referral?secureKey=${this.qrInfo.secureKey}&from=${this.fromPlaceDetails[0].place_id}&to=${p.selectedClinic.place_id}&firstName=${p.firstName}&lastName=${p.lastName}&phone=${p.phoneNumber}&email=${p.email}&env=dev`;
+    this.http.post(url, null).pipe(
+      catchError(err => {
+        console.error(err);
+        return of(false);
+      }),
+      take(1)
+    ).subscribe((good) => {
+      this.state = PatientStates.Success;
+
+      if (!good) {
+        this.state = PatientStates.Failed;
+      }
+    });
   }
 
-  selectClinic(index: number): void {
-    if (this.loading) {
-      return;
-    }
-    this.selectedIndex = index;
-    this.cdr.detectChanges();
+  update(): void {
+    setTimeout(() => window.dispatchEvent(new Event('resize')));
   }
 
   private initForm(): void {
@@ -80,25 +102,22 @@ export class PatientComponent implements OnInit {
       lastName: ['', Validators.required],
       email: ['', Validators.required],
       phoneNumber: ['', Validators.required],
+      selectedClinic: [null, Validators.required]
     });
   }
 
   private getPlaces(): void {
     const service = new google.maps.places.PlacesService(this.m.nativeElement);
-
     this.qrInfo.placeIds.to.forEach(toId => service.getDetails({ placeId: toId }, this.addToPlaceId.bind(this)));
     this.qrInfo.placeIds.from.forEach(toId => service.getDetails({ placeId: toId }, this.addFromPlaceId.bind(this)));
   }
 
   private addToPlaceId(place, status): void {
-    this.toPlaceDetails.push(place);
-    console.log(place);
-    this.cdr.detectChanges();
+    this.ngZone.run(() => this.toPlaceDetails.push(place));
   }
 
   private addFromPlaceId(place, status): void {
-    this.fromPlaceDetails.push(place);
-    this.cdr.detectChanges();
+    this.ngZone.run(() => this.fromPlaceDetails.push(place));
   }
 
   private initializeGoogleMapsApi(): void {
@@ -109,9 +128,9 @@ export class PatientComponent implements OnInit {
     ).subscribe(enabled => {
       if (enabled) {
         this.getPlaces();
-        this.show = true;
+        this.state = PatientStates.Form;
       } else {
-        this.show = false;
+        this.state = PatientStates.Invalid;
       }
     });
   }
