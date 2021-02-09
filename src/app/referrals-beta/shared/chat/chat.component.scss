@@ -48,6 +48,7 @@
 
   .clinic-chat {
     position: sticky;
+    position: -webkit-sticky;
     top: 0px;
     padding: 0;
     overflow: hidden;
