@@ -92,10 +92,6 @@ export class PatientComponent implements OnInit {
     });
   }
 
-  update(): void {
-    setTimeout(() => window.dispatchEvent(new Event('resize')));
-  }
-
   private initForm(): void {
     this.patientForm = this.fb.group({
       firstName: ['', Validators.required],

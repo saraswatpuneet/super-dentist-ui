@@ -12,7 +12,7 @@
       You haven't added any referring clinics yet.
     </mat-card>
 
-    <mat-card class="favorite-specialist" fxLayout="column" *ngFor="let a of favoriteClinics">
+    <mat-card class="favorite-specialist" fxLayout="column" fxFlex="0 0 auto" *ngFor="let a of favoriteClinics">
       <mat-icon matTooltip="Verified Clinic" class="verified" *ngIf="a.verified" color="primary">verified</mat-icon>
       <button *ngIf="a.qrCode" (click)="selectQrCode(a, favoriteCardEls)" class="qr-button" mat-icon-button>
         <mat-icon>qr_code_2</mat-icon>
@@ -51,7 +51,7 @@
       <div class="l" fxFlex></div>
     </mat-card>
 
-    <mat-card class="favorite-specialist" fxLayout="column" *ngFor="let a of networkClinics">
+    <mat-card class="favorite-specialist" fxFlex="0 0 auto" fxLayout="column" *ngFor="let a of networkClinics">
       <mat-icon class="verified" *ngIf="a.verified" color="primary">verified</mat-icon>
       <div #favoriteCardEls class="specialist-title">{{a.name}} </div>
 

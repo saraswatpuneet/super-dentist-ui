@@ -49,7 +49,7 @@
         <h3>Select your specialist</h3>
 
         <mat-radio-group formControlName="selectedClinic" fxLayout="column" fxLayoutGap="12px">
-          <mat-radio-button (click)="update()" *ngFor="let clinic of toPlaceDetails" [value]="clinic">
+          <mat-radio-button *ngFor="let clinic of toPlaceDetails" [value]="clinic">
             <div> {{clinic.name}} </div>
             <div class="address"> {{clinic.formatted_address}} </div>
           </mat-radio-button>
