@@ -19,9 +19,9 @@
   <form fxLayout="column" fxLayoutGap="36px" *ngIf="state === patientStates.Processing || state === patientStates.Form"
     autocomplete="off" [formGroup]="patientForm">
 
-    <div class="to-clinics" *ngFor="let clinic of fromPlaceDetails">
+    <div class="to-clinics">
       <div>Welcome to </div>
-      <h1> {{clinic.name}} </h1>
+      <h1> {{toPlaceDetails[0]?.name}} </h1>
     </div>
 
     <div fxLayout="column" fxLayoutGap="36px">
@@ -50,8 +50,8 @@
 
         <mat-radio-group formControlName="selectedClinic" fxLayout="column" fxLayoutGap="12px">
           <mat-radio-button *ngFor="let clinic of toPlaceDetails" [value]="clinic">
-            <div> {{clinic.name}} </div>
-            <div class="address"> {{clinic.formatted_address}} </div>
+            <div class="wrap"> {{clinic.name}} </div>
+            <div class="wrap address"> {{clinic.formatted_address}} </div>
           </mat-radio-button>
         </mat-radio-group>
       </div>

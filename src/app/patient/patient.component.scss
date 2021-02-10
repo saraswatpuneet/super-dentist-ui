@@ -1,7 +1,11 @@
 .patient {
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
   box-sizing: border-box;
+
+  .wrap {
+    white-space: normal;
+  }
 
   .success {
     padding: 24px;

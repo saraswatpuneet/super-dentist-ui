@@ -58,6 +58,10 @@ export class AppComponent extends Base implements OnInit {
       this.theme = 'dark';
       this.overlayContainer.getContainerElement().classList.remove('light');
       this.overlayContainer.getContainerElement().classList.add(this.theme);
+    } else {
+      this.theme = 'light';
+      this.overlayContainer.getContainerElement().classList.remove('dark');
+      this.overlayContainer.getContainerElement().classList.add(this.theme);
     }
 
     this.router.events.pipe(filter(e => e instanceof NavigationEnd), takeUntil(this.unsubscribe$)).subscribe(() => {
