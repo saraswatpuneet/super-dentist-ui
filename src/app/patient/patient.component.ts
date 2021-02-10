@@ -75,15 +75,17 @@ export class PatientComponent implements OnInit {
   completeReferral(): void {
     this.state = PatientStates.Processing;
     const p = this.patientForm.value;
-    console.log(p);
+
+    let good = true;
     const url = `https://us-central1-superdentist.cloudfunctions.net/sd-qr-referral?secureKey=${this.qrInfo.secureKey}&from=${this.fromPlaceDetails[0].place_id}&to=${p.selectedClinic.place_id}&firstName=${p.firstName}&lastName=${p.lastName}&phone=${p.phoneNumber}&email=${p.email}&env=dev`;
     this.http.post(url, null).pipe(
       catchError(err => {
         console.error(err);
+        good = false;
         return of(false);
       }),
       take(1)
-    ).subscribe((good) => {
+    ).subscribe(() => {
       this.state = PatientStates.Success;
 
       if (!good) {
