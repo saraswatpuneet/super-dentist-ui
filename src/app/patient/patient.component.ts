@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, NgZone, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { take, map, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -34,7 +34,7 @@ enum PatientStates {
   styleUrls: ['./patient.component.scss'],
   animations: patientAnimations
 })
-export class PatientComponent implements OnInit {
+export class PatientComponent implements OnInit, AfterViewInit {
   @ViewChild('m') m: ElementRef;
   patientForm: FormGroup;
   selectedIndex: number;
@@ -62,6 +62,9 @@ export class PatientComponent implements OnInit {
     }
 
     this.initForm();
+  }
+
+  ngAfterViewInit(): void {
 
     if ((window as any).google && (window as any).google.maps) {
       this.getPlaces();
@@ -70,6 +73,7 @@ export class PatientComponent implements OnInit {
     }
 
     this.state = PatientStates.Form;
+
   }
 
   completeReferral(): void {
