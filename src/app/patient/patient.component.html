@@ -19,9 +19,9 @@
   <form fxLayout="column" fxLayoutGap="36px" *ngIf="state === patientStates.Processing || state === patientStates.Form"
     autocomplete="off" [formGroup]="patientForm">
 
-    <div class="to-clinics" *ngFor="let clinic of fromPlaceDetails">
+    <div class="to-clinics">
       <div>Welcome to </div>
-      <h1> {{clinic.name}} </h1>
+      <h1> {{toPlaceDetails[0]?.name}} </h1>
     </div>
 
     <div fxLayout="column" fxLayoutGap="36px">
