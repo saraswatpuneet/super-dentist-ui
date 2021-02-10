@@ -24,7 +24,7 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
   selectedQr = '';
   clinicType = '';
   favoriteClinics = [];
-  networkClinics = [];
+  // networkClinics = [];
   loading = false;
   addressId = '';
   selectedSpecialty: SpecialistType;
@@ -45,7 +45,7 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loading = true;
-    this.watchNetwork();
+    // this.watchNetwork();
     this.watchTriggerFavorites();
 
     this.clinicService.getClinics().pipe(map(r => r.data.clinicDetails), takeUntil(this.unsubscribe$)).subscribe(clinics => {
@@ -162,17 +162,17 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
     window.dispatchEvent(new Event('resize'));
   }
 
-  private watchNetwork(): void {
-    this.triggerNetwork.pipe(
-      tap(() => this.loading = true),
-      map(() => this.clinics.map(c => c.addressId)),
-      switchMap(addressIds => forkJoin(
-        addressIds.map(addressId => this.clinicService.getNetworkFavorites(addressId).pipe(catchError(() => of([])), take(1))))
-      ),
-      map(clinics => this.mapFavs(clinics)),
-      takeUntil(this.unsubscribe$)
-    ).subscribe(networkClinics => this.networkClinics = networkClinics);
-  }
+  // private watchNetwork(): void {
+  //   this.triggerNetwork.pipe(
+  //     tap(() => this.loading = true),
+  //     map(() => this.clinics.map(c => c.addressId)),
+  //     switchMap(addressIds => forkJoin(
+  //       addressIds.map(addressId => this.clinicService.getNetworkFavorites(addressId).pipe(catchError(() => of([])), take(1))))
+  //     ),
+  //     map(clinics => this.mapFavs(clinics)),
+  //     takeUntil(this.unsubscribe$)
+  //   ).subscribe(networkClinics => this.networkClinics = networkClinics);
+  // }
 
   private watchTriggerFavorites(): void {
     this.triggerFavorites.pipe(
