@@ -75,18 +75,18 @@ export class PatientComponent implements OnInit, AfterViewInit {
     }
 
     this.state = PatientStates.Form;
-
   }
 
   completeReferral(): void {
     this.state = PatientStates.Processing;
     const p = this.patientForm.value;
-
     let good = true;
-    let url = `https://us-central1-superdentist.cloudfunctions.net/sd-qr-referral?secureKey=${this.qrInfo.secureKey}&from=${this.fromPlaceDetails[0].place_id}&to=${p.selectedClinic.place_id}&firstName=${p.firstName}&lastName=${p.lastName}&phone=${p.phoneNumber}&email=${p.email}&env=dev`;
-    // if (window.location.origin.includes('dev.superdentist.io')) {
-    //   url += '&env=dev';
-    // }
+    let url = `https://us-central1-superdentist.cloudfunctions.net/sd-qr-referral?secureKey=${this.qrInfo.secureKey}&from=${this.fromPlaceDetails[0].place_id}&to=${p.selectedClinic.place_id}&firstName=${p.firstName}&lastName=${p.lastName}&phone=${p.phoneNumber}&email=${p.email}`;
+
+    if (window.location.origin.includes('dev.superdentist.io') || window.location.origin.includes('localhost')) {
+      url += '&env=dev';
+    }
+
     this.http.post(url, null).pipe(
       catchError(err => {
         console.error(err);
