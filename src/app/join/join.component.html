@@ -1,10 +1,5 @@
 <div class="verification">
-  <img class="logo" src="assets/images/brand.svg" alt="">
-  <mat-card class="c-card">
-    <button mat-icon-button class="close" (click)="goToLogin()">
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-card>
+  <span #m style="display:none"></span>
 
   <div class="loading-splash" *ngIf="loading" [@fadeInOut] fxLayout="column" fxLayoutGap="32px"
     fxLayoutAlign="center center">
@@ -16,65 +11,12 @@
 
   <mat-card class="c-card complete-account">
     <div class="clinic" fxLayout="column" fxLayoutGap="24px">
-      <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px" class="stepper">
-        <div class="spinner-progress">
-          <div class="step">{{steps[active].step}} of 2</div>
-          <mat-progress-spinner mode="determinate" diameter="64" [value]="(steps[active].step / 2) * 100">
-          </mat-progress-spinner>
-          <mat-progress-spinner class="behind" mode="determinate" diameter="64" value="100">
-          </mat-progress-spinner>
-        </div>
-
-        <h1>{{steps[active].label}}</h1>
-
+      <div class="to-clinics">
+        <div>Welcome to SuperDentist,</div>
+        <h2>{{placeDetails[0]?.name}} </h2>
       </div>
 
-      <form [formGroup]="clinicForm" *ngIf="active === 1">
-        <div fxLayout="column" fxFlex fxLayoutGap="32px">
-          <div class="sd-input">
-            <input type="text" placeholder="Clinic name or clinic address" formControlName="address">
-            <div class="autocomplete">
-              <div class="options" (click)="selectAddress(addy)" *ngFor="let addy of filteredOptions">
-                <p class="label">{{addy.name}}</p>
-                <p class="sub-label">{{addy.formatted_address}}</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="clinic-details" *ngIf="selectedAddress.name">
-            <div class="name">{{selectedAddress.name}}</div>
-            <div class="address">{{selectedAddress.formatted_address}}</div>
-            <div class="rating" *ngIf="selectedAddress.rating">
-              <span class="score">{{selectedAddress.rating}}</span>
-              <div class="stars" [style]="'--rating: ' + selectedAddress.rating"></div>
-              <span class="count">({{selectedAddress.user_ratings_total}})</span>
-              <ng-container *ngIf="selectedAddress.types">&middot; {{selectedAddress.types[0]}}</ng-container>
-            </div>
-          </div>
-
-          <div *ngIf="selectedAddress.name" fxLayout="column" fxLayoutGap="4px">
-            <span>Which type of clinic are you?</span>
-            <mat-radio-group color="primary" formControlName="selectedClinic" fxLayout="row" fxLayoutGap="12px">
-              <mat-radio-button value="dentist">General Dentist</mat-radio-button>
-              <mat-radio-button value="specialist">Specialist</mat-radio-button>
-            </mat-radio-group>
-          </div>
-
-          <div *ngIf="clinicForm.get('selectedClinic').value === 'specialist'" fxLayout="column" fxLayoutGap="12px">
-            <label>Select your specialties</label>
-            <mat-checkbox color="primary" *ngFor="let t of specialistTypes" (change)="setSelected()"
-              [ngModelOptions]="{standalone: true}" [(ngModel)]="t.selected">{{t.label}}</mat-checkbox>
-          </div>
-
-          <div fxLayoutAlign=" start">
-            <button mat-raised-button color="primary" [disabled]="!selectedAddress.name" (click)="registerClinic()">
-              Register Clinic
-            </button>
-          </div>
-        </div>
-      </form>
-
-      <form [formGroup]="accountForm" *ngIf="active === 0">
+      <form [formGroup]="accountForm">
         <div class="specialist" fxLayout="column">
           <div class="sd-input email">
             <label>Email</label>
@@ -92,9 +34,9 @@
             </div>
           </div>
 
-          <div fxLayout="row" fxLayoutAlign="end">
-            <button mat-raised-button color="primary" *ngIf="active === 0" [disabled]="!accountForm.valid"
-              (click)="join()">Join</button>
+          <div fxLayout="row">
+            <button mat-raised-button color="primary" [disabled]="!accountForm.valid" (click)="join()">Join the
+              network</button>
           </div>
         </div>
       </form>

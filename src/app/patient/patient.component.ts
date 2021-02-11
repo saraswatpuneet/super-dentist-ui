@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment.local';
 import { patientAnimations } from './patient.animations';
 
 declare var google;
+
 interface QRInfo {
   secureKey: string;
   placeIds: QRParamPlaceIds;

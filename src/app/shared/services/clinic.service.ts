@@ -46,6 +46,10 @@ export class ClinicService {
     });
   }
 
+  directJoin(secureKey: string, placeIds: string[]): Observable<any> {
+    return this.http.post(`${this.baseUrl}/directJoin?secureKey=${secureKey}&places={"placeIds":${JSON.stringify(placeIds)}}`, null);
+  }
+
   getAddress(address: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/getAddressList?searchText=${address}`);
     // this needs to implement a websocket of some kind.
