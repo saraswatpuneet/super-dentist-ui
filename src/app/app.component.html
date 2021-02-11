@@ -1,26 +1,27 @@
 <div class="app" fxLayout="column" [ngClass]="theme">
-  <mat-card class="c-card">
-    <button mat-icon-button class="top-right" (click)="toggleTheme()">
-      <mat-icon [@coin] *ngIf="theme === 'dark'">nights_stay</mat-icon>
-      <mat-icon [@coin] *ngIf="theme !== 'dark'">wb_sunny</mat-icon>
-    </button>
-  </mat-card>
 
-  <mat-card class="sd-toolbar mat-elevation-z3" fxLayout="row" fxLayoutAlign=" center" *ngIf="authenticated">
+  <mat-card class="sd-toolbar mat-elevation-z3" fxLayout="row" fxLayoutAlign=" center">
     <div class="nav-title" routerLink='referrals'>
+
+      <!-- <img src="assets/images/brand.svg" alt=""> -->
       <span>SuperDentist</span>
     </div>
 
     <span fxFlex></span>
 
-    <span *ngIf="clinicName">Welcome, {{clinicName}}</span>
+    <span *ngIf="clinicName && authenticated">Welcome, {{clinicName}}</span>
 
-    <button mat-icon-button [matMenuTriggerFor]="menu">
+    <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="authenticated">
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="signOut()">Sign Out</button>
     </mat-menu>
+
+    <button mat-icon-button class="top-right" (click)="toggleTheme()">
+      <mat-icon [@coin] *ngIf="theme !== 'dark'">nights_stay</mat-icon>
+      <mat-icon [@coin] *ngIf="theme === 'dark'">wb_sunny</mat-icon>
+    </button>
   </mat-card>
 
   <div [ngClass]="{'full-h': !authenticated}" class="contain" fxLayout="row">

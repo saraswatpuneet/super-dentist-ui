@@ -19,4 +19,14 @@ export const joinAnimations = [
     })),
     transition('* <=> void', animate('200ms ease-in'))
   ]),
+  trigger('fadeDown', [
+    transition(':enter', [
+      style({ transform: 'translateY(-8px)', opacity: 0 }),
+      animate('150ms ease', style({ transform: 'translateY(0)', opacity: 1 }))
+    ]),
+    transition(':leave', [
+      style({ transform: 'translateY(0)', opacity: 1 }),
+      animate('150ms ease', style({ transform: 'translateY(-8px)', opacity: 0 }))
+    ]),
+  ])
 ];

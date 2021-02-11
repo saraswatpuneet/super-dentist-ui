@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, NgZone, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { take, map, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment.local';
 import { patientAnimations } from './patient.animations';
 
 declare var google;
+
 interface QRInfo {
   secureKey: string;
   placeIds: QRParamPlaceIds;
@@ -34,7 +35,7 @@ enum PatientStates {
   styleUrls: ['./patient.component.scss'],
   animations: patientAnimations
 })
-export class PatientComponent implements OnInit {
+export class PatientComponent implements OnInit, AfterViewInit {
   @ViewChild('m') m: ElementRef;
   patientForm: FormGroup;
   selectedIndex: number;
@@ -55,6 +56,7 @@ export class PatientComponent implements OnInit {
 
   ngOnInit(): void {
     this.setQrParams();
+    console.log(window.location.origin.includes('dev.superdentist.io'));
 
     if (!this.qrInfo || !this.qrInfo.secureKey) {
       this.state = PatientStates.Invalid;
@@ -62,6 +64,9 @@ export class PatientComponent implements OnInit {
     }
 
     this.initForm();
+  }
+
+  ngAfterViewInit(): void {
 
     if ((window as any).google && (window as any).google.maps) {
       this.getPlaces();
@@ -70,6 +75,7 @@ export class PatientComponent implements OnInit {
     }
 
     this.state = PatientStates.Form;
+
   }
 
   completeReferral(): void {
@@ -77,7 +83,10 @@ export class PatientComponent implements OnInit {
     const p = this.patientForm.value;
 
     let good = true;
-    const url = `https://us-central1-superdentist.cloudfunctions.net/sd-qr-referral?secureKey=${this.qrInfo.secureKey}&from=${this.fromPlaceDetails[0].place_id}&to=${p.selectedClinic.place_id}&firstName=${p.firstName}&lastName=${p.lastName}&phone=${p.phoneNumber}&email=${p.email}&env=dev`;
+    let url = `https://us-central1-superdentist.cloudfunctions.net/sd-qr-referral?secureKey=${this.qrInfo.secureKey}&from=${this.fromPlaceDetails[0].place_id}&to=${p.selectedClinic.place_id}&firstName=${p.firstName}&lastName=${p.lastName}&phone=${p.phoneNumber}&email=${p.email}&env=dev`;
+    // if (window.location.origin.includes('dev.superdentist.io')) {
+    //   url += '&env=dev';
+    // }
     this.http.post(url, null).pipe(
       catchError(err => {
         console.error(err);

@@ -20,17 +20,17 @@ import { LoaderModule } from '../shared/loader/loader.module';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCardModule,
+    FlexLayoutModule,
     LoaderModule,
     MatAutocompleteModule,
-    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
     MatCheckboxModule,
+    MatIconModule,
+    MatInputModule,
     MatProgressSpinnerModule,
     MatRadioModule,
-    FlexLayoutModule,
+    ReactiveFormsModule,
     JoinRoutingModule
   ]
 })

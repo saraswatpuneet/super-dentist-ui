@@ -1,7 +1,8 @@
 .patient {
   position: relative;
-  min-height: 100vh;
   box-sizing: border-box;
+  // height: calc(100vh - 58px);
+  // overflow: auto;
 
   .wrap {
     white-space: normal;
@@ -57,7 +58,7 @@
   }
   
   form {
-    padding: 90px 24px 24px 24px;
+    padding: 32px 24px 24px 24px;
     width: 100%;
     max-width: 400px;
     box-sizing: border-box;
