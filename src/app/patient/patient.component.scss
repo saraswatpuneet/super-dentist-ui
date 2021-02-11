@@ -1,6 +1,5 @@
 .patient {
   position: relative;
-  min-height: 100vh;
   box-sizing: border-box;
 
   .wrap {
@@ -57,7 +56,7 @@
   }
   
   form {
-    padding: 0 24px 24px 24px;
+    padding: 24px;
     width: 100%;
     max-width: 400px;
     box-sizing: border-box;
