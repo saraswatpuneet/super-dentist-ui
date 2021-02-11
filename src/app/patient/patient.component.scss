@@ -1,6 +1,8 @@
 .patient {
   position: relative;
   box-sizing: border-box;
+  // height: calc(100vh - 58px);
+  // overflow: auto;
 
   .wrap {
     white-space: normal;
