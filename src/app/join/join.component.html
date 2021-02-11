@@ -9,7 +9,7 @@
     <app-loader></app-loader>
   </div>
 
-  <mat-card class="c-card complete-account">
+  <mat-card *ngIf="joinInfo?.secureKey" class="c-card complete-account">
     <div class="clinic" fxLayout="column" fxLayoutGap="24px">
       <div class="to-clinics">
         <div>Welcome to SuperDentist,</div>

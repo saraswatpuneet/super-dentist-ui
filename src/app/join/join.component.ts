@@ -59,19 +59,21 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.setJoinParams();
+    if (!this.joinInfo || !this.joinInfo.secureKey) {
+      return;
+    }
     this.initForm();
   }
 
   ngAfterViewInit(): void {
-
+    if (!this.joinInfo || !this.joinInfo.secureKey) {
+      return;
+    }
     if ((window as any).google && (window as any).google.maps) {
       this.getPlaces();
     } else {
       this.initializeGoogleMapsApi();
     }
-
-    // this.state = PatientStates.Form;
-
   }
 
   goToLogin(): void {
@@ -79,6 +81,9 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
   }
 
   join(): void {
+    if (!this.joinInfo || !this.joinInfo.secureKey) {
+      return;
+    }
     const account = this.accountForm.value;
     this.loading = true;
     let hasError = false;
