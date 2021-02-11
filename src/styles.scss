@@ -128,6 +128,13 @@ body {
     color: var(--red);
   }
 
+  .postfix {
+    position: absolute;
+    right: 16px;
+    height: 100%;
+    top: 0;
+  }
+
   .autocomplete {
     max-height: 350px;
     width:100%;

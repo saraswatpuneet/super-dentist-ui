@@ -4,15 +4,6 @@
   position: relative;
   padding: 48px;
 
-  .score {
-    color: var(--orange);
-    margin-right: 4px;
-  }
-
-  .count {
-    opacity: 0.5;
-  }
-
   .loading-splash {
     position: fixed;
     top: 0;
@@ -24,35 +15,9 @@
     background: linear-gradient(#424448, #232425);
   }
 
-  .logo {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    height: 32px;
-  }
-
-  .close {
-    position: fixed;
-    top: 52px;
-    right: 54px;
-  }
-
-  .dentist-type {
-    padding-bottom: 42px;
-  }
-
   img {
     height: 150px;
     border-radius: 4px;
-  }
-
-  .custom-pms {
-    margin-top: 48px;
-  }
-
-  h3 {
-    font-size: 20px;
-    margin-bottom: 36px;
   }
 
   .complete-account {
@@ -118,37 +83,6 @@
     }
   }
 
-  .clinic-details {
-
-    h3 {
-      margin: 0;
-    }
-
-    .name {
-      font-size: 18px;
-    }
-
-    .address, .rating {
-      font-size: 14px;
-      margin-top: 4px;
-      opacity: 0.5;
-    }
-  }
-  
-  .clinic-type {
-    width: 230px;
-    padding: 20px 12px 0;
-    transition: 0.3s;
-    border-radius: 4px;
-    border: 1px solid transparent;
-
-    p {
-      margin-top: 12px;
-      text-align: center;
-      font-weight: 500;
-    }
-  }
-
   .sd-input {
     margin-bottom: 24px;
     
@@ -159,5 +93,6 @@
     &.pass {
       margin-bottom: 32px;
     }
+
   }
 }

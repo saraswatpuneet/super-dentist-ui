@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { catchError, debounceTime, delay, filter, switchMap, take, takeUntil, mergeMap, map } from 'rxjs/operators';
+import { catchError, debounceTime, delay, switchMap, take, takeUntil, mergeMap, map, tap } from 'rxjs/operators';
 import { from, of } from 'rxjs';
 
 import { joinAnimations } from './join.animations';
@@ -46,6 +46,9 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
   errorMessage = '';
   loading = false;
   joinInfo: any;
+  processing = false;
+  validEmail = false;
+  hasChanged = false;
 
   constructor(
     private fauth: AngularFireAuth,
@@ -87,7 +90,7 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
     const account = this.accountForm.value;
     this.loading = true;
     let hasError = false;
-    // console.log(JSON.stringify(this.joinInfo.placeIds));
+
     from(this.fauth.setPersistence('session'))
       .pipe(
         mergeMap(() => this.fauth.createUserWithEmailAndPassword(account.email, account.password)),
@@ -103,6 +106,7 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
           if (hasError) {
             return of(undefined);
           }
+
           return this.clinicService.directJoin(this.joinInfo.secureKey, this.joinInfo.placeIds);
         }),
         take(1)
@@ -118,6 +122,28 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
     }, {
         validators: ConfirmedValidator('password', 'confirmPassword')
       });
+
+
+    this.accountForm.get('email').valueChanges.pipe(
+      tap(() => { this.processing = true; this.hasChanged = true; }),
+      debounceTime(300),
+      switchMap(value => from(this.fauth.fetchSignInMethodsForEmail(value)).pipe(catchError(err => of(err)))),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(res => {
+      this.processing = false;
+
+      if (!Array.isArray(res)) {
+        this.validEmail = false;
+        return;
+      }
+
+      if (res.length > 0) {
+        this.validEmail = false;
+        return;
+      }
+
+      this.validEmail = true;
+    });
   }
 
   private setJoinParams(): void {
