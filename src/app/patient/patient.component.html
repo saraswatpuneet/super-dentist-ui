@@ -57,7 +57,7 @@
       </div>
 
       <button mat-raised-button (click)="completeReferral()"
-        [disabled]="!patientForm.valid || state === patientStates.Processing" color="primary">
+        [disabled]="!patientForm?.valid || state === patientStates.Processing" color="primary">
         <span fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="12px">
           <mat-progress-spinner *ngIf="state === patientStates.Processing" mode="indeterminate" diameter="24">
           </mat-progress-spinner>
