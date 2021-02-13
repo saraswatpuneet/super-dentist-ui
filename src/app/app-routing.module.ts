@@ -25,11 +25,11 @@ const routes: Routes = [
     loadChildren: () => import('./specialist/specialist.module').then(m => m.SpecialistModule),
     canActivate: [AuthGuard, VerifiedGuard]
   },
-  // {
-  //   path: 'admin',
-  //   loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
-  //   canActivate: [AuthGuard, AdminGuard]
-  // },
+  {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+    canActivate: [AuthGuard, AdminGuard]
+  },
   {
     path: 'settings',
     loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),
