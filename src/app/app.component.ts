@@ -28,6 +28,7 @@ export class AppComponent extends Base implements OnInit {
     { path: 'settings', label: 'Settings', icon: 'settings' },
   ];
   isSpecialist = false;
+  isAdmin = false;
   clinicName = '';
   private expandedKey = 'sdNavExpanded';
   private themeKey = 'sdTheme';

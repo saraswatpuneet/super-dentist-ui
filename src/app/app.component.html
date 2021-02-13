@@ -43,6 +43,11 @@
         <span *ngIf="expanded" [@sidebarToggle]>{{navItems[2].label}}</span>
       </a>
 
+      <a mat-button routerLinkActive="active" *ngIf="isAdmin" [routerLink]="navItems[3].path" class="nav-item">
+        <mat-icon>{{navItems[3].icon}}</mat-icon>
+        <span *ngIf="expanded" [@sidebarToggle]>{{navItems[3].label}}</span>
+      </a>
+
       <span fxFlex></span>
 
       <div (click)="toggleNav()" class="nav-item collapse">
