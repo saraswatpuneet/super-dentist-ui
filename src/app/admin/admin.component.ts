@@ -66,9 +66,6 @@ export class AdminComponent extends Base implements OnInit {
           }
         },
         yAxis: {
-          labels: {
-            format: '{point.y:,.0f}'
-          },
           gridLineColor: 'rgba(146, 146, 146, 0.2)',
         },
         xAxis: {
