@@ -56,7 +56,6 @@ export class PatientComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.setQrParams();
-    console.log(window.location.origin.includes('dev.superdentist.io'));
 
     if (!this.qrInfo || !this.qrInfo.secureKey) {
       this.state = PatientStates.Invalid;

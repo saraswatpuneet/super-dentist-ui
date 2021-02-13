@@ -1,35 +1,34 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
-import { ClinicService } from './shared/services/clinic.service';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AccountGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
   constructor(
-    private clinicService: ClinicService,
+    private auth: AngularFireAuth,
     private router: Router
   ) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.clinicService.getClinics().pipe(
-      take(1),
-      map(myClinics => {
-        const c = myClinics.data.clinicDetails[0];
-        this.clinicService.setMyClinics(c);
-        if (c.type === 'specialist') {
-          this.router.navigate(['/referrals']);
-          return false;
-        }
+    return this.auth.idTokenResult.pipe(map(token => {
+      if (!token) {
+        this.router.navigate(['/login']);
+        return false;
+      }
 
-        this.router.navigate(['/specialist']);
+      if (['strawhatspecialist@outlook.com', 'strawhatdentist@gmail.com', 'parth@superdentist.io'].includes(token.claims.email)) {
         return true;
-      }),
-    );
+      }
+
+      this.router.navigate(['./specialist']);
+      return false;
+    }));
   }
 }

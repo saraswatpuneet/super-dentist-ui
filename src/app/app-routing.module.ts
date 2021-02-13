@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from './auth.guard';
 import { VerifiedGuard } from './verified.guard';
+import { AdminGuard } from './account.guard';
 
 const routes: Routes = [
   {
@@ -24,6 +25,11 @@ const routes: Routes = [
     loadChildren: () => import('./specialist/specialist.module').then(m => m.SpecialistModule),
     canActivate: [AuthGuard, VerifiedGuard]
   },
+  // {
+  //   path: 'admin',
+  //   loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+  //   canActivate: [AuthGuard, AdminGuard]
+  // },
   {
     path: 'settings',
     loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),

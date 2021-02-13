@@ -1,0 +1,17 @@
+:host {
+  height: 100%;
+}
+
+.admin {
+  height: 100%;
+  width: 100%;
+  position: relative;
+
+  .app-chart {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: calc(100% - 16px);
+    height: calc(100% - 56px);
+  }
+}

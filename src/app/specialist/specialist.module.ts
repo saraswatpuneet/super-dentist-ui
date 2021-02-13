@@ -17,9 +17,10 @@ import { SpecialistComponent } from './specialist.component';
 import { CreateReferralComponent } from './shared/create-referral/create-referral.component';
 import { CreateTreatmentSummaryComponent } from './shared/create-treatment-summary/create-treatment-summary.component';
 import { QrComponent } from './shared/qr/qr.component';
+import { TreatmentMenuComponent } from './shared/treatment-menu/treatment-menu.component';
 
 @NgModule({
-  declarations: [CreateReferralComponent, SpecialistComponent, CreateTreatmentSummaryComponent, QrComponent],
+  declarations: [CreateReferralComponent, SpecialistComponent, CreateTreatmentSummaryComponent, QrComponent, TreatmentMenuComponent],
   imports: [
     CommonModule,
     FlexLayoutModule,
