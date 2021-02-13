@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
 import { ClinicDetail, DoctorDetail, ClinicServicesOffered } from './clinic';
 import { filter } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Socket,io } from 'socket.io-client';
 
 @Injectable({
   providedIn: 'root'
