@@ -5,7 +5,6 @@ let targetPath = `./src/environments/environment.${envName}.ts`;
 let env = require(targetPath).environment;
 
 env.baseUrl = process.env.BASE_URL;
-console.log('!@#$!@#$!#@$!#@$', env.baseUrl, targetPath);
 env.firebase.apiKey = process.env.FIREBASE_API_KEY;
 
 const envConfigFile = `export const environment = ${JSON.stringify(env)};`;

@@ -7,7 +7,7 @@
     "configDev": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" ./config.ts dev",
     "configProd": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" ./config.ts prod",
     "build": "ng build",
-    "build:dev": "npx ng build --configuration=prod --outputHashing=all --base-href='$BASE_HREF'",
+    "build:dev": "npx ng build --configuration=dev --outputHashing=all --base-href='$BASE_HREF'",
     "build:prod": "npx ng build --configuration=prod --outputHashing=all --base-href='$BASE_HREF'",
     "test": "ng test",
     "lint": "ng lint",
