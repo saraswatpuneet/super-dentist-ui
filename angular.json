@@ -33,11 +33,38 @@
             "scripts": []
           },
           "configurations": {
-            "production": {
+            "prod": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
                 }
               ],
               "optimization": true,
@@ -68,8 +95,11 @@
             "browserTarget": "super-dentist:build"
           },
           "configurations": {
-            "production": {
-              "browserTarget": "super-dentist:build:production"
+            "prod": {
+              "browserTarget": "super-dentist:build:prod"
+            },
+            "dev": {
+              "browserTarget": "super-dentist:build:dev"
             }
           }
         },
@@ -116,12 +146,13 @@
             "devServerTarget": "super-dentist:serve"
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "super-dentist:serve:production"
+            "prod": {
+              "devServerTarget": "super-dentist:serve:prod"
             }
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "super-dentist"
 }

@@ -10,6 +10,7 @@ import { from } from 'rxjs';
 import { Base } from './shared/base/base-component';
 import { appAnimations } from './app.animations';
 import { ClinicService } from './shared/services/clinic.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',

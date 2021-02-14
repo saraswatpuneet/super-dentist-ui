@@ -155,7 +155,6 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
           secureKey: params.secureKey,
           placeIds: JSON.parse(params.places).placeIds
         };
-        console.log(this.joinInfo);
       }
     });
   }

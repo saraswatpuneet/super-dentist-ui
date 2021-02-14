@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { environment } from 'src/environments/environment.local';
+import { environment } from 'src/environments/environment';
 import { patientAnimations } from './patient.animations';
 
 declare var google;
@@ -64,6 +64,7 @@ export class PatientComponent implements OnInit, AfterViewInit {
     }
 
     this.initForm();
+    console.log(environment.cloudFunctionQRReferralUrl);
 
     // if (!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
     //   navigator.mediaDevices.getUserMedia(
@@ -104,11 +105,7 @@ export class PatientComponent implements OnInit, AfterViewInit {
     this.state = PatientStates.Processing;
     const p = this.patientForm.value;
     let good = true;
-    let url = `https://us-central1-superdentist.cloudfunctions.net/sd-qr-referral?secureKey=${this.qrInfo.secureKey}&from=${this.fromPlaceDetails[0].place_id}&to=${p.selectedClinic.place_id}&firstName=${p.firstName}&lastName=${p.lastName}&phone=${p.phoneNumber}&email=${p.email}`;
-
-    if (window.location.origin.includes('dev.superdentist.io') || window.location.origin.includes('localhost')) {
-      url += '&env=dev';
-    }
+    const url = `${environment.cloudFunctionQRReferralUrl}/?secureKey=${this.qrInfo.secureKey}&from=${this.fromPlaceDetails[0].place_id}&to=${p.selectedClinic.place_id}&firstName=${p.firstName}&lastName=${p.lastName}&phone=${p.phoneNumber}&email=${p.email}`;
 
     const formData = new FormData();
     this.files.forEach((file, i) => formData.append(`Referral Image ${i}`, file));
