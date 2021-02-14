@@ -50,7 +50,7 @@
       <div class="from-clinics">
         <h3>Select your specialist</h3>
 
-        <mat-radio-group formControlName="selectedClinic" fxLayout="column" fxLayoutGap="12px">
+        <mat-radio-group color="primary" formControlName="selectedClinic" fxLayout="column" fxLayoutGap="12px">
           <mat-radio-button *ngFor="let clinic of toPlaceDetails" [value]="clinic">
             <div class="wrap"> {{clinic.name}} </div>
             <div class="wrap address"> {{clinic.formatted_address}} </div>
@@ -58,7 +58,7 @@
         </mat-radio-group>
       </div>
 
-      <button (click)="uploadPhoto()" color="primary" mat-stroked-button>Upload photo of referral card</button>
+      <button (click)="uploadPhoto()" color="primary" mat-stroked-button>Upload a photo of referral card</button>
 
       <button mat-raised-button (click)="completeReferral()"
         [disabled]="!patientForm?.valid || state === patientStates.Processing || files.length === 0" color="primary">
