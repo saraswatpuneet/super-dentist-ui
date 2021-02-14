@@ -8,6 +8,8 @@ const envConfigFile = `export const environment = {
         apiKey: '${process.env.FIREBASE_API_KEY}',
         authDomain: 'superdentist.firebaseapp.com'
     },
+    cloudFunctionUrl: 'https://us-central1-superdentist.cloudfunctions.net',
+    cloudFunctionQRReferralUrl: 'https://us-central1-superdentist.cloudfunctions.ne/sd-qr-referral-dev',
 };
 `;
 
