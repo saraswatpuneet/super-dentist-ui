@@ -1,18 +1,13 @@
 const fs = require('fs');
-const targetPath = './src/environments/environment.prod.ts';
+const envName = `${process.argv[2]}`;
 
-const envConfigFile = `export const environment = {
-   production: true,
-   baseUrl: '${process.env.BASE_URL}',
-   firebase: {
-        apiKey: '${process.env.FIREBASE_API_KEY}',
-        authDomain: 'superdentist.firebaseapp.com'
-    },
-    cloudFunctionUrl: 'https://us-central1-superdentist.cloudfunctions.net',
-    cloudFunctionQRReferralUrl: 'https://us-central1-superdentist.cloudfunctions.ne/sd-qr-referral-dev',
-};
-`;
+let targetPath = `./src/environments/environment.${envName}.ts`;
+let env = require(targetPath).environment;
 
+env.baseUrl = process.env.BASE_URL;
+env.firebase.apiKey = process.env.FIREBASE_API_KEY;
+
+const envConfigFile = `export const environment = ${JSON.stringify(env)};`;
 fs.writeFile(targetPath, envConfigFile, (err, data) => {
   if (err) {
     return console.log(err);

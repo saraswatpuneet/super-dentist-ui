@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
-  baseUrl: 'undefined',
+  baseUrl: '',
   firebase: {
-    apiKey: 'undefined',
+    apiKey: '',
     authDomain: 'superdentist.firebaseapp.com'
   },
   cloudFunctionUrl: 'https://us-central1-superdentist.cloudfunctions.net',
