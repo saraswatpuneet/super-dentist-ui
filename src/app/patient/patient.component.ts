@@ -105,7 +105,7 @@ export class PatientComponent implements OnInit, AfterViewInit {
     this.state = PatientStates.Processing;
     const p = this.patientForm.value;
     let good = true;
-    const url = `${environment.cloudFunctionQRReferralUrl}/?secureKey=${this.qrInfo.secureKey}&from=${this.fromPlaceDetails[0].place_id}&to=${p.selectedClinic.place_id}&firstName=${p.firstName}&lastName=${p.lastName}&phone=${p.phoneNumber}&email=${p.email}`;
+    const url = `${environment.cloudFunctionQRReferralUrl}?secureKey=${this.qrInfo.secureKey}&from=${this.fromPlaceDetails[0].place_id}&to=${p.selectedClinic.place_id}&firstName=${p.firstName}&lastName=${p.lastName}&phone=${p.phoneNumber}&email=${p.email}`;
 
     const formData = new FormData();
     this.files.forEach((file, i) => formData.append(`Referral Image ${i}`, file));
