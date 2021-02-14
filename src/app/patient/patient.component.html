@@ -15,6 +15,7 @@
   </div> -->
 
   <span #m style="display:none"></span>
+  <input style="display:none" #refPhotoEl type="file" accept="image/*">
 
   <form fxLayout="column" fxLayoutGap="36px" *ngIf="state === patientStates.Processing || state === patientStates.Form"
     autocomplete="off" [formGroup]="patientForm">
@@ -57,8 +58,10 @@
         </mat-radio-group>
       </div>
 
+      <button (click)="uploadPhoto()" color="primary" mat-stroked-button>Upload photo of referral card</button>
+
       <button mat-raised-button (click)="completeReferral()"
-        [disabled]="!patientForm?.valid || state === patientStates.Processing" color="primary">
+        [disabled]="!patientForm?.valid || state === patientStates.Processing || files.length === 0" color="primary">
         <span fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="12px">
           <mat-progress-spinner *ngIf="state === patientStates.Processing" mode="indeterminate" diameter="24">
           </mat-progress-spinner>

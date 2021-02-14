@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, NgZone, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { take, map, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -37,6 +37,7 @@ enum PatientStates {
 })
 export class PatientComponent implements OnInit, AfterViewInit {
   @ViewChild('m') m: ElementRef;
+  @ViewChild('refPhotoEl') refPhotoEl: ElementRef;
   patientForm: FormGroup;
   selectedIndex: number;
   selectedClinic: any;
@@ -45,10 +46,10 @@ export class PatientComponent implements OnInit, AfterViewInit {
   fromPlaceDetails = [];
   patientStates = PatientStates;
   state = PatientStates.Init;
+  files = [];
 
   constructor(
     private ngZone: NgZone,
-    private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private http: HttpClient
@@ -63,10 +64,10 @@ export class PatientComponent implements OnInit, AfterViewInit {
     }
 
     this.initForm();
+
   }
 
   ngAfterViewInit(): void {
-
     if ((window as any).google && (window as any).google.maps) {
       this.getPlaces();
     } else {
@@ -74,6 +75,12 @@ export class PatientComponent implements OnInit, AfterViewInit {
     }
 
     this.state = PatientStates.Form;
+    const fileUpload = this.refPhotoEl.nativeElement;
+
+    fileUpload.onchange = () => {
+      this.files = [];
+      Array.from(fileUpload.files).forEach(file => this.files.push(file));
+    };
   }
 
   completeReferral(): void {
@@ -86,7 +93,10 @@ export class PatientComponent implements OnInit, AfterViewInit {
       url += '&env=dev';
     }
 
-    this.http.post(url, null).pipe(
+    const formData = new FormData();
+    this.files.forEach((file, i) => formData.append(`Referral Image ${i}`, file));
+
+    this.http.post(url, formData).pipe(
       catchError(err => {
         console.error(err);
         good = false;
@@ -100,6 +110,10 @@ export class PatientComponent implements OnInit, AfterViewInit {
         this.state = PatientStates.Failed;
       }
     });
+  }
+
+  uploadPhoto(): void {
+    this.refPhotoEl.nativeElement.click();
   }
 
   private initForm(): void {

@@ -65,6 +65,7 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
     if (!this.joinInfo || !this.joinInfo.secureKey) {
       return;
     }
+
     this.initForm();
   }
 
@@ -72,6 +73,7 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
     if (!this.joinInfo || !this.joinInfo.secureKey) {
       return;
     }
+
     if ((window as any).google && (window as any).google.maps) {
       this.getPlaces();
     } else {

@@ -27,7 +27,6 @@ export class AdminComponent extends Base implements OnInit {
       concatMap(item => of(item).pipe(delay(1000))),
       takeUntil(this.unsubscribe$),
     ).subscribe((data: any) => {
-      console.log(data);
       if (this.chardata && this.chardata.length > 100) {
         this.chardata.shift();
         this.chardata.push([Date.now(), Number(data.bitcoin)]);
