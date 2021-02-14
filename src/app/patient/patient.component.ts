@@ -47,6 +47,7 @@ export class PatientComponent implements OnInit, AfterViewInit {
   patientStates = PatientStates;
   state = PatientStates.Init;
   files = [];
+  fileInfo = '';
 
   constructor(
     private ngZone: NgZone,
@@ -97,7 +98,16 @@ export class PatientComponent implements OnInit, AfterViewInit {
 
     fileUpload.onchange = () => {
       this.files = [];
+      let fileInfo = '';
       Array.from(fileUpload.files).forEach(file => this.files.push(file));
+      this.files.forEach(file => {
+        console.log(file);
+        fileInfo += `${file.name} ${file.type}`;
+      });
+      // console.log(this.files.toString());
+      console.log(fileInfo);
+      this.fileInfo = fileInfo;
+      // this.fileInfo = JSON.stringify(this.files);
     };
   }
 

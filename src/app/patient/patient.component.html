@@ -59,7 +59,7 @@
       </div>
 
       <button (click)="uploadPhoto()" color="primary" mat-stroked-button>Upload a photo of referral card</button>
-
+      <div>Photo: {{fileInfo}}</div>
       <button mat-raised-button (click)="completeReferral()"
         [disabled]="!patientForm?.valid || state === patientStates.Processing || files.length === 0" color="primary">
         <span fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="12px">
