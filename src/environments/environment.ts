@@ -9,7 +9,7 @@ export const environment = {
   },
   baseUrl: 'https://dev.superdentist.io/api/sd/v1',
   cloudFunctionUrl: 'https://us-central1-superdentist.cloudfunctions.net',
-  cloudFunctionQRReferralUrl: 'https://us-central1-superdentist.cloudfunctions.ne/sd-qr-referral-dev',
+  cloudFunctionQRReferralUrl: 'https://us-central1-superdentist.cloudfunctions.net/sd-qr-referral-dev',
 };
 
 /*
