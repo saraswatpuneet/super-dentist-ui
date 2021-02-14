@@ -54,7 +54,7 @@ jobs:
     - name: npm install env replace and npm run build
       run: |
         npm i
-        npm run config
+        npm run configProd
         npm run build:prod
     - name: Build Docker Image
       run: |-
