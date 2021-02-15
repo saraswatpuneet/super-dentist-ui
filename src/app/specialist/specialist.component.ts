@@ -33,9 +33,10 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
   showTreatmentSummary = false;
   selectedReferral: any;
   map: any;
+  private clinicMap = {};
   private checked = false;
   private favoriteMarkers = [];
-  private triggerNetwork = new Subject<void>();
+  // private triggerNetwork = new Subject<void>();
   private triggerFavorites = new Subject<void>();
 
   constructor(
@@ -50,6 +51,9 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
 
     this.clinicService.getClinics().pipe(map(r => r.data.clinicDetails), takeUntil(this.unsubscribe$)).subscribe(clinics => {
       this.clinics = clinics;
+      const clinicMap = {};
+      this.clinics.forEach(clinic => clinicMap[clinic.PlaceID] = true);
+      this.clinicMap = clinicMap;
       this.clinicType = 'specialist';
 
       if (clinics && clinics.length > 0 && clinics[0].type === 'dentist') {
@@ -58,7 +62,7 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
 
       this.initMap();
       this.triggerFavorites.next();
-      this.triggerNetwork.next();
+      // this.triggerNetwork.next();
     });
   }
 
@@ -186,18 +190,20 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
       this.favoriteMarkers.forEach(m => this.map.removeLayer(m));
 
       favorites.forEach(f => {
-        const icon = L.icon({
-          iconUrl: 'assets/icons/clinic-marker.svg',
-          iconSize: [64, 64], // size of the icon,
-          riseOnHover: true
-        });
+        if (!this.clinicMap[f.placeId]) {
+          const icon = L.icon({
+            iconUrl: 'assets/icons/clinic-marker.svg',
+            iconSize: [64, 64], // size of the icon,
+            riseOnHover: true
+          });
 
-        const marker = L.marker(
-          [f.geoLocation.lat, f.geoLocation.long],
-          { icon }
-        );
-        this.favoriteMarkers.push(marker);
-        this.map.addLayer(marker);
+          const marker = L.marker(
+            [f.geoLocation.lat, f.geoLocation.long],
+            { icon }
+          );
+          this.favoriteMarkers.push(marker);
+          this.map.addLayer(marker);
+        }
       });
 
       this.favoriteClinics = favorites;
