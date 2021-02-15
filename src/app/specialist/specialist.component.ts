@@ -20,6 +20,7 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
   @ViewChild('refEl') refEl: ElementRef;
   @ViewChild('refCardEl') refCardEl: ElementRef;
   @ViewChild('refMap') refMap: ElementRef;
+  searchFilter = '';
   clinics = [];
   selectedQr = '';
   clinicType = '';

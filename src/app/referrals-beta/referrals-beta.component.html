@@ -40,7 +40,8 @@
 
     <div class="cs">
       <div *ngFor="let c of clinicReferrals; let clinicIndex = index">
-        <mat-card *ngIf="c.referrals[tabIndex]" class="c-card clinic-title">
+        <mat-card *ngIf="c.referrals[tabIndex] && c.referrals[tabIndex] && c.referrals[tabIndex].length !== 0"
+          class="c-card clinic-title">
           <h3>{{c.clinicName}}</h3>
           <span>{{c.clinicCity}}</span>
         </mat-card>
