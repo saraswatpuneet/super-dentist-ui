@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
-import { map, switchMap, take, takeUntil, tap, catchError } from 'rxjs/operators';
-import { Subject, of, forkJoin, BehaviorSubject } from 'rxjs';
+import { map, switchMap, take, takeUntil } from 'rxjs/operators';
+import { Subject, forkJoin } from 'rxjs';
 import * as L from 'leaflet';
 
 import { Base } from '../shared/base/base-component';
@@ -35,7 +35,6 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
   selectedReferral: any;
   map: any;
   private clinicMap = {};
-  private checked = false;
   private favoriteMarkers = [];
   // private triggerNetwork = new Subject<void>();
   private triggerFavorites = new Subject<void>();
@@ -85,9 +84,8 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
     this.setRefElBounds(el);
   }
 
-  createTreatmentSummary(myClinic: any, clinic: any, el: any): void {
+  createTreatmentSummary(clinic: any, el: any): void {
     this.showTreatmentSummary = true;
-    this.addressId = myClinic.addressId;
     this.selectedPlaceId = clinic.placeId;
     this.selectedReferral = clinic;
     this.setRefElBounds(el);

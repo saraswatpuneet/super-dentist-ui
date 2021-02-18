@@ -16,7 +16,7 @@ export class CreateTreatmentSummaryComponent implements OnInit, AfterViewInit {
   @ViewChild('fileUpload') fileUpload: ElementRef;
   @ViewChild('firstName') firstNameEl: ElementRef;
   @Input() fromPlaceId: string;
-  @Input() toAddressId = '';
+  @Input() clinics = [];
   @Output() cancel = new EventEmitter();
   files = [];
   patientForm: FormGroup;
@@ -51,7 +51,7 @@ export class CreateTreatmentSummaryComponent implements OnInit, AfterViewInit {
     }
     this.loading = true;
 
-    const { firstName, lastName } = this.patientForm.value;
+    const { firstName, lastName, selectedClinic } = this.patientForm.value;
 
     const referralDetails: ReferralDetails = {
       patient: {
@@ -59,7 +59,7 @@ export class CreateTreatmentSummaryComponent implements OnInit, AfterViewInit {
         lastName,
       },
       fromPlaceId: this.fromPlaceId,
-      toAddressId: this.toAddressId,
+      toAddressId: selectedClinic.addressId,
       status: { gdStatus: 'completed', spStatus: 'completed' },
     };
 
@@ -95,6 +95,7 @@ export class CreateTreatmentSummaryComponent implements OnInit, AfterViewInit {
     this.patientForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
+      selectedClinic: [this.clinics[0], Validators.required],
     });
   }
 }

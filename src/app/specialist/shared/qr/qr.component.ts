@@ -7,7 +7,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class QrComponent implements OnInit {
   @Input() clinic: any;
-  @Output() cancel = new EventEmitter();
   imageSource = '';
 
   constructor() { }
@@ -15,5 +14,4 @@ export class QrComponent implements OnInit {
   ngOnInit(): void {
     this.imageSource = `data:image/jpeg;base64,${this.clinic.qrCode}`;
   }
-
 }
