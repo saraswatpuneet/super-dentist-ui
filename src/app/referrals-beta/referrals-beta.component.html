@@ -46,7 +46,7 @@
           <span>{{c.clinicCity}}</span>
         </mat-card>
 
-        <div fxLayout="column" fxLayoutGap="20px">
+        <div fxLayout="column">
           <div *ngFor="let r of c.referrals[tabIndex]; let i = index; let l = last">
             <mat-card class="r c-card">
               <div (click)="referralChat(r.referralId)">
