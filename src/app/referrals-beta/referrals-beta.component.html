@@ -41,9 +41,14 @@
     <div class="cs">
       <div *ngFor="let c of clinicReferrals; let clinicIndex = index">
         <mat-card *ngIf="c.referrals[tabIndex] && c.referrals[tabIndex] && c.referrals[tabIndex].length !== 0"
-          class="c-card clinic-title">
-          <h2>{{c.clinicName}}</h2>
-          <span>{{c.clinicCity}}</span>
+          class="c-card clinic-title" fxLayout="row" fxLayoutAlign=" center">
+          <div fxFlex>
+            <h2>{{c.clinicName}}</h2>
+            <span>{{c.clinicCity}}</span>
+          </div>
+          <!-- <button mat-icon-button>
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          </button> -->
         </mat-card>
 
         <div fxLayout="column">
