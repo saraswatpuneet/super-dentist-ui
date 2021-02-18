@@ -8,6 +8,7 @@ export const environment = {
     authDomain: 'superdentist.firebaseapp.com',
   },
   baseUrl: 'https://dev.superdentist.io/api/sd/v1',
+  qrReferralUrl: 'https://dev.superdentist.io/api/sd/v1/qrReferral',
   cloudFunctionUrl: 'https://us-central1-superdentist.cloudfunctions.net',
   cloudFunctionQRReferralUrl: 'https://us-central1-superdentist.cloudfunctions.net/sd-qr-referral-dev',
 };
