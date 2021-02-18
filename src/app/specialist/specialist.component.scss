@@ -4,11 +4,8 @@
   box-sizing: border-box;
   overflow: hidden;
 
-  .qr-button {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    z-index: 100;
+  .pad-l-0 {
+    padding-left: 0;
   }
 
   .network-message {
@@ -21,6 +18,12 @@
       opacity: 0.5;
       font-size: 12px;
     }
+  }
+
+  .action {
+    position: absolute;
+    right: 0;
+    bottom: 0;
   }
 
   .selected-referral {
@@ -115,29 +118,31 @@
   .favorite-specialist {
     height: 200px;
     position: relative;
+    text-transform: capitalize;
+
+    .specialist-type {
+      opacity: 0.7;
+      font-size: 12px;
+    }
 
     .specialist-title {
-      width: calc(100% - 36px);
       font-size: 18px;
-      opacity: 1;
-    }
-
-    .verified {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-    }
-
-    > div {
-      font-weight: 400;
-      opacity: 0.7;
-      text-transform: capitalize;
-      font-size: 14px;
     }
 
     .rating {
-      opacity: 1;
-      padding: 8px 0;
+      padding: 4px 0;
+    }
+  }
+
+  .divider {
+    height: 1px;
+    margin: 24px 0 0;
+    background: rgba(grey, 0.3);
+  }
+
+  .verified {
+    mat-icon {
+      margin-right: 2px;
     }
   }
 
@@ -145,5 +150,11 @@
     > div {
       opacity: 0.7;
     } 
+  }
+
+  .deets {
+    button {
+      transform: translateX(-16px);
+    }
   }
 }

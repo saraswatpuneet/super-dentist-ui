@@ -22,6 +22,14 @@
       </div>
     </div>
 
+    <h3>Select your location</h3>
+    <mat-radio-group color="primary" formControlName="selectedClinic" fxLayout="column" fxLayoutGap="12px">
+      <mat-radio-button *ngFor="let clinic of clinics" [value]="clinic">
+        <div class="wrap"> {{clinic.name}} </div>
+        <div class="wrap address"> {{clinic.address}} </div>
+      </mat-radio-button>
+    </mat-radio-group>
+
     <div class="doc-button">
       <button mat-raised-button [disabled]="loading" (click)="fileUpload.click()">Attach Documents</button>
     </div>
@@ -45,6 +53,5 @@
     <span *ngIf="!loading">Confirm Treatment Summary</span>
     <span *ngIf="loading" fxLayoutAlign=" center" fxLayout="row">Sending&nbsp; <mat-spinner diameter="20"></mat-spinner>
     </span>
-
   </button>
 </div>

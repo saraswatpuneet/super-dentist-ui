@@ -16,38 +16,48 @@
       You haven't added any referring clinics yet.
     </mat-card>
 
-    <mat-card class="favorite-specialist" fxLayout="column" fxFlex="0 0 auto" *ngFor="let a of favoriteClinics">
-      <mat-icon matTooltip="Verified Clinic" class="verified" *ngIf="a.verified" color="primary">verified</mat-icon>
-      <button *ngIf="a.qrCode" (click)="selectQrCode(a, favoriteCardEls)" class="qr-button" mat-icon-button>
-        <mat-icon>qr_code_2</mat-icon>
-      </button>
-      <div #favoriteCardEls class="specialist-title">{{a.name}} </div>
+    <div fxLayout="column" *ngFor="let a of favoriteClinics; let l = last">
+      <mat-card class="c-card favorite-specialist" fxLayout="column" fxFlex="0 0 auto">
+        <div fxLayout="row">
+          <div fxFlex fxLayout="column">
+            <div class="specialist-type">{{a.type}}</div>
+            <div #favoriteCardEls class="specialist-title">{{a.name}} </div>
 
-      <div>{{a.type}}</div>
+            <div class="rating" *ngIf="a.rating">
+              <span class="score">{{a.rating}}</span>
+              <div class="stars" [style]="'--rating: ' + a.rating"></div>
+              <span class="count">({{a.ratingCount}})</span>
+              <ng-container *ngIf="a.types">&middot; {{a.types[0]}}</ng-container>
+            </div>
 
-      <div class="rating" *ngIf="a.rating">
-        <span class="score">{{a.rating}}</span>
-        <div class="stars" [style]="'--rating: ' + a.rating"></div>
-        <span class="count">({{a.ratingCount}})</span>
-        <ng-container *ngIf="a.types">&middot; {{a.types[0]}}</ng-container>
-      </div>
+            <div *ngIf="a.verified" class="verified" fxLayout="row" fxLayoutAlign=" center">
+              <mat-icon color="primary">verified</mat-icon>
+              Verified Clinic
+            </div>
+          </div>
 
-      <div>{{a.phoneNumber}}</div>
-      <div>{{a.address}}</div>
+          <app-address [address]="a.address" [phoneNumber]="a.phoneNumber"></app-address>
+        </div>
 
-      <div fxFlex></div>
+        <div fxFlex></div>
 
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <button mat-raised-button *ngIf="clinicType === 'dentist'" (click)="createReferral(a, favoriteCardEls)">
-          Create Referral
-        </button>
+        <div class="deets" fxLayout="column" fxLayoutAlign=" start">
+          <button *ngIf="a.qrCode" mat-button [matMenuTriggerFor]="appMenu" [matMenuTriggerData]="{myClinic: a}">
+            <mat-icon>qr_code_2</mat-icon> View QR
+          </button>
 
-        <button mat-raised-button *ngIf="clinicType === 'specialist'" [matMenuTriggerFor]="appMenu"
-          [matMenuTriggerData]="{clinicForTreatment: a, favoritesEl: favoriteCardEls}">
-          Create Treatment Summary <mat-icon>arrow_drop_down</mat-icon>
-        </button>
-      </div>
-    </mat-card>
+          <button mat-button *ngIf="clinicType === 'dentist'" (click)="createReferral(a, favoriteCardEls)">
+            <mat-icon>pending_actions</mat-icon> Create Referral
+          </button>
+
+          <button mat-button *ngIf="clinicType === 'specialist'" (click)="createTreatmentSummary(a, favoriteCardEls)">
+            <mat-icon>pending_actions</mat-icon> Create Treatment Summary
+          </button>
+        </div>
+      </mat-card>
+
+      <div class="divider" *ngIf="!l"></div>
+    </div>
 
     <!-- <mat-card class="favorite-specialist" *ngIf="networkClinics && networkClinics.length !== 0" fxLayout="row"
       fxLayoutAlign=" center" fxLayoutGap="12px" class="network-message c-card">
@@ -89,10 +99,9 @@
 
   <div class="selected-referral" #refEl>
     <mat-card class="favorite-specialist" fxLayout="column" fxLayoutAlign=" start">
-      <div #refCardEl class="specialist-title">{{selectedReferral?.name}}</div>
-      <mat-icon class="verified" *ngIf="selectedReferral?.verified" color="primary">verified</mat-icon>
+      <div class="specialist-type">{{selectedReferral?.type}}</div>
 
-      <div>{{selectedReferral?.type}}</div>
+      <div #refCardEl class="specialist-title">{{selectedReferral?.name}}</div>
 
       <div class="rating" *ngIf="selectedReferral && selectedReferral.rating">
         <span class="score">{{selectedReferral.rating}}</span>
@@ -101,8 +110,12 @@
         <ng-container *ngIf="selectedReferral.types">&middot; {{selectedReferral.types[0]}}</ng-container>
       </div>
 
-      <div>{{selectedReferral?.phoneNumber}}</div>
-      <div>{{selectedReferral?.address}}</div>
+      <div *ngIf="selectedReferral?.verified" class="verified" fxLayout="row" fxLayoutAlign=" center">
+        <mat-icon color="primary">verified</mat-icon>
+        Verified Clinic
+      </div>
+
+      <app-address [address]="selectedReferral?.address" [phoneNumber]="selectedReferral?.phoneNumber"></app-address>
     </mat-card>
   </div>
 
@@ -116,7 +129,7 @@
 
   <div [@fade] class="create-referral" *ngIf="showTreatmentSummary">
     <mat-card>
-      <app-create-treatment-summary (cancel)="cancel()" [toAddressId]="addressId" [fromPlaceId]="selectedPlaceId">
+      <app-create-treatment-summary (cancel)="cancel()" [clinics]="clinics" [fromPlaceId]="selectedPlaceId">
       </app-create-treatment-summary>
     </mat-card>
   </div>
@@ -130,12 +143,9 @@
   <div class="create-referral map" [ngClass]="{'active': !showCreateReferral && !showTreatmentSummary && !selectedQr}"
     #refMap>
   </div>
+  <mat-menu #appMenu="matMenu">
+    <ng-template matMenuContent let-myClinic="myClinic">
+      <app-qr [clinic]="myClinic"></app-qr>
+    </ng-template>
+  </mat-menu>
 </div>
-
-<mat-menu #appMenu="matMenu">
-  <ng-template matMenuContent let-clinicForTreatment="clinicForTreatment" let-favoritesEl="favoritesEl">
-    <div (click)="createTreatmentSummary(myClinic, clinicForTreatment, favoritesEl)" *ngFor="let myClinic of clinics">
-      <app-treatment-menu [clinic]="myClinic"></app-treatment-menu>
-    </div>
-  </ng-template>
-</mat-menu>
