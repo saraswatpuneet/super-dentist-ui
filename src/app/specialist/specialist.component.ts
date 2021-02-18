@@ -55,7 +55,6 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
       this.clinics.forEach(clinic => clinicMap[clinic.PlaceID] = true);
       this.clinicMap = clinicMap;
       this.clinicType = 'specialist';
-      console.log(clinics);
 
       if (clinics && clinics.length > 0 && clinics[0].type === 'dentist') {
         this.clinicType = 'dentist';

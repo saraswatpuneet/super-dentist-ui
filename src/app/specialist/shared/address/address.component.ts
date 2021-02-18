@@ -23,7 +23,7 @@ export class AddressComponent implements OnChanges {
         const parsedAddress = this.address.split(',');
         addressInfo.push(parsedAddress[0]);
         addressInfo.push(`${parsedAddress[1]}, ${parsedAddress[2]}`);
-      } catch (e) { console.log(e) }
+      } catch (e) { console.log(e); }
     }
 
     this.parsedAddress = addressInfo;
