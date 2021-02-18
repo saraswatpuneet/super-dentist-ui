@@ -9,7 +9,7 @@
 
     <span fxFlex></span>
 
-    <span *ngIf="clinicName && authenticated">Welcome, {{clinicName}}</span>
+    <span class="welcome" *ngIf="clinicName && authenticated">Welcome, {{clinicName}}</span>
 
     <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="authenticated">
       <mat-icon>arrow_drop_down</mat-icon>
