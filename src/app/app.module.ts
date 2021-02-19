@@ -8,14 +8,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClientJsonpModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DialogModule } from './shared/dialog/dialog.module';
 import { environment } from '../environments/environment';
 import { AuthInterceptor } from './shared/interceptors/auth-interceptor';
-
-import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { NotificationModule } from './shared/notification/notification.module';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -24,6 +24,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    NotificationModule,
     DialogModule,
     MatIconModule,
     MatButtonModule,

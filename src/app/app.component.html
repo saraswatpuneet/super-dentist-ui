@@ -14,6 +14,9 @@
     <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="authenticated">
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
+
+    <!-- <app-notification *ngIf="authenticated"></app-notification> -->
+
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="signOut()">Sign Out</button>
     </mat-menu>
