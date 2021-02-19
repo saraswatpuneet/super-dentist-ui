@@ -61,6 +61,7 @@ export class CreateTreatmentSummaryComponent implements OnInit, AfterViewInit {
       fromPlaceId: this.fromPlaceId,
       toAddressId: selectedClinic.addressId,
       status: { gdStatus: 'completed', spStatus: 'completed' },
+      isSummary: true,
     };
 
     let referralId = '';

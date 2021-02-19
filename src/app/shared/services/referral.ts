@@ -32,6 +32,7 @@ export interface ReferralDetails {
   fromPlaceId?: string; // send either fromAddressId or fromPlaceId
   toAddressId?: string; // send either toAddressId or toPlaceId
   toPlaceId?: string;
+  isSummary?: boolean;
 }
 
 export interface Patient {

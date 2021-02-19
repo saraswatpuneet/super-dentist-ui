@@ -29,7 +29,7 @@
   .selected-referral {
     height: 0;
     position: absolute;
-    width: 500px;
+    width: 100%;
     overflow: hidden;
     top: 0;
     left: 0;
@@ -49,19 +49,36 @@
   }
 
   .list {
+    min-width: 500px;
+    max-width: 700px;
+    width: 60%;
+    position: relative;
     height: 100%;
     overflow: auto;
     padding: 20px 20px 20px 8px;
     transition: 0.3s;
+  }
 
-    &.fade {
-      opacity: 0;
+  .fade {
+    opacity: 0;
+  }
+
+  .c-content {
+    position: relative;
+    height: 100%;
+    box-sizing: border-box;
+
+    > div {
+      position: absolute;
+      top: 0;
+      left: 0;
     }
   }
 
   .create-referral {
-    width: calc(100% - 500px);
     max-width: 864px;
+    width: 100%;
+    flex: 1;
     height: 100%;
     overflow: hidden;
     box-sizing: border-box;
@@ -76,10 +93,8 @@
   }
 
   .map {
-    position: absolute;
-    top: 0;
-    right: 0;
-    max-width: 100%;
+    width: 100%;
+    height: 100%;
     z-index: 1;
     opacity: 0;
     transition: 0.15s;
