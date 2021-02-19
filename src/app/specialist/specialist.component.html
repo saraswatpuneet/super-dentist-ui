@@ -1,6 +1,5 @@
 <div class="specialist" fxLayout="row">
-  <div class="list" [ngClass]="{'fade': showCreateReferral || showTreatmentSummary || selectedQr}" fxFlex="500px"
-    fxLayout="column" fxLayoutGap="24px">
+  <div class="list" fxLayout="column" fxLayoutGap="24px">
     <!-- <div class="sd-input">
       <label>Search for a clinic</label>
       <input type="text" [(ngModel)]="searchFilter">
@@ -12,13 +11,15 @@
 
     <app-loader class="loading" *ngIf="loading"></app-loader>
 
-    <mat-card class="c-card note" *ngIf="!loading && favoriteClinics.length === 0 && clinicType === 'specialist'">
+    <mat-card [ngClass]="{'fade': showCreateReferral || showTreatmentSummary || selectedQr}" class="c-card note"
+      *ngIf="!loading && favoriteClinics.length === 0 && clinicType === 'specialist'">
       You haven't added any referring clinics yet.
     </mat-card>
 
-    <div fxLayout="column" *ngFor="let a of favoriteClinics; let l = last">
+    <div [ngClass]="{'fade': showCreateReferral || showTreatmentSummary || selectedQr}" fxLayout="column"
+      *ngFor="let a of favoriteClinics; let l = last">
       <mat-card class="c-card favorite-specialist" fxLayout="column" fxFlex="0 0 auto">
-        <div fxLayout="row">
+        <div fxLayout="row" fxLayoutGap="16px">
           <div fxFlex fxLayout="column">
             <div class="specialist-type">{{a.type}}</div>
             <div #favoriteCardEls class="specialist-title">{{a.name}} </div>
@@ -32,7 +33,7 @@
 
             <div *ngIf="a.verified" class="verified" fxLayout="row" fxLayoutAlign=" center">
               <mat-icon color="primary">verified</mat-icon>
-              Verified Clinic
+              Verified
             </div>
           </div>
 
@@ -95,57 +96,59 @@
         </button>
       </div>
     </mat-card> -->
+    <div class="selected-referral" #refEl>
+      <mat-card class="favorite-specialist" fxLayout="column" fxLayoutAlign=" start">
+        <div class="specialist-type">{{selectedReferral?.type}}</div>
+
+        <div #refCardEl class="specialist-title">{{selectedReferral?.name}}</div>
+
+        <div class="rating" *ngIf="selectedReferral && selectedReferral.rating">
+          <span class="score">{{selectedReferral.rating}}</span>
+          <div class="stars" [style]="'--rating: ' + selectedReferral.rating"></div>
+          <span class="count">({{selectedReferral.ratingCount}})</span>
+          <ng-container *ngIf="selectedReferral.types">&middot; {{selectedReferral.types[0]}}</ng-container>
+        </div>
+
+        <div *ngIf="selectedReferral?.verified" class="verified" fxLayout="row" fxLayoutAlign=" center">
+          <mat-icon color="primary">verified</mat-icon>
+          Verified Clinic
+        </div>
+
+        <app-address [address]="selectedReferral?.address" [phoneNumber]="selectedReferral?.phoneNumber"></app-address>
+      </mat-card>
+    </div>
   </div>
 
-  <div class="selected-referral" #refEl>
-    <mat-card class="favorite-specialist" fxLayout="column" fxLayoutAlign=" start">
-      <div class="specialist-type">{{selectedReferral?.type}}</div>
+  <div fxFlex class="c-content">
+    <div [@fade] class="create-referral" *ngIf="showCreateReferral">
+      <mat-card>
+        <app-create-referral (cancel)="cancel()" [fromAddressId]="addressId" [specialty]="selectedSpecialty"
+          [placeId]="selectedPlaceId">
+        </app-create-referral>
+      </mat-card>
+    </div>
 
-      <div #refCardEl class="specialist-title">{{selectedReferral?.name}}</div>
+    <div [@fade] class="create-referral" *ngIf="showTreatmentSummary">
+      <mat-card>
+        <app-create-treatment-summary (cancel)="cancel()" [clinics]="clinics" [fromPlaceId]="selectedPlaceId">
+        </app-create-treatment-summary>
+      </mat-card>
+    </div>
 
-      <div class="rating" *ngIf="selectedReferral && selectedReferral.rating">
-        <span class="score">{{selectedReferral.rating}}</span>
-        <div class="stars" [style]="'--rating: ' + selectedReferral.rating"></div>
-        <span class="count">({{selectedReferral.ratingCount}})</span>
-        <ng-container *ngIf="selectedReferral.types">&middot; {{selectedReferral.types[0]}}</ng-container>
-      </div>
+    <div [@fade] class="create-referral" *ngIf="selectedQr">
+      <mat-card>
+        <app-qr (cancel)="cancel()" [clinic]="selectedQr"></app-qr>
+      </mat-card>
+    </div>
 
-      <div *ngIf="selectedReferral?.verified" class="verified" fxLayout="row" fxLayoutAlign=" center">
-        <mat-icon color="primary">verified</mat-icon>
-        Verified Clinic
-      </div>
+    <div class="map" [ngClass]="{'active': !showCreateReferral && !showTreatmentSummary && !selectedQr}" #refMap>
+    </div>
 
-      <app-address [address]="selectedReferral?.address" [phoneNumber]="selectedReferral?.phoneNumber"></app-address>
-    </mat-card>
   </div>
-
-  <div [@fade] class="create-referral" *ngIf="showCreateReferral">
-    <mat-card>
-      <app-create-referral (cancel)="cancel()" [fromAddressId]="addressId" [specialty]="selectedSpecialty"
-        [placeId]="selectedPlaceId">
-      </app-create-referral>
-    </mat-card>
-  </div>
-
-  <div [@fade] class="create-referral" *ngIf="showTreatmentSummary">
-    <mat-card>
-      <app-create-treatment-summary (cancel)="cancel()" [clinics]="clinics" [fromPlaceId]="selectedPlaceId">
-      </app-create-treatment-summary>
-    </mat-card>
-  </div>
-
-  <div [@fade] class="create-referral" *ngIf="selectedQr">
-    <mat-card>
-      <app-qr (cancel)="cancel()" [clinic]="selectedQr"></app-qr>
-    </mat-card>
-  </div>
-
-  <div class="create-referral map" [ngClass]="{'active': !showCreateReferral && !showTreatmentSummary && !selectedQr}"
-    #refMap>
-  </div>
-  <mat-menu #appMenu="matMenu">
-    <ng-template matMenuContent let-myClinic="myClinic">
-      <app-qr [clinic]="myClinic"></app-qr>
-    </ng-template>
-  </mat-menu>
 </div>
+
+<mat-menu #appMenu="matMenu">
+  <ng-template matMenuContent let-myClinic="myClinic">
+    <app-qr [clinic]="myClinic"></app-qr>
+  </ng-template>
+</mat-menu>
