@@ -1,5 +1,14 @@
 <div class="notification">
-  <button mat-icon-button>
-    <mat-icon matBadge="7" matBadgeColor="warn" matBadgeSize="small">notifications</mat-icon>
+  <button mat-icon-button (click)="toggle()">
+    <mat-icon [matBadge]="unseenNotifications" matBadgeColor="warn" matBadgeSize="small">notifications</mat-icon>
   </button>
+</div>
+
+<div [@fade] *ngIf="opened" class="notification-list" (click)="toggle()">
+  <mat-card class="items">
+    <div *ngFor="let notification of notifications$ | async">
+      <div>{{notification.type}}</div>
+      <div>{{notification.timestamp}}</div>
+    </div>
+  </mat-card>
 </div>
