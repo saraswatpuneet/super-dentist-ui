@@ -42,17 +42,21 @@
 
         <div fxFlex></div>
 
-        <div class="deets" fxLayout="column" fxLayoutAlign=" start">
-          <button *ngIf="a.qrCode" mat-button [matMenuTriggerFor]="appMenu" [matMenuTriggerData]="{myClinic: a}">
-            <mat-icon>qr_code_2</mat-icon> View QR
-          </button>
+        <div class="deets" fxLayout="column" fxLayoutGap="8px" fxLayoutAlign=" start">
 
-          <button mat-button *ngIf="clinicType === 'dentist'" (click)="createReferral(a, favoriteCardEls)">
+          <button mat-raised-button color="primary" *ngIf="clinicType === 'dentist'"
+            (click)="createReferral(a, favoriteCardEls)">
             <mat-icon>pending_actions</mat-icon> Create Referral
           </button>
 
-          <button mat-button *ngIf="clinicType === 'specialist'" (click)="createTreatmentSummary(a, favoriteCardEls)">
+          <button mat-raised-button color="primary" *ngIf="clinicType === 'specialist'"
+            (click)="createTreatmentSummary(a, favoriteCardEls)">
             <mat-icon>pending_actions</mat-icon> Create Treatment Summary
+          </button>
+
+          <button mat-stroked-button *ngIf="a.qrCode" mat-button [matMenuTriggerFor]="appMenu"
+            [matMenuTriggerData]="{myClinic: a}">
+            <mat-icon>qr_code_2</mat-icon> View QR
           </button>
         </div>
       </mat-card>

@@ -175,7 +175,6 @@ export class ReferralsBetaComponent extends Base implements OnInit {
       queryParams: {
         r: referralId
       },
-      queryParamsHandling: 'merge'
     });
   }
 

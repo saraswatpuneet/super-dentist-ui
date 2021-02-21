@@ -23,58 +23,61 @@ export class AdminComponent extends Base implements OnInit {
   constructor() { super(); }
 
   ngOnInit(): void {
-    this.subject.pipe(
-      concatMap(item => of(item).pipe(delay(1000))),
-      takeUntil(this.unsubscribe$),
-    ).subscribe((data: any) => {
-      if (this.chardata && this.chardata.length > 100) {
-        this.chardata.shift();
-        this.chardata.push([Date.now(), Number(data.bitcoin)]);
-      } else {
-        this.chardata.push([Date.now(), Number(data.bitcoin)]);
-      }
 
-      this.chartOptions = {
-        series: [{
-          data: this.chardata,
-        }],
-        chart: {
-          animation: true,
-          backgroundColor: 'transparent',
-          type: 'line',
-          zoomType: 'x',
-          resetZoomButton: {
-            theme: {
-              display: 'none'
-            }
-          }
-        },
-        credits: {
-          enabled: false
-        },
-        exporting: {
-          enabled: false
-        },
-        legend: {
-          enabled: false
-        },
-        title: {
-          text: 'Real Time ',
-          style: {
-            color: 'rgb(146, 146, 146)'
-          }
-        },
-        yAxis: {
-          gridLineColor: 'rgba(146, 146, 146, 0.2)',
-        },
-        xAxis: {
-          type: 'datetime',
-          gridLineColor: 'rgba(146, 146, 146, 0.2)',
-          title: {
-            text: 'Time'
-          },
-        }
-      };
-    });
   }
+  // ngOnInit(): void {
+  //   this.subject.pipe(
+  //     concatMap(item => of(item).pipe(delay(1000))),
+  //     takeUntil(this.unsubscribe$),
+  //   ).subscribe((data: any) => {
+  //     if (this.chardata && this.chardata.length > 100) {
+  //       this.chardata.shift();
+  //       this.chardata.push([Date.now(), Number(data.bitcoin)]);
+  //     } else {
+  //       this.chardata.push([Date.now(), Number(data.bitcoin)]);
+  //     }
+
+  //     this.chartOptions = {
+  //       series: [{
+  //         data: this.chardata,
+  //       }],
+  //       chart: {
+  //         animation: true,
+  //         backgroundColor: 'transparent',
+  //         type: 'line',
+  //         zoomType: 'x',
+  //         resetZoomButton: {
+  //           theme: {
+  //             display: 'none'
+  //           }
+  //         }
+  //       },
+  //       credits: {
+  //         enabled: false
+  //       },
+  //       exporting: {
+  //         enabled: false
+  //       },
+  //       legend: {
+  //         enabled: false
+  //       },
+  //       title: {
+  //         text: 'Real Time ',
+  //         style: {
+  //           color: 'rgb(146, 146, 146)'
+  //         }
+  //       },
+  //       yAxis: {
+  //         gridLineColor: 'rgba(146, 146, 146, 0.2)',
+  //       },
+  //       xAxis: {
+  //         type: 'datetime',
+  //         gridLineColor: 'rgba(146, 146, 146, 0.2)',
+  //         title: {
+  //           text: 'Time'
+  //         },
+  //       }
+  //     };
+  //   });
+  // }
 }

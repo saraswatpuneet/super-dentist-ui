@@ -63,7 +63,7 @@
                 <ng-container *ngIf="clinicType === 'dentist' && r.status && tabIndex === 0">
                   <button color="primary" class="mark-complete-button"
                     [disabled]="!r.status || r.status.gdStatus !== 'completed'" mat-raised-button
-                    (click)="$event.stopProagation(); pmarkStatusDentist(i, 'closed')">{{r.status ? r?.status.gdStatus === 'completed' ? 'Close Referral': referredStatuses[r.status.gdStatus].label  : 'No status'}}
+                    (click)="$event.stopPropagation(); markStatusDentist(i, 'closed')">{{r.status ? r?.status.gdStatus === 'completed' ? 'Close Referral': referredStatuses[r.status.gdStatus].label  : 'No status'}}
                   </button>
                 </ng-container>
 
