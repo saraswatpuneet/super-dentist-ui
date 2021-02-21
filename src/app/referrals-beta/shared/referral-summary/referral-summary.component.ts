@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { take, switchMap, map } from 'rxjs/operators';
+import { take, switchMap, map, takeUntil } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { jsPDF } from 'jspdf';
 
 import { ReferralService } from '../../../shared/services/referral.service';
 import { Referral } from '../../../shared/services/referral';
 import { reasonsMap } from '../../../shared/services/clinic';
+import { Base } from 'src/app/shared/base/base-component';
 
 @Component({
   selector: 'app-referral-summary',
   templateUrl: './referral-summary.component.html',
   styleUrls: ['./referral-summary.component.scss']
 })
-export class ReferralSummaryComponent implements OnInit {
+export class ReferralSummaryComponent extends Base implements OnInit {
   referral: Referral;
   reasonMap = reasonsMap;
 
@@ -21,7 +22,7 @@ export class ReferralSummaryComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private referralService: ReferralService
-  ) { }
+  ) { super(); }
 
   ngOnInit(): void {
     this.route.queryParams.pipe(
@@ -31,7 +32,7 @@ export class ReferralSummaryComponent implements OnInit {
         }
         return of(undefined);
       }),
-      take(1)
+      takeUntil(this.unsubscribe$)
     ).subscribe(referral => this.referral = referral);
   }
 
