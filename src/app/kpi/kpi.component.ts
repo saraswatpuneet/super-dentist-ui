@@ -154,6 +154,10 @@ export class KpiComponent extends Base implements OnInit {
       exporting: {
         enabled: false
       },
+      tooltip: {
+        shared: true,
+        followPointer: true
+      },
       legend: {
         ...globalChartColors[this.theme].legend,
         layout: 'vertical',
