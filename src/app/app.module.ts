@@ -8,6 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClientJsonpModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -30,6 +31,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     MatButtonModule,
     MatMenuModule,
     MatCardModule,
+    MatTooltipModule,
     NgxMaskModule.forRoot(),
     FlexLayoutModule,
     HttpClientModule,

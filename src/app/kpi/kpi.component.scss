@@ -1,0 +1,23 @@
+.kpi {
+  padding: 20px 20px 20px 10px;
+  min-height: 100%;
+  box-sizing: border-box;
+  position: relative;
+
+  mat-card {
+    position: relative;
+  }
+
+  mat-card:not(:first-child) {
+    margin-top: 20px
+  }
+
+  h2 {
+    margin: 0;
+  }
+
+  .address {
+    opacity: 0.5;
+    font-size: 12px;
+  }
+}

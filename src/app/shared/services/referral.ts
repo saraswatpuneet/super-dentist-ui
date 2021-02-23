@@ -1,5 +1,6 @@
 export interface Referral {
   referralId: string;
+  fromAddressId?: string;
   fromPlaceId: string;
   fromClinicName: string;
   fromEmail: string;
