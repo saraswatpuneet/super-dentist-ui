@@ -26,6 +26,11 @@ const routes: Routes = [
     canActivate: [AuthGuard, VerifiedGuard]
   },
   {
+    path: 'kpi',
+    loadChildren: () => import('./kpi/kpi.module').then(m => m.KpiModule),
+    canActivate: [AuthGuard, VerifiedGuard]
+  },
+  {
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
     canActivate: [AuthGuard, AdminGuard]

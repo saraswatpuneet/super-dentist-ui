@@ -65,7 +65,6 @@ export class PatientComponent implements OnInit, AfterViewInit {
     }
 
     this.initForm();
-    console.log(environment.cloudFunctionQRReferralUrl);
 
     // if (!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
     //   navigator.mediaDevices.getUserMedia(
@@ -99,6 +98,7 @@ export class PatientComponent implements OnInit, AfterViewInit {
     fileUpload.onchange = () => {
       this.files = [];
       Array.from(fileUpload.files).forEach(file => this.files.push(file));
+      this.files.forEach((file, i) => window.alert(file.name));
     };
   }
 

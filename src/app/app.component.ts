@@ -11,6 +11,7 @@ import { Base } from './shared/base/base-component';
 import { appAnimations } from './app.animations';
 import { ClinicService } from './shared/services/clinic.service';
 import { environment } from 'src/environments/environment';
+import { SettingsService } from './shared/services/settings.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,7 @@ import { environment } from 'src/environments/environment';
   animations: appAnimations
 })
 export class AppComponent extends Base implements OnInit {
-  theme = 'light';
+  theme: 'light' | 'dark' = 'light';
   authenticated = false;
   emailVerified = true;
   expanded = false;
@@ -27,6 +28,8 @@ export class AppComponent extends Base implements OnInit {
     { path: 'specialist', label: 'Specialist', icon: 'date_range' },
     { path: 'referrals', label: 'Referrals', icon: 'message' },
     { path: 'settings', label: 'Settings', icon: 'settings' },
+    { path: 'admin', label: 'Admin', icon: 'admin_panel_settings' },
+    { path: 'kpi', label: 'KPI', icon: 'analytics' },
   ];
   isSpecialist = false;
   isAdmin = false;
@@ -41,6 +44,7 @@ export class AppComponent extends Base implements OnInit {
     private router: Router,
     private overlayContainer: OverlayContainer,
     private clinicService: ClinicService,
+    private settingsService: SettingsService
   ) { super(); }
 
   ngOnInit(): void {
@@ -65,6 +69,8 @@ export class AppComponent extends Base implements OnInit {
       this.overlayContainer.getContainerElement().classList.remove('dark');
       this.overlayContainer.getContainerElement().classList.add(this.theme);
     }
+
+    this.settingsService.setTheme(this.theme);
 
     this.router.events.pipe(filter(e => e instanceof NavigationEnd), takeUntil(this.unsubscribe$)).subscribe(() => {
       if (
@@ -124,6 +130,7 @@ export class AppComponent extends Base implements OnInit {
 
     localStorage.setItem(this.themeKey, this.theme);
     this.overlayContainer.getContainerElement().classList.add(this.theme);
+    this.settingsService.setTheme(this.theme);
   }
 
   toggleNav(): void {
