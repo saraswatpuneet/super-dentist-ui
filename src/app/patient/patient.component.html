@@ -59,7 +59,6 @@
       </div>
 
       <button (click)="uploadPhoto()" color="primary" mat-stroked-button>Upload a photo of referral card</button>
-      <div *ngFor="let file of files | keyvalue">{{file.value.name}}</div>
 
       <button mat-raised-button (click)="completeReferral()"
         [disabled]="!patientForm?.valid || state === patientStates.Processing || files.length === 0" color="primary">

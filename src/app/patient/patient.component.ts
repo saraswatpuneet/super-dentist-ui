@@ -98,7 +98,6 @@ export class PatientComponent implements OnInit, AfterViewInit {
     fileUpload.onchange = () => {
       this.files = [];
       Array.from(fileUpload.files).forEach(file => this.files.push(file));
-      this.files.forEach((file, i) => window.alert(file.name));
     };
   }
 
