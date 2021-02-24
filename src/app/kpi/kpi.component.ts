@@ -87,6 +87,8 @@ export class KpiComponent extends Base implements OnInit {
           clinicNameKey = 'toClinicName';
         }
 
+        // const group = [];
+
         res.forEach(r => {
           const mapy = this.referralsCount(r, addressIdKey, clinicNameKey);
           this.chartOptions.push(this.initChart(mapy));
@@ -128,18 +130,18 @@ export class KpiComponent extends Base implements OnInit {
   private initPieChart(referrals: Referral[]): any {
     let qrCount = 0;
     let formCount = 0;
-    let summaryCount = 0;
+    // let summaryCount = 0;
     referrals.forEach(r => {
       if (r.isQR) {
         qrCount++;
       } else if (r.isSummary) {
-        summaryCount++;
+        // summaryCount++;
       } else {
         formCount++;
       }
     });
 
-    const total = qrCount + formCount + summaryCount;
+    const total = qrCount + formCount;
 
     return {
       series: [{
@@ -149,11 +151,6 @@ export class KpiComponent extends Base implements OnInit {
             name: 'QR',
             y: Math.round(qrCount / total * 10000) / 100,
             color: appColors.blue
-          },
-          {
-            name: 'Treatment Summary',
-            y: Math.round(summaryCount / total * 10000) / 100,
-            color: appColors.pastelGreen
           },
           {
             name: 'Form Referral',
@@ -190,7 +187,7 @@ export class KpiComponent extends Base implements OnInit {
         // backgroundColor: 'transparent',
       },
       title: {
-        text: 'How referrals were created',
+        text: 'Referral Method ( QR vs Form )',
         style: {
           color: 'rgb(146, 146, 146)'
         }
