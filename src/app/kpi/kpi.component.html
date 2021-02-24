@@ -7,11 +7,11 @@
       </div>
     </mat-card>
     <div fxLayout="row" fxLayoutGap="20px">
-      <mat-card fxFlex="70">
+      <mat-card fxFlex="65">
         <highcharts-chart *ngIf="chartOptions[i]" [Highcharts]="Highcharts" [options]="chartOptions[i]">
         </highcharts-chart>
       </mat-card>
-      <mat-card fxFlex="30">
+      <mat-card fxFlex="35">
         <highcharts-chart *ngIf="pieOptions[i]" [Highcharts]="Highcharts" [options]="pieOptions[i]">
         </highcharts-chart>
       </mat-card>

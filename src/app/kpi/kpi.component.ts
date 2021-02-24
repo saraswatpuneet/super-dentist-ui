@@ -130,7 +130,7 @@ export class KpiComponent extends Base implements OnInit {
     let formCount = 0;
     let summaryCount = 0;
     referrals.forEach(r => {
-      if (r.isQr) {
+      if (r.isQR) {
         qrCount++;
       } else if (r.isSummary) {
         summaryCount++;
@@ -148,7 +148,7 @@ export class KpiComponent extends Base implements OnInit {
           {
             name: 'QR',
             y: Math.round(qrCount / total * 100) * 100 / 100,
-            color: appColors.pastelBlue
+            color: appColors.blue
           },
           {
             name: 'Treatment Summary',
@@ -216,7 +216,7 @@ export class KpiComponent extends Base implements OnInit {
         pie: {
           dataLabels: {
             enabled: true,
-            format: '{point.name}: {point.y:.1f}%'
+            format: '{point.name}: {point.y:.1f}%',
           },
           // pointPadding: 0.07,
           // maxPointWidth: 40,
