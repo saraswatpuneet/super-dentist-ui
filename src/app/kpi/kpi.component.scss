@@ -8,10 +8,6 @@
     position: relative;
   }
 
-  mat-card:not(:first-child) {
-    margin-top: 20px
-  }
-
   h2 {
     margin: 0;
   }
@@ -19,5 +15,11 @@
   .address {
     opacity: 0.5;
     font-size: 12px;
+  }
+
+  highcharts-chart {
+    height: 100%;
+    width: 100%;
+    display: block;
   }
 }

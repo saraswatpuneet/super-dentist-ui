@@ -21,6 +21,8 @@ export interface Referral {
   createdOn: number;
   modifiedOn: number;
   isDirty: boolean;
+  isQR?: boolean;
+  isSummary?: boolean;
 }
 
 export interface ReferralDetails {
