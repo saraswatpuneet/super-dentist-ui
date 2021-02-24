@@ -84,5 +84,4 @@ export class LoginComponent extends Base implements OnInit {
       }
     });
   }
-
 }
