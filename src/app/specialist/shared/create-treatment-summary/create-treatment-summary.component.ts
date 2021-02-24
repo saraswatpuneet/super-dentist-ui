@@ -15,7 +15,11 @@ import { Message, ReferralDetails } from '../../../shared/services/referral';
 export class CreateTreatmentSummaryComponent implements OnInit, AfterViewInit {
   @ViewChild('fileUpload') fileUpload: ElementRef;
   @ViewChild('firstName') firstNameEl: ElementRef;
+  @ViewChild('headerEl') headerEl: ElementRef;
+  @ViewChild('formEl') formEl: ElementRef;
+  @ViewChild('actionsEl') actionsEl: ElementRef;
   @Input() fromPlaceId: string;
+  @Input() referral: any;
   @Input() clinics = [];
   @Output() cancel = new EventEmitter();
   files = [];
@@ -43,6 +47,7 @@ export class CreateTreatmentSummaryComponent implements OnInit, AfterViewInit {
       this.files = [];
       Array.from(fileUpload.files).forEach(file => this.files.push(file));
     };
+    this.formEl.nativeElement.style.height = `calc(100% - ${this.actionsEl.nativeElement.clientHeight + this.headerEl.nativeElement.clientHeight + 32}px)`;
   }
 
   create(): void {

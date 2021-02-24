@@ -1,12 +1,18 @@
-<div class="f-t" fxLayout="row" fxLayoutAlign="space-between">
-  <h2>Create Treatment Summary</h2>
+<div #headerEl class="f-t" fxLayout="row">
+  <div fxFlex fxLayout="column">
+    <h2>Create Treatment Summary for,</h2>
+    <div class="referral-info">
+      <div #refCardEl class="specialist-title">{{referral?.name}}</div>
+      <app-address [address]="referral?.address" [phoneNumber]="referral?.phoneNumber"></app-address>
+    </div>
+  </div>
 
   <button mat-icon-button class="close-dialog" (click)="cancel.emit()">
     <mat-icon>close</mat-icon>
   </button>
 </div>
 
-<form autocomplete="off" [formGroup]="patientForm">
+<form #formEl autocomplete="off" [formGroup]="patientForm">
   <div fxLayout="column">
     <div fxLayout="column" fxLayoutGap="36px">
       <div fxLayout="row" fxLayoutGap="24px">
@@ -48,7 +54,7 @@
   </div>
 </form>
 
-<div fxLayoutGap="24px" class="tgap-12">
+<div #actionsEl fxLayoutGap="24px" class="tgap-12">
   <button mat-raised-button color="primary" (click)="create()" [disabled]="!patientForm.valid || loading">
     <span *ngIf="!loading">Confirm Treatment Summary</span>
     <span *ngIf="loading" fxLayoutAlign=" center" fxLayout="row">Sending&nbsp; <mat-spinner diameter="20"></mat-spinner>

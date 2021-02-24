@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { notificationAnimations } from './notification.animations';
-import { NotificationService } from '../services/notification.service';
+import { NotificationService, notificationIcons } from '../services/notification.service';
 
 @Component({
   selector: 'app-notification',
@@ -16,11 +16,14 @@ export class NotificationComponent implements OnInit {
   opened = false;
   unseenNotifications = 7;
   notifications$: Observable<any>;
+  iconMap = notificationIcons();
 
   constructor(private notificationService: NotificationService) { }
 
   ngOnInit(): void {
-    this.notifications$ = this.notificationService.getNotifications().pipe(tap(console.log));
+    this.notifications$ = this.notificationService.getNotifications().pipe(
+      tap(console.log),
+    );
   }
 
   toggle(): void {

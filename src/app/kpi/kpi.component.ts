@@ -192,7 +192,7 @@ export class KpiComponent extends Base implements OnInit {
         ...globalChartColors[this.theme].plotOptions,
         series: {
           pointPadding: 0.07,
-          maxPointWidth: 50,
+          maxPointWidth: 40,
           // groupPadding: 0,
           borderWidth: 0,
           stacking: 'normal',

@@ -6,9 +6,15 @@
 
 <div [@fade] *ngIf="opened" class="notification-list" (click)="toggle()">
   <mat-card class="items">
-    <div *ngFor="let notification of notifications$ | async">
-      <div>{{notification.type}}</div>
-      <div>{{notification.timestamp}}</div>
-    </div>
+    <a [routerLink]="notification.route" *ngFor="let notification of notifications$ | async">
+      <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px">
+        <mat-icon>{{iconMap[notification.type]}}</mat-icon>
+
+        <div fxLayout="column">
+          <div>{{notification.note}}</div>
+          <div class="timeago">{{notification.timestamp | timeago}}</div>
+        </div>
+      </div>
+    </a>
   </mat-card>
 </div>
