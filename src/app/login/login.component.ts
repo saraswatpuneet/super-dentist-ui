@@ -63,7 +63,7 @@ export class LoginComponent extends Base implements OnInit {
       take(1)
     ).subscribe(res => {
       if (res) {
-        this.routeToLogin()
+        this.routeToLogin();
       } else {
         this.loading = false;
       }
@@ -77,7 +77,11 @@ export class LoginComponent extends Base implements OnInit {
       const c = myClinics.data.clinicDetails[0];
       this.clinicService.setMyClinics(c);
       this.loading = false;
-      this.router.navigate(['/specialist']);
+      if (c.type === 'dentist') {
+        this.router.navigate(['/specialist']);
+      } else {
+        this.router.navigate(['/referrals']);
+      }
     });
   }
 
