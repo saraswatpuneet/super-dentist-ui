@@ -1,12 +1,18 @@
-<div class="f-t" fxLayout="row" fxLayoutAlign="space-between">
-  <h2>Create Referral</h2>
+<div #headerEl class="f-t" fxLayout="row">
+  <div fxLayout="column" fxFlex>
+    <h2>Create Referral for,</h2>
+    <div class="referral-info">
+      <div #refCardEl class="specialist-title">{{referral?.name}}</div>
+      <app-address [address]="referral?.address" [phoneNumber]="referral?.phoneNumber"></app-address>
+    </div>
+  </div>
 
   <button mat-icon-button class="close-dialog" (click)="cancel.emit()">
     <mat-icon>close</mat-icon>
   </button>
 </div>
 
-<form autocomplete="off" [formGroup]="patientForm">
+<form #formEl autocomplete="off" [formGroup]="patientForm">
   <div fxLayout="column">
     <div fxLayout="column" fxLayoutGap="36px">
       <div fxLayout="row" fxLayoutGap="24px">
@@ -26,7 +32,7 @@
         <input autocomplete="off" formControlName="email" placeholder="Patient">
       </div>
       <div class="sd-input fifty">
-        <label>Phone Number</label>
+        <label>Patient Phone Number</label>
         <input autocomplete="off" mask='(000) 000-0000' [showMaskTyped]="true" formControlName="phoneNumber"
           placeholder="Patient">
       </div>
@@ -90,7 +96,7 @@
   </div>
 </form>
 
-<div fxLayoutGap="24px" class="tgap-12">
+<div #actionsEl fxLayoutGap="24px" class="tgap-12">
   <div class="reasons" *ngIf="reasons">
     <mat-form-field>
       <mat-label>Reasons for Visit</mat-label>

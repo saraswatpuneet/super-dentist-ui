@@ -16,9 +16,13 @@ import { specialistReasons, specialistReasonKeys, SpecialistType } from '../../.
 export class CreateReferralComponent implements OnInit, AfterViewInit {
   @ViewChild('fileUpload') fileUpload: ElementRef;
   @ViewChild('firstName') firstNameEl: ElementRef;
+  @ViewChild('headerEl') headerEl: ElementRef;
+  @ViewChild('formEl') formEl: ElementRef;
+  @ViewChild('actionsEl') actionsEl: ElementRef;
   @Input() placeId: string;
   @Input() specialty: SpecialistType;
   @Input() fromAddressId = '';
+  @Input() referral: any;
   @Output() cancel = new EventEmitter();
   files = [];
   patientForm: FormGroup;
@@ -57,6 +61,8 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
       this.files = [];
       Array.from(fileUpload.files).forEach(file => this.files.push(file));
     };
+
+    this.formEl.nativeElement.style.height = `calc(100% - ${this.actionsEl.nativeElement.clientHeight + this.headerEl.nativeElement.clientHeight + 32}px)`;
   }
 
   create(): void {
