@@ -147,17 +147,17 @@ export class KpiComponent extends Base implements OnInit {
         data: [
           {
             name: 'QR',
-            y: Math.round(qrCount / total * 100) * 100 / 100,
+            y: Math.round(qrCount / total * 10000) / 100,
             color: appColors.blue
           },
           {
             name: 'Treatment Summary',
-            y: Math.round(summaryCount / total * 100) * 100 / 100,
+            y: Math.round(summaryCount / total * 10000) / 100,
             color: appColors.pastelGreen
           },
           {
             name: 'Form Referral',
-            y: Math.round(formCount / total * 100) * 100 / 100,
+            y: Math.round(formCount / total * 10000) / 100,
             color: appColors.pastelPink
           }
         ]
@@ -216,7 +216,7 @@ export class KpiComponent extends Base implements OnInit {
         pie: {
           dataLabels: {
             enabled: true,
-            format: '{point.name}: {point.y:.1f}%',
+            format: '{point.name}: {point.y:.2f}%',
           },
           // pointPadding: 0.07,
           // maxPointWidth: 40,
