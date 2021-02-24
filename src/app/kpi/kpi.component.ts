@@ -21,6 +21,8 @@ export class KpiComponent extends Base implements OnInit {
   theme = '';
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions = [];
+  pieOptions = [];
+
   statuses = sortReferredStatus().reverse();
   colors = [
     appColors.green,
@@ -88,6 +90,7 @@ export class KpiComponent extends Base implements OnInit {
         res.forEach(r => {
           const mapy = this.referralsCount(r, addressIdKey, clinicNameKey);
           this.chartOptions.push(this.initChart(mapy));
+          this.pieOptions.push(this.initPieChart(r));
         });
       });
   }
@@ -120,6 +123,109 @@ export class KpiComponent extends Base implements OnInit {
         this.chartOptions[x] = { ...this.chartOptions[x], ...globalChartColors[this.theme] };
       }
     }
+  }
+
+  private initPieChart(referrals: Referral[]): any {
+    let qrCount = 0;
+    let formCount = 0;
+    let summaryCount = 0;
+    referrals.forEach(r => {
+      if (r.isQr) {
+        qrCount++;
+      } else if (r.isSummary) {
+        summaryCount++;
+      } else {
+        formCount++;
+      }
+    });
+
+    const total = qrCount + formCount + summaryCount;
+
+    return {
+      series: [{
+        name: 'Referrals',
+        data: [
+          {
+            name: 'QR',
+            y: Math.round(qrCount / total * 100) * 100 / 100,
+            color: appColors.pastelBlue
+          },
+          {
+            name: 'Treatment Summary',
+            y: Math.round(summaryCount / total * 100) * 100 / 100,
+            color: appColors.pastelGreen
+          },
+          {
+            name: 'Form Referral',
+            y: Math.round(formCount / total * 100) * 100 / 100,
+            color: appColors.pastelPink
+          }
+        ]
+      }],
+      chart: {
+        animation: true,
+        backgroundColor: 'transparent',
+        type: 'pie',
+      },
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      tooltip: {
+        enabled: false
+
+      },
+      accessibility: {
+        point: {
+          valueSuffix: '%'
+        }
+      },
+      legend: {
+        ...globalChartColors[this.theme].legend,
+        // layout: 'vertical',
+        // align: 'right',
+        // verticalAlign: 'top',
+        // backgroundColor: 'transparent',
+      },
+      title: {
+        text: 'How referrals were created',
+        style: {
+          color: 'rgb(146, 146, 146)'
+        }
+      },
+      yAxis: {
+        ...globalChartColors[this.theme].yAxis,
+        title: {
+          text: ''
+        },
+        stackLabels: {
+          enabled: true,
+        }
+      },
+      xAxis: {
+        ...globalChartColors[this.theme].xAxis,
+        // gridLineColor: 'rgba(146, 146, 146, 0.2)',
+        title: {
+          text: ''
+        },
+      },
+      plotOptions: {
+        ...globalChartColors[this.theme].plotOptions,
+        pie: {
+          dataLabels: {
+            enabled: true,
+            format: '{point.name}: {point.y:.1f}%'
+          },
+          // pointPadding: 0.07,
+          // maxPointWidth: 40,
+          // groupPadding: 0,
+          borderWidth: 0,
+          shadow: false
+        }
+      }
+    };
   }
 
   private initChart(mapy: any): any {
