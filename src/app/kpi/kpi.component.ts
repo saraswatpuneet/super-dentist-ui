@@ -129,7 +129,6 @@ export class KpiComponent extends Base implements OnInit {
     let qrCount = 0;
     let formCount = 0;
     let summaryCount = 0;
-    console.log(referrals);
     referrals.forEach(r => {
       if (r.isQR) {
         qrCount++;
