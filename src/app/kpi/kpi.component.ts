@@ -100,7 +100,7 @@ export class KpiComponent extends Base implements OnInit {
   private referralsCount(referrals: Referral[], addressIdKey: string, clinicNameKey: string): any {
     const mapy = {};
     referrals.forEach(r => {
-      if (!r[addressIdKey]) {
+      if (!r[addressIdKey] || r.isSummary) {
         return;
       }
       if (!mapy[r[addressIdKey]]) {
