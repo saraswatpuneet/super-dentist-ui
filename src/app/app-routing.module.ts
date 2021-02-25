@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from './auth.guard';
-import { VerifiedGuard } from './verified.guard';
 import { AdminGuard } from './account.guard';
 
 const routes: Routes = [
@@ -18,17 +17,17 @@ const routes: Routes = [
   {
     path: 'referrals',
     loadChildren: () => import('./referrals-beta/referrals-beta.module').then(m => m.ReferralsBetaModule),
-    canActivate: [AuthGuard, VerifiedGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'specialist',
     loadChildren: () => import('./specialist/specialist.module').then(m => m.SpecialistModule),
-    canActivate: [AuthGuard, VerifiedGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'kpi',
     loadChildren: () => import('./kpi/kpi.module').then(m => m.KpiModule),
-    canActivate: [AuthGuard, VerifiedGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'admin',
@@ -38,17 +37,17 @@ const routes: Routes = [
   {
     path: 'settings',
     loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),
-    canActivate: [AuthGuard, VerifiedGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
   },
-  {
-    path: 'verify',
-    loadChildren: () => import('./verify/verify.module').then(m => m.VerifyModule),
-    canActivate: [AuthGuard, VerifiedGuard]
-  },
+  // {
+  //   path: 'verify',
+  //   loadChildren: () => import('./verify/verify.module').then(m => m.VerifyModule),
+  //   canActivate: [AuthGuard, VerifiedGuard]
+  // },
   {
     path: 'join',
     loadChildren: () => import('./join/join.module').then(m => m.JoinModule)
