@@ -82,7 +82,7 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
   }
 
   goToLogin(): void {
-    this.router.navigate(['./login']);
+    this.router.navigate(['']);
   }
 
   join(): void {
