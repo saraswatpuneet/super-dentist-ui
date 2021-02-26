@@ -47,8 +47,19 @@
       <mat-icon>account_circle</mat-icon>
       <div class="convo" fxLayout="column">
         <header>{{m.header.name}} <span class="ts">{{m.header.timeStamp | date:'hh:mm a'}}</span></header>
-        <div *ngFor="let mIds of m.messageIds">{{conversation[mIds].text}}
-          <span>{{conversation[mIds].timeStamp | date:"MMM dd, yyyy hh:mm a"}}</span></div>
+        <div *ngFor="let mIds of m.messageIds" fxLayout="row">
+          <div (click)="downloadFile(conversation[mIds].file)" class="file" *ngIf="conversation[mIds].file">
+            <img src="assets/icons/file.svg" alt="">
+            <div>
+              {{conversation[mIds].file}}
+              <span class="time">{{conversation[mIds].timeStamp | date:"MMM dd, yyyy hh:mm a"}}</span>
+            </div>
+          </div>
+          <ng-container *ngIf="!conversation[mIds].file">
+            {{conversation[mIds].text}}
+            <span class="time">{{conversation[mIds].timeStamp | date:"MMM dd, yyyy hh:mm a"}}</span>
+          </ng-container>
+        </div>
       </div>
     </div>
   </div>
