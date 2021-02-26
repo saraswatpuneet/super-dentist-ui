@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+    loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
   },
   {
     path: 'patient',
@@ -39,10 +39,10 @@ const routes: Routes = [
     loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),
     canActivate: [AuthGuard]
   },
-  {
-    path: 'login',
-    loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
-  },
+  // {
+  //   path: 'login',
+  //   loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
+  // },
   // {
   //   path: 'verify',
   //   loadChildren: () => import('./verify/verify.module').then(m => m.VerifyModule),

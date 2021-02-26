@@ -10,9 +10,10 @@ export class DashboardComponent implements OnInit {
 
   constructor(private router: Router) { }
 
-  ngOnInit() {
-    window.location.href = "https://landing.superdentist.io";
+  ngOnInit(): void {
+    // window.location.href = "https://landing.superdentist.io";
   }
+
   join(): void {
     this.router.navigate(['join']);
   }
@@ -20,6 +21,4 @@ export class DashboardComponent implements OnInit {
   login(): void {
     this.router.navigate(['login']);
   }
-
-
 }

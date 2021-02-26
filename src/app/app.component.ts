@@ -114,7 +114,7 @@ export class AppComponent extends Base implements OnInit {
       this.authenticated = false;
       this.isSpecialist = false;
       this.clinicName = undefined;
-      this.router.navigate(['./login']);
+      this.router.navigate(['']);
       this.clinicService.setMyClinics(undefined);
     });
   }
