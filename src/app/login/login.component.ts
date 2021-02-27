@@ -75,7 +75,6 @@ export class LoginComponent extends Base implements OnInit {
       take(1),
     ).subscribe(myClinics => {
       const c = myClinics.data.clinicDetails[0];
-      this.clinicService.setMyClinics(c);
       this.loading = false;
       if (c.type === 'dentist') {
         this.router.navigate(['/specialist']);
