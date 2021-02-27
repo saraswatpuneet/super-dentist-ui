@@ -43,6 +43,10 @@ export class ReferralService {
     return this.http.post<any>(`${this.baseUrl}/referrals/${referralId}/documents`, formData);
   }
 
+  getDocumentFile(referralId: string, fileName: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/referrals/${referralId}/document?fileName=${fileName}`, { responseType: 'blob' });
+  }
+
   getDocument(referralId: string, documentId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/referrals/${referralId}/documents/${documentId}`, { responseType: 'blob' });
   }

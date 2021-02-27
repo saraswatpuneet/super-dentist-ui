@@ -4,6 +4,7 @@ import { forkJoin, of, Subject } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
+import { saveAs } from 'file-saver';
 
 import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
@@ -78,10 +79,8 @@ export class ReferralsBetaComponent extends Base implements OnInit {
   }
 
   downloadFiles(referralId: string): void {
-    this.referralService.getAllDocuments(referralId).pipe(take(1)).subscribe(res => {
-      const url = window.URL.createObjectURL(new Blob([res], { type: 'application/zip' }));
-      window.location.assign(url);
-    });
+    this.referralService.getAllDocuments(referralId).pipe(take(1)).subscribe(res =>
+      saveAs(new Blob([res]), 'patientDocuments.zip'));
   }
 
   getFilteredReferrals(referrals: Referral[], tabIndex: number): any {

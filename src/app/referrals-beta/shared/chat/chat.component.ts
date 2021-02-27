@@ -3,6 +3,7 @@ import { of, merge, timer, BehaviorSubject, forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { filter, switchMap, catchError, takeUntil, repeat, delay, tap, take } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { saveAs } from 'file-saver';
 
 import { Referral, Message, Channel } from 'src/app/shared/services/referral';
 import { Base } from 'src/app/shared/base/base-component';
@@ -83,6 +84,11 @@ export class ChatComponent extends Base implements OnInit {
     this.scrollChatEl.nativeElement.scrollTo(0, this.scrollChatEl.nativeElement.scrollHeight);
   }
 
+  downloadFile(fileName: string): void {
+    this.referralService.getDocumentFile(this.referralId, fileName[0]).pipe(take(1)).subscribe(res =>
+      saveAs(new Blob([res]), fileName[0]));
+  }
+
   onFileSelect($event): void {
     this.uploadingDocuments = true;
     const files = $event.target.files;
@@ -96,7 +102,7 @@ export class ChatComponent extends Base implements OnInit {
       .subscribe(() => {
         this.filesUploaded.emit(true);
         this.uploadingDocuments = false;
-        this.enterComment('Uploaded document(s)');
+        // this.enterComment('Uploaded document(s)');
       });
   }
 
