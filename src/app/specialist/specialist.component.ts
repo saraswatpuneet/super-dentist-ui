@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { map, switchMap, take, takeUntil } from 'rxjs/operators';
 import { Subject, forkJoin } from 'rxjs';
 import * as L from 'leaflet';
@@ -16,7 +16,7 @@ import { mapFromGeneralDetails, mapFromVerified } from '../shared/utils/clinic-t
   styleUrls: ['./specialist.component.scss'],
   animations: specialistAnimations
 })
-export class SpecialistComponent extends Base implements OnInit, OnDestroy {
+export class SpecialistComponent extends Base implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('refEl') refEl: ElementRef;
   @ViewChild('refCardEl') refCardEl: ElementRef;
   @ViewChild('refMap') refMap: ElementRef;
@@ -47,7 +47,9 @@ export class SpecialistComponent extends Base implements OnInit, OnDestroy {
     this.loading = true;
     // this.watchNetwork();
     this.watchTriggerFavorites();
+  }
 
+  ngAfterViewInit(): void {
     this.clinicService.getClinics().pipe(map(r => r.data.clinicDetails), takeUntil(this.unsubscribe$)).subscribe(clinics => {
       this.clinics = clinics;
       const clinicMap = {};

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, EMPTY } from 'rxjs';
 
 import { ClinicDetail, DoctorDetail, ClinicServicesOffered } from './clinic';
-import { filter } from 'rxjs/operators';
+import { shareReplay, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -11,17 +11,11 @@ import { environment } from 'src/environments/environment';
 })
 export class ClinicService {
   private baseUrl = `${environment.baseUrl}/clinic`;
-  private myClinics$ = new BehaviorSubject<any>(null);
+  private cache: any = {};
+  private readonly clinicCode = 'getClinics';
+  private readonly favoriteCode = 'favorite';
 
   constructor(private http: HttpClient) { }
-
-  setMyClinics(clinics: any): void {
-    this.myClinics$.next(clinics);
-  }
-
-  getMyClinics(): Observable<any> {
-    return this.myClinics$.asObservable().pipe(filter(c => !!c));
-  }
 
   getDoctor(clinicAddressId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${clinicAddressId}`);
@@ -32,7 +26,21 @@ export class ClinicService {
   }
 
   getClinics(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/getClinics`);
+    if (this.cache[this.clinicCode]) {
+      return this.cache[this.clinicCode];
+    }
+
+    return this.cache[this.clinicCode] = this.http.get(`${this.baseUrl}/getClinics`).pipe(
+      shareReplay(1),
+      catchError(err => {
+        console.error(err);
+        delete this.cache[this.clinicCode];
+        return EMPTY;
+      }));
+  }
+
+  clearCache(): void {
+    this.cache = {};
   }
 
   getNearbyClinics(): Observable<any> {
@@ -60,7 +68,17 @@ export class ClinicService {
   }
 
   getFavoriteClinics(addressId: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/getFavorites/${addressId}`);
+    if (this.cache[this.favoriteCode]) {
+      return this.cache[this.favoriteCode];
+    }
+
+    return this.cache[this.favoriteCode] = this.http.get(`${this.baseUrl}/getFavorites/${addressId}`).pipe(
+      shareReplay(1),
+      catchError(err => {
+        console.error(err);
+        delete this.cache[this.favoriteCode];
+        return EMPTY;
+      }));
   }
 
   removeFavoriteClinics(addressId: string, placeIds: string[]): Observable<any> {

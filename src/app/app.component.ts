@@ -10,7 +10,6 @@ import { from } from 'rxjs';
 import { Base } from './shared/base/base-component';
 import { appAnimations } from './app.animations';
 import { ClinicService } from './shared/services/clinic.service';
-import { environment } from 'src/environments/environment';
 import { SettingsService } from './shared/services/settings.service';
 
 @Component({
@@ -23,7 +22,7 @@ export class AppComponent extends Base implements OnInit {
   theme: 'light' | 'dark' = 'light';
   authenticated = false;
   emailVerified = true;
-  expanded = false;
+  expanded = true;
   navItems = [
     { path: 'specialist', label: 'Specialist', icon: 'date_range' },
     { path: 'referrals', label: 'Referrals', icon: 'message' },
@@ -99,8 +98,6 @@ export class AppComponent extends Base implements OnInit {
             if (c[0] && c[0].name) {
               this.clinicName = c[0].name;
             }
-
-            this.clinicService.setMyClinics(c[0]);
           });
         from(this.auth.currentUser).pipe(take(1)).subscribe(user => this.emailVerified = user.emailVerified);
       }
@@ -110,12 +107,12 @@ export class AppComponent extends Base implements OnInit {
   }
 
   signOut(): void {
+    this.clinicService.clearCache();
     this.auth.signOut().then(() => {
       this.authenticated = false;
       this.isSpecialist = false;
       this.clinicName = undefined;
       this.router.navigate(['']);
-      this.clinicService.setMyClinics(undefined);
     });
   }
 
