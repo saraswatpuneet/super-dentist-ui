@@ -57,7 +57,9 @@
               <div (click)="referralChat(r.referralId)">
                 <header>
                   <h2>{{r.patientFirstName}} {{r.patientLastName}}</h2>
+
                   <div>{{r.createdOn | date:"MMM dd, yyyy"}} </div>
+                  <div *ngIf="r.patientPhone">{{r.patientPhone.replace('+1', '') |  mask:"(000) 000-0000"}}</div>
                 </header>
 
                 <ng-container *ngIf="clinicType === 'dentist' && r.status && tabIndex === 0">
