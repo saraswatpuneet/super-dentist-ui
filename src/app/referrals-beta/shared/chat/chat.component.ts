@@ -102,7 +102,6 @@ export class ChatComponent extends Base implements OnInit {
       .subscribe(() => {
         this.filesUploaded.emit(true);
         this.uploadingDocuments = false;
-        // this.enterComment('Uploaded document(s)');
       });
   }
 

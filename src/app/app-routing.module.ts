@@ -52,6 +52,10 @@ const routes: Routes = [
     path: 'join',
     loadChildren: () => import('./join/join.module').then(m => m.JoinModule)
   },
+  // {
+  //   path: 'secure',
+  //   loadChildren: () => import('./secure/secure.module').then(m => m.SecureModule)
+  // },
   {
     path: '404',
     loadChildren: () => import('./not-found/not-found.module').then(m => m.NotFoundModule),

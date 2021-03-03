@@ -65,24 +65,6 @@ export class PatientComponent implements OnInit, AfterViewInit {
     }
 
     this.initForm();
-
-    // if (!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
-    //   navigator.mediaDevices.getUserMedia(
-    //     // Options
-    //     {
-    //       audio: false,
-    //       video: true
-    //     },
-    //   ).then((stream) => {
-    //     console.log(stream);
-    //     this.enabled = true;
-    //   })
-    //     .catch((err) => {
-    //       this.enabled = false;
-    //     });
-    // } else {
-    //   alert('getUserMedia() is not supported by your browser');
-    // }
   }
 
   ngAfterViewInit(): void {
