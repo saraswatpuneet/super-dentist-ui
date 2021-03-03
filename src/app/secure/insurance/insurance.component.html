@@ -1,0 +1,82 @@
+<mat-card class="c-card insurance" ngClass.lt-md="smaller" fxLayout="column" fxLayoutAlign=" center">
+
+  <input style="display:none" #refPhotoEl type="file" accept="image/*">
+
+  <form fxLayout="column" fxLayoutGap="36px" autocomplete="off" [formGroup]="insuranceForm">
+    <h3>Patient Info</h3>
+    <div class="sd-input">
+      <label>First Name</label>
+      <input type="text" #firstName autocomplete="off" formControlName="firstName">
+    </div>
+
+    <div class="sd-input">
+      <label>Last Name</label>
+      <input type="text" autocomplete="off" formControlName="lastName">
+    </div>
+    <!-- 
+    <div class="sd-input">
+      <label>Email</label>
+      <input type="text" autocomplete="off" formControlName="email">
+    </div>
+
+    <div class="sd-input">
+      <label>Phone Number</label>
+      <input autocomplete="off" mask='(000) 000-0000' [showMaskTyped]="true" formControlName="phoneNumber">
+    </div> -->
+
+    <!-- <div class="sd-input">
+      <label>SSN</label>
+      <input autocomplete="off" mask='(000) 000-0000' [showMaskTyped]="true" formControlName="phoneNumber">
+    </div> -->
+
+    <div fxLayout="row" formGroupName="dob" fxLayoutGap="12px">
+      <div class="sd-input">
+        <label>Birthday</label>
+        <input autocomplete="off" type="text" formControlName="month">
+      </div>
+      <div class="sd-input">
+        <label></label>
+        <input autocomplete="off" type="text" formControlName="day">
+      </div>
+      <div class="sd-input">
+        <label></label>
+        <input autocomplete="off" type="text" formControlName="year">
+      </div>
+    </div>
+
+    <div class="dental-insurance" fxLayout="column" fxLayoutGap="36px" formGroupName="dentalInsurance">
+      <h3>Dental Insurance</h3>
+      <div class="sd-input">
+        <label>Company</label>
+        <input autocomplete="off" type="text" formControlName="company">
+      </div>
+
+      <div class="sd-input">
+        <label>Member Id</label>
+        <input autocomplete="off" type="text" formControlName="memberId">
+      </div>
+    </div>
+
+    <!-- <div class="medical-insurance" fxLayout="column" fxLayoutGap="36px" formGroupName="medicalInsurance">
+      <h3>Medical Insurance</h3>
+      <div class="sd-input">
+        <label>Company</label>
+        <input autocomplete="off" type="text" formControlName="company">
+      </div>
+
+      <div class="sd-input">
+        <label>Group Number</label>
+        <input autocomplete="off" type="text" formControlName="groupNumber">
+      </div>
+
+      <div class="sd-input">
+        <label>Member Id</label>
+        <input autocomplete="off" type="text" formControlName="memberId">
+      </div>
+    </div> -->
+
+    <button (click)="submit()" [disabled]="!insuranceForm.valid" mat-raised-button color="primary">Submit
+      Insurance</button>
+  </form>
+
+</mat-card>

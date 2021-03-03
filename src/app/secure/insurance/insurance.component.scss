@@ -1,0 +1,71 @@
+.insurance {
+  position: relative;
+  box-sizing: border-box;
+
+  .wrap {
+    white-space: normal;
+  }
+
+  .success {
+    padding: 24px;
+
+    p {
+      margin: 0;
+      font-size: 16px;
+    }
+  }
+
+  .fixed {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .to-clinics {
+    > div {
+      opacity: 0.7;
+      font-size: 14px;
+    }
+     
+    .referred-by {
+      font-size: 12px;
+      opacity: 0.5;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      padding: 0;
+      margin: 0;
+      text-align: left;
+    }
+  }
+
+  .from-clinics {
+    overflow: hidden;
+
+    h3 {
+      opacity: 0.7;
+    }
+     > div {
+      padding: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        background: rgba(grey, 0.2);
+      }
+    }
+  }
+  
+  .address {
+    opacity: 0.5;
+    font-size: 12px;
+  }
+  
+  form {
+    padding: 32px 24px 24px 24px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+  }
+}
