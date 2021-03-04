@@ -4,6 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgxMaskModule } from 'ngx-mask';
 
 import { InsuranceRoutingModule } from './insurance-routing.module';
@@ -13,11 +14,12 @@ import { InsuranceComponent } from './insurance.component';
   declarations: [InsuranceComponent],
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     FlexLayoutModule,
-    MatCardModule,
     MatButtonModule,
+    MatCardModule,
+    MatSlideToggleModule,
     NgxMaskModule,
+    ReactiveFormsModule,
     InsuranceRoutingModule
   ]
 })

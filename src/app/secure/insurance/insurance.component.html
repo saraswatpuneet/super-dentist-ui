@@ -2,7 +2,8 @@
 
   <input style="display:none" #refPhotoEl type="file" accept="image/*">
 
-  <form fxLayout="column" fxLayoutGap="36px" autocomplete="off" [formGroup]="insuranceForm">
+  <form *ngIf="state === patientStates.Form || state === patientStates.Processing" fxLayout="column" fxLayoutGap="36px"
+    autocomplete="off" [formGroup]="insuranceForm">
     <h3>Patient Info</h3>
     <div class="sd-input">
       <label>First Name</label>
@@ -22,12 +23,15 @@
     <div class="sd-input">
       <label>Phone Number</label>
       <input autocomplete="off" mask='(000) 000-0000' [showMaskTyped]="true" formControlName="phoneNumber">
-    </div> -->
+    </div> 
+  -->
 
-    <!-- <div class="sd-input">
+    <!-- 
+      <div class="sd-input">
       <label>SSN</label>
       <input autocomplete="off" mask='(000) 000-0000' [showMaskTyped]="true" formControlName="phoneNumber">
-    </div> -->
+    </div>
+   -->
 
     <div fxLayout="row" formGroupName="dob" fxLayoutGap="12px">
       <div class="sd-input">
@@ -44,18 +48,42 @@
       </div>
     </div>
 
-    <div class="dental-insurance" fxLayout="column" fxLayoutGap="36px" formGroupName="dentalInsurance">
-      <h3>Dental Insurance</h3>
-      <div class="sd-input">
-        <label>Company</label>
-        <input autocomplete="off" type="text" formControlName="company">
+    <div class="dental-insurance" fxLayout="column">
+      <ng-container formGroupName="dentalInsurance">
+        <h3>Dental Insurance</h3>
+        <div class="sd-input">
+          <label>Company</label>
+          <input autocomplete="off" type="text" formControlName="company">
+        </div>
+
+        <div class="sd-input">
+          <label>Member Id</label>
+          <input autocomplete="off" type="text" formControlName="memberId">
+        </div>
+      </ng-container>
+      <div>
+        <button mat-raised-button *ngIf="!moreDental" (click)="addDentalInsurance()">Additional Dental
+          Insurance</button>
+        <button mat-raised-button *ngIf="moreDental" (click)="removeDentalInsurance()">Remove Dental
+          Insurance</button>
       </div>
 
-      <div class="sd-input">
-        <label>Member Id</label>
-        <input autocomplete="off" type="text" formControlName="memberId">
-      </div>
+      <ng-container *ngIf="moreDental" formGroupName="dentalInsurance2">
+        <div class="sd-input">
+          <label>Company</label>
+          <input required autocomplete="off" type="text" formControlName="company">
+        </div>
+
+        <div class="sd-input">
+          <label>Member Id</label>
+          <input required autocomplete="off" type="text" formControlName="memberId">
+        </div>
+      </ng-container>
     </div>
+
+    <!-- <div class="subscriber" fxLayout="column">
+      <mat-slide-toggle [checked]="subscriber">Are you the subscriber?</mat-slide-toggle>
+    </div> -->
 
     <!-- <div class="medical-insurance" fxLayout="column" fxLayoutGap="36px" formGroupName="medicalInsurance">
       <h3>Medical Insurance</h3>
@@ -75,8 +103,15 @@
       </div>
     </div> -->
 
-    <button (click)="submit()" [disabled]="!insuranceForm.valid" mat-raised-button color="primary">Submit
-      Insurance</button>
+    <button (click)="submit()" [disabled]="!insuranceForm.valid" mat-raised-button color="primary">
+      <mat-progress-spinner *ngIf="state === patientStates.Processing" mode="indeterminate" diameter="24">
+      </mat-progress-spinner>
+      Submit Insurance
+    </button>
   </form>
+
+  <div *ngIf="state === patientStates.Success" class="completed">
+    Your insurance was submitted
+  </div>
 
 </mat-card>

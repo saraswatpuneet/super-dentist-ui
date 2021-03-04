@@ -49,6 +49,7 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
   processing = false;
   validEmail = false;
   hasChanged = false;
+  favorites = [];
 
   constructor(
     private fauth: AngularFireAuth,
@@ -156,6 +157,10 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
           placeIds: JSON.parse(params.places).placeIds
         };
       }
+      // if (params.favorites) {
+      //   this.favorites = JSON.parse(atob(params.favorites));
+      //   console.log(this.favorites);
+      // }
     });
   }
 

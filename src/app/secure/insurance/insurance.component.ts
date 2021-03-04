@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { take } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 import { environment } from 'src/environments/environment';
+import { Router, ActivatedRoute } from '@angular/router';
 
 interface PatientForInsurance {
   firstName: string;
@@ -34,17 +35,29 @@ interface PatientMedicalInsurance {
   memberId: string;
 }
 
+enum PatientStates {
+  Invalid,
+  Processing,
+  Form,
+  Success,
+  Failed
+}
+
 @Component({
   selector: 'app-insurance',
   templateUrl: './insurance.component.html',
   styleUrls: ['./insurance.component.scss']
 })
-export class InsuranceComponent implements OnInit {
+export class InsuranceComponent implements OnInit, OnDestroy {
   insuranceForm: FormGroup;
-  patientStates: any = {};
   days = [...Array(31).keys()];
   years = [...Array(100).keys()];
   months = [];
+  moreDental = false;
+  referralId = '';
+  subscriber = false;
+  state = PatientStates.Form;
+  patientStates = PatientStates;
 
   private objs = [
     newPatient('Mark', 'Inglis', '6', '3', '1966', 'Blue Cross Dental / Freedom Lawn Care', '80012800100'),
@@ -54,23 +67,34 @@ export class InsuranceComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
     private http: HttpClient,
     private auth: AngularFireAuth,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
+    this.route.queryParams.pipe(take(1)).subscribe(params => {
+      if (!params.referral) {
+        this.router.navigate(['404']);
+        return;
+      }
+      this.referralId = params.referral;
+    });
     this.initForm(2);
     this.signIn();
   }
 
+  ngOnDestroy(): void {
+    this.auth.signOut();
+  }
+
   signIn(): void {
-    console.log(this.auth);
     this.auth.signInAnonymously()
       .then((d) => {
-        console.log('signed int', d);
         // Signed in..
         this.auth.onAuthStateChanged((user) => {
-          console.log('user', user);
           if (user) {
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/firebase.User
@@ -91,17 +115,40 @@ export class InsuranceComponent implements OnInit {
   }
 
   submit(): void {
+    if (!this.referralId) {
+      this.router.navigate(['404']);
+      return;
+    }
+
     const url = `${environment.baseUrl}/patient/registration`;
     const formData = new FormData();
     const p = this.insuranceForm.value;
     const dentalInsurance = [p.dentalInsurance];
-
+    if (p.dentalInsurance2 && p.dentalInsurance2.company && p.dentalInsurance2.memberId) {
+      dentalInsurance.push(p.dentalInsurance2);
+    }
+    formData.append('referralId', this.referralId);
     formData.append('firstName', p.firstName);
     formData.append('lastName', p.lastName);
     formData.append('dob', JSON.stringify(p.dob));
     formData.append('dentalInsurance', JSON.stringify(dentalInsurance));
+    this.state = PatientStates.Processing;
+    this.http.post(url, formData).pipe(take(1)).subscribe((res) => this.state = PatientStates.Success);
+  }
 
-    this.http.post(url, formData).pipe(take(1)).subscribe(console.log);
+  addDentalInsurance(): void {
+    this.moreDental = true;
+    this.insuranceForm.addControl('dentalInsurance2', this.fb.group({
+      company: ['', Validators.required],
+      memberId: ['', Validators.required]
+    }));
+    this.insuranceForm.updateValueAndValidity();
+    this.cdr.detectChanges();
+  }
+
+  removeDentalInsurance(): void {
+    this.moreDental = false;
+    this.insuranceForm.removeControl('dentalInsurance2');
   }
 
   private initForm(index: number): void {
@@ -121,6 +168,10 @@ export class InsuranceComponent implements OnInit {
       dentalInsurance: this.fb.group({
         company: [p.dentalInsurance.company, Validators.required],
         memberId: [p.dentalInsurance.memberId, Validators.required]
+      }),
+      dentalInsurance2: this.fb.group({
+        company: [''],
+        memberId: ['']
       }),
       // medicalInsurance: this.fb.group({
       //   company: [''],
