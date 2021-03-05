@@ -6,6 +6,14 @@
     white-space: normal;
   }
 
+  .subscriber {
+    margin-top: 8px;
+
+    mat-slide-toggle {
+      margin-left: 8px;
+    }
+  }
+
   .success {
     padding: 24px;
 

@@ -53,3 +53,7 @@
       </form>
     </div>
   </mat-card>
+
+  <app-join-favorites [favorites]="favorites" *ngIf="!joinInfo?.secureKey && favorites && favorites.length > 0">
+  </app-join-favorites>
+</div>

@@ -63,11 +63,12 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.setJoinParams();
-    if (!this.joinInfo || !this.joinInfo.secureKey) {
+    if (this.joinInfo && this.joinInfo.secureKey) {
+      this.initForm();
       return;
+    } else if (this.favorites && this.favorites.length > 0) {
+      this.initGeneralJoin();
     }
-
-    this.initForm();
   }
 
   ngAfterViewInit(): void {
@@ -116,8 +117,11 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
       ).subscribe(() => this.router.navigate(['specialist']));
   }
 
-  private initForm(): void {
+  private initGeneralJoin(): void {
 
+  }
+
+  private initForm(): void {
     this.accountForm = this.fb.group({
       email: ['', Validators.required],
       password: ['', Validators.required],
@@ -125,7 +129,6 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
     }, {
         validators: ConfirmedValidator('password', 'confirmPassword')
       });
-
 
     this.accountForm.get('email').valueChanges.pipe(
       tap(() => { this.processing = true; this.hasChanged = true; }),
@@ -156,11 +159,10 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
           secureKey: params.secureKey,
           placeIds: JSON.parse(params.places).placeIds
         };
+      } else if (params.favorites) {
+        this.favorites = JSON.parse(atob(params.favorites));
+        console.log(this.favorites);
       }
-      // if (params.favorites) {
-      //   this.favorites = JSON.parse(atob(params.favorites));
-      //   console.log(this.favorites);
-      // }
     });
   }
 

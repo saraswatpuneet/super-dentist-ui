@@ -36,15 +36,21 @@
     <div fxLayout="row" formGroupName="dob" fxLayoutGap="12px">
       <div class="sd-input">
         <label>Birthday</label>
-        <input autocomplete="off" type="text" formControlName="month">
+        <select formControlName="month">
+          <option *ngFor="let month of months" [value]="month.value">{{month.label}}</option>
+        </select>
       </div>
       <div class="sd-input">
         <label></label>
-        <input autocomplete="off" type="text" formControlName="day">
+        <select formControlName="day">
+          <option *ngFor="let day of days" [value]="day">{{day}}</option>
+        </select>
       </div>
       <div class="sd-input">
         <label></label>
-        <input autocomplete="off" type="text" formControlName="year">
+        <select formControlName="year">
+          <option *ngFor="let year of years" [value]="year">{{year}}</option>
+        </select>
       </div>
     </div>
 
@@ -60,6 +66,22 @@
           <label>Member Id</label>
           <input autocomplete="off" type="text" formControlName="memberId">
         </div>
+        <div class="subscriber">
+          Are you the subscriber?
+          <mat-slide-toggle [checked]="subscriber"></mat-slide-toggle>
+        </div>
+        <ng-container *ngIf="subscriber">
+          <div class="sd-input">
+            <label>First Name</label>
+            <input autocomplete="off" type="text" formControlName="memberId">
+          </div>
+
+          <div class="sd-input">
+            <label>Last Name</label>
+            <input autocomplete="off" type="text" formControlName="memberId">
+          </div>
+
+        </ng-container>
       </ng-container>
       <div>
         <button mat-raised-button *ngIf="!moreDental" (click)="addDentalInsurance()">Additional Dental

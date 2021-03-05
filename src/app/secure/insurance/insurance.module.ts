@@ -9,9 +9,10 @@ import { NgxMaskModule } from 'ngx-mask';
 
 import { InsuranceRoutingModule } from './insurance-routing.module';
 import { InsuranceComponent } from './insurance.component';
+import { DobComponent } from './shared/dob/dob.component';
 
 @NgModule({
-  declarations: [InsuranceComponent],
+  declarations: [InsuranceComponent, DobComponent],
   imports: [
     CommonModule,
     FlexLayoutModule,
