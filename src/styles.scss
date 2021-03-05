@@ -281,6 +281,12 @@ body {
 
 .light {
   .login {
+    .login-splash {
+      img {
+        filter: invert(1);
+      }
+    }
+
     .new-customer {
       span {
         font-size: 12px;

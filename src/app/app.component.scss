@@ -1,5 +1,12 @@
 .light.app {
-  background: linear-gradient(270deg, #fdfcfb, #ebeef3)
+  background: linear-gradient(270deg, #fdfcfb, #ebeef3);
+  
+  .nav-title {
+    img {
+      height: 18px;
+      filter: invert(1);
+    }
+  }
 }
 
 .app {
@@ -25,27 +32,6 @@
     }
   }
 
-  .verify-banner {    
-    position: fixed;
-    top: 50px;
-    padding: 20px 12px 14px;
-    border-radius: 8px;
-    left: 50%;
-    z-index: 100;
-    transform: translateX(-50%);
-
-    span {
-      opacity: 0.5;
-    }
-    
-    a {
-      text-decoration: none;
-      font-weight: 500;
-      opacity: 0.7;
-      color: inherit;
-    }
-  }
-
   .content {
     flex: 1;
     overflow: auto;
@@ -62,9 +48,14 @@
   }
 
   .sd-toolbar {
-    padding: 8px 8px 8px 6px;
+    padding: 8px;
     border-radius: 0;
     z-index: 300;
+  }
+
+  .opac {
+    background: transparent;
+    box-shadow: none;
   }
   
   .nav-title {
@@ -84,7 +75,7 @@
     }
 
     img {
-      height: 42px;
+      height: 18px;
     }
   }
 }
