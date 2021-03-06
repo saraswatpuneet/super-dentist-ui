@@ -193,6 +193,7 @@ export class InsuranceComponent implements OnInit, OnDestroy {
       dentalInsurance: this.fb.group({
         company: ['', Validators.required],
         memberId: ['', Validators.required]
+        // subscriber: this.fb.group({})
       }),
       dentalInsurance2: this.fb.group({
         company: [''],
@@ -204,6 +205,10 @@ export class InsuranceComponent implements OnInit, OnDestroy {
       //   memberId: ['']
       // })
     });
+  }
+
+  subscriber2(e): void {
+    console.log(e);
   }
 
   private initForm2(index: number): void {

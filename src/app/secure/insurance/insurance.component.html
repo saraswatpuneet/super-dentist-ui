@@ -50,10 +50,12 @@
         </div>
         <div class="subscriber">
           Are you the subscriber?
-          <mat-slide-toggle [checked]="subscriber"></mat-slide-toggle>
+          <mat-slide-toggle color="primary" (change)="subscriber2($e)"></mat-slide-toggle>
+
         </div>
         <ng-container *ngIf="subscriber">
-          <div class="sd-input">
+          TEST
+          <!-- <div class="sd-input">
             <label>First Name</label>
             <input autocomplete="off" type="text" formControlName="memberId">
           </div>
@@ -61,7 +63,7 @@
           <div class="sd-input">
             <label>Last Name</label>
             <input autocomplete="off" type="text" formControlName="memberId">
-          </div>
+          </div> -->
 
         </ng-container>
       </ng-container>

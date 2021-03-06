@@ -24,6 +24,7 @@ export class AppComponent extends Base implements OnInit {
   authenticated = false;
   emailVerified = true;
   expanded = true;
+  home = false;
   navItems = [
     { path: 'specialist', label: 'Specialist', icon: 'date_range' },
     { path: 'referrals', label: 'Referrals', icon: 'message' },
@@ -74,16 +75,19 @@ export class AppComponent extends Base implements OnInit {
 
     this.router.events.pipe(filter(e => e instanceof NavigationEnd), takeUntil(this.unsubscribe$)).subscribe(() => {
       this.opacMode = false;
+      this.home = false;
       if (
         this.router.url.includes('/join') ||
         this.router.url.includes('/patient') ||
         this.router.url.includes('/verify') ||
         this.router.url.includes('/secure') ||
+        this.router.url.includes('/early-access') ||
         this.router.url.includes('/404') ||
         this.router.url === '/'
       ) {
         if (this.router.url === '/') {
           this.opacMode = true;
+          this.home = true;
         }
 
         this.authenticated = false;
@@ -107,7 +111,6 @@ export class AppComponent extends Base implements OnInit {
           });
         from(this.auth.currentUser).pipe(take(1)).subscribe(user => this.emailVerified = user.emailVerified);
       }
-      console.log(this.opacMode, this.router.url);
     });
 
     this.iconRegistry.addSvgIconSet(this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/icons.svg'));
@@ -121,6 +124,10 @@ export class AppComponent extends Base implements OnInit {
       this.clinicName = undefined;
       this.router.navigate(['']);
     });
+  }
+
+  showEarlyAccess(): void {
+    this.router.navigate(['/early-access']);
   }
 
   toggleTheme(): void {
