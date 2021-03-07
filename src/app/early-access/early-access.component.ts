@@ -21,18 +21,8 @@ export class EarlyAccessComponent implements OnInit {
   }
 
   submitAccess(): void {
-    const data = new FormData();
     const v = this.accessForm.value;
-    for (const key in v) {
-      if (key) {
-        data.append(key, v[key]);
-      }
-    }
-    if (this.pms.selectedOptions && this.pms.selectedOptions.selected && this.pms.selectedOptions.selected.length > 0) {
-      data.append('pms', JSON.stringify(this.pms.selectedOptions.selected.map(s => s.value)));
-    }
-
-    this.referralService.requestDemo(data).subscribe(console.log);
+    this.referralService.requestDemo({ ...v, pms: this.pms.selectedOptions.selected.map(s => s.value) }).subscribe(console.log);
   }
 
   private initForm(): void {
