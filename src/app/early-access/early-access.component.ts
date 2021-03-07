@@ -21,8 +21,9 @@ export class EarlyAccessComponent implements OnInit {
   }
 
   submitAccess(): void {
-    const v = this.accessForm.value;
-    this.referralService.requestDemo({ ...v, pms: this.pms.selectedOptions.selected.map(s => s.value) }).subscribe(console.log);
+    if (this.accessForm.valid) {
+      this.referralService.requestDemo(this.accessForm.value).subscribe(console.log);
+    }
   }
 
   private initForm(): void {
@@ -31,7 +32,7 @@ export class EarlyAccessComponent implements OnInit {
       lastName: ['', Validators.required],
       email: ['', Validators.required],
       phoneNumber: ['', Validators.required],
-      organization: ['', Validators.required],
+      practiceName: ['', Validators.required],
       locationCount: [1, Validators.required],
     });
   }

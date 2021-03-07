@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
-import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -18,7 +17,6 @@ import { EarlyAccessComponent } from './early-access.component';
     ReactiveFormsModule,
     FormsModule,
     FlexLayoutModule,
-    MatListModule,
     NgxMaskModule,
     MatCardModule,
     MatIconModule,

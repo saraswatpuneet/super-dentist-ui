@@ -24,22 +24,14 @@
         </div>
         <div fxLayout="row" fxLayoutGap="20px">
           <div class="sd-input">
-            <label>Name of Organization </label>
-            <input type="text" required formControlName="organization">
+            <label>Practice Name</label>
+            <input type="text" required formControlName="practiceName">
           </div>
           <div class="sd-input">
             <label>Number of Locations </label>
             <input type="number" required formControlName="locationCount">
           </div>
         </div>
-      </div>
-      <h3>Select Your Practice Management System</h3>
-      <div>
-        <mat-selection-list #pms color="primary">
-          <mat-list-option *ngFor="let pms of ['EndoVision', 'OMSVision', 'PerioVision', 'Carestream']" [value]="pms">
-            {{pms}}
-          </mat-list-option>
-        </mat-selection-list>
       </div>
       <div>
         <button mat-raised-button [disabled]="!accessForm.valid" color="primary" (click)="submitAccess()"
