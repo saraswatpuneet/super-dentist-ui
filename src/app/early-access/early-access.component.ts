@@ -28,7 +28,7 @@ export class EarlyAccessComponent implements OnInit {
         data.append(key, v[key]);
       }
     }
-    if (this.pms.selectedOptions && this.pms.selectedOptions.length > 0) {
+    if (this.pms.selectedOptions && this.pms.selectedOptions.selected && this.pms.selectedOptions.selected.length > 0) {
       data.append('pms', JSON.stringify(this.pms.selectedOptions.selected.map(s => s.value)));
     }
 
