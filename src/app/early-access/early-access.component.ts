@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ReferralService } from '../shared/services/referral.service';
 
 @Component({
   selector: 'app-early-access',
@@ -13,7 +13,7 @@ export class EarlyAccessComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient
+    private referralService: ReferralService
   ) { }
 
   ngOnInit(): void {
@@ -21,7 +21,6 @@ export class EarlyAccessComponent implements OnInit {
   }
 
   submitAccess(): void {
-    const url = `https://us-central1-superdentist.cloudfunctions.net/sd-live-demo-request`;
     const data = new FormData();
     const v = this.accessForm.value;
     for (const key in v) {
@@ -33,7 +32,7 @@ export class EarlyAccessComponent implements OnInit {
       data.append('pms', JSON.stringify(this.pms.selectedOptions.selected.map(s => s.value)));
     }
 
-    this.http.post(url, data).subscribe(console.log);
+    this.referralService.requestDemo(data).subscribe(console.log);
   }
 
   private initForm(): void {

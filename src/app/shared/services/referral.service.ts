@@ -34,6 +34,10 @@ export class ReferralService {
     return this.http.get<Referral>(`${this.baseUrl}/referrals/${referralId}`).pipe(map((res: any) => res.data as Referral));
   }
 
+  requestDemo(formData: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/referral/scheduledemo`, formData);
+  }
+
   // Documents
   getAllDocuments(referralId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/referrals/${referralId}/documents`, { responseType: 'blob' });
