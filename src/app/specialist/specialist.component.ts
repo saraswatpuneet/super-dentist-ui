@@ -77,7 +77,9 @@ export class SpecialistComponent extends Base implements OnInit, AfterViewInit, 
   }
 
   createReferral(clinic: any, el: any): void {
-    this.selectedSpecialty = clinic.specialties[0];
+    if (clinic.specialties) {
+      this.selectedSpecialty = clinic.specialties[0];
+    }
     this.showCreateReferral = true;
     this.selectedPlaceId = clinic.placeId;
     this.addressId = this.clinics[0].addressId;

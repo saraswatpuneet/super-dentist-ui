@@ -124,8 +124,7 @@ export class CreateReferralComponent implements OnInit, AfterViewInit {
           const formData = new FormData();
           this.files.forEach((file, i) => formData.append(`file${i}`, file));
 
-          return this.referralService.uploadDocuments(referralId, formData).
-            pipe(flatMap(() => this.referralService.createMessage(referralId, this.getMessage('Uploaded Patient Documents'))));
+          return this.referralService.uploadDocuments(referralId, formData);
         } else {
           return of(null);
         }

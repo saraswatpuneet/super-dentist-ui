@@ -85,6 +85,7 @@ export class ChatComponent extends Base implements OnInit {
   }
 
   downloadFile(fileName: string): void {
+    console.log(fileName);
     this.referralService.getDocumentFile(this.referralId, fileName[0]).pipe(take(1)).subscribe(res =>
       saveAs(new Blob([res]), fileName[0]));
   }

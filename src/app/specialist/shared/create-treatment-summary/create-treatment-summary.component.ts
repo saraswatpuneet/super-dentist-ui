@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { flatMap, take, tap } from 'rxjs/operators';
 
 import { ReferralService } from '../../../shared/services/referral.service';
-import { Message, ReferralDetails } from '../../../shared/services/referral';
+import { ReferralDetails } from '../../../shared/services/referral';
 
 @Component({
   selector: 'app-create-treatment-summary',
@@ -78,23 +78,13 @@ export class CreateTreatmentSummaryComponent implements OnInit, AfterViewInit {
           const formData = new FormData();
           this.files.forEach((file, i) => formData.append(`file${i}`, file));
 
-          return this.referralService.uploadDocuments(referralId, formData).
-            pipe(flatMap(() => this.referralService.createMessage(referralId, this.getMessage('Uploaded Patient Documents'))));
+          return this.referralService.uploadDocuments(referralId, formData);
         } else {
           return of(null);
         }
       }),
       take(1)
     ).subscribe(() => this.cancel.emit());
-  }
-
-  private getMessage(text: string): Message[] {
-    return [{
-      userId: this.userEmail,
-      channel: 'c2c',
-      text,
-      timeStamp: Date.now()
-    }];
   }
 
   private initForm(): void {
