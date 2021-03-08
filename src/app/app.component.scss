@@ -7,19 +7,6 @@
       filter: invert(1);
     }
   }
-
-  .early-access {
-    color: white;
-    background: var(--ac-blue);
-    background-clip: inherit;
-    -webkit-background-clip: inherit;
-    -webkit-text-fill-color: inherit;
-    padding: 6px 32px;
-
-    &:hover::after {
-      width: 0%;
-    }
-  }
 }
 
 .app {
@@ -30,10 +17,35 @@
   background: linear-gradient(90deg, #3b3d42, #232425);
   flex-direction: row;
 
-  .early-access {
+  .early-access-container {
+    position: relative;
+  }
+
+  .early-access-light {
+    position: absolute;
+    right: 0;
+    top: -16px;
     margin-right: 8px;
     text-transform: uppercase;
-    position: relative;
+    white-space: nowrap;
+    cursor: pointer;
+    letter-spacing: 2px;
+    font-weight: 300;
+    font-size: 14px;
+    background: var(--ac-blue);
+    padding: 6px 16px;
+    border-radius: 4px;
+    transition: 0.3s;
+    color: white;
+  }
+
+  .early-access {
+    position: absolute;
+    white-space: nowrap;
+    right: 0;
+    top: -16px;
+    margin-right: 8px;
+    text-transform: uppercase;
     cursor: pointer;
     letter-spacing: 2px;
     font-weight: 300;

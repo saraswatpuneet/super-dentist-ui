@@ -10,7 +10,12 @@
 
     <span class="welcome" *ngIf="clinicName && authenticated">Welcome, {{clinicName}}</span>
 
-    <div *ngIf="home" class="early-access" (click)="showEarlyAccess()">Request Early Access</div>
+    <div *ngIf="home" class="early-access-container">
+      <div *ngIf="theme !== 'light'" [@sidebarToggle] class="early-access" (click)="showEarlyAccess()">Request Early
+        Access</div>
+      <div *ngIf="theme === 'light'" [@sidebarToggle] class="early-access-light" (click)="showEarlyAccess()">Request
+        Early Access</div>
+    </div>
     <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="authenticated">
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
