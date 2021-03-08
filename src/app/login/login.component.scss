@@ -3,6 +3,12 @@
   width: 100%;
   position: relative;
   overflow: auto;
+
+  .sd-input {
+    input {
+      font-size: 16px;
+    }
+  }
   
   .login-container {
     max-width: 100%;
