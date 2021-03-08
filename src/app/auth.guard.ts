@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
       take(1),
       map(authState => {
         const signedIn = !!authState;
-        if (!signedIn) {
+        if (!signedIn || authState.isAnonymous) {
           this.router.navigate(['']);
           return false;
         }

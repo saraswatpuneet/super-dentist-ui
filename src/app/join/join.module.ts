@@ -14,9 +14,10 @@ import { MatCardModule } from '@angular/material/card';
 import { JoinRoutingModule } from './join-routing.module';
 import { JoinComponent } from './join.component';
 import { LoaderModule } from '../shared/loader/loader.module';
+import { JoinFavoritesComponent } from './shared/join-favorites/join-favorites.component';
 
 @NgModule({
-  declarations: [JoinComponent],
+  declarations: [JoinComponent, JoinFavoritesComponent],
   imports: [
     CommonModule,
     FormsModule,

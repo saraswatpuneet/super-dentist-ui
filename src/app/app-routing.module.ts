@@ -20,6 +20,10 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'early-access',
+    loadChildren: () => import('./early-access/early-access.module').then(m => m.EarlyAccessModule)
+  },
+  {
     path: 'specialist',
     loadChildren: () => import('./specialist/specialist.module').then(m => m.SpecialistModule),
     canActivate: [AuthGuard]

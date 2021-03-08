@@ -1,0 +1,56 @@
+<div class="early-access" *ngIf="!complete">
+  <mat-card class="c-card">
+    <form [formGroup]="accessForm">
+      <div fxLayout="column" fxLayoutGap="36px">
+        <h1>Early Access</h1>
+        <div fxLayout="row" fxLayoutGap="20px" fxLayout.lt-md="column" fxLayoutGap.lt-md="36px">
+          <div class="sd-input">
+            <label>First Name </label>
+            <input type="text" required formControlName="firstName">
+          </div>
+          <div class="sd-input">
+            <label>Last Name </label>
+            <input type="text" required formControlName="lastName">
+          </div>
+        </div>
+        <div class="sd-input">
+          <label>Email Address </label>
+          <input type="email" required formControlName="email">
+        </div>
+        <div class="sd-input">
+          <label>Phone Number </label>
+          <input type="tel" autocomplete="off" mask='(000) 000-0000' [showMaskTyped]="true" required
+            formControlName="phoneNumber">
+        </div>
+        <div fxLayout="row" fxLayoutGap="20px" fxLayout.lt-md="column" fxLayoutGap.lt-md="36px">
+          <div class="sd-input">
+            <label>Practice Name</label>
+            <input type="text" required formControlName="practiceName">
+          </div>
+          <div class="sd-input">
+            <label>Number of Locations </label>
+            <input type="number" required formControlName="locationCount">
+          </div>
+        </div>
+      </div>
+
+      <div class="submit">
+        <button mat-stroked-button [disabled]="!accessForm.valid" color="primary" (click)="submitAccess()"
+          type="submit">
+          <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="center center">
+            <mat-progress-spinner *ngIf="loading" mode="indeterminate" diameter="24"></mat-progress-spinner>
+            <span>Schedule Me</span>
+          </div>
+        </button>
+      </div>
+    </form>
+
+  </mat-card>
+</div>
+
+<mat-card *ngIf="complete" class="c-card sent" fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <img class="astro" src="assets/icons/rocket-dentist.svg" alt="">
+    <h1>SuperDentist will contact you soon</h1>
+  </div>
+</mat-card>

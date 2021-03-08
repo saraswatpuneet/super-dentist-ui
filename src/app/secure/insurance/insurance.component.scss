@@ -2,8 +2,20 @@
   position: relative;
   box-sizing: border-box;
 
+  select {
+    color: inherit;
+  }
+
   .wrap {
     white-space: normal;
+  }
+
+  .subscriber {
+    margin-top: 8px;
+
+    mat-slide-toggle {
+      margin-left: 8px;
+    }
   }
 
   .success {
@@ -67,5 +79,18 @@
     width: 100%;
     max-width: 400px;
     box-sizing: border-box;
+  }
+
+  .dental-insurance {
+    h3 {
+      margin-bottom: 0;
+    }
+    .sd-input {
+      margin-top: 36px;
+    }
+
+    button {
+      margin-top: 12px
+    }
   }
 }

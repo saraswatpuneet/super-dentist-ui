@@ -20,9 +20,11 @@ import { SettingsService } from './shared/services/settings.service';
 })
 export class AppComponent extends Base implements OnInit {
   theme: 'light' | 'dark' = 'light';
+  opacMode = true;
   authenticated = false;
   emailVerified = true;
   expanded = true;
+  home = false;
   navItems = [
     { path: 'specialist', label: 'Specialist', icon: 'date_range' },
     { path: 'referrals', label: 'Referrals', icon: 'message' },
@@ -72,15 +74,22 @@ export class AppComponent extends Base implements OnInit {
     this.settingsService.setTheme(this.theme);
 
     this.router.events.pipe(filter(e => e instanceof NavigationEnd), takeUntil(this.unsubscribe$)).subscribe(() => {
+      this.opacMode = false;
+      this.home = false;
       if (
-        this.router.url.includes('/login') ||
         this.router.url.includes('/join') ||
         this.router.url.includes('/patient') ||
         this.router.url.includes('/verify') ||
         this.router.url.includes('/secure') ||
+        this.router.url.includes('/early-access') ||
         this.router.url.includes('/404') ||
         this.router.url === '/'
       ) {
+        if (this.router.url === '/') {
+          this.opacMode = true;
+          this.home = true;
+        }
+
         this.authenticated = false;
       } else {
         this.authenticated = true;
@@ -115,6 +124,10 @@ export class AppComponent extends Base implements OnInit {
       this.clinicName = undefined;
       this.router.navigate(['']);
     });
+  }
+
+  showEarlyAccess(): void {
+    this.router.navigate(['/early-access']);
   }
 
   toggleTheme(): void {

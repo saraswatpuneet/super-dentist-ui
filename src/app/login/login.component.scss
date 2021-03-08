@@ -3,6 +3,12 @@
   width: 100%;
   position: relative;
   overflow: auto;
+
+  .sd-input {
+    input {
+      font-size: 16px;
+    }
+  }
   
   .login-container {
     max-width: 100%;
@@ -22,7 +28,6 @@
 
       img {
         height: 56px;
-        width: 56px;
       }
     }
   }
@@ -55,6 +60,9 @@
 
     img {
       margin-top: 12px;
+      height: 36px;
+      width: 100%;
+      transition: 0.3s;
     }
   }
 

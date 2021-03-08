@@ -1,16 +1,21 @@
 <div class="app" fxLayout="column" [ngClass]="theme">
 
-  <mat-card class="sd-toolbar mat-elevation-z3" fxLayout="row" fxLayoutAlign=" center">
-    <div class="nav-title" routerLink='referrals'>
+  <mat-card class="sd-toolbar mat-elevation-z3" [ngClass]="{'opac': opacMode}" fxLayout="row" fxLayoutAlign=" center">
+    <div class="nav-title" routerLink='referrals' *ngIf="!opacMode">
 
-      <img src="assets/images/brand.svg" alt="">
-      <span>SuperDentist</span>
+      <img src="assets/icons/superdentist.svg" alt="">
     </div>
 
     <span fxFlex></span>
 
     <span class="welcome" *ngIf="clinicName && authenticated">Welcome, {{clinicName}}</span>
 
+    <div *ngIf="home" class="early-access-container">
+      <div *ngIf="theme !== 'light'" [@sidebarToggle] class="early-access" (click)="showEarlyAccess()">Request Early
+        Access</div>
+      <div *ngIf="theme === 'light'" [@sidebarToggle] class="early-access-light" (click)="showEarlyAccess()">Request
+        Early Access</div>
+    </div>
     <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="authenticated">
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
@@ -72,9 +77,6 @@
     </mat-card>
 
     <div class="content">
-      <!-- <mat-card *ngIf="authenticated && !emailVerified" class="verify-banner">
-        Please verify your email. <span>Didn't get the email? </span> <a routerLink="verify">Click here</a>
-      </mat-card> -->
       <router-outlet></router-outlet>
     </div>
   </div>

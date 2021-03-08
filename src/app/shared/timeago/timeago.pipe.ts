@@ -6,7 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TimeagoPipe implements PipeTransform {
 
   transform(value: number, ...args: unknown[]): string {
-    console.log(value);
     const msPerMinute = 60 * 1000;
     const msPerHour = msPerMinute * 60;
     const msPerDay = msPerHour * 24;

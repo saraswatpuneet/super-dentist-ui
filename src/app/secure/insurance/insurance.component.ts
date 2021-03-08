@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { take } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 import { environment } from 'src/environments/environment';
+import { Router, ActivatedRoute } from '@angular/router';
 
 interface PatientForInsurance {
   firstName: string;
@@ -26,12 +27,28 @@ interface DOB {
 interface PatientDentalInsurance {
   company: string;
   memberId: string;
+  subscriber: Subscriber;
 }
 
 interface PatientMedicalInsurance {
   company: string;
   groupNumber: string;
   memberId: string;
+  subscriber: Subscriber;
+}
+
+interface Subscriber {
+  firstName: string;
+  lastName: string;
+  dob: DOB;
+}
+
+enum PatientStates {
+  Invalid,
+  Processing,
+  Form,
+  Success,
+  Failed
 }
 
 @Component({
@@ -39,12 +56,29 @@ interface PatientMedicalInsurance {
   templateUrl: './insurance.component.html',
   styleUrls: ['./insurance.component.scss']
 })
-export class InsuranceComponent implements OnInit {
+export class InsuranceComponent implements OnInit, OnDestroy {
   insuranceForm: FormGroup;
-  patientStates: any = {};
-  days = [...Array(31).keys()];
-  years = [...Array(100).keys()];
-  months = [];
+  days = [];
+  years = [];
+  months = [
+    { label: 'January', value: '1', },
+    { label: 'Febuary', value: '2', },
+    { label: 'March', value: '3', },
+    { label: 'April', value: '4', },
+    { label: 'May', value: '5', },
+    { label: 'June', value: '6', },
+    { label: 'July', value: '7', },
+    { label: 'August', value: '8', },
+    { label: 'September', value: '9', },
+    { label: 'October', value: '10', },
+    { label: 'November', value: '11', },
+    { label: 'December', value: '12', },
+  ];
+  moreDental = false;
+  referralId = '';
+  subscriber = false;
+  state = PatientStates.Form;
+  patientStates = PatientStates;
 
   private objs = [
     newPatient('Mark', 'Inglis', '6', '3', '1966', 'Blue Cross Dental / Freedom Lawn Care', '80012800100'),
@@ -54,23 +88,36 @@ export class InsuranceComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
     private http: HttpClient,
     private auth: AngularFireAuth,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.initForm(2);
+    this.calcYears();
+    this.route.queryParams.pipe(take(1)).subscribe(params => {
+      if (!params.referral) {
+        this.router.navigate(['404']);
+        return;
+      }
+      this.referralId = params.referral;
+    });
+    this.initForm();
+    // this.initForm2(2);
     this.signIn();
   }
 
+  ngOnDestroy(): void {
+    this.auth.signOut();
+  }
+
   signIn(): void {
-    console.log(this.auth);
     this.auth.signInAnonymously()
       .then((d) => {
-        console.log('signed int', d);
         // Signed in..
         this.auth.onAuthStateChanged((user) => {
-          console.log('user', user);
           if (user) {
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/firebase.User
@@ -91,20 +138,80 @@ export class InsuranceComponent implements OnInit {
   }
 
   submit(): void {
+    if (!this.referralId) {
+      this.router.navigate(['404']);
+      return;
+    }
+
     const url = `${environment.baseUrl}/patient/registration`;
     const formData = new FormData();
     const p = this.insuranceForm.value;
     const dentalInsurance = [p.dentalInsurance];
-
+    if (p.dentalInsurance2 && p.dentalInsurance2.company && p.dentalInsurance2.memberId) {
+      dentalInsurance.push(p.dentalInsurance2);
+    }
+    formData.append('referralId', this.referralId);
     formData.append('firstName', p.firstName);
     formData.append('lastName', p.lastName);
     formData.append('dob', JSON.stringify(p.dob));
     formData.append('dentalInsurance', JSON.stringify(dentalInsurance));
-
-    this.http.post(url, formData).pipe(take(1)).subscribe(console.log);
+    this.state = PatientStates.Processing;
+    this.http.post(url, formData).pipe(take(1)).subscribe((res) => this.state = PatientStates.Success);
   }
 
-  private initForm(index: number): void {
+  addSubscriber(): void {
+
+  }
+
+  addDentalInsurance(): void {
+    this.moreDental = true;
+    this.insuranceForm.addControl('dentalInsurance2', this.fb.group({
+      company: ['', Validators.required],
+      memberId: ['', Validators.required]
+    }));
+    this.insuranceForm.updateValueAndValidity();
+    this.cdr.detectChanges();
+  }
+
+  removeDentalInsurance(): void {
+    this.moreDental = false;
+    this.insuranceForm.removeControl('dentalInsurance2');
+  }
+
+  private initForm(): void {
+    this.insuranceForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      // email: ['xthecounsel@gmail.com', Validators.required],
+      // phoneNumber: ['3463171471', Validators.required],
+      ssn: [''],
+      dob: this.fb.group({
+        month: ['1', Validators.required],
+        day: ['1', Validators.required],
+        year: ['2000', Validators.required],
+      }),
+      dentalInsurance: this.fb.group({
+        company: ['', Validators.required],
+        memberId: ['', Validators.required]
+        // subscriber: this.fb.group({})
+      }),
+      dentalInsurance2: this.fb.group({
+        company: [''],
+        memberId: ['']
+      }),
+      // medicalInsurance: this.fb.group({
+      //   company: [''],
+      //   groupNumber: [''],
+      //   memberId: ['']
+      // })
+    });
+  }
+
+  subscriber2(e): void {
+    console.log(e);
+  }
+
+  private initForm2(index: number): void {
     const p = this.objs[index];
 
     this.insuranceForm = this.fb.group({
@@ -122,6 +229,10 @@ export class InsuranceComponent implements OnInit {
         company: [p.dentalInsurance.company, Validators.required],
         memberId: [p.dentalInsurance.memberId, Validators.required]
       }),
+      dentalInsurance2: this.fb.group({
+        company: [''],
+        memberId: ['']
+      }),
       // medicalInsurance: this.fb.group({
       //   company: [''],
       //   groupNumber: [''],
@@ -129,13 +240,20 @@ export class InsuranceComponent implements OnInit {
       // })
     });
   }
+
+  private calcYears(): void {
+    const arrValues = [...Array(100).keys()];
+    const currentYear = new Date().getFullYear();
+    this.years = arrValues.map(v => currentYear - v);
+
+    const dayValues = [...Array(31).keys()];
+    this.days = dayValues.map(d => d += 1);
+  }
 }
 
 function newPatient(firstName: string, lastName: string, month: string, day: string, year: string, company: string, memberId: string): any {
   return { firstName, lastName, dob: { month, day, year }, dentalInsurance: { company, memberId } };
 }
-
-
 
 // Time,Name,DOB,Subscriber,Subscriber DOB,Insurance,Patient zip,ID
 // 8:00 AM,'Inglis, Mark',6/3/1966,'Inglis, Mark',6/3/1966,Blue Cross Dental / Freedom Lawn Care,18015,80012800100
