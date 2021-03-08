@@ -48,7 +48,8 @@ export class ReferralService {
   }
 
   getDocumentFile(referralId: string, fileName: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/referrals/${referralId}/document?fileName=${fileName}`, { responseType: 'blob' });
+    const url = `${this.baseUrl}/referrals/${referralId}/document?fileName=${encodeURIComponent(fileName)}`;
+    return this.http.get(url, { responseType: 'blob' });
   }
 
   getDocument(referralId: string, documentId: string): Observable<any> {
