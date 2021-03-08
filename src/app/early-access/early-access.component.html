@@ -3,7 +3,7 @@
     <form [formGroup]="accessForm">
       <div fxLayout="column" fxLayoutGap="36px">
         <h1>Early Access</h1>
-        <div fxLayout="row" fxLayoutGap="20px">
+        <div fxLayout="row" fxLayoutGap="20px" fxLayout.lt-md="column" fxLayoutGap.lt-md="36px">
           <div class="sd-input">
             <label>First Name </label>
             <input type="text" required formControlName="firstName">
@@ -22,7 +22,7 @@
           <input type="tel" autocomplete="off" mask='(000) 000-0000' [showMaskTyped]="true" required
             formControlName="phoneNumber">
         </div>
-        <div fxLayout="row" fxLayoutGap="20px">
+        <div fxLayout="row" fxLayoutGap="20px" fxLayout.lt-md="column" fxLayoutGap.lt-md="36px">
           <div class="sd-input">
             <label>Practice Name</label>
             <input type="text" required formControlName="practiceName">
