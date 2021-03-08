@@ -1,6 +1,6 @@
 .early-access {
   position: relative;
-  padding-top: 48px;
+  padding: 28px 20px 20px 20px;
 
   form {
     width: 598px;
@@ -11,5 +11,28 @@
   h3 {
     margin-top: 24px;
     margin-bottom: 0px;
+  }
+  
+  .submit {
+    margin-top: 24px;
+    
+    button {
+      max-width: 100%;
+      width: 200px;
+    }
+  }
+}
+
+:host {
+  height: 100%;
+}
+
+.sent {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+
+  p {
+    font-size: 16px;
   }
 }

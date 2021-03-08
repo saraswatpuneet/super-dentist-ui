@@ -1,4 +1,4 @@
-<div class="early-access">
+<div class="early-access" *ngIf="!complete">
   <mat-card class="c-card">
     <form [formGroup]="accessForm">
       <div fxLayout="column" fxLayoutGap="36px">
@@ -33,10 +33,24 @@
           </div>
         </div>
       </div>
-      <div>
-        <button mat-raised-button [disabled]="!accessForm.valid" color="primary" (click)="submitAccess()"
-          type="submit">Schedule Me</button>
+
+      <div class="submit">
+        <button mat-stroked-button [disabled]="!accessForm.valid" color="primary" (click)="submitAccess()"
+          type="submit">
+          <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="center center">
+            <mat-progress-spinner *ngIf="loading" mode="indeterminate" diameter="24"></mat-progress-spinner>
+            <span>Schedule Me</span>
+          </div>
+        </button>
       </div>
     </form>
+
   </mat-card>
 </div>
+
+<mat-card *ngIf="complete" class="c-card sent" fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <img class="astro" src="assets/icons/rocket-dentist.svg" alt="">
+    <h1>SuperDentist will contact with you soon</h1>
+  </div>
+</mat-card>

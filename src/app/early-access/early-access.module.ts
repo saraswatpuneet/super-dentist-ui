@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxMaskModule } from 'ngx-mask';
 
 import { EarlyAccessRoutingModule } from './early-access-routing.module';
@@ -19,6 +20,7 @@ import { EarlyAccessComponent } from './early-access.component';
     FlexLayoutModule,
     NgxMaskModule,
     MatCardModule,
+    MatProgressSpinnerModule,
     MatIconModule,
     MatButtonModule,
     EarlyAccessRoutingModule

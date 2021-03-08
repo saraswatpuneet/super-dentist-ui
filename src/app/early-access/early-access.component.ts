@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ReferralService } from '../shared/services/referral.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-early-access',
@@ -9,6 +10,8 @@ import { ReferralService } from '../shared/services/referral.service';
 })
 export class EarlyAccessComponent implements OnInit {
   accessForm: FormGroup;
+  loading = false;
+  complete = false;
   @ViewChild('pms') pms: any;
 
   constructor(
@@ -22,7 +25,13 @@ export class EarlyAccessComponent implements OnInit {
 
   submitAccess(): void {
     if (this.accessForm.valid) {
-      this.referralService.requestDemo(this.accessForm.value).subscribe(console.log);
+      this.loading = true;
+      this.referralService.requestDemo(this.accessForm.value)
+        .pipe(take(1))
+        .subscribe(() => {
+          this.loading = false;
+          this.complete = true;
+        });
     }
   }
 
@@ -33,7 +42,7 @@ export class EarlyAccessComponent implements OnInit {
       email: ['', Validators.required],
       phoneNumber: ['', Validators.required],
       practiceName: ['', Validators.required],
-      locationCount: [1, Validators.required],
+      locationCount: [undefined, Validators.required],
     });
   }
 }
