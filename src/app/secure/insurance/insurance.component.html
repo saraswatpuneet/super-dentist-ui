@@ -31,33 +31,37 @@
         <button fxFlex mat-raised-button (click)="addMedicalInsurance()">Medical</button>
       </div>
 
-      <div class="insurance-summary" fxLayout="column" *ngFor="let insurance of insurances; let i = index">
+      <div class="divider" *ngIf="insurances.length !== 0"></div>
+
+      <div class="insurance-summary" fxLayout="column"
+        *ngFor="let insurance of insurances; let i = index; let l = last">
         <header fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="16px">
-          <h3>{{insurance.groupNumber ? 'Medical Insurance' : 'Dental Insurance'}}</h3>
-          <button mat-button (click)="removeInsurance(i)">Remove</button>
+          <h3>{{insurance.company}}</h3>
+          <button mat-icon-button (click)="removeInsurance(i)">
+            <mat-icon>close</mat-icon>
+          </button>
         </header>
 
         <div fxLayout="row" fxLayoutGap="16px">
           <div fxFlex class="detail">
-            <div>Company</div>
-            <div>{{insurance.company}}</div>
-          </div>
-          <div fxFlex class="detail">
             <div>Member Id</div>
             <div>{{insurance.memberId}}</div>
           </div>
-        </div>
-        <div class="detail" *ngIf="insurance.groupNumber">
-          <div>Group Number</div>
-          <div>{{insurance.groupNumber}}</div>
+
+          <div class="detail" *ngIf="insurance.groupNumber">
+            <div>Group Number</div>
+            <div>{{insurance.groupNumber}}</div>
+          </div>
         </div>
 
         <div class="detail sub" *ngIf="insurance.subscriber">
-          <div>{{insurance.subscriber.firstName}} {{insurance.subscriber.lastName}}</div>
           <div>
             {{insurance.subscriber.dob.month}} {{insurance.subscriber.dob.day}}, {{insurance.subscriber.dob.year}}
           </div>
+          <div>{{insurance.subscriber.firstName}} {{insurance.subscriber.lastName}}</div>
         </div>
+
+        <div class="divider"></div>
       </div>
     </div>
 

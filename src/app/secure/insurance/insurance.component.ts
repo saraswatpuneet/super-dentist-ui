@@ -158,7 +158,7 @@ export class InsuranceComponent implements OnInit, OnDestroy {
     formData.append('lastName', p.lastName);
     formData.append('dob', JSON.stringify(p.dob));
     this.state = PatientStates.Processing;
-    // this.http.post(url, formData).pipe(take(1)).subscribe((res) => this.state = PatientStates.Success);
+    this.http.post(url, formData).pipe(take(1)).subscribe((res) => this.state = PatientStates.Success);
   }
 
   addDentalInsurance(): void {
