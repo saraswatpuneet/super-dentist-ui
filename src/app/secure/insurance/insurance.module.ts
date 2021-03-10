@@ -5,19 +5,23 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatIconModule } from '@angular/material/icon';
 import { NgxMaskModule } from 'ngx-mask';
 
 import { InsuranceRoutingModule } from './insurance-routing.module';
 import { InsuranceComponent } from './insurance.component';
 import { DobComponent } from './shared/dob/dob.component';
+import { DentalInsuranceComponent } from './shared/dental-insurance/dental-insurance.component';
+import { MedicalInsuranceComponent } from './shared/medical-insurance/medical-insurance.component';
 
 @NgModule({
-  declarations: [InsuranceComponent, DobComponent],
+  declarations: [InsuranceComponent, DobComponent, DentalInsuranceComponent, MedicalInsuranceComponent],
   imports: [
     CommonModule,
     FormsModule,
     FlexLayoutModule,
     MatButtonModule,
+    MatIconModule,
     MatCardModule,
     MatSlideToggleModule,
     NgxMaskModule,

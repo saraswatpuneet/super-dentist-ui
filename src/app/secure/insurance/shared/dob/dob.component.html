@@ -1,4 +1,4 @@
-<!-- <div fxLayout="row" formGroupName="dob" fxLayoutGap="12px">
+<div fxLayout="row" [formGroup]="dobGroup" fxLayoutGap="12px">
   <div class="sd-input">
     <label>Birthday</label>
     <select formControlName="month">
@@ -17,4 +17,4 @@
       <option *ngFor="let year of years" [value]="year">{{year}}</option>
     </select>
   </div>
-</div> -->
+</div>

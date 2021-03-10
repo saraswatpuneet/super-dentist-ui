@@ -2,6 +2,9 @@
 
   <input style="display:none" #refPhotoEl type="file" accept="image/*">
 
+  <h1>Please submit your insurance for an accurate copay.</h1>
+
+
   <form *ngIf="state === patientStates.Form || state === patientStates.Processing" fxLayout="column" fxLayoutGap="36px"
     autocomplete="off" [formGroup]="insuranceForm">
     <h3>Patient Info</h3>
@@ -15,101 +18,59 @@
       <input type="text" autocomplete="off" formControlName="lastName">
     </div>
 
-    <div fxLayout="row" formGroupName="dob" fxLayoutGap="12px">
-      <div class="sd-input">
-        <label>Birthday</label>
-        <select formControlName="month">
-          <option *ngFor="let month of months" [value]="month.value">{{month.label}}</option>
-        </select>
-      </div>
-      <div class="sd-input">
-        <label></label>
-        <select formControlName="day">
-          <option *ngFor="let day of days" [value]="day">{{day}}</option>
-        </select>
-      </div>
-      <div class="sd-input">
-        <label></label>
-        <select formControlName="year">
-          <option *ngFor="let year of years" [value]="year">{{year}}</option>
-        </select>
-      </div>
-    </div>
+    <app-dob [dobGroup]="insuranceForm.controls.dob"></app-dob>
 
-    <div class="dental-insurance" fxLayout="column">
-      <ng-container formGroupName="dentalInsurance">
-        <h3>Dental Insurance</h3>
-        <div class="sd-input">
-          <label>Company</label>
-          <input autocomplete="off" type="text" formControlName="company">
-        </div>
+    <div class="add-insurances" fxLayout="column">
+      <div class="hinsurance">
+        <h3>What insurance would you like to add?</h3>
+        <span>You can add multiple.</span>
+      </div>
 
-        <div class="sd-input">
-          <label>Member Id</label>
-          <input autocomplete="off" type="text" formControlName="memberId">
-        </div>
-        <div class="subscriber">
-          Are you the subscriber?
-          <mat-slide-toggle color="primary" (change)="subscriber2($e)"></mat-slide-toggle>
+      <div fxLayout="row" fxLayoutGap="20px">
+        <button fxFlex mat-raised-button (click)="addDentalInsurance()">Dental</button>
+        <button fxFlex mat-raised-button (click)="addMedicalInsurance()">Medical</button>
+      </div>
 
-        </div>
-        <ng-container *ngIf="subscriber">
-          TEST
-          <!-- <div class="sd-input">
-            <label>First Name</label>
-            <input autocomplete="off" type="text" formControlName="memberId">
+      <div class="divider" *ngIf="insurances.length !== 0"></div>
+
+      <div class="insurance-summary" fxLayout="column"
+        *ngFor="let insurance of insurances; let i = index; let l = last">
+        <header fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="16px">
+          <h3>{{insurance.company}}</h3>
+          <button mat-icon-button (click)="removeInsurance(i)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </header>
+
+        <div fxLayout="row" fxLayoutGap="16px">
+          <div fxFlex class="detail">
+            <div>Member Id</div>
+            <div>{{insurance.memberId}}</div>
           </div>
 
-          <div class="sd-input">
-            <label>Last Name</label>
-            <input autocomplete="off" type="text" formControlName="memberId">
-          </div> -->
+          <div class="detail" *ngIf="insurance.groupNumber">
+            <div>Group Number</div>
+            <div>{{insurance.groupNumber}}</div>
+          </div>
+        </div>
 
-        </ng-container>
-      </ng-container>
-      <div>
-        <button mat-raised-button *ngIf="!moreDental" (click)="addDentalInsurance()">Additional Dental
-          Insurance</button>
-        <button mat-raised-button *ngIf="moreDental" (click)="removeDentalInsurance()">Remove Dental
-          Insurance</button>
+        <div class="detail sub" *ngIf="insurance.subscriber">
+          <div>Subscriber</div>
+          <div>
+            {{insurance.subscriber.firstName}} {{insurance.subscriber.lastName}}
+          </div>
+          <div>
+            {{displayMonths[insurance.subscriber.dob.month]}} {{insurance.subscriber.dob.day}},
+            {{insurance.subscriber.dob.year}}
+          </div>
+        </div>
+
+        <div class="divider"></div>
       </div>
-
-      <ng-container *ngIf="moreDental" formGroupName="dentalInsurance2">
-        <div class="sd-input">
-          <label>Company</label>
-          <input required autocomplete="off" type="text" formControlName="company">
-        </div>
-
-        <div class="sd-input">
-          <label>Member Id</label>
-          <input required autocomplete="off" type="text" formControlName="memberId">
-        </div>
-      </ng-container>
     </div>
 
-    <!-- <div class="subscriber" fxLayout="column">
-      <mat-slide-toggle [checked]="subscriber">Are you the subscriber?</mat-slide-toggle>
-    </div> -->
-
-    <!-- <div class="medical-insurance" fxLayout="column" fxLayoutGap="36px" formGroupName="medicalInsurance">
-      <h3>Medical Insurance</h3>
-      <div class="sd-input">
-        <label>Company</label>
-        <input autocomplete="off" type="text" formControlName="company">
-      </div>
-
-      <div class="sd-input">
-        <label>Group Number</label>
-        <input autocomplete="off" type="text" formControlName="groupNumber">
-      </div>
-
-      <div class="sd-input">
-        <label>Member Id</label>
-        <input autocomplete="off" type="text" formControlName="memberId">
-      </div>
-    </div> -->
-
-    <button (click)="submit()" [disabled]="!insuranceForm.valid" mat-raised-button color="primary">
+    <button [disabled]="!insuranceForm.valid || insurances.length === 0" (click)="submit()" mat-raised-button
+      color="primary">
       <mat-progress-spinner *ngIf="state === patientStates.Processing" mode="indeterminate" diameter="24">
       </mat-progress-spinner>
       Submit Insurance
@@ -118,6 +79,16 @@
 
   <div *ngIf="state === patientStates.Success" class="completed">
     Your insurance was submitted
+  </div>
+
+  <div class="adding-insurance" [@slideIn] *ngIf="selectedDental || selectedMedical">
+    <div>
+      <app-dental-insurance header="Dental Insurance" *ngIf="selectedDental" (cancel)="onCancel()"
+        (addInsurance)="onAddInsurance($event)">
+      </app-dental-insurance>
+      <app-medical-insurance *ngIf="selectedMedical" (cancel)="onCancel()" (addInsurance)="onAddInsurance($event)">
+      </app-medical-insurance>
+    </div>
   </div>
 
 </mat-card>
