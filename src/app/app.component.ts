@@ -25,13 +25,6 @@ export class AppComponent extends Base implements OnInit {
   emailVerified = true;
   expanded = true;
   home = false;
-  navItems = [
-    { path: 'specialist', label: 'Specialist', icon: 'date_range' },
-    { path: 'referrals', label: 'Referrals', icon: 'message' },
-    { path: 'settings', label: 'Settings', icon: 'settings' },
-    { path: 'admin', label: 'Admin', icon: 'admin_panel_settings' },
-    { path: 'kpi', label: 'KPI', icon: 'analytics' },
-  ];
   isSpecialist = false;
   isAdmin = false;
   clinicName = '';
@@ -78,7 +71,8 @@ export class AppComponent extends Base implements OnInit {
       this.home = false;
       if (
         this.router.url.includes('/join') ||
-        this.router.url.includes('/patient') ||
+        (this.router.url.includes('/patient') &&
+          !this.router.url.includes('/patient-eligibility')) ||
         this.router.url.includes('/verify') ||
         this.router.url.includes('/secure') ||
         this.router.url.includes('/early-access') ||
@@ -98,11 +92,9 @@ export class AppComponent extends Base implements OnInit {
           .subscribe(myClinics => {
             const c = myClinics.data.clinicDetails;
             if (c.length === 1 && c[0].type === 'dentist') {
-              this.navItems[0].label = 'Specialist';
               this.isSpecialist = false;
             } else {
               this.isSpecialist = true;
-              this.navItems[0].label = 'Referring Clinics';
             }
 
             if (c[0] && c[0].name) {
