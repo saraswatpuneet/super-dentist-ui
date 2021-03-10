@@ -31,7 +31,7 @@ interface PatientDentalInsurance {
 interface PatientMedicalInsurance {
   company: string;
   groupNumber: string;
-  memberId: string;
+  ssn: string;
   subscriber: Subscriber;
 }
 
