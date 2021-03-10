@@ -43,12 +43,17 @@
         </header>
 
         <div fxLayout="row" fxLayoutGap="16px">
-          <div fxFlex class="detail">
+          <div fxFlex class="detail" *ngIf="!insurance.ssn">
             <div>Member Id</div>
             <div>{{insurance.memberId}}</div>
           </div>
 
-          <div class="detail" *ngIf="insurance.groupNumber">
+          <div fxFlex class="detail" *ngIf="insurance.ssn">
+            <div>SSN</div>
+            <div>{{insurance.ssn | mask: '000-00-0000'}}</div>
+          </div>
+
+          <div fxFlex class="detail" *ngIf="insurance.groupNumber">
             <div>Group Number</div>
             <div>{{insurance.groupNumber}}</div>
           </div>

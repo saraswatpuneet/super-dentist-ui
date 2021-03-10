@@ -12,8 +12,8 @@
   </div>
 
   <div class="sd-input">
-    <label>Member Id</label>
-    <input autocomplete="off" type="text" formControlName="memberId">
+    <label>Social Security Number</label>
+    <input autocomplete="off" type="text" mask='000-00-0000' [showMaskTyped]="true" formControlName="ssn">
   </div>
 
   <div class="sd-input">

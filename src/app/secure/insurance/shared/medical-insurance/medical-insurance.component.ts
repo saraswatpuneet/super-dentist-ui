@@ -17,7 +17,7 @@ export class MedicalInsuranceComponent implements OnInit {
   ngOnInit(): void {
     this.medicalForm = this.fb.group({
       company: ['', Validators.required],
-      memberId: ['', Validators.required],
+      ssn: ['', Validators.required],
       groupNumber: ['', Validators.required],
     });
   }
