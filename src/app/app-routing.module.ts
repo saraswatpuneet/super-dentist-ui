@@ -44,6 +44,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   // {
+  //   path: 'patient-eligibility',
+  //   loadChildren: () => import('./patient-eligibility/patient-eligibility.module').then(m => m.PatientEligibilityModule),
+  //   canActivate: [AuthGuard]
+  // },
+  // {
   //   path: 'login',
   //   loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
   // },
