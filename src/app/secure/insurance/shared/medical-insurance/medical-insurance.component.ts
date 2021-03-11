@@ -18,7 +18,6 @@ export class MedicalInsuranceComponent implements OnInit {
     this.medicalForm = this.fb.group({
       company: ['', Validators.required],
       ssn: ['', Validators.required],
-      groupNumber: ['', Validators.required],
     });
   }
 
