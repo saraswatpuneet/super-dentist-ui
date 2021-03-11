@@ -71,8 +71,7 @@ export class AppComponent extends Base implements OnInit {
       this.home = false;
       if (
         this.router.url.includes('/join') ||
-        (this.router.url.includes('/patient') &&
-          !this.router.url.includes('/patient-eligibility')) ||
+        this.router.url.includes('/patient') ||
         this.router.url.includes('/verify') ||
         this.router.url.includes('/secure') ||
         this.router.url.includes('/early-access') ||

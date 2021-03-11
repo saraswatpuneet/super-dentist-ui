@@ -105,7 +105,7 @@ export class InsuranceComponent implements OnInit, OnDestroy {
     this.auth.signOut();
   }
 
-  signIn(): void {
+  private signIn(): void {
     this.auth.signInAnonymously()
       .then((d) => {
         // Signed in..
@@ -158,7 +158,7 @@ export class InsuranceComponent implements OnInit, OnDestroy {
       if (insurance.groupNumber) {
         medicalInsurance.push(insurance);
       } else {
-        dentalInsurance.push(insurance)
+        dentalInsurance.push(insurance);
       }
     });
     if (dentalInsurance.length > 0) {

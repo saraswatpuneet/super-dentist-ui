@@ -1,14 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ReferralService } from '../shared/services/referral.service';
 import { take } from 'rxjs/operators';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-early-access',
   templateUrl: './early-access.component.html',
   styleUrls: ['./early-access.component.scss']
 })
-export class EarlyAccessComponent implements OnInit {
+export class EarlyAccessComponent implements OnInit, OnDestroy {
   accessForm: FormGroup;
   loading = false;
   complete = false;
@@ -16,11 +17,17 @@ export class EarlyAccessComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private auth: AngularFireAuth,
     private referralService: ReferralService
   ) { }
 
   ngOnInit(): void {
+    this.signIn();
     this.initForm();
+  }
+
+  ngOnDestroy(): void {
+    this.auth.signOut();
   }
 
   submitAccess(): void {
@@ -33,6 +40,30 @@ export class EarlyAccessComponent implements OnInit {
           this.complete = true;
         });
     }
+  }
+
+  private signIn(): void {
+    this.auth.signInAnonymously()
+      .then((d) => {
+        // Signed in..
+        this.auth.onAuthStateChanged((user) => {
+          if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            var uid = user.uid;
+            // ...
+          } else {
+            // User is signed out
+            // ...
+          }
+        });
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(error);
+        // ...
+      });
   }
 
   private initForm(): void {
