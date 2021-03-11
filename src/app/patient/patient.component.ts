@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { take, map, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { of } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -35,7 +36,7 @@ enum PatientStates {
   styleUrls: ['./patient.component.scss'],
   animations: patientAnimations
 })
-export class PatientComponent implements OnInit, AfterViewInit {
+export class PatientComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('m') m: ElementRef;
   @ViewChild('refPhotoEl') refPhotoEl: ElementRef;
   patientForm: FormGroup;
@@ -50,6 +51,7 @@ export class PatientComponent implements OnInit, AfterViewInit {
   fileInfo = '';
 
   constructor(
+    private auth: AngularFireAuth,
     private ngZone: NgZone,
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -64,6 +66,7 @@ export class PatientComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    this.signIn();
     this.initForm();
   }
 
@@ -81,6 +84,10 @@ export class PatientComponent implements OnInit, AfterViewInit {
       this.files = [];
       Array.from(fileUpload.files).forEach(file => this.files.push(file));
     };
+  }
+
+  ngOnDestroy(): void {
+    this.auth.signOut();
   }
 
   completeReferral(): void {
@@ -134,6 +141,30 @@ export class PatientComponent implements OnInit, AfterViewInit {
 
   private addFromPlaceId(place, status): void {
     this.ngZone.run(() => this.fromPlaceDetails.push(place));
+  }
+
+  private signIn(): void {
+    this.auth.signInAnonymously()
+      .then((d) => {
+        // Signed in..
+        this.auth.onAuthStateChanged((user) => {
+          if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            var uid = user.uid;
+            // ...
+          } else {
+            // User is signed out
+            // ...
+          }
+        });
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(error);
+        // ...
+      });
   }
 
   private initializeGoogleMapsApi(): void {
