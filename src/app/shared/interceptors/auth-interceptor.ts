@@ -13,12 +13,10 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.url.includes('maps.googleapis.com/maps/api') ||
-      req.url.includes('us-central1-superdentist.cloudfunctions.net') ||
-      req.url.includes('v1/qrReferral') ||
-      req.url.includes('referral/scheduledemo') ||
-      req.url.includes('v1/patient/registration')) {
+      req.url.includes('v1/qrReferral')) {
       return next.handle(req);
     }
+    console.log(this.auth.currentUser);
 
     return from(this.auth.currentUser).pipe(
       mergeMap(user => user.getIdToken()),
