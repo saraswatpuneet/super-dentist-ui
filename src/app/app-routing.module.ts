@@ -45,7 +45,12 @@ const routes: Routes = [
   },
   // {
   //   path: 'eligibility-benefits',
-  //   loadChildren: () => import('./eligibility-benefits/patient-eligibility.module').then(m => m.PatientEligibilityModule),
+  //   loadChildren: () => import('./eligibility-benefits/eligibility-benefits.module').then(m => m.EligibilityBenefitsModule),
+  //   canActivate: [AuthGuard]
+  // },
+  // {
+  //   path: 'insurance-completion',
+  //   loadChildren: () => import('./insurance-completion/insurance-completion.module').then(m => m.InsuranceCompletionModule),
   //   canActivate: [AuthGuard]
   // },
   // {
