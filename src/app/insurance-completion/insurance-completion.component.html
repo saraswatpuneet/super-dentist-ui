@@ -20,8 +20,8 @@
 
       <div *ngIf="selectedClinic">
         <h3>Patients</h3>
-        <div class="e-list" *ngFor="let patient of patients">
-          <div class="e-list-item" *ngFor="let patient of patients">
+        <div (click)="selectPatient(patient)" class="e-list" *ngFor="let patient of patients">
+          <div class="e-list-item">
             <div>{{patient.firstName}} {{patient.lastName}}</div>
             <!-- <div class="clinic-address">{{clinic.address}}</div> -->
           </div>
@@ -30,7 +30,7 @@
     </mat-card>
   </div>
 
-  <mat-card class="c-card groups">
+  <mat-card class="c-card groups" *ngIf="selectedPatient">
     <div class="group" *ngFor="let group of groups" fxLayout="column" fxLayoutGap="36px">
       <h3>{{group.category}}</h3>
       <div class="sd-input" *ngFor="let key of group.componentKeys">

@@ -17,6 +17,7 @@ export class InsuranceCompletionComponent extends Base implements OnInit {
   clinics = [];
   selectedClinicAddressId = '';
   selectedClinic: any;
+  selectedPatient: any;
   patients = [];
 
   private patientSubject = new Subject<string>();
@@ -46,7 +47,12 @@ export class InsuranceCompletionComponent extends Base implements OnInit {
 
   getPatients(clinic: any): void {
     this.selectedClinic = clinic;
+    this.patients = undefined;
     this.patientSubject.next(this.selectedClinic.addressId);
+  }
+
+  selectPatient(patient: any): void {
+    this.selectedPatient = patient;
   }
 
   private watchPatients(): void {
