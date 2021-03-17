@@ -1,12 +1,16 @@
-<div class="eligibility-benefits">
+<div class="eligibility-benefits" fxLayout="row" fxLayoutGap="24px">
   <mat-card class="c-card e-list">
-    <div class="e-list-item" *ngFor="let clinic of clinics">
+    <div class="e-list-item" (click)="getPatients(clinic.addressId)"
+      [ngClass]="{'active-clinic': selectedClinicAddressId === clinic.addressId}" *ngFor="let clinic of clinics">
       <div class="clinic-name">{{clinic.name}}</div>
       <div class="clinic-address">{{clinic.address}}</div>
     </div>
   </mat-card>
 
-  <div class="e-content">
-
-  </div>
+  <mat-card class="c-card e-list">
+    <div class="e-list-item" *ngFor="let patient of patients">
+      <!-- <div class="clinic-name">{{clinic.name}}</div>
+      <div class="clinic-address">{{clinic.address}}</div> -->
+    </div>
+  </mat-card>
 </div>
