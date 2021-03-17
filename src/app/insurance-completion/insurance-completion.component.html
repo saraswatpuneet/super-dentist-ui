@@ -1,4 +1,18 @@
-<div class="insruance-completion">
+<div class="insruance-completion" fxLayout="row" fxLayoutGap="24px">
+  <mat-card class="c-card e-list">
+    <div class="e-list-item" (click)="getPatients(clinic.addressId)"
+      [ngClass]="{'active-clinic': selectedClinicAddressId === clinic.addressId}" *ngFor="let clinic of clinics">
+      <div class="clinic-name">{{clinic.name}}</div>
+      <div class="clinic-address">{{clinic.address}}</div>
+    </div>
+  </mat-card>
+
+  <mat-card class="c-card e-list">
+    <div class="e-list-item" *ngFor="let patient of patients">
+      <!-- <div class="clinic-name">{{clinic.name}}</div>
+          <div class="clinic-address">{{clinic.address}}</div> -->
+    </div>
+  </mat-card>
   <mat-card class="c-card">
     <div class="group" *ngFor="let group of groups" fxLayout="column" fxLayoutGap="36px">
       <h3>{{group.category}}</h3>
