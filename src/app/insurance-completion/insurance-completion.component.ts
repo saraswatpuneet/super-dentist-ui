@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { Base } from '../shared/base/base-component';
 import { PatientService } from '../shared/services/patient.service';
 import { ClinicService } from '../shared/services/clinic.service';
-import { filter, map, takeUntil, switchMap } from 'rxjs/operators';
+import { filter, map, takeUntil, switchMap, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-insurance-completion',
@@ -16,6 +16,7 @@ export class InsuranceCompletionComponent extends Base implements OnInit {
   groups: InsuranceGroup[] = [];
   clinics = [];
   selectedClinicAddressId = '';
+  selectedClinic: any;
   patients = [];
 
   private patientSubject = new Subject<string>();
@@ -37,27 +38,26 @@ export class InsuranceCompletionComponent extends Base implements OnInit {
         this.clinics = clinics;
         console.log(clinics);
         if (clinics && clinics.length > 0) {
-          this.patientSubject.next(clinics[0].addressId);
+          this.selectedClinic = clinics[0];
+          this.patientSubject.next(this.selectedClinic.addressId);
         }
       });
   }
 
-  getPatients(addressId: string): void {
-    console.log('addressId for request', addressId);
-    this.patientSubject.next(addressId);
+  getPatients(clinic: any): void {
+    this.selectedClinic = clinic;
+    this.patientSubject.next(this.selectedClinic.addressId);
   }
 
   private watchPatients(): void {
     this.patientSubject.pipe(
-      // distinctUntilChanged(),
-      switchMap(addressId => {
-        this.selectedClinicAddressId = addressId;
-        return this.patientService.getAllPatientsForClinic(addressId);
-      }),
+      distinctUntilChanged(),
+      switchMap(addressId => this.patientService.getAllPatientsForClinic(addressId)),
       map(res => res.data),
       takeUntil(this.unsubscribe$)
     )
       .subscribe(res => {
+        this.patients = res;
         console.log('Patients for clinic', res);
       });
   }

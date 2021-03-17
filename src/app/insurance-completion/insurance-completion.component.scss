@@ -1,19 +1,35 @@
 .insruance-completion {
-  padding: 20px 20px 20px 10px;
   box-sizing: border-box;
+  position: relative;
+  height: 100%;
+  padding: 20px 20px 20px 10px;
 
   .active-clinic {
     background: rgba(grey, 0.2);
   }
 
-  .e-list {
+  
+  .i-list-container {
     width: 340px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .header {
+      margin-bottom: 24px;
+    }
+  
+    .items {
+      .e-list-item {
+        border-top: 1px solid rgba(grey, 0.5);
+      }
+    }
     
     .e-list-item {
+      position: relative;
       padding: 16px 8px;
       cursor: pointer;
-      border-bottom: 1px solid rgba(grey, 0.5);
-
+  
       &:hover {
         background: rgba(grey, 0.2);
       }
@@ -28,8 +44,10 @@
     opacity: 0.5;
     font-size: 12px;
   }
-  
-  h3  {
-    margin-top: 20px;
+
+  .groups {
+    h3  {
+      margin-top: 20px;
+    }
   }
 }
