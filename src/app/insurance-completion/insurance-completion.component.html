@@ -1,1 +1,11 @@
-<div class="insruance-completion"></div>
+<div class="insruance-completion">
+  <mat-card class="c-card">
+    <div class="group" *ngFor="let group of groups" fxLayout="column" fxLayoutGap="36px">
+      <h3>{{group.category}}</h3>
+      <div class="sd-input" *ngFor="let key of group.componentKeys">
+        <label>{{group.components[key].label}}</label>
+        <input type="text">
+      </div>
+    </div>
+  </mat-card>
+</div>

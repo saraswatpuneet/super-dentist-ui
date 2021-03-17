@@ -1,1 +1,12 @@
-<p>patient-eligibility works!</p>
+<div class="eligibility-benefits">
+  <mat-card class="c-card e-list">
+    <div class="e-list-item" *ngFor="let clinic of clinics">
+      <div class="clinic-name">{{clinic.name}}</div>
+      <div class="clinic-address">{{clinic.address}}</div>
+    </div>
+  </mat-card>
+
+  <div class="e-content">
+
+  </div>
+</div>
