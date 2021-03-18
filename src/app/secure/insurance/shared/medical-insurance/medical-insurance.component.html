@@ -8,12 +8,12 @@
 
   <div class="sd-input">
     <label>Company</label>
-    <input autocomplete="off" type="text" formControlName="company">
+    <input required autocomplete="off" type="text" formControlName="company">
   </div>
 
   <div class="sd-input">
     <label>Social Security Number</label>
-    <input autocomplete="off" type="text" mask='000-00-0000' [showMaskTyped]="true" formControlName="ssn">
+    <input required autocomplete="off" type="text" mask='000-00-0000' [showMaskTyped]="true" formControlName="ssn">
   </div>
 
   <div class="subscriber">
