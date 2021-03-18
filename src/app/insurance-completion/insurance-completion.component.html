@@ -1,6 +1,7 @@
 <div class="insruance-completion" fxLayout="row" fxLayoutGap="24px">
   <div class="i-list-container">
-    <mat-card class="e-list-item header" (click)="selectedClinic = undefined" fxLayout="column" *ngIf="selectedClinic">
+    <mat-card class="e-list-item header" (click)="selectedClinic = undefined; selectedPatient = undefined;"
+      fxLayout="column" *ngIf="selectedClinic">
       <div class="clinic-name">{{selectedClinic.name}}</div>
       <div class="clinic-address"> {{selectedClinic.address}} </div>
     </mat-card>
@@ -20,7 +21,9 @@
 
       <div *ngIf="selectedClinic">
         <h3>Patients</h3>
-        <div (click)="selectPatient(patient)" class="e-list" *ngFor="let patient of patients">
+        <div (click)="selectPatient(patient)"
+          [ngClass]="{'active-clinic': patient.patientId === selectedPatient?.patientId}" class="e-list"
+          *ngFor="let patient of patients">
           <div class="e-list-item">
             <div>{{patient.firstName}} {{patient.lastName}}</div>
             <!-- <div class="clinic-address">{{clinic.address}}</div> -->
@@ -30,7 +33,7 @@
     </mat-card>
   </div>
 
-  <mat-card class="c-card groups" *ngIf="selectedPatient">
+  <mat-card fxFlex class="c-card groups" *ngIf="selectedPatient">
     <div class="group" *ngFor="let group of groups" fxLayout="column" fxLayoutGap="36px">
       <h3>{{group.category}}</h3>
       <div class="sd-input" *ngFor="let key of group.componentKeys">

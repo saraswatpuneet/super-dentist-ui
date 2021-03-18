@@ -15,3 +15,4 @@ export class PatientService {
     return this.http.get(`${this.baseUrl}/list/${addressId}`);
   }
 }
+
