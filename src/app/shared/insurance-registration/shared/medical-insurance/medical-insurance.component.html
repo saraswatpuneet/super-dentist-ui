@@ -1,0 +1,50 @@
+<div class="medical-insurance" [formGroup]="medicalForm" fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <h3>Adding Medical Insurance</h3>
+    <button mat-icon-button (click)="cancel.emit()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="sd-input">
+    <label>Company</label>
+    <input autocomplete="off" type="text" formControlName="company">
+  </div>
+
+  <div fxLayout="column" class="or-field">
+    <div class="sd-input adj-m">
+      <label>Social Security Number</label>
+      <input autocomplete="off" type="text" mask='000-00-0000' [showMaskTyped]="true" formControlName="ssn">
+    </div>
+    <p>or</p>
+    <div class="sd-input">
+      <label>Member ID</label>
+      <input autocomplete="off" type="text" formControlName="memberId">
+    </div>
+  </div>
+
+  <div class="subscriber">
+    <mat-slide-toggle color="primary" [checked]="subscriber" (change)="subscriber2($event)" labelPosition="before">
+      Are you the subscriber?
+    </mat-slide-toggle>
+  </div>
+
+  <ng-container *ngIf="!subscriber" formGroupName="subscriber">
+    <div class="sd-input">
+      <label>Subscriber First Name</label>
+      <input autocomplete="off" type="text" formControlName="firstName">
+    </div>
+
+    <div class="sd-input">
+      <label>Subscriber Last Name</label>
+      <input autocomplete="off" type="text" formControlName="lastName">
+    </div>
+    <app-dob [dobGroup]="medicalForm.get('subscriber.dob')"></app-dob>
+  </ng-container>
+
+  <div class="actions" fxLayout="row" fxLayoutGap="8px">
+    <button mat-button (click)="cancel.emit()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="sendInsurance()" [disabled]="!medicalForm.valid">Add Medical
+      Insurance</button>
+  </div>
+</div>

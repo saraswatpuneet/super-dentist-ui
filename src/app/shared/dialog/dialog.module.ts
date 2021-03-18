@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { NearbyClinicsComponent } from './nearby-clinics/nearby-clinics.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { InsuranceRegistrationModule } from '../insurance-registration/insurance-registration.module';
 
 @NgModule({
   declarations: [NearbyClinicsComponent, ForgotPasswordComponent],
@@ -20,6 +21,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     ReactiveFormsModule,
     MatButtonModule,
     MatCardModule,
+    InsuranceRegistrationModule,
     MatDialogModule,
     MatIconModule,
     MatProgressSpinnerModule,

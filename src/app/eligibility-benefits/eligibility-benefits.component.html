@@ -1,3 +1,7 @@
 <div class="eligibility-benefits" fxLayout="row" fxLayoutGap="24px">
-
+  <button mat-raised-button (click)="showInsurance = true">Insurance check</button>
+  <div class="fix" *ngIf="showInsurance">
+    <app-insurance-registration (cancelRegistration)="onCancelRegistration()" [canCancel]="true">
+    </app-insurance-registration>
+  </div>
 </div>

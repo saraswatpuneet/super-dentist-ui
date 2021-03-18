@@ -123,6 +123,7 @@
     overflow: auto;
     background: linear-gradient(90deg, #3b3d42, #232425);
     transition: 0.3s;
+    z-index: 10;
 
     > * {
       max-width: 100%;

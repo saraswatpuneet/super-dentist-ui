@@ -2,30 +2,16 @@
   padding: 20px 20px 20px 10px;
   box-sizing: border-box;
 
-  .active-clinic {
-    background: rgba(grey, 0.2);
-  }
-
-  .e-list {
-    width: 340px;
-    
-    .e-list-item {
-      padding: 16px 8px;
-      cursor: pointer;
-      border-bottom: 1px solid rgba(grey, 0.5);
-
-      &:hover {
-        background: rgba(grey, 0.2);
-      }
-    }
-  }
-
-  .clinic-name {
-    font-size: 16px;
-  }
-
-  .clinic-address {
-    opacity: 0.5;
-    font-size: 12px;
+  .fix {
+    position: fixed;
+    padding: 20px;
+    box-sizing: border-box;
+    height: calc(100vh - 56px);
+    top: 56px;
+    left: 0;
+    width: 100vw;
+    overflow: auto;
+    z-index: 4;
+    background: linear-gradient(90deg, #3b3d42, #232425);
   }
 }

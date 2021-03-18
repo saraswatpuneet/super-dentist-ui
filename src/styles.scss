@@ -298,6 +298,12 @@ textarea {
 }
 
 .light {
+ .eligibility-benefits {  
+    .fix {
+      background: linear-gradient(270deg, #fdfcfb, #ebeef3) !important;  
+    }
+  }
+
   .insurance {
     .adding-insurance {
       background: linear-gradient(270deg, #fdfcfb, #ebeef3) !important;

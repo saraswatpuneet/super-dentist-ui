@@ -6,6 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./eligibility-benefits.component.scss']
 })
 export class EligibilityBenefitsComponent {
-
+  showInsurance = false;
   constructor() { }
+
+  onCancelRegistration(): void {
+    this.showInsurance = false;
+  }
 }

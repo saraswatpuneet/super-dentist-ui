@@ -8,24 +8,24 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxMaskModule } from 'ngx-mask';
 
-import { InsuranceRoutingModule } from './insurance-routing.module';
-import { InsuranceComponent } from './insurance.component';
-import { InsuranceRegistrationModule } from 'src/app/shared/insurance-registration/insurance-registration.module';
+import { InsuranceRegistrationComponent } from './insurance-registration.component';
+import { DobComponent } from './shared/dob/dob.component';
+import { DentalInsuranceComponent } from './shared/dental-insurance/dental-insurance.component';
+import { MedicalInsuranceComponent } from './shared/medical-insurance/medical-insurance.component';
 
 @NgModule({
-  declarations: [InsuranceComponent],
+  declarations: [InsuranceRegistrationComponent, DobComponent, DentalInsuranceComponent, MedicalInsuranceComponent],
   imports: [
     CommonModule,
     FormsModule,
     FlexLayoutModule,
     MatButtonModule,
-    InsuranceRegistrationModule,
     MatIconModule,
     MatCardModule,
     MatSlideToggleModule,
     NgxMaskModule,
     ReactiveFormsModule,
-    InsuranceRoutingModule
-  ]
+  ],
+  exports: [InsuranceRegistrationComponent]
 })
-export class InsuranceModule { }
+export class InsuranceRegistrationModule { }

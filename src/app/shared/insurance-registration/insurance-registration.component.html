@@ -1,9 +1,14 @@
-<app-insurance-registration></app-insurance-registration>
-<!-- <mat-card class="c-card insurance" ngClass.lt-md="smaller" fxLayout="column" fxLayoutAlign=" center">
+<mat-card class="c-card insurance" ngClass.lt-md="smaller" fxLayout="column" fxLayoutAlign=" center">
 
   <input style="display:none" #refPhotoEl type="file" accept="image/*">
 
-  <h1>Please submit your insurance for an accurate copay.</h1>
+  <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="24px">
+    <h1 *ngIf="state === patientStates.Form || state === patientStates.Processing">Please submit your insurance for an
+      accurate copay.</h1>
+    <button (click)="cancel()" *ngIf="canCancel" mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
 
   <form *ngIf="state === patientStates.Form || state === patientStates.Processing" fxLayout="column" fxLayoutGap="36px"
     autocomplete="off" [formGroup]="insuranceForm">
@@ -79,12 +84,15 @@
       </div>
     </div>
 
-    <button [disabled]="!insuranceForm.valid || insurances.length === 0" (click)="submit()" mat-raised-button
-      color="primary">
-      <mat-progress-spinner *ngIf="state === patientStates.Processing" mode="indeterminate" diameter="24">
-      </mat-progress-spinner>
-      Submit Insurance
-    </button>
+    <div fxLayout="row" fxLayoutGap="12px">
+      <button mat-raised-button type="button" (click)="cancel()" fxFlex *ngIf="canCancel">Cancel</button>
+      <button fxFlex [disabled]="!insuranceForm.valid || insurances.length === 0" (click)="submit()" mat-raised-button
+        color="primary">
+        <mat-progress-spinner *ngIf="state === patientStates.Processing" mode="indeterminate" diameter="24">
+        </mat-progress-spinner>
+        Submit Insurance
+      </button>
+    </div>
   </form>
 
   <div *ngIf="state === patientStates.Success" class="completed">
@@ -101,4 +109,4 @@
     </div>
   </div>
 
-</mat-card> -->
+</mat-card>
