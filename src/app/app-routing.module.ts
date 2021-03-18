@@ -43,16 +43,16 @@ const routes: Routes = [
     loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),
     canActivate: [AuthGuard]
   },
-  {
-    path: 'eligibility-benefits',
-    loadChildren: () => import('./eligibility-benefits/eligibility-benefits.module').then(m => m.EligibilityBenefitsModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'insurance-completion',
-    loadChildren: () => import('./insurance-completion/insurance-completion.module').then(m => m.InsuranceCompletionModule),
-    canActivate: [AuthGuard]
-  },
+  // {
+  //   path: 'eligibility-benefits',
+  //   loadChildren: () => import('./eligibility-benefits/eligibility-benefits.module').then(m => m.EligibilityBenefitsModule),
+  //   canActivate: [AuthGuard]
+  // },
+  // {
+  //   path: 'insurance-completion',
+  //   loadChildren: () => import('./insurance-completion/insurance-completion.module').then(m => m.InsuranceCompletionModule),
+  //   canActivate: [AuthGuard]
+  // },
   // {
   //   path: 'login',
   //   loadChildren: () => import('./login/login.module').then(m => m.LoginModule)

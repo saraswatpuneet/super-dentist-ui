@@ -1,5 +1,18 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+
+function atLeastOne(c: AbstractControl): { [key: string]: any } | null {
+  const value = c.value;
+  if (!value.company) {
+    return { forbidden: { value: 'missing company' } }
+  }
+
+  if (!value.ssn && !value.memberId) {
+    return { forbidden: { value: 'Need ssn' } };
+  }
+
+  return null;
+}
 
 @Component({
   selector: 'app-medical-insurance',
@@ -16,9 +29,10 @@ export class MedicalInsuranceComponent implements OnInit {
 
   ngOnInit(): void {
     this.medicalForm = this.fb.group({
-      company: ['', Validators.required],
-      ssn: ['', Validators.required],
-    });
+      company: [''],
+      ssn: [''],
+      memberId: ['']
+    }, { validators: atLeastOne });
   }
 
   subscriber2(e): void {

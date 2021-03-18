@@ -22,7 +22,6 @@
       <input type="text" autocomplete="off" formControlName="zipCode">
     </div>
 
-
     <app-dob [dobGroup]="insuranceForm.controls.dob"></app-dob>
 
     <div class="add-insurances" fxLayout="column">
@@ -48,7 +47,7 @@
         </header>
 
         <div fxLayout="row" fxLayoutGap="16px">
-          <div fxFlex class="detail" *ngIf="!insurance.ssn">
+          <div fxFlex class="detail" *ngIf="insurance.memberId">
             <div>Member Id</div>
             <div>{{insurance.memberId}}</div>
           </div>

@@ -8,12 +8,19 @@
 
   <div class="sd-input">
     <label>Company</label>
-    <input required autocomplete="off" type="text" formControlName="company">
+    <input autocomplete="off" type="text" formControlName="company">
   </div>
 
-  <div class="sd-input">
-    <label>Social Security Number</label>
-    <input required autocomplete="off" type="text" mask='000-00-0000' [showMaskTyped]="true" formControlName="ssn">
+  <div fxLayout="column" class="or-field">
+    <div class="sd-input adj-m">
+      <label>Social Security Number</label>
+      <input autocomplete="off" type="text" mask='000-00-0000' [showMaskTyped]="true" formControlName="ssn">
+    </div>
+    <p>or</p>
+    <div class="sd-input">
+      <label>Member ID</label>
+      <input autocomplete="off" type="text" formControlName="memberId">
+    </div>
   </div>
 
   <div class="subscriber">
