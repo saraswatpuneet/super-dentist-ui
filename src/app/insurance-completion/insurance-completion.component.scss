@@ -1,0 +1,53 @@
+.insruance-completion {
+  box-sizing: border-box;
+  position: relative;
+  height: 100%;
+  padding: 20px 20px 20px 10px;
+
+  .active-clinic {
+    background: rgba(grey, 0.2);
+  }
+
+  
+  .i-list-container {
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .header {
+      margin-bottom: 24px;
+    }
+  
+    .items {
+      .e-list-item {
+        border-top: 1px solid rgba(grey, 0.5);
+      }
+    }
+    
+    .e-list-item {
+      position: relative;
+      padding: 16px 8px;
+      cursor: pointer;
+  
+      &:hover {
+        background: rgba(grey, 0.2);
+      }
+    }
+  }
+
+  .clinic-name {
+    font-size: 16px;
+  }
+
+  .clinic-address {
+    opacity: 0.5;
+    font-size: 12px;
+  }
+
+  .groups {
+    h3  {
+      margin-top: 20px;
+    }
+  }
+}

@@ -4,7 +4,6 @@
 
   <h1>Please submit your insurance for an accurate copay.</h1>
 
-
   <form *ngIf="state === patientStates.Form || state === patientStates.Processing" fxLayout="column" fxLayoutGap="36px"
     autocomplete="off" [formGroup]="insuranceForm">
     <h3>Patient Info</h3>
@@ -16,6 +15,11 @@
     <div class="sd-input">
       <label>Last Name</label>
       <input type="text" autocomplete="off" formControlName="lastName">
+    </div>
+
+    <div class="sd-input">
+      <label>Zip Code</label>
+      <input type="text" autocomplete="off" formControlName="zipCode">
     </div>
 
     <app-dob [dobGroup]="insuranceForm.controls.dob"></app-dob>
@@ -43,7 +47,7 @@
         </header>
 
         <div fxLayout="row" fxLayoutGap="16px">
-          <div fxFlex class="detail" *ngIf="!insurance.ssn">
+          <div fxFlex class="detail" *ngIf="insurance.memberId">
             <div>Member Id</div>
             <div>{{insurance.memberId}}</div>
           </div>

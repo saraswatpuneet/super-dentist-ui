@@ -39,6 +39,10 @@ export class ClinicService {
       }));
   }
 
+  getAllClinics(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/getAll`);
+  }
+
   clearCache(): void {
     this.cache = {};
   }

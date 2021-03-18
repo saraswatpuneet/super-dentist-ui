@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { take } from 'rxjs/operators';
@@ -12,6 +12,7 @@ interface PatientForInsurance {
   firstName: string;
   lastName: string;
   dob: DOB;
+  zipCode: string;
   dentalInsurance: PatientDentalInsurance[];
   medicalInsurance: PatientMedicalInsurance[];
 }
@@ -85,8 +86,7 @@ export class InsuranceComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private http: HttpClient,
-    private auth: AngularFireAuth,
-    private cdr: ChangeDetectorRef
+    private auth: AngularFireAuth
   ) { }
 
   ngOnInit(): void {
@@ -192,6 +192,7 @@ export class InsuranceComponent implements OnInit, OnDestroy {
         day: ['1', Validators.required],
         year: ['2000', Validators.required],
       }),
+      zipCode: ['', Validators.required]
     });
   }
 }
