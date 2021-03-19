@@ -14,6 +14,7 @@ import { insuranceAnimations } from './insurance.animations';
 })
 export class InsuranceComponent implements OnInit, OnDestroy {
   referralId = '';
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,

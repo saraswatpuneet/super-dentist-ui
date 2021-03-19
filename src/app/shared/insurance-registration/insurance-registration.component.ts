@@ -55,11 +55,11 @@ enum PatientStates {
 })
 export class InsuranceRegistrationComponent implements OnInit {
   @Input() canCancel = false;
+  @Input() referralId: string;
   @Output() cancelRegistration = new EventEmitter();
   insuranceForm: FormGroup;
   moreDental = false;
   moreMedical = false;
-  referralId = '';
   state = PatientStates.Form;
   patientStates = PatientStates;
   insurances = [];
@@ -122,7 +122,10 @@ export class InsuranceRegistrationComponent implements OnInit {
     if (medicalInsurance.length > 0) {
       formData.append('medicalInsurance', JSON.stringify(dentalInsurance));
     }
-    formData.append('referralId', this.referralId);
+
+    if (this.referralId) {
+      formData.append('referralId', this.referralId);
+    }
     formData.append('firstName', p.firstName);
     formData.append('lastName', p.lastName);
     formData.append('dob', JSON.stringify(p.dob));
