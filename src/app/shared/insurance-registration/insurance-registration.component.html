@@ -5,7 +5,7 @@
   <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="24px">
     <h1 *ngIf="state === patientStates.Form || state === patientStates.Processing">Please submit your insurance for an
       accurate copay.</h1>
-    <button (click)="cancel()" *ngIf="canCancel" mat-icon-button>
+    <button (click)="cancel()" *ngIf="canCancel && state !== patientStates.Success" mat-icon-button>
       <mat-icon>close</mat-icon>
     </button>
   </div>
@@ -95,8 +95,10 @@
     </div>
   </form>
 
-  <div *ngIf="state === patientStates.Success" class="completed">
-    Your insurance was submitted
+  <div *ngIf="state === patientStates.Success" fxLayoutAlign="center center" fxLayoutGap="20px" fxLayout="column"
+    class="completed">
+    <h3>Your insurance was submitted</h3>
+    <button mat-raised-button (click)="cancel()" color="primary">Close</button>
   </div>
 
   <div class="adding-insurance" [@slideIn] *ngIf="selectedDental || selectedMedical">

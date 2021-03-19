@@ -134,9 +134,6 @@ export class InsuranceRegistrationComponent implements OnInit {
       .pipe(take(1))
       .subscribe((res) => {
         this.state = PatientStates.Success;
-        if (!this.referralId) {
-          this.cancel();
-        }
       });
   }
 
