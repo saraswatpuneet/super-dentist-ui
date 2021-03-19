@@ -130,7 +130,14 @@ export class InsuranceRegistrationComponent implements OnInit {
     formData.append('lastName', p.lastName);
     formData.append('dob', JSON.stringify(p.dob));
     this.state = PatientStates.Processing;
-    this.http.post(url, formData).pipe(take(1)).subscribe((res) => this.state = PatientStates.Success);
+    this.http.post(url, formData)
+      .pipe(take(1))
+      .subscribe((res) => {
+        this.state = PatientStates.Success;
+        if (!this.referralId) {
+          this.cancel();
+        }
+      });
   }
 
   addDentalInsurance(): void {
