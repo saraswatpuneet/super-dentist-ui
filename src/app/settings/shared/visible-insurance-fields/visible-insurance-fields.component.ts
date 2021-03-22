@@ -33,6 +33,7 @@ export class VisibleInsuranceFieldsComponent extends Base implements OnInit {
   ) { super(); }
 
   ngOnInit(): void {
+    this.watchTrigger();
     this.insuranceService.getPracticeCodes()
       .pipe(take(1))
       .subscribe(codes => {
@@ -57,6 +58,9 @@ export class VisibleInsuranceFieldsComponent extends Base implements OnInit {
     this.selectedCodes.breakDownKeys.forEach(k => {
       this.selectedCodes.breakDowns[k].breakDownKeys = Object.keys(this.selectedCodes.breakDowns[k].breakDowns);
     });
+    this.selectedCodes.key = this.insuranceCodes.key;
+    this.selectedCodes.label = this.insuranceCodes.label;
+    this.clinicService.saveSelectedPracticeCodes(this.selectedClinic.addressId, this.selectedCodes).pipe(take(1)).subscribe(console.log);
     console.log('Selected Clinic', this.selectedClinic);
     console.log('Selected Codes', this.selectedCodes);
   }
@@ -69,7 +73,13 @@ export class VisibleInsuranceFieldsComponent extends Base implements OnInit {
       this.selectedCodes.breakDowns[breakDown.key].breakDowns[subBreakDown.key] = subBreakDown;
     } else {
       delete this.selectedCodes.breakDowns[breakDown.key].breakDowns[subBreakDown.key];
-
     }
+  }
+
+  private watchTrigger(): void {
+    this.triggerInsurance.pipe(
+      switchMap(() => this.clinicService.getSelectedPracticeCodes(this.selectedClinic.addressId)),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(console.log);
   }
 }

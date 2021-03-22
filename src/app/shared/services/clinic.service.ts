@@ -5,6 +5,7 @@ import { Observable, EMPTY } from 'rxjs';
 import { ClinicDetail, DoctorDetail, ClinicServicesOffered } from './clinic';
 import { shareReplay, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { DentalBreakDowns } from './insurance';
 
 @Injectable({
   providedIn: 'root'
@@ -115,5 +116,13 @@ export class ClinicService {
 
   registerServices(services: ClinicServicesOffered[]): Observable<any> {
     return this.http.post(`${this.baseUrl}/registerServices`, { services });
+  }
+
+  getSelectedPracticeCodes(addressId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/practiceCodes/${addressId}`);
+  }
+
+  saveSelectedPracticeCodes(addressId: string, selectedCodes: DentalBreakDowns): Observable<DentalBreakDowns> {
+    return this.http.post<any>(`${this.baseUrl}/practiceCodes/${addressId}`, selectedCodes);
   }
 }
