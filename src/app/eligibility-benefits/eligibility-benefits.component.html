@@ -1,7 +1,16 @@
 <div class="eligibility-benefits" fxLayout="row" fxLayoutGap="24px">
-  <button mat-raised-button (click)="showInsurance = true">Insurance check</button>
-  <div class="fix" *ngIf="showInsurance">
-    <app-insurance-registration (cancelRegistration)="onCancelRegistration()" [canCancel]="true">
-    </app-insurance-registration>
-  </div>
+  <mat-card class="c-card">
+    <button mat-raised-button (click)="showInsurance = true">Insurance check</button>
+    <div class="fix" *ngIf="showInsurance">
+      <app-insurance-registration (cancelRegistration)="onCancelRegistration()" [clinics]="clinics" [canCancel]="true">
+      </app-insurance-registration>
+    </div>
+
+    <div *ngFor="let clinic of clinics; let i = index">
+      <h3>{{clinic.name}}</h3>
+      <div *ngFor="let patient of patients[i]">
+        {{patient.firstName}} {{patient.lastName}}
+      </div>
+    </div>
+  </mat-card>
 </div>

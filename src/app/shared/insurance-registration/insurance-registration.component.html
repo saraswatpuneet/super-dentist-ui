@@ -84,6 +84,17 @@
       </div>
     </div>
 
+    <div *ngIf="clinics && clinics.length > 0">
+      <h3>Insurance for selected clinic</h3>
+      <mat-radio-group *ngIf="clinics && clinics.length > 0" color="primary" formControlName="selectedClinic"
+        fxLayout="column" fxLayoutGap="12px">
+        <mat-radio-button *ngFor="let clinic of clinics" [value]="clinic">
+          <div class="wrap"> {{clinic.name}} </div>
+          <div class="wrap address"> {{clinic.address}} </div>
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
     <div fxLayout="row" fxLayoutGap="12px">
       <button mat-raised-button type="button" (click)="cancel()" fxFlex *ngIf="canCancel">Cancel</button>
       <button fxFlex [disabled]="!insuranceForm.valid || insurances.length === 0" (click)="submit()" mat-raised-button

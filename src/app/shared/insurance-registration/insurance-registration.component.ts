@@ -56,7 +56,9 @@ enum PatientStates {
 export class InsuranceRegistrationComponent implements OnInit {
   @Input() canCancel = false;
   @Input() referralId: string;
+  @Input() clinics: any[];
   @Output() cancelRegistration = new EventEmitter();
+  selectedClinic: any;
   insuranceForm: FormGroup;
   moreDental = false;
   moreMedical = false;
@@ -86,6 +88,10 @@ export class InsuranceRegistrationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (this.clinics && this.clinics.length > 0) {
+      this.selectedClinic = this.clinics[0];
+    }
+    console.log(this.selectedClinic);
     this.initForm();
   }
 
@@ -126,6 +132,11 @@ export class InsuranceRegistrationComponent implements OnInit {
     if (this.referralId) {
       formData.append('referralId', this.referralId);
     }
+
+    if (this.clinics && this.clinics.length > 0) {
+      formData.append('addressId', p.selectedClinic.addressId);
+    }
+
     formData.append('firstName', p.firstName);
     formData.append('lastName', p.lastName);
     formData.append('dob', JSON.stringify(p.dob));
@@ -158,7 +169,8 @@ export class InsuranceRegistrationComponent implements OnInit {
         day: ['1', Validators.required],
         year: ['2000', Validators.required],
       }),
-      zipCode: ['', Validators.required]
+      zipCode: ['', Validators.required],
+      selectedClinic: [this.selectedClinic]
     });
   }
 }

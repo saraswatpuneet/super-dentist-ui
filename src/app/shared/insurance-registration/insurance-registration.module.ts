@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
 import { NgxMaskModule } from 'ngx-mask';
 
 import { InsuranceRegistrationComponent } from './insurance-registration.component';
@@ -20,6 +21,7 @@ import { MedicalInsuranceComponent } from './shared/medical-insurance/medical-in
     FormsModule,
     FlexLayoutModule,
     MatButtonModule,
+    MatRadioModule,
     MatIconModule,
     MatCardModule,
     MatSlideToggleModule,
