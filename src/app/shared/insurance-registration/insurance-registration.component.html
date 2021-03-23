@@ -102,11 +102,14 @@
 
     <div fxLayout="row" fxLayoutGap="12px">
       <button mat-raised-button type="button" (click)="cancel()" fxFlex *ngIf="canCancel">Cancel</button>
-      <button fxFlex [disabled]="!insuranceForm.valid || insurances.length === 0" (click)="submit()" mat-raised-button
-        color="primary">
-        <mat-progress-spinner *ngIf="state === patientStates.Processing" mode="indeterminate" diameter="24">
-        </mat-progress-spinner>
-        Submit Insurance
+      <button fxFlex [disabled]="!insuranceForm.valid || insurances.length === 0 || state === patientStates.Processing"
+        (click)="submit()" mat-raised-button color="primary">
+        <span fxLayout="row" fxLayoutGap="4px" fxLayoutAlign="center center">
+          <mat-progress-spinner *ngIf="state === patientStates.Processing" mode="indeterminate" diameter="24">
+          </mat-progress-spinner>
+          <span>Submit Insurance</span>
+        </span>
+
       </button>
     </div>
   </form>

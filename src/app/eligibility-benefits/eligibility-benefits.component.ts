@@ -30,6 +30,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     { label: 'November', value: '11', },
     { label: 'December', value: '12', },
   ];
+  private triggerPatients = new Subject();
 
   constructor(
     private clinicService: ClinicService,
@@ -37,7 +38,22 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   ) { super(); }
 
   ngOnInit(): void {
-    this.clinicService.getClinics().pipe(
+    this.watchPatients();
+    this.triggerPatients.next();
+  }
+
+  onCancelRegistration(): void {
+    this.showInsurance = false;
+    this.triggerPatients.next();
+  }
+
+  selectPatient(patient: any): void {
+    this.selectedPatient = patient;
+  }
+
+  private watchPatients(): void {
+    this.triggerPatients.pipe(
+      switchMap(() => this.clinicService.getClinics()),
       map(res => res.data.clinicDetails),
       switchMap(clinics => {
         this.clinics = clinics;
@@ -45,19 +61,11 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
           this.patientService.getAllPatientsForClinic(clinic.addressId).pipe(map(p => p.data), take(1))
         ));
       }),
-      take(1)
+      takeUntil(this.unsubscribe$)
     ).subscribe(res => {
       this.patients = res;
       this.patients.forEach(group => group.sort((a, b) => b.createdOn - a.createdOn));
       console.log(this.patients);
     });
-  }
-
-  onCancelRegistration(): void {
-    this.showInsurance = false;
-  }
-
-  selectPatient(patient: any): void {
-    this.selectedPatient = patient;
   }
 }

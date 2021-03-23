@@ -8,6 +8,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { NgxMaskModule } from 'ngx-mask';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { InsuranceRegistrationComponent } from './insurance-registration.component';
 import { DobComponent } from './shared/dob/dob.component';
@@ -24,6 +25,7 @@ import { MedicalInsuranceComponent } from './shared/medical-insurance/medical-in
     MatRadioModule,
     MatIconModule,
     MatCardModule,
+    MatProgressSpinnerModule,
     MatSlideToggleModule,
     NgxMaskModule,
     ReactiveFormsModule,
