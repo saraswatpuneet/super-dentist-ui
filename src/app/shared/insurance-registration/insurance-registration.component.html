@@ -1,0 +1,133 @@
+<mat-card class="c-card insurance" ngClass.lt-md="smaller" fxLayout="column" fxLayoutAlign=" center">
+
+  <input style="display:none" #refPhotoEl type="file" accept="image/*">
+
+  <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="24px">
+    <h1 *ngIf="state === patientStates.Form || state === patientStates.Processing">Please submit your insurance for an
+      accurate copay.</h1>
+    <button (click)="cancel()" *ngIf="canCancel && state !== patientStates.Success" mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <form *ngIf="state === patientStates.Form || state === patientStates.Processing" fxLayout="column" fxLayoutGap="36px"
+    autocomplete="off" [formGroup]="insuranceForm">
+    <h3>Patient Info</h3>
+    <div class="sd-input">
+      <label>First Name</label>
+      <input type="text" #firstName autocomplete="off" formControlName="firstName">
+    </div>
+
+    <div class="sd-input">
+      <label>Last Name</label>
+      <input type="text" autocomplete="off" formControlName="lastName">
+    </div>
+
+    <div class="sd-input">
+      <label>Zip Code</label>
+      <input type="text" autocomplete="off" formControlName="zipCode">
+    </div>
+
+    <app-dob [dobGroup]="insuranceForm.controls.dob"></app-dob>
+
+    <div class="add-insurances" fxLayout="column">
+      <div class="hinsurance">
+        <h3>What insurance would you like to add?</h3>
+        <span>You can add multiple.</span>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="20px">
+        <button fxFlex mat-raised-button (click)="addDentalInsurance()">Dental</button>
+        <button fxFlex mat-raised-button (click)="addMedicalInsurance()">Medical</button>
+      </div>
+
+      <div class="divider" *ngIf="insurances.length !== 0"></div>
+
+      <div class="insurance-summary" fxLayout="column"
+        *ngFor="let insurance of insurances; let i = index; let l = last">
+        <header fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="16px">
+          <h3>{{insurance.company}}</h3>
+          <button mat-icon-button (click)="removeInsurance(i)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </header>
+
+        <div fxLayout="row" fxLayoutGap="16px">
+          <div fxFlex class="detail" *ngIf="insurance.memberId">
+            <div>Member Id</div>
+            <div>{{insurance.memberId}}</div>
+          </div>
+
+          <div fxFlex class="detail" *ngIf="insurance.medId">
+            <div>Member Id</div>
+            <div>{{insurance.medId}}</div>
+          </div>
+
+          <div fxFlex class="detail" *ngIf="insurance.ssn">
+            <div>SSN</div>
+            <div>{{insurance.ssn | mask: '000-00-0000'}}</div>
+          </div>
+
+          <div fxFlex class="detail" *ngIf="insurance.groupNumber">
+            <div>Group Number</div>
+            <div>{{insurance.groupNumber}}</div>
+          </div>
+        </div>
+
+        <div class="detail sub" *ngIf="insurance.subscriber">
+          <div>Subscriber</div>
+          <div>
+            {{insurance.subscriber.firstName}} {{insurance.subscriber.lastName}}
+          </div>
+          <div>
+            {{displayMonths[insurance.subscriber.dob.month]}} {{insurance.subscriber.dob.day}},
+            {{insurance.subscriber.dob.year}}
+          </div>
+        </div>
+
+        <div class="divider"></div>
+      </div>
+    </div>
+
+    <div *ngIf="clinics && clinics.length > 0">
+      <h3>Insurance for selected clinic</h3>
+      <mat-radio-group *ngIf="clinics && clinics.length > 0" color="primary" formControlName="selectedClinic"
+        fxLayout="column" fxLayoutGap="12px">
+        <mat-radio-button *ngFor="let clinic of clinics" [value]="clinic">
+          <div class="wrap"> {{clinic.name}} </div>
+          <div class="wrap address"> {{clinic.address}} </div>
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="12px">
+      <button mat-raised-button type="button" (click)="cancel()" fxFlex *ngIf="canCancel">Cancel</button>
+      <button fxFlex [disabled]="!insuranceForm.valid || insurances.length === 0 || state === patientStates.Processing"
+        (click)="submit()" mat-raised-button color="primary">
+        <span fxLayout="row" fxLayoutGap="4px" fxLayoutAlign="center center">
+          <mat-progress-spinner *ngIf="state === patientStates.Processing" mode="indeterminate" diameter="24">
+          </mat-progress-spinner>
+          <span>Submit Insurance</span>
+        </span>
+
+      </button>
+    </div>
+  </form>
+
+  <div *ngIf="state === patientStates.Success" fxLayoutAlign="center center" fxLayoutGap="20px" fxLayout="column"
+    class="completed">
+    <h3>Your insurance was submitted</h3>
+    <button mat-raised-button (click)="cancel()" color="primary">Close</button>
+  </div>
+
+  <div class="adding-insurance" [@slideIn] *ngIf="selectedDental || selectedMedical">
+    <div>
+      <app-dental-insurance header="Dental Insurance" *ngIf="selectedDental" (cancel)="onCancel()"
+        (addInsurance)="onAddInsurance($event)">
+      </app-dental-insurance>
+      <app-medical-insurance *ngIf="selectedMedical" (cancel)="onCancel()" (addInsurance)="onAddInsurance($event)">
+      </app-medical-insurance>
+    </div>
+  </div>
+
+</mat-card>

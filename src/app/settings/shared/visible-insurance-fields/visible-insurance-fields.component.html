@@ -1,0 +1,37 @@
+<mat-card class="visible-insurance">
+  <mat-card-header>
+    <mat-card-title>Visible Insurance Fields</mat-card-title>
+  </mat-card-header>
+
+  <div class="sd-input c-lin">
+    <label>Selected clinic</label>
+    <select [ngModel]="selectedClinic">
+      <option *ngFor="let clinic of clinics" [value]="clinic">{{clinic.name}}</option>
+    </select>
+  </div>
+
+  <mat-accordion multi>
+    <mat-expansion-panel *ngFor="let breakDownKey of insuranceCodes?.breakDownKeys">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{breakDownKey}} -&nbsp;
+          <div class="cap"> {{insuranceCodes.breakDowns[breakDownKey].label.toLowerCase()}}</div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div fxLayout="column" fxLayoutGap="16px">
+        <mat-checkbox
+          (change)="toggleBreakDown($event.checked, insuranceCodes.breakDowns[breakDownKey], insuranceCodes?.breakDowns[breakDownKey].breakDowns[subKey])"
+          color="primary" *ngFor="let subKey of insuranceCodes?.breakDowns[breakDownKey].breakDownKeys">
+          {{subKey}} - {{insuranceCodes?.breakDowns[breakDownKey].breakDowns[subKey].label}}
+        </mat-checkbox>
+      </div>
+    </mat-expansion-panel>
+
+    <div class="actions" fxLayout="row" fxLayoutAlign="space-between">
+      <button mat-stroked-button>Cancel Changes</button>
+      <button mat-raised-button color="primary" (click)="submitCodes()">Submit Visible Codes</button>
+    </div>
+  </mat-accordion>
+
+</mat-card>

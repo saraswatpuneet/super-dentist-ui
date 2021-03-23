@@ -11,6 +11,7 @@ import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings.component';
 import { PracticesComponent } from './shared/practices/practices.component';
 import { AccountComponent } from './shared/account/account.component';
+import { VisibleInsuranceFieldsModule } from './shared/visible-insurance-fields/visible-insurance-fields.module';
 
 @NgModule({
   declarations: [SettingsComponent, PracticesComponent, AccountComponent],
@@ -19,6 +20,7 @@ import { AccountComponent } from './shared/account/account.component';
     FormsModule,
     FlexLayoutModule,
     MatCardModule,
+    VisibleInsuranceFieldsModule,
     MatCheckboxModule,
     MatButtonModule,
     MatProgressBarModule,
