@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 import { EligibilityBenefitsRoutingModule } from './eligibility-benefits-routing.module';
@@ -12,9 +13,10 @@ import { InsuranceRegistrationModule } from '../shared/insurance-registration/in
   declarations: [EligibilityBenefitsComponent],
   imports: [
     CommonModule,
-    MatCardModule,
-    MatButtonModule,
     FlexLayoutModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
     InsuranceRegistrationModule,
     EligibilityBenefitsRoutingModule
   ]

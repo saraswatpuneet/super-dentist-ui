@@ -1,14 +1,16 @@
 <div class="eligibility-benefits" fxLayout="row" fxLayoutGap="24px">
   <mat-card class="c-card patients">
-    <button mat-raised-button (click)="showInsurance = true">Insurance check</button>
     <div class="fix" *ngIf="showInsurance">
       <app-insurance-registration (cancelRegistration)="onCancelRegistration()" [clinics]="clinics" [canCancel]="true">
       </app-insurance-registration>
     </div>
 
     <div *ngFor="let clinic of clinics; let i = index">
-      <h3>{{clinic.name}}</h3>
-      <div class="patient-items" *ngFor="let patient of patients[i]" fxLayout="column">
+      <div fxLayout="row" fxLayoutAlign=" start">
+        <h3 fxFlex>{{clinic.name}}</h3>
+        <button mat-raised-button (click)="showInsurance = true">Insurance check</button>
+      </div>
+      <div (click)="selectPatient(patient)" class="patient-items" *ngFor="let patient of patients[i]" fxLayout="column">
 
         <div class="patient-name" fxLayout="row" fxLayoutAlign="center">
           <div class="name" fxFlex>
@@ -31,6 +33,60 @@
             <div class="lighter" *ngIf="patient.medicalInsurance[0].memberId">
               {{patient.medicalInsurance[0].memberId}}</div>
           </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-card class="c-card" fxFlex *ngIf="selectedPatient" fxLayout="column" fxLayoutGap="24px">
+    <div fxLayout="row">
+      <div fxLayout="column" fxFlex>
+        <h3 class="no-margin">{{selectedPatient.firstName}} {{selectedPatient.lastName}}</h3>
+        <div class="lighter" *ngIf="selectedPatient.createdOn">
+          {{selectedPatient.firstName}} was registered {{selectedPatient.createdOn | date:"MMM dd, yyyy"}}
+        </div>
+        <div class="lighter" *ngIf="selectedPatient.dob">
+          {{selectedPatient.firstName}}'s birthday {{months[selectedPatient.dob.month].label}}
+          {{selectedPatient.dob.day}},
+          {{selectedPatient.dob.year}}
+        </div>
+      </div>
+      <button mat-icon-button (click)="selectedPatient = undefined">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div>
+      <h4>Dental Insurance</h4>
+      <div *ngFor="let dInsurance of selectedPatient.dentalInsurance">
+        <div>{{dInsurance.company}}</div>
+        <div class="lighter" *ngIf="dInsurance.memberId">Member ID: {{dInsurance.memberId}}</div>
+
+        <div fxLayout="column" *ngIf="dInsurance.subscriber && dInsurance.subscriber.firstName">
+          <div class="lighter">Subscriber Name: {{dInsurance.subscriber.firstName}} {{dInsurance.subscriber.lastName}}
+          </div>
+          <div class="lighter">Subscriber birthday: {{months[dInsurance.subscriber.dob.month].label}}
+            {{dInsurance.subscriber.dob.day}},
+            {{dInsurance.subscriber.dob.year}} </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" *ngIf="selectedPatient.medicalInsurance && selectedPatient.dentalInsurance"></div>
+
+    <div *ngIf="selectedPatient.medicalInsurance">
+      <h4>Medical Insurance</h4>
+
+      <div *ngFor="let mInsurance of selectedPatient.medicalInsurance">
+        <div>{{mInsurance.company}}</div>
+        <div class="lighter" *ngIf="mInsurance.memberId">Member ID: {{mInsurance.memberId}}</div>
+
+        <div fxLayout="column" *ngIf="mInsurance.subscriber && mInsurance.subscriber.firstName">
+          <div class="lighter">Subscriber Name: {{mInsurance.subscriber.firstName}} {{mInsurance.subscriber.lastName}}
+          </div>
+          <div class="lighter">Subscriber Birthday: {{months[mInsurance.subscriber.dob.month].label}}
+            {{mInsurance.subscriber.dob.day}},
+            {{mInsurance.subscriber.dob.year}} </div>
         </div>
       </div>
     </div>
