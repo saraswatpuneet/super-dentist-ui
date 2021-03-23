@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
 
 import { EligibilityBenefitsRoutingModule } from './eligibility-benefits-routing.module';
 import { EligibilityBenefitsComponent } from './eligibility-benefits.component';
@@ -13,6 +14,7 @@ import { InsuranceRegistrationModule } from '../shared/insurance-registration/in
   declarations: [EligibilityBenefitsComponent],
   imports: [
     CommonModule,
+    FormsModule,
     FlexLayoutModule,
     MatButtonModule,
     MatCardModule,

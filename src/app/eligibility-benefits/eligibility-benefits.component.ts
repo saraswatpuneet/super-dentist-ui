@@ -14,7 +14,8 @@ import { Base } from '../shared/base/base-component';
 export class EligibilityBenefitsComponent extends Base implements OnInit {
   showInsurance = false;
   clinics: any[];
-  patients = [];
+  patientFilter = '';
+  filteredPatients = [];
   selectedPatient: undefined;
   months = [
     { label: 'January', value: '1', },
@@ -31,6 +32,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     { label: 'December', value: '12', },
   ];
   private triggerPatients = new Subject();
+  private patients = [];
 
   constructor(
     private clinicService: ClinicService,
@@ -51,6 +53,14 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     this.selectedPatient = patient;
   }
 
+  filterPatientList(): void {
+    this.patients.forEach((group, index) => {
+      this.filteredPatients[index] = group.filter(patient =>
+        `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(this.patientFilter.toLowerCase())
+      );
+    });
+  }
+
   private watchPatients(): void {
     this.triggerPatients.pipe(
       switchMap(() => this.clinicService.getClinics()),
@@ -65,6 +75,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     ).subscribe(res => {
       this.patients = res;
       this.patients.forEach(group => group.sort((a, b) => b.createdOn - a.createdOn));
+      this.filterPatientList();
     });
   }
 }
