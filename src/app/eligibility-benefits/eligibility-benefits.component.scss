@@ -14,4 +14,31 @@
     z-index: 4;
     background: linear-gradient(90deg, #3b3d42, #232425);
   }
+
+  .patients {
+    width: 40%;
+    max-width: 400px;
+    min-width: 250px;
+  }
+
+  .patient-items {
+    min-height: 50px;
+    border-top: 1px solid rgba(grey, 0.3);
+    transition: 0.3s;
+    padding: 8px 0;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(grey, 0.1);
+    }
+  }
+
+  .lighter {
+    opacity: 0.5;
+    font-size: 12px;
+  }
+
+  .patient-name {
+    margin-bottom: 16px;
+  }
 }

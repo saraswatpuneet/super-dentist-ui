@@ -58,6 +58,11 @@
             <div>{{insurance.memberId}}</div>
           </div>
 
+          <div fxFlex class="detail" *ngIf="insurance.medId">
+            <div>Member Id</div>
+            <div>{{insurance.medId}}</div>
+          </div>
+
           <div fxFlex class="detail" *ngIf="insurance.ssn">
             <div>SSN</div>
             <div>{{insurance.ssn | mask: '000-00-0000'}}</div>

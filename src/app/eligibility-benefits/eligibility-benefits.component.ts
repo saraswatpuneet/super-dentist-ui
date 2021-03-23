@@ -33,7 +33,8 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
       take(1)
     ).subscribe(res => {
       this.patients = res;
-      console.log(res);
+      this.patients.forEach(group => group.sort((a, b) => b.createdOn - a.createdOn));
+      console.log(this.patients);
     });
   }
 

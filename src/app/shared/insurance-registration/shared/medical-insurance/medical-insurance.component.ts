@@ -7,7 +7,7 @@ function atLeastOne(c: AbstractControl): { [key: string]: any } | null {
     return { forbidden: { value: 'missing company' } }
   }
 
-  if (!value.ssn && !value.memberId) {
+  if (!value.ssn && !value.medId) {
     return { forbidden: { value: 'Need ssn' } };
   }
 
@@ -31,7 +31,7 @@ export class MedicalInsuranceComponent implements OnInit {
     this.medicalForm = this.fb.group({
       company: [''],
       ssn: [''],
-      memberId: ['']
+      medId: ['']
     }, { validators: atLeastOne });
   }
 

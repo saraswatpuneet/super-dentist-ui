@@ -28,7 +28,7 @@ interface PatientDentalInsurance {
 
 interface PatientMedicalInsurance {
   company: string;
-  groupNumber: string;
+  memberId: string;
   ssn: string;
   subscriber: Subscriber;
 }
@@ -116,7 +116,11 @@ export class InsuranceRegistrationComponent implements OnInit {
     const dentalInsurance = [];
     const medicalInsurance = [];
     this.insurances.forEach(insurance => {
-      if (insurance.groupNumber) {
+      if (insurance.ssn || insurance.medId) {
+        if (insurance.medId) {
+          insurance.memberId = insurance.medId;
+          delete insurance.medId;
+        }
         medicalInsurance.push(insurance);
       } else {
         dentalInsurance.push(insurance);
@@ -126,7 +130,7 @@ export class InsuranceRegistrationComponent implements OnInit {
       formData.append('dentalInsurance', JSON.stringify(dentalInsurance));
     }
     if (medicalInsurance.length > 0) {
-      formData.append('medicalInsurance', JSON.stringify(dentalInsurance));
+      formData.append('medicalInsurance', JSON.stringify(medicalInsurance));
     }
 
     if (this.referralId) {
