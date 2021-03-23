@@ -10,8 +10,8 @@
       <h3>{{clinic.name}}</h3>
       <div class="patient-items" *ngFor="let patient of patients[i]" fxLayout="column">
 
-        <div class="patient-name" fxLayout="row">
-          <div fxFlex>
+        <div class="patient-name" fxLayout="row" fxLayoutAlign="center">
+          <div class="name" fxFlex>
             {{patient.firstName}} {{patient.lastName}}
           </div>
           <div class="lighter" *ngIf="patient.createdOn">

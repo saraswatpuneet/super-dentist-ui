@@ -18,19 +18,25 @@
   .patients {
     width: 40%;
     max-width: 400px;
-    min-width: 250px;
+    min-width: 300px;
   }
 
   .patient-items {
     min-height: 50px;
-    border-top: 1px solid rgba(grey, 0.3);
+    border-top: 1px solid rgba(grey, 0.2);
     transition: 0.3s;
-    padding: 8px 0;
+    font-size: 14px;
+    padding: 8px;
     cursor: pointer;
 
     &:hover {
       background: rgba(grey, 0.1);
     }
+  }
+
+  .name {
+    font-size: 18px;
+    // font-weight: 500;
   }
 
   .lighter {
@@ -39,6 +45,6 @@
   }
 
   .patient-name {
-    margin-bottom: 16px;
+    margin-bottom: 24px;
   }
 }
