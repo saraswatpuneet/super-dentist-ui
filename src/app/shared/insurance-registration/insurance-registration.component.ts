@@ -91,7 +91,6 @@ export class InsuranceRegistrationComponent implements OnInit {
     if (this.clinics && this.clinics.length > 0) {
       this.selectedClinic = this.clinics[0];
     }
-    console.log(this.selectedClinic);
     this.initForm();
   }
 
