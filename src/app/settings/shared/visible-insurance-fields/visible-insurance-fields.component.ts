@@ -36,10 +36,7 @@ export class VisibleInsuranceFieldsComponent extends Base implements OnInit {
     this.watchTrigger();
     this.insuranceService.getPracticeCodes()
       .pipe(take(1))
-      .subscribe(codes => {
-        this.insuranceCodes = codes;
-        console.log(codes);
-      });
+      .subscribe(codes => this.insuranceCodes = codes);
 
     this.clinicService.getClinics()
       .pipe(
@@ -90,8 +87,6 @@ export class VisibleInsuranceFieldsComponent extends Base implements OnInit {
     } else {
       delete this.codeMap[keyIndex][subKeyIndex];
     }
-
-    console.log(this.codeMap);
 
     // if (checked) {
     //   if (!this.selectedCodes.breakDowns[breakDown.key]) {
