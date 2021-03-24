@@ -6,8 +6,7 @@ import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { PatientService } from 'src/app/shared/services/patient.service';
 import { Base } from 'src/app/shared/base/base-component';
 import { InsuranceService } from 'src/app/shared/services/insurance.service';
-import { DentalBreakDowns } from 'src/app/shared/services/insurance';
-import { dentalBreakDowns } from 'src/app/insurance-completion/insurance-completion2';
+import { DentalBreakDowns, DentalInsuranceKeys } from 'src/app/shared/services/insurance';
 
 @Component({
   selector: 'app-visible-insurance-fields',
@@ -25,6 +24,7 @@ export class VisibleInsuranceFieldsComponent extends Base implements OnInit {
     breakDowns: {}
   };
   private triggerInsurance = new Subject();
+  private codeMap = {};
 
   constructor(
     private clinicService: ClinicService,
@@ -54,26 +54,53 @@ export class VisibleInsuranceFieldsComponent extends Base implements OnInit {
   }
 
   submitCodes(): void {
-    this.selectedCodes.breakDownKeys = Object.keys(this.selectedCodes.breakDowns);
-    this.selectedCodes.breakDownKeys.forEach(k => {
-      this.selectedCodes.breakDowns[k].breakDownKeys = Object.keys(this.selectedCodes.breakDowns[k].breakDowns);
+    const keys: DentalInsuranceKeys[] = [];
+    Object.keys(this.codeMap).sort((a, b) => parseInt(a, 10) - parseInt(b, 10)).forEach(groupIndex => {
+      keys.push({
+        groupId: this.insuranceCodes.breakDownKeys[groupIndex],
+        codeIds: Object.keys(this.codeMap[groupIndex])
+          .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))
+          .map(codeIndex =>
+            this.insuranceCodes.breakDowns[this.insuranceCodes.breakDownKeys[groupIndex]].breakDownKeys[codeIndex]
+          )
+      });
     });
-    this.selectedCodes.key = this.insuranceCodes.key;
-    this.selectedCodes.label = this.insuranceCodes.label;
-    this.clinicService.saveSelectedPracticeCodes(this.selectedClinic.addressId, this.selectedCodes).pipe(take(1)).subscribe(console.log);
-    console.log('Selected Clinic', this.selectedClinic);
-    console.log('Selected Codes', this.selectedCodes);
+
+    console.log(keys);
+    this.clinicService.saveSelectedPracticeCodes(this.selectedClinic.addressId, keys).pipe(take(1)).subscribe(console.log);
+
+
+    // this.selectedCodes.breakDownKeys = Object.keys(this.selectedCodes.breakDowns);
+    // this.selectedCodes.breakDownKeys.forEach(k => {
+    //   this.selectedCodes.breakDowns[k].breakDownKeys = Object.keys(this.selectedCodes.breakDowns[k].breakDowns);
+    // });
+    // this.selectedCodes.key = this.insuranceCodes.key;
+    // this.selectedCodes.label = this.insuranceCodes.label;
+    // this.clinicService.saveSelectedPracticeCodes(this.selectedClinic.addressId, this.selectedCodes).pipe(take(1)).subscribe(console.log);
+    // console.log('Selected Clinic', this.selectedClinic);
+    // console.log('Selected Codes', this.selectedCodes);
   }
 
-  toggleBreakDown(checked: boolean, breakDown: any, subBreakDown: any): void {
+  toggleBreakDown(checked: boolean, key: string, keyIndex: number, subKey: string, subKeyIndex: number): void {
     if (checked) {
-      if (!this.selectedCodes.breakDowns[breakDown.key]) {
-        this.selectedCodes.breakDowns[breakDown.key] = { key: breakDown.key, label: breakDown.label, breakDowns: {} };
+      if (!this.codeMap[keyIndex]) {
+        this.codeMap[keyIndex] = {};
       }
-      this.selectedCodes.breakDowns[breakDown.key].breakDowns[subBreakDown.key] = subBreakDown;
+      this.codeMap[keyIndex][subKeyIndex] = true;
     } else {
-      delete this.selectedCodes.breakDowns[breakDown.key].breakDowns[subBreakDown.key];
+      delete this.codeMap[keyIndex][subKeyIndex];
     }
+
+    console.log(this.codeMap);
+
+    // if (checked) {
+    //   if (!this.selectedCodes.breakDowns[breakDown.key]) {
+    //     this.selectedCodes.breakDowns[breakDown.key] = { key: breakDown.key, label: breakDown.label, breakDowns: {} };
+    //   }
+    //   this.selectedCodes.breakDowns[breakDown.key].breakDowns[subBreakDown.key] = subBreakDown;
+    // } else {
+    //   delete this.selectedCodes.breakDowns[breakDown.key].breakDowns[subBreakDown.key];
+    // }
   }
 
   private watchTrigger(): void {
