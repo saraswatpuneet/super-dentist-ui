@@ -11,7 +11,7 @@
   </div>
 
   <mat-accordion multi>
-    <mat-expansion-panel *ngFor="let breakDownKey of insuranceCodes?.breakDownKeys">
+    <mat-expansion-panel *ngFor="let breakDownKey of insuranceCodes?.breakDownKeys; let i = index">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{breakDownKey}} -&nbsp;
@@ -20,9 +20,8 @@
       </mat-expansion-panel-header>
 
       <div fxLayout="column" fxLayoutGap="16px">
-        <mat-checkbox
-          (change)="toggleBreakDown($event.checked, insuranceCodes.breakDowns[breakDownKey], insuranceCodes?.breakDowns[breakDownKey].breakDowns[subKey])"
-          color="primary" *ngFor="let subKey of insuranceCodes?.breakDowns[breakDownKey].breakDownKeys">
+        <mat-checkbox [checked]="ids[subKey]" (change)="toggleBreakDown($event.checked, breakDownKey, i, subKey, j)"
+          color="primary" *ngFor="let subKey of insuranceCodes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
           {{subKey}} - {{insuranceCodes?.breakDowns[breakDownKey].breakDowns[subKey].label}}
         </mat-checkbox>
       </div>
