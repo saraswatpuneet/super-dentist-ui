@@ -35,7 +35,6 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     { label: 'December', value: '12', },
   ];
   private triggerPatients = new Subject();
-  private triggerCodes = new Subject();
   private patients = [];
 
   constructor(
@@ -99,31 +98,28 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
         map(res => this.mapToCodes(res)),
         takeUntil(this.unsubscribe$)
       )
-      .subscribe(console.log);
+      .subscribe(codes => this.savedCodes = codes);
   }
 
   private mapToCodes([clinicCodes, insuranceCodes]): any {
-    console.log(insuranceCodes);
-    this.savedCodes = this.newSavedCodes();
-    this.savedCodes.label = 'Categories';
-    this.savedCodes.key = 'categories';
-    this.savedCodes.breakDownKeys = [];
+    const savedCodes = this.newSavedCodes();
+    savedCodes.label = 'Categories';
+    savedCodes.key = 'categories';
+    savedCodes.breakDownKeys = [];
     clinicCodes.forEach(group => {
       const groupId = group.groupId;
-      this.savedCodes.breakDownKeys.push(groupId);
-      console.log(group);
+      savedCodes.breakDownKeys.push(groupId);
       const breakDowns = {};
       group.codeIds.forEach(id => breakDowns[id] = insuranceCodes.breakDowns[groupId].breakDowns[id]);
-      this.savedCodes.breakDowns[groupId] = {
+      savedCodes.breakDowns[groupId] = {
         key: groupId,
         label: insuranceCodes.breakDowns[groupId].label,
         breakDownKeys: group.codeIds,
         breakDowns,
       };
-
     });
 
-    return this.savedCodes;
+    return savedCodes;
   }
 
   private newSavedCodes(): DentalBreakDowns {
