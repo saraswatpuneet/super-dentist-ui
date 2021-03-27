@@ -12,9 +12,16 @@ import { InsuranceRegistrationModule } from '../shared/insurance-registration/in
 import { CodesComponent } from './shared/codes/codes.component';
 import { HistoryComponent } from './shared/history/history.component';
 import { RemarksComponent } from './shared/remarks/remarks.component';
+import { PatientDetailsComponent } from './shared/patient-details/patient-details.component';
 
 @NgModule({
-  declarations: [EligibilityBenefitsComponent, CodesComponent, HistoryComponent, RemarksComponent],
+  declarations: [
+    EligibilityBenefitsComponent,
+    CodesComponent,
+    HistoryComponent,
+    RemarksComponent,
+    PatientDetailsComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,

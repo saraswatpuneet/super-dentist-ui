@@ -1,0 +1,53 @@
+<div *ngIf="patient" class="patient-details">
+  <h3>{{patient.firstName}} {{patient.lastName}}</h3>
+  <header fxLayout="row">
+    <div fxLayout="column" fxFlex>
+      <div class="lighter" *ngIf="patient.createdOn">
+        Registered on {{patient.createdOn | date:"MMM dd, yyyy"}}
+      </div>
+      <div class="lighter" *ngIf="patient.dob">
+        {{patient.firstName}}'s birthday {{months[patient.dob.month].label}}
+        {{patient.dob.day}},
+        {{patient.dob.year}}
+      </div>
+    </div>
+  </header>
+
+  <div>
+    <h4>Dental Insurance</h4>
+    <div *ngFor="let dInsurance of patient.dentalInsurance">
+      <div>{{dInsurance.company}}</div>
+      <div class="lighter" *ngIf="dInsurance.memberId">Member ID: {{dInsurance.memberId}}</div>
+
+      <div fxLayout="column" *ngIf="dInsurance.subscriber && dInsurance.subscriber.firstName">
+        <div class="lighter">
+          Subscriber Name: {{dInsurance.subscriber.firstName}} {{dInsurance.subscriber.lastName}}
+        </div>
+        <div class="lighter">
+          Subscriber birthday: {{months[dInsurance.subscriber.dob.month].label}}
+          {{dInsurance.subscriber.dob.day}},
+          {{dInsurance.subscriber.dob.year}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider" *ngIf="patient.medicalInsurance && patient.dentalInsurance"></div>
+
+  <div *ngIf="patient.medicalInsurance">
+    <h4>Medical Insurance</h4>
+
+    <div *ngFor="let mInsurance of patient.medicalInsurance">
+      <div>{{mInsurance.company}}</div>
+      <div class="lighter" *ngIf="mInsurance.memberId">Member ID: {{mInsurance.memberId}}</div>
+
+      <div fxLayout="column" *ngIf="mInsurance.subscriber && mInsurance.subscriber.firstName">
+        <div class="lighter">Subscriber Name: {{mInsurance.subscriber.firstName}} {{mInsurance.subscriber.lastName}}
+        </div>
+        <div class="lighter">Subscriber Birthday: {{months[mInsurance.subscriber.dob.month].label}}
+          {{mInsurance.subscriber.dob.day}},
+          {{mInsurance.subscriber.dob.year}} </div>
+      </div>
+    </div>
+  </div>
+</div>
