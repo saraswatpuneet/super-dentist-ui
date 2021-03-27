@@ -17,8 +17,8 @@ export class VisibleInsuranceFieldsComponent extends Base implements OnInit {
   selectedClinic: any;
   insuranceCodes: DentalBreakDowns;
   ids = {};
-  private triggerInsurance = new Subject();
   codeMap = {};
+  private triggerInsurance = new Subject();
 
   constructor(
     private clinicService: ClinicService,

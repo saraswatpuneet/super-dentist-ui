@@ -9,9 +9,10 @@ import { FormsModule } from '@angular/forms';
 import { EligibilityBenefitsRoutingModule } from './eligibility-benefits-routing.module';
 import { EligibilityBenefitsComponent } from './eligibility-benefits.component';
 import { InsuranceRegistrationModule } from '../shared/insurance-registration/insurance-registration.module';
+import { CodesComponent } from './shared/codes/codes.component';
 
 @NgModule({
-  declarations: [EligibilityBenefitsComponent],
+  declarations: [EligibilityBenefitsComponent, CodesComponent],
   imports: [
     CommonModule,
     FormsModule,

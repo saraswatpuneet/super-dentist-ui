@@ -1,0 +1,11 @@
+<div class="codes" *ngIf="codes">
+  <h3>Categories</h3>
+  <div *ngFor="let breakDownKey of codes?.breakDownKeys; let i = index">
+    <p>{{breakDownKey}} {{codes.breakDowns[breakDownKey].label.toLowerCase()}}</p>
+    <div class="sub-breakdown">
+      <div *ngFor="let subKey of codes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
+        <p>{{subKey}} - {{codes?.breakDowns[breakDownKey].breakDowns[subKey].label}}</p>
+      </div>
+    </div>
+  </div>
+</div>
