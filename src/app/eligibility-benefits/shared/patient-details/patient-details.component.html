@@ -2,20 +2,20 @@
   <h3>{{patient.firstName}} {{patient.lastName}}</h3>
   <header fxLayout="row">
     <div fxLayout="column" fxFlex>
-      <div class="lighter" *ngIf="patient.createdOn">
-        Registered on {{patient.createdOn | date:"MMM dd, yyyy"}}
-      </div>
-      <div class="lighter" *ngIf="patient.dob">
-        {{patient.firstName}}'s birthday {{months[patient.dob.month].label}}
+      <div *ngIf="patient.dob">
+        Birthday {{months[patient.dob.month].label}}
         {{patient.dob.day}},
         {{patient.dob.year}}
+      </div>
+      <div *ngIf="patient.createdOn">
+        Registered on {{patient.createdOn | date:"MMM dd, yyyy"}}
       </div>
     </div>
   </header>
 
-  <div>
+  <div *ngIf="patient.dentalInsurance">
     <h4>Dental Insurance</h4>
-    <div *ngFor="let dInsurance of patient.dentalInsurance">
+    <div class="insurance" *ngFor="let dInsurance of patient.dentalInsurance">
       <div>{{dInsurance.company}}</div>
       <div class="lighter" *ngIf="dInsurance.memberId">Member ID: {{dInsurance.memberId}}</div>
 
@@ -37,7 +37,7 @@
   <div *ngIf="patient.medicalInsurance">
     <h4>Medical Insurance</h4>
 
-    <div *ngFor="let mInsurance of patient.medicalInsurance">
+    <div class="insurance" *ngFor="let mInsurance of patient.medicalInsurance">
       <div>{{mInsurance.company}}</div>
       <div class="lighter" *ngIf="mInsurance.memberId">Member ID: {{mInsurance.memberId}}</div>
 
