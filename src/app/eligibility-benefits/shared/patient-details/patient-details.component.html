@@ -13,41 +13,95 @@
     </div>
   </header>
 
-  <div *ngIf="patient.dentalInsurance">
-    <h4>Dental Insurance</h4>
-    <div class="insurance" *ngFor="let dInsurance of patient.dentalInsurance">
-      <div>{{dInsurance.company}}</div>
-      <div class="lighter" *ngIf="dInsurance.memberId">Member ID: {{dInsurance.memberId}}</div>
+  <div fxLayout="row" fxLayoutGap="20px">
+    <div fxFlex="50">
+      <div *ngIf="patient.dentalInsurance">
+        <h4>Dental Insurance</h4>
+        <div class="insurance" *ngFor="let dInsurance of patient.dentalInsurance">
+          <div>{{dInsurance.company}}</div>
+          <div class="lighter" *ngIf="dInsurance.memberId">Member ID: {{dInsurance.memberId}}</div>
 
-      <div fxLayout="column" *ngIf="dInsurance.subscriber && dInsurance.subscriber.firstName">
-        <div class="lighter">
-          Subscriber Name: {{dInsurance.subscriber.firstName}} {{dInsurance.subscriber.lastName}}
+          <div fxLayout="column" *ngIf="dInsurance.subscriber && dInsurance.subscriber.firstName">
+            <div class="lighter">
+              Subscriber Name: {{dInsurance.subscriber.firstName}} {{dInsurance.subscriber.lastName}}
+            </div>
+            <div class="lighter">
+              Subscriber birthday: {{months[dInsurance.subscriber.dob.month].label}}
+              {{dInsurance.subscriber.dob.day}},
+              {{dInsurance.subscriber.dob.year}}
+            </div>
+          </div>
         </div>
-        <div class="lighter">
-          Subscriber birthday: {{months[dInsurance.subscriber.dob.month].label}}
-          {{dInsurance.subscriber.dob.day}},
-          {{dInsurance.subscriber.dob.year}}
+      </div>
+
+      <div *ngIf="patient.medicalInsurance">
+        <h4>Medical Insurance</h4>
+
+        <div class="insurance" *ngFor="let mInsurance of patient.medicalInsurance">
+          <div>{{mInsurance.company}}</div>
+          <div class="lighter" *ngIf="mInsurance.memberId">Member ID: {{mInsurance.memberId}}</div>
+
+          <div fxLayout="column" *ngIf="mInsurance.subscriber && mInsurance.subscriber.firstName">
+            <div class="lighter">Subscriber Name: {{mInsurance.subscriber.firstName}} {{mInsurance.subscriber.lastName}}
+            </div>
+            <div class="lighter">Subscriber Birthday: {{months[mInsurance.subscriber.dob.month].label}}
+              {{mInsurance.subscriber.dob.day}},
+              {{mInsurance.subscriber.dob.year}} </div>
+          </div>
         </div>
+      </div>
+    </div>
+
+    <div fxFlex="50" class="list-items">
+      <div fxLayout="row">
+        <p fxFlex>Eligibility Start Date</p>
+        <p>#7</p>
+      </div>
+      <div fxLayout="row">
+        <p fxFlex>Coordination of benefits</p>
+        <p>#7</p>
+      </div>
+      <div fxLayout="row">
+        <p> fxFlexAnnual Maximum /Used Amt</p>
+        <p>#7</p>
+      </div>
+      <div fxLayout="row">
+        <p fxFlex>Deductible (IND/FAMILY)</p>
+        <p>#7</p>
+      </div>
+      <div fxLayout="row">
+        <p fxFlex>Deductible Met Amt (IND/FAMILY)</p>
+        <p>#7</p>
+      </div>
+      <div fxLayout="row">
+        <p> fxFlexMissing tooth clause</p>
+        <p>#7</p>
+      </div>
+      <div fxLayout="row">
+        <p fxFlex>Waiting periods</p>
+        <p>#7</p>
+      </div>
+      <div fxLayout="row">
+        <p fxFlex>Calendar or benefit year</p>
+        <p>#7</p>
+      </div>
+      <div fxLayout="row">
+        <p fxFlex>In network</p>
+        <p>#7</p>
+      </div>
+      <div fxLayout="row">
+        <p fxFlex>Preventive deducted from maximum</p>
+        <p>#7</p>
+      </div>
+      <div fxLayout="row">
+        <p fxFlex>Fee schedule</p>
+        <p>#7</p>
+      </div>
+      <div fxLayout="row">
+        <p fxFlex>Tooth Replacement Clause</p>
+        <p>#7</p>
       </div>
     </div>
   </div>
 
-  <div class="divider" *ngIf="patient.medicalInsurance && patient.dentalInsurance"></div>
-
-  <div *ngIf="patient.medicalInsurance">
-    <h4>Medical Insurance</h4>
-
-    <div class="insurance" *ngFor="let mInsurance of patient.medicalInsurance">
-      <div>{{mInsurance.company}}</div>
-      <div class="lighter" *ngIf="mInsurance.memberId">Member ID: {{mInsurance.memberId}}</div>
-
-      <div fxLayout="column" *ngIf="mInsurance.subscriber && mInsurance.subscriber.firstName">
-        <div class="lighter">Subscriber Name: {{mInsurance.subscriber.firstName}} {{mInsurance.subscriber.lastName}}
-        </div>
-        <div class="lighter">Subscriber Birthday: {{months[mInsurance.subscriber.dob.month].label}}
-          {{mInsurance.subscriber.dob.day}},
-          {{mInsurance.subscriber.dob.year}} </div>
-      </div>
-    </div>
-  </div>
 </div>
