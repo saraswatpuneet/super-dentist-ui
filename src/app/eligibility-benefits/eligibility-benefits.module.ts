@@ -11,9 +11,10 @@ import { EligibilityBenefitsComponent } from './eligibility-benefits.component';
 import { InsuranceRegistrationModule } from '../shared/insurance-registration/insurance-registration.module';
 import { CodesComponent } from './shared/codes/codes.component';
 import { HistoryComponent } from './shared/history/history.component';
+import { RemarksComponent } from './shared/remarks/remarks.component';
 
 @NgModule({
-  declarations: [EligibilityBenefitsComponent, CodesComponent, HistoryComponent],
+  declarations: [EligibilityBenefitsComponent, CodesComponent, HistoryComponent, RemarksComponent],
   imports: [
     CommonModule,
     FormsModule,
