@@ -1,10 +1,15 @@
 <div class="codes" *ngIf="codes">
   <h3>Categories</h3>
-  <div *ngFor="let breakDownKey of codes?.breakDownKeys; let i = index">
-    <p>{{breakDownKey}} {{codes.breakDowns[breakDownKey].label.toLowerCase()}}</p>
+  <div class="breakdowns" *ngFor="let breakDownKey of codes?.breakDownKeys; let i = index">
+    <header fxLayout="row" fxLayoutGap="12px">
+      <p fxFlex>{{breakDownKey}} {{codes.breakDowns[breakDownKey].label.toLowerCase()}}</p>
+      <p>80%</p>
+    </header>
     <div class="sub-breakdown">
-      <div *ngFor="let subKey of codes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
-        <p>{{subKey}} - {{codes?.breakDowns[breakDownKey].breakDowns[subKey].label}}</p>
+      <div fxLayout="row" fxLayoutGap="12px"
+        *ngFor="let subKey of codes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
+        <p fxFlex>{{subKey}} - {{codes?.breakDowns[breakDownKey].breakDowns[subKey].label}}</p>
+        <p>70%</p>
       </div>
     </div>
   </div>
