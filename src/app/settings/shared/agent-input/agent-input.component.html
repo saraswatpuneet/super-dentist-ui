@@ -60,39 +60,49 @@
         </div>
       </div>
 
-      <div class="sd-input" fxFlex>
+      <div class="sd-input radio">
         <label>Missing tooth clause</label>
-        <select formControlName="missingToothClause">
-          <option *ngFor="let clause of ['yes', 'no']" [value]="clause">{{clause}}</option>
-        </select>
+        <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="missingToothClause">
+          <mat-radio-button *ngFor="let clause of ['yes', 'no']" [value]="clause">
+            {{clause}}
+          </mat-radio-button>
+        </mat-radio-group>
       </div>
 
-      <div class="sd-input" fxFlex>
+      <div class="sd-input radio" fxFlex>
         <label>Waiting periods</label>
-        <select formControlName="waitingPeriods">
-          <option *ngFor="let clause of ['yes', 'no']" [value]="clause">{{clause}}</option>
-        </select>
+        <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="waitingPeriods">
+          <mat-radio-button *ngFor="let clause of ['yes', 'no']" [value]="clause">
+            {{clause}}
+          </mat-radio-button>
+        </mat-radio-group>
       </div>
 
       <div class="sd-input" fxFlex>
-        <label>Eligibility Year</label>
+        <label>Eligibility year</label>
         <select formControlName="eligibilityYear">
           <option *ngFor="let clause of ['calendar', 'benefit']" [value]="clause">{{clause}}</option>
         </select>
       </div>
 
-      <div class="sd-input" fxFlex>
+      <div class="sd-input radio" fxFlex>
         <label>In-network</label>
-        <select formControlName="inNetwork">
-          <option *ngFor="let clause of ['yes', 'no']" [value]="clause">{{clause}}</option>
-        </select>
+
+        <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="inNetwork">
+          <mat-radio-button *ngFor="let clause of ['yes', 'no']" [value]="clause">
+            {{clause}}
+          </mat-radio-button>
+        </mat-radio-group>
       </div>
 
-      <div class="sd-input" fxFlex>
+      <div class="sd-input radio" fxFlex>
         <label>Preventitive deducted from maximum</label>
-        <select formControlName="preventitiveDeductedFromMaximum">
-          <option *ngFor="let clause of ['yes', 'no']" [value]="clause">{{clause}}</option>
-        </select>
+
+        <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="preventitiveDeductedFromMaximum">
+          <mat-radio-button *ngFor="let clause of ['yes', 'no']" [value]="clause">
+            {{clause}}
+          </mat-radio-button>
+        </mat-radio-group>
       </div>
 
       <div class="sd-input" fxFlex>
@@ -117,11 +127,14 @@
               <option *ngFor="let clause of ['month', 'year', 'lt']" [value]="clause">{{clause}}</option>
             </select>
           </div>
-          <div class="sd-input" fxFlex>
+          <div class="sd-input radio" fxFlex>
             <label>Exclusions</label>
-            <select formControlName="exclusions">
-              <option *ngFor="let clause of ['yes', 'no']" [value]="clause">{{clause}}</option>
-            </select>
+
+            <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="exclusions">
+              <mat-radio-button *ngFor="let clause of ['yes', 'no']" [value]="clause">
+                {{clause}}
+              </mat-radio-button>
+            </mat-radio-group>
           </div>
         </div>
       </div>
