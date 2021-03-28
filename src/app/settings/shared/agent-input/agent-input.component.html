@@ -1,0 +1,184 @@
+<mat-card class="agent-input">
+  <mat-card-header>
+    <mat-card-title>Agent</mat-card-title>
+  </mat-card-header>
+
+  <form [formGroup]="agentForm" fxLayout="column">
+    <ng-container formGroupName="patientCoverage">
+      <h3>Coverage</h3>
+      <div class="sd-input">
+        <label>Eligibility start date</label>
+        <input type="text" formControlName="eligibilityStartDate">
+      </div>
+
+      <div class="sd-input">
+        <label>Coordination of benefits</label>
+        <input type="text" formControlName="coordinationOfBenefits">
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="12px">
+        <div class="sd-input" fxFlex>
+          <label>Annual maximum</label>
+          <input type="text" formControlName="annualMaximum">
+        </div>
+
+        <div class="sd-input" fxFlex>
+          <label>Annual used amount</label>
+          <input type="text" formControlName="annualUsedAmount">
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="12px">
+        <div class="sd-input" fxFlex>
+          <label>Deductible (IND)</label>
+          <input type="text" formControlName="deductibleInd">
+        </div>
+
+        <div class="sd-input" fxFlex>
+          <label>Deductible (Family)</label>
+          <input type="text" formControlName="deductibleFamily">
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="12px">
+        <div class="sd-input" fxFlex>
+          <label>Deductible met amount (IND)</label>
+          <input type="text" formControlName="deductibleMetAmountInd">
+        </div>
+
+        <div class="sd-input" fxFlex>
+          <label>Deductible met amount (Family)</label>
+          <input type="text" formControlName="deductibleMetAmountFamily">
+        </div>
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>Missing tooth clause</label>
+        <input type="text" formControlName="missingToothClause">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>Waiting periods</label>
+        <input type="text" formControlName="waitingPeriods">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>Calendar of benefit year</label>
+        <input type="text" formControlName="calendarOfBenefitYear">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>In-network</label>
+        <input type="text" formControlName="inNetwork">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>Preventitive deducted from maximum</label>
+        <input type="text" formControlName="preventitiveDeductedFromMaximum">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>Free schedule</label>
+        <input type="text" formControlName="feeSchedule">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>Tooth replacement clause</label>
+        <input type="text" formControlName="toothReplacementClause">
+      </div>
+    </ng-container>
+
+    <ng-container formGroupName="history">
+      <h3>History</h3>
+
+      <div class="sd-input" fxFlex>
+        <label>Periodic exam</label>
+        <input type="text" formControlName="periodicExam">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>Comp exam</label>
+        <input type="text" formControlName="compExam">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>FMX / PANO</label>
+        <input type="text" formControlName="fmxPano">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>BWX</label>
+        <input type="text" formControlName="bwx">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>Adult prophy / child prophy</label>
+        <input type="text" formControlName="adultProphyChildProphy">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>Fl tx - topical or varnish</label>
+        <input type="text" formControlName="flTxTopicalOrVarnish">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>Sealants # 2,3,14,15,18,19,30,31</label>
+        <input type="text" formControlName="sealantNumbers">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>SDF</label>
+        <input type="text" formControlName="sdf">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>Perio maint</label>
+        <input type="text" formControlName="perioMaint">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>SRP</label>
+        <input type="text" formControlName="srp">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>Crowns</label>
+        <input type="text" formControlName="crowns">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>Restorations</label>
+        <input type="text" formControlName="restorations">
+      </div>
+    </ng-container>
+
+    <ng-container formGroupName="remarks">
+      <h3>Remarks</h3>
+
+      <div class="sd-input" fxFlex>
+        <label>Insurance representative name</label>
+        <input type="text" formControlName="insuranceRepresentativeName">
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <label>Call ref #</label>
+        <input type="text" formControlName="callRefNumber">
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="12px">
+        <div class="sd-input" fxFlex>
+          <label>Verified by</label>
+          <input type="text" formControlName="verifiedBy">
+        </div>
+        <div class="sd-input" fxFlex>
+          <label>Verified Date</label>
+          <input type="text" formControlName="verifiedDate">
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="actions">
+      <button mat-stroked-button (click)="submit()">Save form</button>
+    </div>
+  </form>
+</mat-card>
