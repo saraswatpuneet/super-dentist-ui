@@ -4,6 +4,14 @@
   </mat-card-header>
 
   <form [formGroup]="agentForm" fxLayout="column">
+    <div class="sd-input" *ngFor="let control of controls">
+      <input type="text" *ngIf="control.type === 'text'">
+
+      <select *ngIf="control.type === 'select'" name="" id="">
+        <option value=""></option>
+      </select>
+    </div>
+
     <ng-container formGroupName="patientCoverage">
       <h3>Coverage</h3>
       <div class="sd-input">
@@ -19,62 +27,72 @@
       <div fxLayout="row" fxLayoutGap="12px">
         <div class="sd-input" fxFlex>
           <label>Annual maximum</label>
-          <input type="text" formControlName="annualMaximum">
+          <input type="number" formControlName="annualMaximum">
         </div>
 
         <div class="sd-input" fxFlex>
           <label>Annual used amount</label>
-          <input type="text" formControlName="annualUsedAmount">
+          <input type="number" formControlName="annualUsedAmount">
         </div>
       </div>
 
       <div fxLayout="row" fxLayoutGap="12px">
         <div class="sd-input" fxFlex>
-          <label>Deductible (IND)</label>
-          <input type="text" formControlName="deductibleInd">
+          <label>Deductible (Individual)</label>
+          <input type="number" formControlName="deductibleIndividiaul">
         </div>
 
         <div class="sd-input" fxFlex>
           <label>Deductible (Family)</label>
-          <input type="text" formControlName="deductibleFamily">
+          <input type="number" formControlName="deductibleFamily">
         </div>
       </div>
 
       <div fxLayout="row" fxLayoutGap="12px">
         <div class="sd-input" fxFlex>
-          <label>Deductible met amount (IND)</label>
-          <input type="text" formControlName="deductibleMetAmountInd">
+          <label>Deductible met amount (Individual)</label>
+          <input type="number" formControlName="deductibleMetAmountIndividual">
         </div>
 
         <div class="sd-input" fxFlex>
           <label>Deductible met amount (Family)</label>
-          <input type="text" formControlName="deductibleMetAmountFamily">
+          <input type="number" formControlName="deductibleMetAmountFamily">
         </div>
       </div>
 
       <div class="sd-input" fxFlex>
         <label>Missing tooth clause</label>
-        <input type="text" formControlName="missingToothClause">
+        <select formControlName="missingToothClause">
+          <option *ngFor="let clause of ['yes', 'no']" [value]="clause">{{clause}}</option>
+        </select>
       </div>
 
       <div class="sd-input" fxFlex>
         <label>Waiting periods</label>
-        <input type="text" formControlName="waitingPeriods">
+        <select formControlName="waitingPeriods">
+          <option *ngFor="let clause of ['yes', 'no']" [value]="clause">{{clause}}</option>
+        </select>
       </div>
 
       <div class="sd-input" fxFlex>
-        <label>Calendar of benefit year</label>
-        <input type="text" formControlName="calendarOfBenefitYear">
+        <label>Eligibility Year</label>
+        <select formControlName="eligibilityYear">
+          <option *ngFor="let clause of ['calendar', 'benefit']" [value]="clause">{{clause}}</option>
+        </select>
       </div>
 
       <div class="sd-input" fxFlex>
         <label>In-network</label>
-        <input type="text" formControlName="inNetwork">
+        <select formControlName="inNetwork">
+          <option *ngFor="let clause of ['yes', 'no']" [value]="clause">{{clause}}</option>
+        </select>
       </div>
 
       <div class="sd-input" fxFlex>
         <label>Preventitive deducted from maximum</label>
-        <input type="text" formControlName="preventitiveDeductedFromMaximum">
+        <select formControlName="preventitiveDeductedFromMaximum">
+          <option *ngFor="let clause of ['yes', 'no']" [value]="clause">{{clause}}</option>
+        </select>
       </div>
 
       <div class="sd-input" fxFlex>
@@ -82,9 +100,30 @@
         <input type="text" formControlName="feeSchedule">
       </div>
 
-      <div class="sd-input" fxFlex>
-        <label>Tooth replacement clause</label>
-        <input type="text" formControlName="toothReplacementClause">
+      <div fxLayout="column">
+        <h3>Tooth replacement clause</h3>
+        <div fxLayout="row" fxLayoutGap="12px" formGroupName="toothReplacementClause">
+          <div class="sd-input" fxFlex>
+            <label>Numerator</label>
+            <input type="text" formControlName="numerator">
+          </div>
+          <div class="sd-input" fxFlex>
+            <label>Denominator</label>
+            <input type="text" formControlName="denominator">
+          </div>
+          <div class="sd-input" fxFlex>
+            <label>Unit</label>
+            <select formControlName="unit">
+              <option *ngFor="let clause of ['month', 'year', 'lt']" [value]="clause">{{clause}}</option>
+            </select>
+          </div>
+          <div class="sd-input" fxFlex>
+            <label>Exclusions</label>
+            <select formControlName="exclusions">
+              <option *ngFor="let clause of ['yes', 'no']" [value]="clause">{{clause}}</option>
+            </select>
+          </div>
+        </div>
       </div>
     </ng-container>
 
