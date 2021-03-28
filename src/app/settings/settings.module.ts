@@ -6,6 +6,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
 
 import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings.component';
@@ -19,13 +21,15 @@ import { AgentInputComponent } from './shared/agent-input/agent-input.component'
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     FlexLayoutModule,
-    MatCardModule,
-    VisibleInsuranceFieldsModule,
-    MatCheckboxModule,
     MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
     MatProgressBarModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    VisibleInsuranceFieldsModule,
     SettingsRoutingModule
   ]
 })

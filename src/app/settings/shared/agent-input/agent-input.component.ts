@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class AgentInputComponent implements OnInit {
   agentForm: FormGroup;
+  increments = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
   constructor(private fb: FormBuilder) { }
 
@@ -26,9 +27,9 @@ export class AgentInputComponent implements OnInit {
         coordinationOfBenefits: [],
         annualMaximum: [],
         annualUsedAmount: [],
-        deductibleInd: [],
+        deductibleIndividual: [],
         deductibleFamily: [],
-        deductibleMetAmountInd: [],
+        deductibleMetAmountIndividual: [],
         deductibleMetAmountFamily: [],
         missingToothClause: ['no'],
         waitingPeriods: ['yes'],

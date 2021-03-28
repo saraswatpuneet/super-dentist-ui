@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateModule } from '@angular/material-moment-adapter';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +18,7 @@ import { DialogModule } from './shared/dialog/dialog.module';
 import { environment } from '../environments/environment';
 import { AuthInterceptor } from './shared/interceptors/auth-interceptor';
 import { NotificationModule } from './shared/notification/notification.module';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -32,9 +34,11 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     MatMenuModule,
     MatCardModule,
     MatTooltipModule,
+    MomentDateModule,
     NgxMaskModule.forRoot(),
     FlexLayoutModule,
     HttpClientModule,
+    MatMomentDateModule,
     HttpClientJsonpModule,
     AngularFireModule.initializeApp(environment.firebase),
     AppRoutingModule,
@@ -44,7 +48,24 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    {
+      provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true }
+    },
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: {
+        parse: {
+          dateInput: ['l', 'LL'],
+        },
+        display: {
+          dateInput: 'MMM DD, YYYY',
+          monthYearLabel: 'YYYY',
+          dateA11yLabel: 'LL',
+          monthYearA11yLabel: 'YYYY',
+        },
+      },
+    },
   ],
   bootstrap: [AppComponent]
 })

@@ -4,20 +4,20 @@
   </mat-card-header>
 
   <form [formGroup]="agentForm" fxLayout="column">
-    <div class="sd-input" *ngFor="let control of controls">
-      <input type="text" *ngIf="control.type === 'text'">
-
-      <select *ngIf="control.type === 'select'" name="" id="">
-        <option value=""></option>
-      </select>
-    </div>
 
     <ng-container formGroupName="patientCoverage">
       <h3>Coverage</h3>
       <div class="sd-input">
         <label>Eligibility start date</label>
-        <input type="text" formControlName="eligibilityStartDate">
+        <div fxLayout="row">
+          <button mat-icon-button (click)="picker1.open()">
+            <mat-icon>today</mat-icon>
+          </button>
+          <input disabled [matDatepicker]="picker1" type="text" formControlName="eligibilityStartDate">
+          <mat-datepicker disabled="false" #picker1></mat-datepicker>
+        </div>
       </div>
+
 
       <div class="sd-input">
         <label>Coordination of benefits</label>
@@ -39,7 +39,7 @@
       <div fxLayout="row" fxLayoutGap="12px">
         <div class="sd-input" fxFlex>
           <label>Deductible (Individual)</label>
-          <input type="number" formControlName="deductibleIndividiaul">
+          <input type="number" formControlName="deductibleIndividual">
         </div>
 
         <div class="sd-input" fxFlex>
