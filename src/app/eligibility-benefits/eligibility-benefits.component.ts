@@ -56,7 +56,6 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
 
   selectPatient(patient: any): void {
     this.selectedPatient = patient;
-    console.log(patient);
   }
 
   filterPatientList(): void {

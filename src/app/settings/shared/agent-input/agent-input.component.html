@@ -143,25 +143,25 @@
     <ng-container formGroupName="history">
       <h3>History</h3>
 
-      <app-tooth-history label="Periodic exam" [historyForm]="agentForm.controls.history.controls.periodicExam">
+      <app-tooth-history label="Periodic exam" [historyForm]="agentForm.get('history')['controls'].periodicExam">
       </app-tooth-history>
-      <app-tooth-history label="Comp exam" [historyForm]="agentForm.controls.history.controls.compExam">
+      <app-tooth-history label="Comp exam" [historyForm]="agentForm.get('history')['controls'].compExam">
       </app-tooth-history>
-      <app-tooth-history label="FMX / PANO" [historyForm]="agentForm.controls.history.controls.fmxPano">
+      <app-tooth-history label="FMX / PANO" [historyForm]="agentForm.get('history')['controls'].fmxPano">
       </app-tooth-history>
-      <app-tooth-history label="BWX" [historyForm]="agentForm.controls.history.controls.bwx"></app-tooth-history>
+      <app-tooth-history label="BWX" [historyForm]="agentForm.get('history')['controls'].bwx"></app-tooth-history>
       <app-tooth-history label="Adult prophy / child prophy"
-        [historyForm]="agentForm.controls.history.controls.adultProphyChildProphy"></app-tooth-history>
+        [historyForm]="agentForm.get('history')['controls'].adultProphyChildProphy"></app-tooth-history>
       <app-tooth-history label="Fl tx - topical or varnish"
-        [historyForm]="agentForm.controls.history.controls.flTxTopicalOrVarnish"></app-tooth-history>
+        [historyForm]="agentForm.get('history')['controls'].flTxTopicalOrVarnish"></app-tooth-history>
       <app-tooth-history label="Sealants # 2,3,14,15,18,19,30,31"
-        [historyForm]="agentForm.controls.history.controls.sealantNumbers"></app-tooth-history>
-      <app-tooth-history label="SDF" [historyForm]="agentForm.controls.history.controls.sdf"></app-tooth-history>
-      <app-tooth-history label="Perio maint" [historyForm]="agentForm.controls.history.controls.perioMaint">
+        [historyForm]="agentForm.get('history')['controls'].sealantNumbers"></app-tooth-history>
+      <app-tooth-history label="SDF" [historyForm]="agentForm.get('history')['controls'].sdf"></app-tooth-history>
+      <app-tooth-history label="Perio maint" [historyForm]="agentForm.get('history')['controls'].perioMaint">
       </app-tooth-history>
-      <app-tooth-history label="SRP" [historyForm]="agentForm.controls.history.controls.srp"></app-tooth-history>
-      <app-tooth-history label="Crowns" [historyForm]="agentForm.controls.history.controls.crowns"></app-tooth-history>
-      <app-tooth-history label="Restorations" [historyForm]="agentForm.controls.history.controls.restorations">
+      <app-tooth-history label="SRP" [historyForm]="agentForm.get('history')['controls'].srp"></app-tooth-history>
+      <app-tooth-history label="Crowns" [historyForm]="agentForm.get('history')['controls'].crowns"></app-tooth-history>
+      <app-tooth-history label="Restorations" [historyForm]="agentForm.get('history')['controls'].restorations">
       </app-tooth-history>
     </ng-container>
 

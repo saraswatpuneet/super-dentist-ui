@@ -27,7 +27,7 @@ export class ToothHistoryComponent implements OnInit {
     this.historyForm.push(
       this.fb.group({
         date: [],
-        tooth: [1],
+        tooth: ['1'],
         quadrant: ['lowerLeft']
       }));
   }
