@@ -17,7 +17,7 @@ export class AgentInputComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.agentForm);
+    console.log(this.agentForm.value);
   }
 
   private initForm(): void {
@@ -45,18 +45,18 @@ export class AgentInputComponent implements OnInit {
         }),
       }),
       history: this.fb.group({
-        periodicExam: [],
-        compExam: [],
-        fmxPano: [],
-        bwx: [],
-        adultProphyChildProphy: [],
-        flTxTopicalOrVarnish: [],
-        sealantNumbers: [],
-        sdf: [],
-        perioMaint: [],
-        srp: [],
-        crowns: [],
-        restorations: [],
+        periodicExam: this.fb.array([]),
+        compExam: this.fb.array([]),
+        fmxPano: this.fb.array([]),
+        bwx: this.fb.array([]),
+        adultProphyChildProphy: this.fb.array([]),
+        flTxTopicalOrVarnish: this.fb.array([]),
+        sealantNumbers: this.fb.array([]),
+        sdf: this.fb.array([]),
+        perioMaint: this.fb.array([]),
+        srp: this.fb.array([]),
+        crowns: this.fb.array([]),
+        restorations: this.fb.array([]),
       }),
       remarks: this.fb.group({
         insuranceRepresentativeName: [],

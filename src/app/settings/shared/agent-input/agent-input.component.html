@@ -143,65 +143,26 @@
     <ng-container formGroupName="history">
       <h3>History</h3>
 
-      <div class="sd-input" fxFlex>
-        <label>Periodic exam</label>
-        <input type="text" formControlName="periodicExam">
-      </div>
-
-      <div class="sd-input" fxFlex>
-        <label>Comp exam</label>
-        <input type="text" formControlName="compExam">
-      </div>
-
-      <div class="sd-input" fxFlex>
-        <label>FMX / PANO</label>
-        <input type="text" formControlName="fmxPano">
-      </div>
-
-      <div class="sd-input" fxFlex>
-        <label>BWX</label>
-        <input type="text" formControlName="bwx">
-      </div>
-
-      <div class="sd-input" fxFlex>
-        <label>Adult prophy / child prophy</label>
-        <input type="text" formControlName="adultProphyChildProphy">
-      </div>
-
-      <div class="sd-input" fxFlex>
-        <label>Fl tx - topical or varnish</label>
-        <input type="text" formControlName="flTxTopicalOrVarnish">
-      </div>
-
-      <div class="sd-input" fxFlex>
-        <label>Sealants # 2,3,14,15,18,19,30,31</label>
-        <input type="text" formControlName="sealantNumbers">
-      </div>
-
-      <div class="sd-input" fxFlex>
-        <label>SDF</label>
-        <input type="text" formControlName="sdf">
-      </div>
-
-      <div class="sd-input" fxFlex>
-        <label>Perio maint</label>
-        <input type="text" formControlName="perioMaint">
-      </div>
-
-      <div class="sd-input" fxFlex>
-        <label>SRP</label>
-        <input type="text" formControlName="srp">
-      </div>
-
-      <div class="sd-input" fxFlex>
-        <label>Crowns</label>
-        <input type="text" formControlName="crowns">
-      </div>
-
-      <div class="sd-input" fxFlex>
-        <label>Restorations</label>
-        <input type="text" formControlName="restorations">
-      </div>
+      <app-tooth-history label="Periodic exam" [historyForm]="agentForm.controls.history.controls.periodicExam">
+      </app-tooth-history>
+      <app-tooth-history label="Comp exam" [historyForm]="agentForm.controls.history.controls.compExam">
+      </app-tooth-history>
+      <app-tooth-history label="FMX / PANO" [historyForm]="agentForm.controls.history.controls.fmxPano">
+      </app-tooth-history>
+      <app-tooth-history label="BWX" [historyForm]="agentForm.controls.history.controls.bwx"></app-tooth-history>
+      <app-tooth-history label="Adult prophy / child prophy"
+        [historyForm]="agentForm.controls.history.controls.adultProphyChildProphy"></app-tooth-history>
+      <app-tooth-history label="Fl tx - topical or varnish"
+        [historyForm]="agentForm.controls.history.controls.flTxTopicalOrVarnish"></app-tooth-history>
+      <app-tooth-history label="Sealants # 2,3,14,15,18,19,30,31"
+        [historyForm]="agentForm.controls.history.controls.sealantNumbers"></app-tooth-history>
+      <app-tooth-history label="SDF" [historyForm]="agentForm.controls.history.controls.sdf"></app-tooth-history>
+      <app-tooth-history label="Perio maint" [historyForm]="agentForm.controls.history.controls.perioMaint">
+      </app-tooth-history>
+      <app-tooth-history label="SRP" [historyForm]="agentForm.controls.history.controls.srp"></app-tooth-history>
+      <app-tooth-history label="Crowns" [historyForm]="agentForm.controls.history.controls.crowns"></app-tooth-history>
+      <app-tooth-history label="Restorations" [historyForm]="agentForm.controls.history.controls.restorations">
+      </app-tooth-history>
     </ng-container>
 
     <ng-container formGroupName="remarks">

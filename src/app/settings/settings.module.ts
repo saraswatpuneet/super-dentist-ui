@@ -16,9 +16,10 @@ import { PracticesComponent } from './shared/practices/practices.component';
 import { AccountComponent } from './shared/account/account.component';
 import { VisibleInsuranceFieldsModule } from './shared/visible-insurance-fields/visible-insurance-fields.module';
 import { AgentInputComponent } from './shared/agent-input/agent-input.component';
+import { ToothHistoryComponent } from './shared/tooth-history/tooth-history.component';
 
 @NgModule({
-  declarations: [SettingsComponent, PracticesComponent, AccountComponent, AgentInputComponent],
+  declarations: [SettingsComponent, PracticesComponent, AccountComponent, AgentInputComponent, ToothHistoryComponent],
   imports: [
     CommonModule,
     FormsModule,

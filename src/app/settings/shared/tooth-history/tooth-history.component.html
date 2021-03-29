@@ -1,0 +1,51 @@
+<div class="tooth-history" fxLayout="column">
+  <div class="sd-input radio">
+    <label>{{label}}</label>
+    <mat-radio-group color="primary" fxLayoutGap="20px" [(ngModel)]="hasHistory" (change)="toggleHistory()">
+      <mat-radio-button *ngFor="let clause of ['yes', 'no']" [value]="clause">
+        {{clause}}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <div *ngIf="hasHistory === 'yes'" class="history" fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px">
+      <button mat-icon-button (click)="addHistory()">
+        <mat-icon>add_circle_outline</mat-icon>
+      </button>
+      <span fxFlex="30">Date</span>
+      <span fxFlex="30">Tooth #</span>
+      <span fxFlex="30">Quadrant</span>
+    </div>
+
+    <div class="row-form" fxLayout="row" *ngFor="let control of historyForm.controls; let i = index"
+      [formGroup]="control" fxLayoutGap="12px">
+      <button mat-icon-button (click)="removeHistory(i)">
+        <mat-icon>remove</mat-icon>
+      </button>
+
+      <div class="sd-input" fxFlex>
+        <div fxLayout="row">
+          <button mat-icon-button (click)="picker.open()">
+            <mat-icon>today</mat-icon>
+          </button>
+          <input disabled [matDatepicker]="picker" type="text" formControlName="date">
+          <mat-datepicker disabled="false" #picker></mat-datepicker>
+        </div>
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <select formControlName="tooth">
+          <option *ngFor="let tooth of teeth" [value]="tooth">{{tooth}}</option>
+        </select>
+      </div>
+
+      <div class="sd-input" fxFlex>
+        <select formControlName="quadrant">
+          <option *ngFor="let quadrant of quadrants" [value]="quadrant.value">{{quadrant.label}}</option>
+        </select>
+      </div>
+
+    </div>
+  </div>
+</div>
