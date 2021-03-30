@@ -2,8 +2,8 @@
   <div class="sd-input radio">
     <label>{{label}}</label>
     <mat-radio-group color="primary" fxLayoutGap="20px" [(ngModel)]="hasHistory" (change)="toggleHistory()">
-      <mat-radio-button *ngFor="let clause of ['yes', 'no']" [value]="clause">
-        {{clause}}
+      <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+        {{clause.label}}
       </mat-radio-button>
     </mat-radio-group>
   </div>
@@ -13,15 +13,15 @@
       <button mat-icon-button (click)="addHistory()">
         <mat-icon>add_circle_outline</mat-icon>
       </button>
-      <span fxFlex="30">Date</span>
-      <span fxFlex="30">Tooth #</span>
-      <span fxFlex="30">Quadrant</span>
+      <span fxFlex>Date</span>
+      <span fxFlex>Tooth #</span>
+      <span fxFlex>Quadrant</span>
     </div>
 
     <div class="row-form" fxLayout="row" *ngFor="let control of historyForm.controls; let i = index"
       [formGroup]="control" fxLayoutGap="12px">
       <button mat-icon-button (click)="removeHistory(i)">
-        <mat-icon>remove</mat-icon>
+        <mat-icon>delete</mat-icon>
       </button>
 
       <div class="sd-input" fxFlex>

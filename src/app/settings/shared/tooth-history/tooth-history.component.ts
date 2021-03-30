@@ -9,6 +9,7 @@ import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
 export class ToothHistoryComponent implements OnInit {
   @Input() historyForm: FormArray;
   @Input() label = '';
+  @Input() radioOptions = [];
   hasHistory = 'no';
   teeth = [...Array(33).keys()].slice(1);
   quadrants = [

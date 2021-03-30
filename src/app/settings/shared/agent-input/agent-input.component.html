@@ -63,8 +63,8 @@
       <div class="sd-input radio">
         <label>Missing tooth clause</label>
         <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="missingToothClause">
-          <mat-radio-button *ngFor="let clause of ['yes', 'no']" [value]="clause">
-            {{clause}}
+          <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+            {{clause.label}}
           </mat-radio-button>
         </mat-radio-group>
       </div>
@@ -72,8 +72,8 @@
       <div class="sd-input radio" fxFlex>
         <label>Waiting periods</label>
         <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="waitingPeriods">
-          <mat-radio-button *ngFor="let clause of ['yes', 'no']" [value]="clause">
-            {{clause}}
+          <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+            {{clause.label}}
           </mat-radio-button>
         </mat-radio-group>
       </div>
@@ -81,7 +81,7 @@
       <div class="sd-input" fxFlex>
         <label>Eligibility year</label>
         <select formControlName="eligibilityYear">
-          <option *ngFor="let clause of ['calendar', 'benefit']" [value]="clause">{{clause}}</option>
+          <option *ngFor="let clause of eligibilityOptions" [value]="clause.value">{{clause.label}}</option>
         </select>
       </div>
 
@@ -89,8 +89,8 @@
         <label>In-network</label>
 
         <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="inNetwork">
-          <mat-radio-button *ngFor="let clause of ['yes', 'no']" [value]="clause">
-            {{clause}}
+          <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+            {{clause.label}}
           </mat-radio-button>
         </mat-radio-group>
       </div>
@@ -99,8 +99,8 @@
         <label>Preventitive deducted from maximum</label>
 
         <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="preventitiveDeductedFromMaximum">
-          <mat-radio-button *ngFor="let clause of ['yes', 'no']" [value]="clause">
-            {{clause}}
+          <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+            {{clause.label}}
           </mat-radio-button>
         </mat-radio-group>
       </div>
@@ -124,15 +124,15 @@
           <div class="sd-input" fxFlex>
             <label>Unit</label>
             <select formControlName="unit">
-              <option *ngFor="let clause of ['month', 'year', 'lt']" [value]="clause">{{clause}}</option>
+              <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>
             </select>
           </div>
           <div class="sd-input radio" fxFlex>
             <label>Exclusions</label>
 
             <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="exclusions">
-              <mat-radio-button *ngFor="let clause of ['yes', 'no']" [value]="clause">
-                {{clause}}
+              <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+                {{clause.label}}
               </mat-radio-button>
             </mat-radio-group>
           </div>
@@ -143,25 +143,34 @@
     <ng-container formGroupName="history">
       <h3>History</h3>
 
-      <app-tooth-history label="Periodic exam" [historyForm]="agentForm.get('history')['controls'].periodicExam">
+      <app-tooth-history [radioOptions]="radioOptions" label="Periodic exam"
+        [historyForm]="agentForm.get('history')['controls'].periodicExam">
       </app-tooth-history>
-      <app-tooth-history label="Comp exam" [historyForm]="agentForm.get('history')['controls'].compExam">
+      <app-tooth-history [radioOptions]="radioOptions" label="Comp exam"
+        [historyForm]="agentForm.get('history')['controls'].compExam">
       </app-tooth-history>
-      <app-tooth-history label="FMX / PANO" [historyForm]="agentForm.get('history')['controls'].fmxPano">
+      <app-tooth-history [radioOptions]="radioOptions" label="FMX / PANO"
+        [historyForm]="agentForm.get('history')['controls'].fmxPano">
       </app-tooth-history>
-      <app-tooth-history label="BWX" [historyForm]="agentForm.get('history')['controls'].bwx"></app-tooth-history>
-      <app-tooth-history label="Adult prophy / child prophy"
+      <app-tooth-history [radioOptions]="radioOptions" label="BWX"
+        [historyForm]="agentForm.get('history')['controls'].bwx"></app-tooth-history>
+      <app-tooth-history [radioOptions]="radioOptions" label="Adult prophy / child prophy"
         [historyForm]="agentForm.get('history')['controls'].adultProphyChildProphy"></app-tooth-history>
-      <app-tooth-history label="Fl tx - topical or varnish"
+      <app-tooth-history [radioOptions]="radioOptions" label="Fl tx - topical or varnish"
         [historyForm]="agentForm.get('history')['controls'].flTxTopicalOrVarnish"></app-tooth-history>
-      <app-tooth-history label="Sealants # 2,3,14,15,18,19,30,31"
+      <app-tooth-history [radioOptions]="radioOptions" label="Sealants # 2,3,14,15,18,19,30,31"
         [historyForm]="agentForm.get('history')['controls'].sealantNumbers"></app-tooth-history>
-      <app-tooth-history label="SDF" [historyForm]="agentForm.get('history')['controls'].sdf"></app-tooth-history>
-      <app-tooth-history label="Perio maint" [historyForm]="agentForm.get('history')['controls'].perioMaint">
+      <app-tooth-history [radioOptions]="radioOptions" label="SDF"
+        [historyForm]="agentForm.get('history')['controls'].sdf"></app-tooth-history>
+      <app-tooth-history [radioOptions]="radioOptions" label="Perio maint"
+        [historyForm]="agentForm.get('history')['controls'].perioMaint">
       </app-tooth-history>
-      <app-tooth-history label="SRP" [historyForm]="agentForm.get('history')['controls'].srp"></app-tooth-history>
-      <app-tooth-history label="Crowns" [historyForm]="agentForm.get('history')['controls'].crowns"></app-tooth-history>
-      <app-tooth-history label="Restorations" [historyForm]="agentForm.get('history')['controls'].restorations">
+      <app-tooth-history [radioOptions]="radioOptions" label="SRP"
+        [historyForm]="agentForm.get('history')['controls'].srp"></app-tooth-history>
+      <app-tooth-history [radioOptions]="radioOptions" label="Crowns"
+        [historyForm]="agentForm.get('history')['controls'].crowns"></app-tooth-history>
+      <app-tooth-history [radioOptions]="radioOptions" label="Restorations"
+        [historyForm]="agentForm.get('history')['controls'].restorations">
       </app-tooth-history>
     </ng-container>
 
@@ -184,8 +193,14 @@
           <input type="text" formControlName="verifiedBy">
         </div>
         <div class="sd-input" fxFlex>
-          <label>Verified Date</label>
-          <input type="text" formControlName="verifiedDate">
+          <label>Verified date</label>
+          <div fxLayout="row">
+            <button mat-icon-button (click)="picker2.open()">
+              <mat-icon>today</mat-icon>
+            </button>
+            <input disabled [matDatepicker]="picker2" type="text" formControlName="verifiedDate">
+            <mat-datepicker disabled="false" #picker2></mat-datepicker>
+          </div>
         </div>
       </div>
     </ng-container>

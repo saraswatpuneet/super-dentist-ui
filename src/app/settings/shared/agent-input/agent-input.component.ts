@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
+import { ClinicService } from 'src/app/shared/services/clinic.service';
+import { take, map } from 'rxjs/operators';
+
 @Component({
   selector: 'app-agent-input',
   templateUrl: './agent-input.component.html',
@@ -8,12 +11,32 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class AgentInputComponent implements OnInit {
   agentForm: FormGroup;
+  radioOptions = [
+    { value: 'yes', label: 'Yes' },
+    { value: 'no', label: 'No' }
+  ];
+  eligibilityOptions = [
+    { value: 'calendar', label: 'Calendar' },
+    { value: 'benefit', label: 'Benefit' },
+  ];
+  unitOptions = [
+    { value: 'month', label: 'Month' },
+    { value: 'year', label: 'Year' },
+    { value: 'lt', label: 'Life time' },
+  ];
   increments = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private clinicService: ClinicService
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
+    this.clinicService.getClinics().pipe(
+      map(clinics => clinics.data.clinicDetails),
+      take(1)
+    ).subscribe(console.log);
   }
 
   submit(): void {
