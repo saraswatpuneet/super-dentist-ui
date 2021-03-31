@@ -10,27 +10,54 @@
       </div>
     </header>
     <div class="sub-breakdown">
-      <div fxLayout="row" formGroupName="codes" fxLayoutAlign=" center" fxLayoutGap="12px"
+      <div fxLayout="row" formGroupName="codes" fxLayoutGap="12px"
         *ngFor="let subKey of codes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
         <p fxFlex>{{subKey}} - {{codes?.breakDowns[breakDownKey]?.breakDowns[subKey]?.label}}</p>
 
-        <div fxFlex="65px" class="sd-input">
-          <select [formControlName]="subKey">
-            <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
-          </select>
-        </div>
+        <ng-container [formGroupName]="subKey">
+          <div fxLayout="column" fxLayoutAlign=" start" fxLayoutGap="12px">
+            <div>
+              <div class="sd-input">
+                <select formControlName="percent">
+                  <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
+                </select>
+              </div>
+            </div>
 
-        <div class="sd-input" fxFlex="100px">
-          <input placeholder="Numerator" type="number">
-        </div>
-        <div class="sd-input" fxFlex="120px">
-          <input placeholder="Denominator" type="text">
-        </div>
-        <div class="sd-input" fxFlex="90px">
-          <select>
-            <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>
-          </select>
-        </div>
+            <div fxLayout="row" fxLayoutGap="12px" formGroupName="frequency">
+              <div class="sd-input" fxFlex="100px">
+                <input placeholder="Numerator" formControlName="numerator" type="number">
+              </div>
+              <div class="sd-input" fxFlex="120px">
+                <input placeholder="Denominator" type="text" formControlName="denominator">
+              </div>
+              <div class="sd-input" fxFlex="90px">
+                <select formConrolName="unit">
+                  <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div fxLayout="row" fxLayoutGap="12px" formGroupName="ageRange">
+              <div class="sd-input" fxFlex="100px">
+                <input placeholder="Min age" type="number" formControlName="min">
+              </div>
+              <div class="sd-input" fxFlex="120px">
+                <input placeholder="Max age" type="text" formControlName="max">
+              </div>
+            </div>
+
+            <div fxFlex fxLayout="column" fxLayoutGap="8px">
+              <label>Proof of medical necessity needed?</label>
+
+              <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="medicalNecessity">
+                <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+                  {{clause.label}}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>

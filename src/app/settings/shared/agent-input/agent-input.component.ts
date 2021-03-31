@@ -66,7 +66,20 @@ export class AgentInputComponent extends Base implements OnInit {
           const codeInputs = this.fb.group({});
 
           codes.breakDowns[k].breakDownKeys.forEach(sk => {
-            codeInputs.addControl(sk, this.fb.control(10));
+            // codeInputs.addControl(sk, this.fb.control(10));
+            codeInputs.addControl(sk, this.fb.group({
+              percent: [10],
+              frequency: this.fb.group({
+                numerator: [''],
+                denominator: [''],
+                unit: ['year'],
+              }),
+              ageRange: this.fb.group({
+                min: [''],
+                max: ['']
+              }),
+              medicalNecessity: ['no']
+            }));
           });
 
           codeForms.controls.push(this.fb.group({
