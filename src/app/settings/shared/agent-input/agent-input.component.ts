@@ -82,6 +82,10 @@ export class AgentInputComponent extends Base implements OnInit {
     savedCodes.label = 'Categories';
     savedCodes.key = 'categories';
     savedCodes.breakDownKeys = [];
+
+    if (!clinicCodes) {
+      clinicCodes = [];
+    }
     clinicCodes.forEach(group => {
       const groupId = group.groupId;
       savedCodes.breakDownKeys.push(groupId);

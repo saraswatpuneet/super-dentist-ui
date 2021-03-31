@@ -68,6 +68,9 @@ export class VisibleInsuranceFieldsComponent extends Base implements OnInit {
     } else {
       delete this.ids[subKey];
       delete this.codeMap[keyIndex][subKeyIndex];
+      if (Object.keys(this.codeMap[keyIndex]).length === 0) {
+        delete this.codeMap[keyIndex];
+      }
     }
   }
 
@@ -79,6 +82,9 @@ export class VisibleInsuranceFieldsComponent extends Base implements OnInit {
       ),
       takeUntil(this.unsubscribe$)
     ).subscribe((res) => {
+      if (!res) {
+        res = [];
+      }
       res.forEach(group => {
         const groupIndex = this.insuranceCodes.breakDownKeys.indexOf(group.groupId);
         this.codeMap[groupIndex] = {};
