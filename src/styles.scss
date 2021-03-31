@@ -66,7 +66,7 @@ $mat-dark-theme-background: (
 );
 
 $super-dentist-primary: mat-palette($mat-light-blue);
-$super-dentist-accent: mat-palette($mat-pink, A200, A100, A400);
+$super-dentist-accent: mat-palette($mat-green);
 $super-dentist-warn: mat-palette($mat-red);
 
 $super-dentist-theme: mat-dark-theme((
@@ -139,6 +139,7 @@ textarea {
 
   &.radio {
     min-height: 40px;
+    // border: 1px solid transparent;
 
     mat-radio-group {
       padding-left: 10px;
