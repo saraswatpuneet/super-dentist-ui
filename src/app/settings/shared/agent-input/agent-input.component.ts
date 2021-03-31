@@ -26,7 +26,7 @@ export class AgentInputComponent extends Base implements OnInit {
   unitOptions = [
     { value: 'month', label: 'Month' },
     { value: 'year', label: 'Year' },
-    { value: 'lt', label: 'Life time' },
+    { value: 'lt', label: 'Lifetime' },
   ];
   savedCodes: DentalBreakDowns = this.newSavedCodes();
   increments = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
@@ -90,6 +90,7 @@ export class AgentInputComponent extends Base implements OnInit {
       const groupId = group.groupId;
       savedCodes.breakDownKeys.push(groupId);
       const breakDowns = {};
+
       group.codeIds.forEach(id => breakDowns[id] = insuranceCodes.breakDowns[groupId].breakDowns[id]);
       savedCodes.breakDowns[groupId] = {
         key: groupId,

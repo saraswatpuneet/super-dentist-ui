@@ -39,7 +39,6 @@ export class VisibleInsuranceFieldsComponent extends Base implements OnInit {
       this.selectedClinic = this.clinics[0];
       this.triggerInsurance.next();
     });
-
   }
 
   submitCodes(): void {
