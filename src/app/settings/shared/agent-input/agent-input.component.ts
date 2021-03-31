@@ -29,6 +29,7 @@ export class AgentInputComponent extends Base implements OnInit {
     { value: 'lt', label: 'Lifetime' },
   ];
   savedCodes: DentalBreakDowns = this.newSavedCodes();
+  codesHistory: DentalBreakDowns = this.newSavedCodes();
   increments = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
   constructor(
@@ -52,15 +53,20 @@ export class AgentInputComponent extends Base implements OnInit {
         map(res => res.data.clinicDetails),
         switchMap(clinics => {
           return forkJoin([
+            this.insuranceService.getPracticeCodes().pipe(take(1)),
             this.clinicService.getSelectedPracticeCodes(clinics[0].addressId).pipe(map(r => r.data), take(1)),
-            this.insuranceService.getPracticeCodes().pipe(take(1))
+            this.clinicService.getSelectedPracticeCodesHistory(clinics[0].addressId).pipe(map(r => r.data), take(1)),
           ]);
         }),
-        map(res => this.mapToCodes(res)),
+        map(([codes, savedCodes, savedCodesHistory]) => {
+          return [this.mapToCodes([codes, savedCodes]), this.mapToCodes([codes, savedCodesHistory])];
+        }),
         takeUntil(this.unsubscribe$)
       )
-      .subscribe(codes => {
+      .subscribe(([codes, codesHistory]) => {
         this.savedCodes = codes;
+        this.codesHistory = codesHistory;
+
         const codeForms: FormArray = this.agentForm.get('codes') as FormArray;
         codes.breakDownKeys.forEach(k => {
           const codeInputs = this.fb.group({});
@@ -86,10 +92,17 @@ export class AgentInputComponent extends Base implements OnInit {
             codes: codeInputs
           }));
         });
+
+        const historyGroup: FormGroup = this.agentForm.get('history') as FormGroup;
+        codesHistory.breakDownKeys.forEach(k => {
+          codesHistory.breakDowns[k].breakDownKeys.forEach(sk => {
+            historyGroup.addControl(sk, this.fb.array([]));
+          });
+        });
       });
   }
 
-  private mapToCodes([clinicCodes, insuranceCodes]): DentalBreakDowns {
+  private mapToCodes([insuranceCodes, clinicCodes]): DentalBreakDowns {
     const savedCodes = this.newSavedCodes();
     savedCodes.label = 'Categories';
     savedCodes.key = 'categories';
@@ -149,20 +162,7 @@ export class AgentInputComponent extends Base implements OnInit {
         }),
       }),
       codes: this.fb.array([]),
-      history: this.fb.group({
-        periodicExam: this.fb.array([]),
-        compExam: this.fb.array([]),
-        fmxPano: this.fb.array([]),
-        bwx: this.fb.array([]),
-        adultProphyChildProphy: this.fb.array([]),
-        flTxTopicalOrVarnish: this.fb.array([]),
-        sealantNumbers: this.fb.array([]),
-        sdf: this.fb.array([]),
-        perioMaint: this.fb.array([]),
-        srp: this.fb.array([]),
-        crowns: this.fb.array([]),
-        restorations: this.fb.array([]),
-      }),
+      history: this.fb.group({}),
       remarks: this.fb.group({
         insuranceRepresentativeName: [],
         callRefNumber: [],

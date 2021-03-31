@@ -149,35 +149,13 @@
     <ng-container formGroupName="history">
       <h3>History</h3>
 
-      <app-tooth-history [radioOptions]="radioOptions" label="Periodic exam"
-        [historyForm]="agentForm.get('history')['controls'].periodicExam">
-      </app-tooth-history>
-      <app-tooth-history [radioOptions]="radioOptions" label="Comp exam"
-        [historyForm]="agentForm.get('history')['controls'].compExam">
-      </app-tooth-history>
-      <app-tooth-history [radioOptions]="radioOptions" label="FMX / PANO"
-        [historyForm]="agentForm.get('history')['controls'].fmxPano">
-      </app-tooth-history>
-      <app-tooth-history [radioOptions]="radioOptions" label="BWX"
-        [historyForm]="agentForm.get('history')['controls'].bwx"></app-tooth-history>
-      <app-tooth-history [radioOptions]="radioOptions" label="Adult prophy / child prophy"
-        [historyForm]="agentForm.get('history')['controls'].adultProphyChildProphy"></app-tooth-history>
-      <app-tooth-history [radioOptions]="radioOptions" label="Fl tx - topical or varnish"
-        [historyForm]="agentForm.get('history')['controls'].flTxTopicalOrVarnish"></app-tooth-history>
-      <app-tooth-history [radioOptions]="radioOptions" label="Sealants # 2,3,14,15,18,19,30,31"
-        [historyForm]="agentForm.get('history')['controls'].sealantNumbers"></app-tooth-history>
-      <app-tooth-history [radioOptions]="radioOptions" label="SDF"
-        [historyForm]="agentForm.get('history')['controls'].sdf"></app-tooth-history>
-      <app-tooth-history [radioOptions]="radioOptions" label="Perio maint"
-        [historyForm]="agentForm.get('history')['controls'].perioMaint">
-      </app-tooth-history>
-      <app-tooth-history [radioOptions]="radioOptions" label="SRP"
-        [historyForm]="agentForm.get('history')['controls'].srp"></app-tooth-history>
-      <app-tooth-history [radioOptions]="radioOptions" label="Crowns"
-        [historyForm]="agentForm.get('history')['controls'].crowns"></app-tooth-history>
-      <app-tooth-history [radioOptions]="radioOptions" label="Restorations"
-        [historyForm]="agentForm.get('history')['controls'].restorations">
-      </app-tooth-history>
+      <ng-container *ngFor="let key of codesHistory.breakDownKeys">
+        <ng-container *ngFor="let subKey of codesHistory.breakDowns[key].breakDownKeys">
+          <app-tooth-history [radioOptions]="radioOptions"
+            [label]="subKey + ' ' + codesHistory.breakDowns[key].breakDowns[subKey].label"
+            [historyForm]="agentForm.get('history')['controls'][subKey]"></app-tooth-history>
+        </ng-container>
+      </ng-container>
     </ng-container>
 
     <ng-container formGroupName="remarks">

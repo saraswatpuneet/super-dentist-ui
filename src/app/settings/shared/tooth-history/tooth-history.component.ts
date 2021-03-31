@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
+import { FormArray, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-tooth-history',

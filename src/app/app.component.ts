@@ -11,6 +11,7 @@ import { Base } from './shared/base/base-component';
 import { appAnimations } from './app.animations';
 import { ClinicService } from './shared/services/clinic.service';
 import { SettingsService } from './shared/services/settings.service';
+import { InsuranceService } from './shared/services/insurance.service';
 
 @Component({
   selector: 'app-root',
@@ -35,6 +36,7 @@ export class AppComponent extends Base implements OnInit {
     private domSanitizer: DomSanitizer,
     private iconRegistry: MatIconRegistry,
     private auth: AngularFireAuth,
+    private insuranceService: InsuranceService,
     private router: Router,
     private overlayContainer: OverlayContainer,
     private clinicService: ClinicService,
@@ -109,6 +111,7 @@ export class AppComponent extends Base implements OnInit {
 
   signOut(): void {
     this.clinicService.clearCache();
+    this.insuranceService.clearCache();
     this.auth.signOut().then(() => {
       this.authenticated = false;
       this.isSpecialist = false;
