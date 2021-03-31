@@ -1,15 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { forkJoin } from 'rxjs';
+import { take, map, switchMap, takeUntil } from 'rxjs/operators';
 
 import { ClinicService } from 'src/app/shared/services/clinic.service';
-import { take, map } from 'rxjs/operators';
+import { Base } from 'src/app/shared/base/base-component';
+import { InsuranceService } from 'src/app/shared/services/insurance.service';
+import { DentalBreakDowns } from 'src/app/shared/services/insurance';
 
 @Component({
   selector: 'app-agent-input',
   templateUrl: './agent-input.component.html',
   styleUrls: ['./agent-input.component.scss']
 })
-export class AgentInputComponent implements OnInit {
+export class AgentInputComponent extends Base implements OnInit {
   agentForm: FormGroup;
   radioOptions = [
     { value: 'yes', label: 'Yes' },
@@ -24,23 +28,83 @@ export class AgentInputComponent implements OnInit {
     { value: 'year', label: 'Year' },
     { value: 'lt', label: 'Life time' },
   ];
+  savedCodes: DentalBreakDowns = this.newSavedCodes();
   increments = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
   constructor(
     private fb: FormBuilder,
-    private clinicService: ClinicService
-  ) { }
+    private clinicService: ClinicService,
+    private insuranceService: InsuranceService
+  ) { super(); }
 
   ngOnInit(): void {
     this.initForm();
-    this.clinicService.getClinics().pipe(
-      map(clinics => clinics.data.clinicDetails),
-      take(1)
-    ).subscribe(console.log);
+    this.getClinicCodes();
   }
 
   submit(): void {
-    console.log(this.agentForm.value);
+    console.log({ ...this.agentForm.value, ...{ codes: (this.agentForm.controls.codes as FormArray).controls.map(c => c.value) } });
+  }
+
+  private getClinicCodes(): void {
+    this.clinicService.getClinics()
+      .pipe(
+        map(res => res.data.clinicDetails),
+        switchMap(clinics => {
+          return forkJoin([
+            this.clinicService.getSelectedPracticeCodes(clinics[0].addressId).pipe(map(r => r.data), take(1)),
+            this.insuranceService.getPracticeCodes().pipe(take(1))
+          ]);
+        }),
+        map(res => this.mapToCodes(res)),
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe(codes => {
+        this.savedCodes = codes;
+        const codeForms: FormArray = this.agentForm.get('codes') as FormArray;
+        codes.breakDownKeys.forEach(k => {
+          const codeInputs = this.fb.group({});
+
+          codes.breakDowns[k].breakDownKeys.forEach(sk => {
+            codeInputs.addControl(sk, this.fb.control(10));
+          });
+
+          codeForms.controls.push(this.fb.group({
+            [k]: [20],
+            codes: codeInputs
+          }));
+        });
+      });
+  }
+
+  private mapToCodes([clinicCodes, insuranceCodes]): DentalBreakDowns {
+    const savedCodes = this.newSavedCodes();
+    savedCodes.label = 'Categories';
+    savedCodes.key = 'categories';
+    savedCodes.breakDownKeys = [];
+    clinicCodes.forEach(group => {
+      const groupId = group.groupId;
+      savedCodes.breakDownKeys.push(groupId);
+      const breakDowns = {};
+      group.codeIds.forEach(id => breakDowns[id] = insuranceCodes.breakDowns[groupId].breakDowns[id]);
+      savedCodes.breakDowns[groupId] = {
+        key: groupId,
+        label: insuranceCodes.breakDowns[groupId].label,
+        breakDownKeys: group.codeIds,
+        breakDowns,
+      };
+    });
+
+    return savedCodes;
+  }
+
+  private newSavedCodes(): DentalBreakDowns {
+    return {
+      key: '',
+      label: '',
+      breakDownKeys: [],
+      breakDowns: {}
+    };
   }
 
   private initForm(): void {
@@ -67,6 +131,7 @@ export class AgentInputComponent implements OnInit {
           exclusions: ['no']
         }),
       }),
+      codes: this.fb.array([]),
       history: this.fb.group({
         periodicExam: this.fb.array([]),
         compExam: this.fb.array([]),

@@ -40,7 +40,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   constructor(
     private clinicService: ClinicService,
     private patientService: PatientService,
-    private insuranceService: InsuranceService
+    private insuranceService: InsuranceService,
   ) { super(); }
 
   ngOnInit(): void {

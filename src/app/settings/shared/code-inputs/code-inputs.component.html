@@ -1,0 +1,51 @@
+<div class="code-inputs" fxLayout="column">
+  <div class="breakdowns" [formGroup]="groups.at(i)" *ngFor="let breakDownKey of codes?.breakDownKeys; let i = index">
+    <header fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px">
+      <p fxFlex>{{breakDownKey}} {{codes.breakDowns[breakDownKey]?.label?.toLowerCase()}}</p>
+
+      <div fxFlex="75px" class="sd-input">
+        <select [formControlName]="breakDownKey">
+          <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
+        </select>
+      </div>
+    </header>
+    <div class="sub-breakdown">
+      <div fxLayout="row" formGroupName="codes" fxLayoutAlign=" center" fxLayoutGap="12px"
+        *ngFor="let subKey of codes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
+        <p fxFlex>{{subKey}} - {{codes?.breakDowns[breakDownKey]?.breakDowns[subKey]?.label}}</p>
+
+        <div fxFlex="75px" class="sd-input">
+          <select [formControlName]="subKey">
+            <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div fxLayout="row" fxLayoutGap="12px" formGroupName="frequency">
+    <div class="sd-input" fxFlex>
+      <label>Numerator</label>
+      <input type="number" formControlName="numerator">
+    </div>
+    <div class="sd-input" fxFlex>
+      <label>Denominator</label>
+      <input type="text" formControlName="denominator">
+    </div>
+    <div class="sd-input" fxFlex>
+      <label>Unit</label>
+      <select formControlName="unit">
+        <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="sd-input radio" fxFlex>
+    <label>Exclusions</label>
+
+    <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="exclusions">
+      <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+        {{clause.label}}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div> -->
+</div>

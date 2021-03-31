@@ -111,6 +111,13 @@
       </div>
 
       <div fxLayout="column">
+        <h3>Dental Codes</h3>
+        <app-code-inputs *ngIf="agentForm.get('codes')" [codes]="savedCodes" [groups]="agentForm.get('codes')"
+          [increments]="increments" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
+        </app-code-inputs>
+      </div>
+
+      <div fxLayout="column">
         <h3>Tooth replacement clause</h3>
         <div fxLayout="row" fxLayoutGap="12px" formGroupName="toothReplacementClause">
           <div class="sd-input" fxFlex>
