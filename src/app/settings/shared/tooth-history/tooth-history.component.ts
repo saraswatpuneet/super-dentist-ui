@@ -10,7 +10,6 @@ export class ToothHistoryComponent implements OnInit {
   @Input() historyForm: FormArray;
   @Input() label = '';
   @Input() radioOptions = [];
-  hasHistory = 'no';
   teeth = [];
 
   constructor(private fb: FormBuilder) { }
@@ -29,12 +28,6 @@ export class ToothHistoryComponent implements OnInit {
 
   removeHistory(i: number): void {
     this.historyForm.removeAt(i);
-  }
-
-  toggleHistory(): void {
-    if (this.hasHistory === 'no') {
-      this.historyForm.clear();
-    }
   }
 
   private initializeTeeth(): void {

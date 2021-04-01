@@ -1,21 +1,13 @@
 <div class="tooth-history" fxLayout="column">
-  <div class="sd-input radio">
-    <label>{{label}}</label>
-    <mat-radio-group color="primary" fxLayoutGap="20px" [(ngModel)]="hasHistory" (change)="toggleHistory()">
-      <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
-        {{clause.label}}
-      </mat-radio-button>
-    </mat-radio-group>
-  </div>
+  <label>{{label}}</label>
 
-  <div *ngIf="hasHistory === 'yes'" class="history" fxLayout="column">
+  <div class="history" fxLayout="column">
     <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px">
       <button mat-icon-button (click)="addHistory()">
         <mat-icon>add_circle_outline</mat-icon>
       </button>
       <span fxFlex>Date</span>
       <span fxFlex>Tooth # | Quadrant</span>
-      <!-- <span fxFlex>Quadrant</span> -->
     </div>
 
     <div class="row-form" fxLayout="row" *ngFor="let control of historyForm.controls; let i = index"
