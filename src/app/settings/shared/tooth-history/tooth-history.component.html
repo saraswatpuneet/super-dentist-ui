@@ -14,8 +14,8 @@
         <mat-icon>add_circle_outline</mat-icon>
       </button>
       <span fxFlex>Date</span>
-      <span fxFlex>Tooth #</span>
-      <span fxFlex>Quadrant</span>
+      <span fxFlex>Tooth # | Quadrant</span>
+      <!-- <span fxFlex>Quadrant</span> -->
     </div>
 
     <div class="row-form" fxLayout="row" *ngFor="let control of historyForm.controls; let i = index"
@@ -36,13 +36,7 @@
 
       <div class="sd-input" fxFlex>
         <select formControlName="tooth">
-          <option *ngFor="let tooth of teeth" [value]="tooth">{{tooth}}</option>
-        </select>
-      </div>
-
-      <div class="sd-input" fxFlex>
-        <select formControlName="quadrant">
-          <option *ngFor="let quadrant of quadrants" [value]="quadrant.value">{{quadrant.label}}</option>
+          <option *ngFor="let tooth of teeth" [value]="tooth.value">{{tooth.label}}</option>
         </select>
       </div>
 

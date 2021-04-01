@@ -17,7 +17,6 @@ export class CodeInputsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this);
   }
 
 }

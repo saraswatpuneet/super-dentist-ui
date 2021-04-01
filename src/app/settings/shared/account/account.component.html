@@ -3,7 +3,7 @@
     <mat-card-title>Account</mat-card-title>
   </mat-card-header>
 
-  <button mat-raised-button (click)="openResetDialog()" [disabled]="emailSent" color="primary">
+  <button mat-raised-button color="warm" (click)="openResetDialog()" [disabled]="emailSent" color="primary">
     {{ emailSent === true ? 'Reset Password email was sent' : 'Reset Password'}}
   </button>
 </mat-card>

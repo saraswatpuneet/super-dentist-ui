@@ -11,25 +11,19 @@ export class ToothHistoryComponent implements OnInit {
   @Input() label = '';
   @Input() radioOptions = [];
   hasHistory = 'no';
-  teeth = [...Array(33).keys()].slice(1);
-  quadrants = [
-    { label: 'Lower left', value: 'lowerLeft' },
-    { label: 'Lower right', value: 'lowerRight' },
-    { label: 'Upper left', value: 'lowerLeft' },
-    { label: 'Upper right', value: 'lowerRight' },
-  ];
+  teeth = [];
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.initializeTeeth();
   }
 
   addHistory(): void {
     this.historyForm.push(
       this.fb.group({
         date: [],
-        tooth: ['1'],
-        quadrant: ['lowerLeft']
+        tooth: [],
       }));
   }
 
@@ -41,6 +35,17 @@ export class ToothHistoryComponent implements OnInit {
     if (this.hasHistory === 'no') {
       this.historyForm.clear();
     }
+  }
+
+  private initializeTeeth(): void {
+    this.teeth = [...Array(33).keys()].map(tooth => ({ label: tooth, value: tooth })).slice(1);
+    [
+      { label: 'Lower left', value: 'lowerLeft' },
+      { label: 'Lower right', value: 'lowerRight' },
+      { label: 'Upper left', value: 'lowerLeft' },
+      { label: 'Upper right', value: 'lowerRight' },
+    ].forEach(d => this.teeth.unshift(d));
+    this.teeth.unshift({ label: '--', value: undefined });
   }
 
 }
