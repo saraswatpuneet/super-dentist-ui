@@ -44,7 +44,15 @@ export class AgentInputComponent extends Base implements OnInit {
   }
 
   submit(): void {
-    console.log({ ...this.agentForm.value, ...{ codes: (this.agentForm.controls.codes as FormArray).controls.map(c => c.value) } });
+    const value = { ...this.agentForm.value, ...{ codes: (this.agentForm.controls.codes as FormArray).controls.map(c => c.value) } };
+    Object.keys(value.history).forEach(key => {
+      value.history[key].forEach((history, index) => {
+        value.history[key][index].date = history.date.valueOf();
+      });
+    });
+    value.patientCoverage.eligibilityStartDate = value.patientCoverage.eligibilityStartDate.valueOf();
+    value.remarks.verifiedDate = value.remarks.verifiedDate.valueOf();
+    console.log(value);
   }
 
   private getClinicCodes(): void {

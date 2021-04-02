@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
-import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateModule } from '@angular/material-moment-adapter';
+import { MatMomentDateModule, MomentDateModule } from '@angular/material-moment-adapter';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -50,14 +50,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
       multi: true
     },
     {
-      provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true }
-    },
-    {
       provide: MAT_DATE_FORMATS,
       useValue: {
-        parse: {
-          dateInput: ['l', 'LL'],
-        },
         display: {
           dateInput: 'MMM DD, YYYY',
           monthYearLabel: 'YYYY',
