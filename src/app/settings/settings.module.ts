@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 
 import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings.component';
@@ -31,6 +32,7 @@ import { CodeInputsComponent } from './shared/code-inputs/code-inputs.component'
     MatDatepickerModule,
     MatIconModule,
     MatProgressBarModule,
+    MatSelectModule,
     MatRadioModule,
     ReactiveFormsModule,
     VisibleInsuranceFieldsModule,

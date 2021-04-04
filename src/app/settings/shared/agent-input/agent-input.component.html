@@ -112,7 +112,7 @@
       <div fxLayout="column">
         <h3>Dental Codes</h3>
         <app-code-inputs *ngIf="agentForm.get('codes')" [codes]="savedCodes" [groups]="agentForm.get('codes')"
-          [increments]="increments" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
+          [increments]="increments" [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
         </app-code-inputs>
       </div>
 

@@ -31,6 +31,7 @@ export class AgentInputComponent extends Base implements OnInit {
   savedCodes: DentalBreakDowns = this.newSavedCodes();
   codesHistory: DentalBreakDowns = this.newSavedCodes();
   increments = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+  codeList = [];
 
   constructor(
     private fb: FormBuilder,
@@ -47,11 +48,18 @@ export class AgentInputComponent extends Base implements OnInit {
     const value = { ...this.agentForm.value, ...{ codes: (this.agentForm.controls.codes as FormArray).controls.map(c => c.value) } };
     Object.keys(value.history).forEach(key => {
       value.history[key].forEach((history, index) => {
-        value.history[key][index].date = history.date.valueOf();
+        if (history.date) {
+          value.history[key][index].date = history.date.valueOf();
+        }
       });
     });
-    value.patientCoverage.eligibilityStartDate = value.patientCoverage.eligibilityStartDate.valueOf();
-    value.remarks.verifiedDate = value.remarks.verifiedDate.valueOf();
+    if (value.patientCoverage.eligibilityStartDate) {
+      value.patientCoverage.eligibilityStartDate = value.patientCoverage.eligibilityStartDate.valueOf();
+    }
+
+    if (value.remarks.verifiedDate) {
+      value.remarks.verifiedDate = value.remarks.verifiedDate.valueOf();
+    }
     console.log(value);
   }
 
@@ -76,12 +84,15 @@ export class AgentInputComponent extends Base implements OnInit {
         this.codesHistory = codesHistory;
 
         const codeForms: FormArray = this.agentForm.get('codes') as FormArray;
+        let codeList = [];
+        codes.breakDownKeys.forEach(k => codeList = [...codeList, ...codes.breakDowns[k].breakDownKeys]);
+        this.codeList = codeList;
         codes.breakDownKeys.forEach(k => {
           const codeInputs = this.fb.group({});
 
           codes.breakDowns[k].breakDownKeys.forEach(sk => {
             codeInputs.addControl(sk, this.fb.group({
-              percent: [10],
+              percent: [0],
               frequency: this.fb.group({
                 numerator: [''],
                 denominator: [''],
@@ -91,12 +102,13 @@ export class AgentInputComponent extends Base implements OnInit {
                 min: [''],
                 max: ['']
               }),
-              medicalNecessity: ['no']
+              medicalNecessity: ['no'],
+              sharedCodes: []
             }));
           });
 
           codeForms.controls.push(this.fb.group({
-            [k]: [20],
+            [k]: [0],
             codes: codeInputs
           }));
         });

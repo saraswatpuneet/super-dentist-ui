@@ -12,9 +12,26 @@
     <div class="sub-breakdown">
       <div fxLayout="row" formGroupName="codes" fxLayoutGap="12px"
         *ngFor="let subKey of codes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
-        <p fxFlex>{{subKey}} - {{codes?.breakDowns[breakDownKey]?.breakDowns[subKey]?.label}}</p>
-
         <ng-container [formGroupName]="subKey">
+          <div fxFlex fxLayout="column" fxLayoutAlign="start start">
+            <p>{{subKey}} - {{codes?.breakDowns[breakDownKey]?.breakDowns[subKey]?.label}}</p>
+            <div>
+              <mat-form-field appearance="none">
+                <mat-label>Shared codes</mat-label>
+                <mat-select multiple (selectionChange)="checkOtherOptions($event, subKey)"
+                  formControlName="sharedCodes">
+                  <ng-container *ngFor="let breakDownKeySub of codes?.breakDownKeys">
+                    <ng-container *ngFor="let subtitlesAreBetter of codes?.breakDowns[breakDownKeySub].breakDownKeys">
+                      <mat-option *ngIf="subtitlesAreBetter !== subKey" [value]="subtitlesAreBetter">
+                        {{subtitlesAreBetter}}
+                      </mat-option>
+                    </ng-container>
+                  </ng-container>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
           <div fxLayout="column" fxLayoutAlign=" start" fxLayoutGap="12px">
             <div>
               <div class="sd-input">
