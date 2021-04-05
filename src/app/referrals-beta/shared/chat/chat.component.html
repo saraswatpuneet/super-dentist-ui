@@ -50,9 +50,8 @@
         <div *ngFor="let mIds of m.messageIds" fxLayout="row">
           <div (click)="downloadFile(conversation[mIds].file)" class="file" *ngIf="conversation[mIds].file">
             <ng-container *ngFor="let media of conversation[mIds].media">
-              <ng-container *ngIf="media.image">
-                <img [src]="'data:image/png;base64,' + media.image" alt="">
-              </ng-container>
+              <img *ngIf="media.image" [src]="'data:image/png;base64,' + media.image" alt="">
+              <img *ngIf="!media.image" src="assets/icons/file.svg" alt="">
             </ng-container>
             <div>
               {{conversation[mIds].file}}
