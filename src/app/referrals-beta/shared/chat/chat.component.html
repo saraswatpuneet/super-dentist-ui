@@ -49,7 +49,11 @@
         <header>{{m.header.name}} <span class="ts">{{m.header.timeStamp | date:'hh:mm a'}}</span></header>
         <div *ngFor="let mIds of m.messageIds" fxLayout="row">
           <div (click)="downloadFile(conversation[mIds].file)" class="file" *ngIf="conversation[mIds].file">
-            <img src="assets/icons/file.svg" alt="">
+            <ng-container *ngFor="let media of conversation[mIds].media">
+              <ng-container *ngIf="media.Image">
+                <img [src]="'data:image/png;base64,' + media.Image" alt="">
+              </ng-container>
+            </ng-container>
             <div>
               {{conversation[mIds].file}}
               <span class="time">{{conversation[mIds].timeStamp | date:"MMM dd, yyyy hh:mm a"}}</span>
