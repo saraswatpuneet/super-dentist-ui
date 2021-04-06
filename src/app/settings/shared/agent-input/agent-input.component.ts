@@ -28,6 +28,12 @@ export class AgentInputComponent extends Base implements OnInit {
     { value: 'year', label: 'Year' },
     { value: 'lt', label: 'Lifetime' },
   ];
+  coordinationOfBenefits = [
+    { value: 'standard', label: 'Standard' },
+    { value: 'nonDuplication', label: 'Non-Duplication' },
+    { value: 'doesNotCoordinate', label: 'Does not coordinate' },
+    { value: 'other', label: 'Other' }
+  ];
   savedCodes: DentalBreakDowns = this.newSavedCodes();
   codesHistory: DentalBreakDowns = this.newSavedCodes();
   increments = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
