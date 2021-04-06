@@ -46,6 +46,7 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
   errorMessage = '';
   loading = false;
   joinInfo: any;
+  conference = false;
   processing = false;
   validEmail = false;
   hasChanged = false;
