@@ -1,3 +1,44 @@
-<div class="agent">
-  <app-agent-input></app-agent-input>
+<div class="agent" fxLayout="row">
+  <div class="patients">
+    <mat-card class="c-card">
+      <div *ngFor="let clinic of clinics; let i = index">
+        <div fxLayout="row" fxLayoutAlign=" start">
+          <h3 fxFlex>{{clinic.name}}</h3>
+        </div>
+        <div [ngClass]="{'active': selectedPatient?.patientId === patient.patientId}" (click)="selectPatient(patient)"
+          class="patient-items" *ngFor="let patient of filteredPatients[i]" fxLayout="column">
+
+          <div class="patient-name" fxLayout="row" fxLayoutAlign="center">
+            <div class="name" fxFlex>
+              {{patient.firstName}} {{patient.lastName}}
+            </div>
+            <div class="lighter" *ngIf="patient.createdOn">
+              {{patient.createdOn | date:"MMM dd, yyyy"}}
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="20px">
+            <div fxFlex="50" *ngIf="patient.dentalInsurance && patient.dentalInsurance[0]">
+              <div>{{patient.dentalInsurance[0]?.company}}</div>
+              <div class="lighter" *ngIf="patient.dentalInsurance[0].memberId">
+                {{patient.dentalInsurance[0]?.memberId}}</div>
+            </div>
+
+            <div fxFlex="50" *ngIf="patient.medicalInsurance && patient.medicalInsurance[0]">
+              <div>{{patient.medicalInsurance[0]?.company}}</div>
+              <div class="lighter" *ngIf="patient.medicalInsurance[0].memberId">
+                {{patient.medicalInsurance[0].memberId}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="patient-details" fxFlex fxLayout="column" fxLayoutGap="24px">
+    <ng-container *ngIf="selectedPatient">
+      <app-patient-details2 [months]="months" [patient]="selectedPatient"></app-patient-details2>
+      <app-agent-input [patient]="selectedPatient"></app-agent-input>
+    </ng-container>
+  </div>
 </div>

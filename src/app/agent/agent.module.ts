@@ -15,10 +15,11 @@ import { AgentComponent } from './agent.component';
 import { AgentInputComponent } from './shared/agent-input/agent-input.component';
 import { AgentRoutingModule } from './agent-routing.module';
 import { CodeInputsComponent } from './shared/code-inputs/code-inputs.component';
+import { PatientDetails2Component } from './shared/patient-details/patient-details.component';
 import { ToothHistoryComponent } from './shared/tooth-history/tooth-history.component';
 
 @NgModule({
-  declarations: [AgentComponent, AgentInputComponent, CodeInputsComponent, ToothHistoryComponent],
+  declarations: [AgentComponent, PatientDetails2Component, AgentInputComponent, CodeInputsComponent, ToothHistoryComponent],
   imports: [
     CommonModule,
     FlexLayoutModule,

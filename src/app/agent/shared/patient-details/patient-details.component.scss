@@ -1,0 +1,33 @@
+.patient-details {
+  .sub-title {
+    font-size: 12px;
+    opacity: 0.5;
+  }
+
+  .lighter {
+    opacity: 0.5;
+    font-size: 12px;
+  }
+
+  header {
+    margin-bottom: 20px;
+  }
+
+  h3, h4 {
+    margin: 0;
+  }
+
+  .insurance {
+    padding: 4px 0 8px 24px;
+  }
+
+  .list-items {
+    > div {
+      border-top: 1px solid rgba(grey, 0.2);
+      padding: 8px 0;
+    }
+    p {
+      margin: 0;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { take, map, switchMap, takeUntil } from 'rxjs/operators';
@@ -14,6 +14,7 @@ import { DentalBreakDowns } from 'src/app/shared/services/insurance';
   styleUrls: ['./agent-input.component.scss']
 })
 export class AgentInputComponent extends Base implements OnInit {
+  @Input() patient: any;
   agentForm: FormGroup;
   radioOptions = [
     { value: 'yes', label: 'Yes' },

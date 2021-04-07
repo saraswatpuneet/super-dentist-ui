@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
-import { map, switchMap, take, takeUntil } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
+import { Subject, forkJoin } from 'rxjs';
 
 import { Base } from '../shared/base/base-component';
-import { DentalBreakDowns } from '../shared/services/insurance';
 import { ClinicService } from '../shared/services/clinic.service';
 import { InsuranceService } from '../shared/services/insurance.service';
+import { PatientService } from '../shared/services/patient.service';
+import { DentalBreakDowns } from '../shared/services/insurance';
+import { takeUntil, map, take, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-agent',
@@ -14,59 +14,74 @@ import { InsuranceService } from '../shared/services/insurance.service';
   styleUrls: ['./agent.component.scss']
 })
 export class AgentComponent extends Base implements OnInit {
-  agentForm: FormGroup;
-  radioOptions = [
-    { value: 'yes', label: 'Yes' },
-    { value: 'no', label: 'No' }
-  ];
-  eligibilityOptions = [
-    { value: 'calendar', label: 'Calendar' },
-    { value: 'benefit', label: 'Benefit' },
-  ];
-  unitOptions = [
-    { value: 'month', label: 'Month' },
-    { value: 'year', label: 'Year' },
-    { value: 'lt', label: 'Lifetime' },
-  ];
-  coordinationOfBenefits = [
-    { value: 'standard', label: 'Standard' },
-    { value: 'nonDuplication', label: 'Non-Duplication' },
-    { value: 'doesNotCoordinate', label: 'Does not coordinate' },
-    { value: 'other', label: 'Other' }
-  ];
+  showInsurance = false;
+  clinics: any[];
+  patientFilter = '';
+  filteredPatients = [];
+  selectedPatient: undefined;
   savedCodes: DentalBreakDowns = this.newSavedCodes();
-  codesHistory: DentalBreakDowns = this.newSavedCodes();
-  increments = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-  codeList = [];
+  months = [
+    { label: 'January', value: '1', },
+    { label: 'Febuary', value: '2', },
+    { label: 'March', value: '3', },
+    { label: 'April', value: '4', },
+    { label: 'May', value: '5', },
+    { label: 'June', value: '6', },
+    { label: 'July', value: '7', },
+    { label: 'August', value: '8', },
+    { label: 'September', value: '9', },
+    { label: 'October', value: '10', },
+    { label: 'November', value: '11', },
+    { label: 'December', value: '12', },
+  ];
+  private triggerPatients = new Subject();
+  private patients = [];
 
   constructor(
-    private fb: FormBuilder,
     private clinicService: ClinicService,
-    private insuranceService: InsuranceService
+    private patientService: PatientService,
+    private insuranceService: InsuranceService,
   ) { super(); }
 
   ngOnInit(): void {
-    this.initForm();
+    this.watchPatients();
     this.getClinicCodes();
+    this.triggerPatients.next();
   }
 
-  submit(): void {
-    const value = { ...this.agentForm.value, ...{ codes: (this.agentForm.controls.codes as FormArray).controls.map(c => c.value) } };
-    Object.keys(value.history).forEach(key => {
-      value.history[key].forEach((history, index) => {
-        if (history.date) {
-          value.history[key][index].date = history.date.valueOf();
-        }
-      });
-    });
-    if (value.patientCoverage.eligibilityStartDate) {
-      value.patientCoverage.eligibilityStartDate = value.patientCoverage.eligibilityStartDate.valueOf();
-    }
+  onCancelRegistration(): void {
+    this.showInsurance = false;
+    this.triggerPatients.next();
+  }
 
-    if (value.remarks.verifiedDate) {
-      value.remarks.verifiedDate = value.remarks.verifiedDate.valueOf();
-    }
-    console.log(value);
+  selectPatient(patient: any): void {
+    this.selectedPatient = patient;
+  }
+
+  filterPatientList(): void {
+    this.patients.forEach((group, index) => {
+      this.filteredPatients[index] = group.filter(patient =>
+        `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(this.patientFilter.toLowerCase())
+      );
+    });
+  }
+
+  private watchPatients(): void {
+    this.triggerPatients.pipe(
+      switchMap(() => this.clinicService.getClinics()),
+      map(res => res.data.clinicDetails),
+      switchMap(clinics => {
+        this.clinics = clinics;
+        return forkJoin(this.clinics.map(clinic =>
+          this.patientService.getAllPatientsForClinic(clinic.addressId).pipe(map(p => p.data), take(1))
+        ));
+      }),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(res => {
+      this.patients = res;
+      this.patients.forEach(group => group.sort((a, b) => b.createdOn - a.createdOn));
+      this.filterPatientList();
+    });
   }
 
   private getClinicCodes(): void {
@@ -74,74 +89,27 @@ export class AgentComponent extends Base implements OnInit {
       .pipe(
         map(res => res.data.clinicDetails),
         switchMap(clinics => {
+
           return forkJoin([
-            this.insuranceService.getPracticeCodes().pipe(take(1)),
             this.clinicService.getSelectedPracticeCodes(clinics[0].addressId).pipe(map(r => r.data), take(1)),
-            this.clinicService.getSelectedPracticeCodesHistory(clinics[0].addressId).pipe(map(r => r.data), take(1)),
+            this.insuranceService.getPracticeCodes().pipe(take(1))
           ]);
         }),
-        map(([codes, savedCodes, savedCodesHistory]) => {
-          return [this.mapToCodes([codes, savedCodes]), this.mapToCodes([codes, savedCodesHistory])];
-        }),
+        map(res => this.mapToCodes(res)),
         takeUntil(this.unsubscribe$)
       )
-      .subscribe(([codes, codesHistory]) => {
-        this.savedCodes = codes;
-        this.codesHistory = codesHistory;
-
-        const codeForms: FormArray = this.agentForm.get('codes') as FormArray;
-        let codeList = [];
-        codes.breakDownKeys.forEach(k => codeList = [...codeList, ...codes.breakDowns[k].breakDownKeys]);
-        this.codeList = codeList;
-        codes.breakDownKeys.forEach(k => {
-          const codeInputs = this.fb.group({});
-
-          codes.breakDowns[k].breakDownKeys.forEach(sk => {
-            codeInputs.addControl(sk, this.fb.group({
-              percent: [0],
-              frequency: this.fb.group({
-                numerator: [''],
-                denominator: [''],
-                unit: ['year'],
-              }),
-              ageRange: this.fb.group({
-                min: [''],
-                max: ['']
-              }),
-              medicalNecessity: ['no'],
-              sharedCodes: []
-            }));
-          });
-
-          codeForms.controls.push(this.fb.group({
-            [k]: [0],
-            codes: codeInputs
-          }));
-        });
-
-        const historyGroup: FormGroup = this.agentForm.get('history') as FormGroup;
-        codesHistory.breakDownKeys.forEach(k => {
-          codesHistory.breakDowns[k].breakDownKeys.forEach(sk => {
-            historyGroup.addControl(sk, this.fb.array([]));
-          });
-        });
-      });
+      .subscribe(codes => this.savedCodes = codes);
   }
 
-  private mapToCodes([insuranceCodes, clinicCodes]): DentalBreakDowns {
+  private mapToCodes([clinicCodes, insuranceCodes]): any {
     const savedCodes = this.newSavedCodes();
     savedCodes.label = 'Categories';
     savedCodes.key = 'categories';
     savedCodes.breakDownKeys = [];
-
-    if (!clinicCodes) {
-      clinicCodes = [];
-    }
     clinicCodes.forEach(group => {
       const groupId = group.groupId;
       savedCodes.breakDownKeys.push(groupId);
       const breakDowns = {};
-
       group.codeIds.forEach(id => breakDowns[id] = insuranceCodes.breakDowns[groupId].breakDowns[id]);
       savedCodes.breakDowns[groupId] = {
         key: groupId,
@@ -162,40 +130,4 @@ export class AgentComponent extends Base implements OnInit {
       breakDowns: {}
     };
   }
-
-  private initForm(): void {
-    this.agentForm = this.fb.group({
-      patientCoverage: this.fb.group({
-        eligibilityStartDate: [],
-        coordinationOfBenefits: [],
-        annualMaximum: [],
-        annualUsedAmount: [],
-        deductibleIndividual: [],
-        deductibleFamily: [],
-        deductibleMetAmountIndividual: [],
-        deductibleMetAmountFamily: [],
-        missingToothClause: ['no'],
-        waitingPeriods: ['yes'],
-        eligibilityYear: ['calendar'],
-        inNetwork: ['yes'],
-        preventitiveDeductedFromMaximum: ['yes'],
-        feeSchedule: [],
-        toothReplacementClause: this.fb.group({
-          numerator: [],
-          denominator: [],
-          unit: ['year'],
-          exclusions: ['no']
-        }),
-      }),
-      codes: this.fb.array([]),
-      history: this.fb.group({}),
-      remarks: this.fb.group({
-        insuranceRepresentativeName: [],
-        callRefNumber: [],
-        verifiedBy: [],
-        verifiedDate: [],
-      }),
-    });
-  }
-
 }
