@@ -189,7 +189,12 @@
     </ng-container>
 
     <div class="actions">
-      <button mat-raised-button color="primary" (click)="submit()">Save form</button>
+      <button mat-stroked-button [disabled]="!patient" color="primary" (click)="submit()">
+        <span fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
+          <mat-progress-spinner *ngIf="processing" mode="indeterminate" diameter="24"></mat-progress-spinner>
+          <span>{{processing ? 'Saving' : 'Save form'}}</span>
+        </span>
+      </button>
     </div>
   </form>
 </mat-card>

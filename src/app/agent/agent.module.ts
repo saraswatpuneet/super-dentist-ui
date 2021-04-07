@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AgentComponent } from './agent.component';
 import { AgentInputComponent } from './shared/agent-input/agent-input.component';
@@ -30,6 +31,7 @@ import { ToothHistoryComponent } from './shared/tooth-history/tooth-history.comp
     MatDatepickerModule,
     MatIconModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatSelectModule,
     MatRadioModule,
     ReactiveFormsModule,

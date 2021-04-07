@@ -14,5 +14,14 @@ export class PatientService {
   getAllPatientsForClinic(addressId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/list/${addressId}`);
   }
+
+  getPatientNotes(patientId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/notes/${patientId}`);
+  }
+
+  setPatientNotes(patientId: string, patientData: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/notes/${patientId}`, patientData);
+  }
+
 }
 

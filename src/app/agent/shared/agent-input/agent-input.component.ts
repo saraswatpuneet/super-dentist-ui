@@ -7,6 +7,7 @@ import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { Base } from 'src/app/shared/base/base-component';
 import { InsuranceService } from 'src/app/shared/services/insurance.service';
 import { DentalBreakDowns } from 'src/app/shared/services/insurance';
+import { PatientService } from 'src/app/shared/services/patient.service';
 
 @Component({
   selector: 'app-agent-input',
@@ -15,6 +16,7 @@ import { DentalBreakDowns } from 'src/app/shared/services/insurance';
 })
 export class AgentInputComponent extends Base implements OnInit {
   @Input() patient: any;
+  processing = false;
   agentForm: FormGroup;
   radioOptions = [
     { value: 'yes', label: 'Yes' },
@@ -43,12 +45,22 @@ export class AgentInputComponent extends Base implements OnInit {
   constructor(
     private fb: FormBuilder,
     private clinicService: ClinicService,
-    private insuranceService: InsuranceService
+    private insuranceService: InsuranceService,
+    private patientService: PatientService
   ) { super(); }
 
   ngOnInit(): void {
     this.initForm();
     this.getClinicCodes();
+    this.patientService.getPatientNotes(this.patient.patientId)
+      .pipe(
+        map(r => r.data)
+      )
+      .subscribe(r => {
+        if (r) {
+          console.log(JSON.parse(r));
+        }
+      });
   }
 
   submit(): void {
@@ -60,6 +72,7 @@ export class AgentInputComponent extends Base implements OnInit {
         }
       });
     });
+
     if (value.patientCoverage.eligibilityStartDate) {
       value.patientCoverage.eligibilityStartDate = value.patientCoverage.eligibilityStartDate.valueOf();
     }
@@ -67,7 +80,13 @@ export class AgentInputComponent extends Base implements OnInit {
     if (value.remarks.verifiedDate) {
       value.remarks.verifiedDate = value.remarks.verifiedDate.valueOf();
     }
-    console.log(value);
+    this.processing = true;
+    this.patientService.setPatientNotes(this.patient.patientId, value)
+      .pipe(take(1))
+      .subscribe(res => {
+        this.processing = false;
+        console.log(res);
+      });
   }
 
   private getClinicCodes(): void {
