@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { take, map, switchMap, takeUntil } from 'rxjs/operators';
 
@@ -145,12 +145,12 @@ export class AgentInputComponent extends Base implements OnInit {
           if (value.remarks.verifiedDate) {
             value.remarks.verifiedDate = moment(value.remarks.verifiedDate);
           }
-          console.log(value);
           Object.keys(value.history).forEach(key => {
             value.history[key].forEach((history, index) => {
               if (history.date) {
                 value.history[key][index].date = moment(history.date);
               }
+              (this.agentForm.get('history').get(key) as FormArray).push(this.fb.group(history));
             });
           });
 
