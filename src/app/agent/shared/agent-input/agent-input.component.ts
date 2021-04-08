@@ -8,6 +8,7 @@ import { Base } from 'src/app/shared/base/base-component';
 import { InsuranceService } from 'src/app/shared/services/insurance.service';
 import { DentalBreakDowns } from 'src/app/shared/services/insurance';
 import { PatientService } from 'src/app/shared/services/patient.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-agent-input',
@@ -52,15 +53,6 @@ export class AgentInputComponent extends Base implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.getClinicCodes();
-    this.patientService.getPatientNotes(this.patient.patientId)
-      .pipe(
-        map(r => r.data)
-      )
-      .subscribe(r => {
-        if (r) {
-          console.log(JSON.parse(r));
-        }
-      });
   }
 
   submit(): void {
@@ -83,10 +75,7 @@ export class AgentInputComponent extends Base implements OnInit {
     this.processing = true;
     this.patientService.setPatientNotes(this.patient.patientId, value)
       .pipe(take(1))
-      .subscribe(res => {
-        this.processing = false;
-        console.log(res);
-      });
+      .subscribe(res => this.processing = false);
   }
 
   private getClinicCodes(): void {
@@ -98,14 +87,15 @@ export class AgentInputComponent extends Base implements OnInit {
             this.insuranceService.getPracticeCodes().pipe(take(1)),
             this.clinicService.getSelectedPracticeCodes(clinics[0].addressId).pipe(map(r => r.data), take(1)),
             this.clinicService.getSelectedPracticeCodesHistory(clinics[0].addressId).pipe(map(r => r.data), take(1)),
+            this.patientService.getPatientNotes(this.patient.patientId).pipe(map(r => r.data), take(1))
           ]);
         }),
-        map(([codes, savedCodes, savedCodesHistory]) => {
-          return [this.mapToCodes([codes, savedCodes]), this.mapToCodes([codes, savedCodesHistory])];
+        map(([codes, savedCodes, savedCodesHistory, savedRecords]) => {
+          return [this.mapToCodes([codes, savedCodes]), this.mapToCodes([codes, savedCodesHistory]), savedRecords];
         }),
         takeUntil(this.unsubscribe$)
       )
-      .subscribe(([codes, codesHistory]) => {
+      .subscribe(([codes, codesHistory, savedRecords]) => {
         this.savedCodes = codes;
         this.codesHistory = codesHistory;
 
@@ -145,6 +135,27 @@ export class AgentInputComponent extends Base implements OnInit {
             historyGroup.addControl(sk, this.fb.array([]));
           });
         });
+
+        const value = JSON.parse(savedRecords);
+        if (value) {
+          if (value.patientCoverage.eligibilityStartDate) {
+            value.patientCoverage.eligibilityStartDate = moment(value.patientCoverage.eligibilityStartDate);
+          }
+
+          if (value.remarks.verifiedDate) {
+            value.remarks.verifiedDate = moment(value.remarks.verifiedDate);
+          }
+          console.log(value);
+          Object.keys(value.history).forEach(key => {
+            value.history[key].forEach((history, index) => {
+              if (history.date) {
+                value.history[key][index].date = moment(history.date);
+              }
+            });
+          });
+
+          this.agentForm.patchValue(value);
+        }
       });
   }
 
@@ -157,6 +168,7 @@ export class AgentInputComponent extends Base implements OnInit {
     if (!clinicCodes) {
       clinicCodes = [];
     }
+
     clinicCodes.forEach(group => {
       const groupId = group.groupId;
       savedCodes.breakDownKeys.push(groupId);
