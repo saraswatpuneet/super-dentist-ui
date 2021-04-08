@@ -3,13 +3,17 @@
   <div class="breakdowns" *ngFor="let breakDownKey of codes?.breakDownKeys; let i = index">
     <header fxLayout="row" fxLayoutGap="12px">
       <p fxFlex>{{breakDownKey}} {{codes.breakDowns[breakDownKey]?.label?.toLowerCase()}}</p>
-      <p>80%</p>
+      <p *ngIf="savedCodes && savedCodes[i]">{{savedCodes[i][breakDownKey]}}%</p>
     </header>
     <div class="sub-breakdown">
       <div fxLayout="row" fxLayoutGap="12px"
         *ngFor="let subKey of codes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
         <p fxFlex>{{subKey}} - {{codes?.breakDowns[breakDownKey]?.breakDowns[subKey]?.label}}</p>
-        <p>70%</p>
+        <p *ngIf="savedCodes && savedCodes[i] && savedCodes[i].codes">
+          {{savedCodes[i].codes[subKey].percent}}%
+          {{savedCodes[i].codes[subKey].frequency.numerator}} / {{savedCodes[i].codes[subKey].frequency.denominator}}
+          {{savedCodes[i].codes[subKey].frequency.unit}}
+        </p>
       </div>
     </div>
   </div>

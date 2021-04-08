@@ -14,7 +14,7 @@ export class CodesComponent implements OnChanges, OnInit {
   constructor() { }
 
   ngOnChanges(): void {
-
+    console.log(this);
   }
 
   ngOnInit(): void {
