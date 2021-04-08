@@ -14,6 +14,7 @@ import { takeUntil, map, take, switchMap } from 'rxjs/operators';
   styleUrls: ['./agent.component.scss']
 })
 export class AgentComponent extends Base implements OnInit {
+  addressId = '';
   showInsurance = false;
   clinics: any[];
   patientFilter = '';
@@ -54,8 +55,9 @@ export class AgentComponent extends Base implements OnInit {
     this.triggerPatients.next();
   }
 
-  selectPatient(patient: any): void {
+  selectPatient(patient: any, addressId: string): void {
     this.selectedPatient = patient;
+    this.addressId = addressId;
   }
 
   filterPatientList(): void {

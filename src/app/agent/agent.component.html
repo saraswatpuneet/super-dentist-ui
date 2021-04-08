@@ -5,8 +5,9 @@
         <div fxLayout="row" fxLayoutAlign=" start">
           <h3 fxFlex>{{clinic.name}}</h3>
         </div>
-        <div [ngClass]="{'active': selectedPatient?.patientId === patient.patientId}" (click)="selectPatient(patient)"
-          class="patient-items" *ngFor="let patient of filteredPatients[i]" fxLayout="column">
+        <div [ngClass]="{'active': selectedPatient?.patientId === patient.patientId}"
+          (click)="selectPatient(patient, clinic.addressId)" class="patient-items"
+          *ngFor="let patient of filteredPatients[i]" fxLayout="column">
 
           <div class="patient-name" fxLayout="row" fxLayoutAlign="center">
             <div class="name" fxFlex>
@@ -38,7 +39,7 @@
   <div class="patient-details" fxFlex fxLayout="column" fxLayoutGap="24px">
     <ng-container *ngIf="selectedPatient">
       <app-patient-details2 [months]="months" [patient]="selectedPatient"></app-patient-details2>
-      <app-agent-input [patient]="selectedPatient"></app-agent-input>
+      <app-agent-input [addressId]="addressId" [patient]="selectedPatient"></app-agent-input>
     </ng-container>
   </div>
 </div>

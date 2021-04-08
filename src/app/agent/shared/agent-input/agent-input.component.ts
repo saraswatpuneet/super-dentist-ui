@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
-import { forkJoin } from 'rxjs';
-import { take, map, switchMap, takeUntil } from 'rxjs/operators';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { forkJoin, Subject, of } from 'rxjs';
+import { take, map, switchMap, takeUntil, catchError } from 'rxjs/operators';
 
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { Base } from 'src/app/shared/base/base-component';
@@ -15,8 +15,9 @@ import * as moment from 'moment';
   templateUrl: './agent-input.component.html',
   styleUrls: ['./agent-input.component.scss']
 })
-export class AgentInputComponent extends Base implements OnInit {
+export class AgentInputComponent extends Base implements OnChanges, OnInit {
   @Input() patient: any;
+  @Input() addressId = '';
   processing = false;
   agentForm: FormGroup;
   radioOptions = [
@@ -42,6 +43,7 @@ export class AgentInputComponent extends Base implements OnInit {
   codesHistory: DentalBreakDowns = this.newSavedCodes();
   increments = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
   codeList = [];
+  private triggerPatient = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -50,9 +52,16 @@ export class AgentInputComponent extends Base implements OnInit {
     private patientService: PatientService
   ) { super(); }
 
+  ngOnChanges(sc: SimpleChanges): void {
+    if (sc.addressId || sc.patient && this.patient && this.addressId) {
+      this.triggerPatient.next();
+    }
+  }
+
   ngOnInit(): void {
     this.initForm();
     this.getClinicCodes();
+    this.triggerPatient.next();
   }
 
   submit(): void {
@@ -79,84 +88,89 @@ export class AgentInputComponent extends Base implements OnInit {
   }
 
   private getClinicCodes(): void {
-    this.clinicService.getClinics()
-      .pipe(
-        map(res => res.data.clinicDetails),
-        switchMap(clinics => {
-          return forkJoin([
-            this.insuranceService.getPracticeCodes().pipe(take(1)),
-            this.clinicService.getSelectedPracticeCodes(clinics[0].addressId).pipe(map(r => r.data), take(1)),
-            this.clinicService.getSelectedPracticeCodesHistory(clinics[0].addressId).pipe(map(r => r.data), take(1)),
-            this.patientService.getPatientNotes(this.patient.patientId).pipe(map(r => r.data), take(1))
-          ]);
-        }),
-        map(([codes, savedCodes, savedCodesHistory, savedRecords]) => {
-          return [this.mapToCodes([codes, savedCodes]), this.mapToCodes([codes, savedCodesHistory]), savedRecords];
-        }),
-        takeUntil(this.unsubscribe$)
-      )
-      .subscribe(([codes, codesHistory, savedRecords]) => {
-        this.savedCodes = codes;
-        this.codesHistory = codesHistory;
+    this.triggerPatient.pipe(
+      switchMap(() => {
+        return forkJoin([
+          this.insuranceService.getPracticeCodes().pipe(take(1)),
+          this.clinicService.getSelectedPracticeCodes(this.addressId).pipe(map(r => r.data), take(1)),
+          this.clinicService.getSelectedPracticeCodesHistory(this.addressId).pipe(map(r => r.data), take(1)),
+          this.patientService.getPatientNotes(this.patient.patientId).pipe(map(r => r.data), catchError(() => of(undefined)), take(1))
+        ]);
+      }),
+      map(([codes, savedCodes, savedCodesHistory, savedRecords]) =>
+        [this.mapToCodes([codes, savedCodes]), this.mapToCodes([codes, savedCodesHistory]), savedRecords]
+      ),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(([codes, codesHistory, savedRecords]) => {
+      this.savedCodes = codes;
+      this.codesHistory = codesHistory;
+      this.agentForm.reset();
+      this.initForm();
 
-        const codeForms: FormArray = this.agentForm.get('codes') as FormArray;
-        let codeList = [];
-        codes.breakDownKeys.forEach(k => codeList = [...codeList, ...codes.breakDowns[k].breakDownKeys]);
-        this.codeList = codeList;
-        codes.breakDownKeys.forEach(k => {
-          const codeInputs = this.fb.group({});
+      const codeForms: FormArray = this.agentForm.get('codes') as FormArray;
+      let codeList = [];
+      codes.breakDownKeys.forEach(k => codeList = [...codeList, ...codes.breakDowns[k].breakDownKeys]);
+      this.codeList = codeList;
+      codes.breakDownKeys.forEach(k => {
+        const codeInputs = this.fb.group({});
 
-          codes.breakDowns[k].breakDownKeys.forEach(sk => {
-            codeInputs.addControl(sk, this.fb.group({
-              percent: [0],
-              frequency: this.fb.group({
-                numerator: [''],
-                denominator: [''],
-                unit: ['year'],
-              }),
-              ageRange: this.fb.group({
-                min: [''],
-                max: ['']
-              }),
-              medicalNecessity: ['no'],
-              sharedCodes: []
-            }));
-          });
-
-          codeForms.controls.push(this.fb.group({
-            [k]: [0],
-            codes: codeInputs
+        codes.breakDowns[k].breakDownKeys.forEach(sk => {
+          codeInputs.addControl(sk, this.fb.group({
+            percent: [0],
+            frequency: this.fb.group({
+              numerator: [''],
+              denominator: [''],
+              unit: ['year'],
+            }),
+            ageRange: this.fb.group({
+              min: [''],
+              max: ['']
+            }),
+            medicalNecessity: ['no'],
+            sharedCodes: []
           }));
         });
 
-        const historyGroup: FormGroup = this.agentForm.get('history') as FormGroup;
-        codesHistory.breakDownKeys.forEach(k => {
-          codesHistory.breakDowns[k].breakDownKeys.forEach(sk => {
-            historyGroup.addControl(sk, this.fb.array([]));
+        codeForms.controls.push(this.fb.group({
+          [k]: [0],
+          codes: codeInputs
+        }));
+      });
+
+      const historyGroup: FormGroup = this.agentForm.get('history') as FormGroup;
+      codesHistory.breakDownKeys.forEach(k => {
+        codesHistory.breakDowns[k].breakDownKeys.forEach(sk => {
+          historyGroup.addControl(sk, this.fb.array([]));
+        });
+      });
+
+      let value = savedRecords;
+      try {
+        value = JSON.parse(savedRecords);
+      } catch (e) {
+        value = null;
+      }
+
+      if (value) {
+        if (value.patientCoverage.eligibilityStartDate) {
+          value.patientCoverage.eligibilityStartDate = moment(value.patientCoverage.eligibilityStartDate);
+        }
+
+        if (value.remarks.verifiedDate) {
+          value.remarks.verifiedDate = moment(value.remarks.verifiedDate);
+        }
+        Object.keys(value.history).forEach(key => {
+          value.history[key].forEach((history, index) => {
+            if (history.date) {
+              value.history[key][index].date = moment(history.date);
+            }
+            (this.agentForm.get('history').get(key) as FormArray).push(this.fb.group(history));
           });
         });
 
-        const value = JSON.parse(savedRecords);
-        if (value) {
-          if (value.patientCoverage.eligibilityStartDate) {
-            value.patientCoverage.eligibilityStartDate = moment(value.patientCoverage.eligibilityStartDate);
-          }
-
-          if (value.remarks.verifiedDate) {
-            value.remarks.verifiedDate = moment(value.remarks.verifiedDate);
-          }
-          Object.keys(value.history).forEach(key => {
-            value.history[key].forEach((history, index) => {
-              if (history.date) {
-                value.history[key][index].date = moment(history.date);
-              }
-              (this.agentForm.get('history').get(key) as FormArray).push(this.fb.group(history));
-            });
-          });
-
-          this.agentForm.patchValue(value);
-        }
-      });
+        this.agentForm.patchValue(value);
+      }
+    });
   }
 
   private mapToCodes([insuranceCodes, clinicCodes]): DentalBreakDowns {
