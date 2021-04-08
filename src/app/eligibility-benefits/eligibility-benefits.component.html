@@ -20,8 +20,9 @@
         <div fxLayout="row" fxLayoutAlign=" start">
           <h3 fxFlex>{{clinic.name}}</h3>
         </div>
-        <div [ngClass]="{'active': selectedPatient?.patientId === patient.patientId}" (click)="selectPatient(patient)"
-          class="patient-items" *ngFor="let patient of filteredPatients[i]" fxLayout="column">
+        <div [ngClass]="{'active': selectedPatient?.patientId === patient.patientId}"
+          (click)="selectPatient(patient, clinic.addressId)" class="patient-items"
+          *ngFor="let patient of filteredPatients[i]" fxLayout="column">
 
           <div class="patient-name" fxLayout="row" fxLayoutAlign="center">
             <div class="name" fxFlex>
@@ -60,7 +61,7 @@
       </mat-card>
 
       <mat-card>
-        <app-history [history]="notes.history"></app-history>
+        <app-history [allCodes]="allCodes" [savedHistory]="codeHistory" [history]="notes.history"></app-history>
       </mat-card>
 
       <mat-card>

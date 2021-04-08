@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { take, map, switchMap, takeUntil, catchError } from 'rxjs/operators';
+import { take, map, switchMap, takeUntil, catchError, tap } from 'rxjs/operators';
 import { Subject, forkJoin, of } from 'rxjs';
 
 import { ClinicService } from '../shared/services/clinic.service';
@@ -17,10 +17,13 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   showInsurance = false;
   notes = {};
   clinics: any[];
+  addressId = '';
   patientFilter = '';
   filteredPatients = [];
+  codeHistory: {};
   selectedPatient = undefined;
   savedCodes: DentalBreakDowns = this.newSavedCodes();
+  allCodes: DentalBreakDowns;
   months = [
     { label: 'January', value: '1', },
     { label: 'Febuary', value: '2', },
@@ -57,8 +60,9 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     this.triggerPatients.next();
   }
 
-  selectPatient(patient: any): void {
+  selectPatient(patient: any, addressId: string): void {
     this.selectedPatient = patient;
+    this.addressId = addressId;
     this.triggerGetPatientCodes.next();
   }
 
@@ -72,14 +76,18 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
 
   private watchTriggerPatientGet(): void {
     this.triggerGetPatientCodes.pipe(
-      switchMap(() => this.patientService.getPatientNotes(this.selectedPatient.patientId).pipe(
-        map(r => JSON.parse(r.data)),
-        catchError(e => of({}))
-      )),
+      switchMap(() => {
+        return forkJoin([this.patientService.getPatientNotes(this.selectedPatient.patientId).pipe(
+          map(r => JSON.parse(r.data)),
+          catchError(() => of({}))
+        ),
+        this.clinicService.getSelectedPracticeCodesHistory(this.addressId).pipe(map(r => r.data), take(1))
+        ]);
+      }),
       takeUntil(this.unsubscribe$)
-    ).subscribe(res => {
+    ).subscribe(([res, history]) => {
       this.notes = res;
-      console.log(res);
+      this.codeHistory = history;
     });
   }
 
@@ -90,14 +98,18 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
       switchMap(clinics => {
         this.clinics = clinics;
         return forkJoin(this.clinics.map(clinic =>
-          this.patientService.getAllPatientsForClinic(clinic.addressId).pipe(map(p => p.data), take(1))
+          this.patientService.getAllPatientsForClinic(clinic.addressId).pipe(map(p => p.data), take(1)),
         ));
       }),
+      tap(res => {
+        this.patients = res;
+        this.patients.forEach(group => group.sort((a, b) => b.createdOn - a.createdOn));
+        this.filterPatientList();
+      }),
+      switchMap(() => this.insuranceService.getPracticeCodes()),
       takeUntil(this.unsubscribe$)
-    ).subscribe(res => {
-      this.patients = res;
-      this.patients.forEach(group => group.sort((a, b) => b.createdOn - a.createdOn));
-      this.filterPatientList();
+    ).subscribe((res) => {
+      this.allCodes = res;
     });
   }
 
