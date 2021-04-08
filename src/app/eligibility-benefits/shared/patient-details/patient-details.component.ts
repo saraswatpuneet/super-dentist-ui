@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class PatientDetailsComponent implements OnInit {
   @Input() patient: any;
   @Input() months: any = [];
+  @Input() patientCoverage = {};
 
   constructor() { }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { take, map, switchMap, takeUntil } from 'rxjs/operators';
-import { Subject, forkJoin } from 'rxjs';
+import { take, map, switchMap, takeUntil, catchError } from 'rxjs/operators';
+import { Subject, forkJoin, of } from 'rxjs';
 
 import { ClinicService } from '../shared/services/clinic.service';
 import { PatientService } from '../shared/services/patient.service';
@@ -15,10 +15,11 @@ import { DentalBreakDowns } from '../shared/services/insurance';
 })
 export class EligibilityBenefitsComponent extends Base implements OnInit {
   showInsurance = false;
+  notes = {};
   clinics: any[];
   patientFilter = '';
   filteredPatients = [];
-  selectedPatient: undefined;
+  selectedPatient = undefined;
   savedCodes: DentalBreakDowns = this.newSavedCodes();
   months = [
     { label: 'January', value: '1', },
@@ -35,6 +36,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     { label: 'December', value: '12', },
   ];
   private triggerPatients = new Subject();
+  private triggerGetPatientCodes = new Subject();
   private patients = [];
 
   constructor(
@@ -46,6 +48,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   ngOnInit(): void {
     this.watchPatients();
     this.getClinicCodes();
+    this.watchTriggerPatientGet();
     this.triggerPatients.next();
   }
 
@@ -56,6 +59,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
 
   selectPatient(patient: any): void {
     this.selectedPatient = patient;
+    this.triggerGetPatientCodes.next();
   }
 
   filterPatientList(): void {
@@ -63,6 +67,19 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
       this.filteredPatients[index] = group.filter(patient =>
         `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(this.patientFilter.toLowerCase())
       );
+    });
+  }
+
+  private watchTriggerPatientGet(): void {
+    this.triggerGetPatientCodes.pipe(
+      switchMap(() => this.patientService.getPatientNotes(this.selectedPatient.patientId).pipe(
+        map(r => JSON.parse(r.data)),
+        catchError(e => of({}))
+      )),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(res => {
+      this.notes = res;
+      console.log(res);
     });
   }
 

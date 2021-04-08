@@ -1,10 +1,4 @@
 <div class="eligibility-benefits" fxLayout="column">
-  <!-- <mat-card class="c-card note">
-    <div>Hey! This page is a bit of a secret 😊</div>
-    <div> While we work on it, you can submit any patient’s dental insurance through the ‘Insurance Check’
-      portal. We will email you with your patient’s <span class="darken">benefits breakdown</span> within ~3 hours.
-    </div>
-  </mat-card> -->
   <div fxLayout="row" class="search-bar" fxLayoutGap="20px">
     <div class="sd-input patients" fxFlex>
       <input type="email" [(ngModel)]="patientFilter" (ngModelChange)="filterPatientList()"
@@ -57,19 +51,20 @@
 
     <mat-card class="c-card patient-details" fxFlex *ngIf="selectedPatient" fxLayout="column" fxLayoutGap="24px">
       <mat-card>
-        <app-patient-details [months]="months" [patient]="selectedPatient"></app-patient-details>
+        <app-patient-details [months]="months" [patient]="selectedPatient" [patientCoverage]="notes.patientCoverage">
+        </app-patient-details>
       </mat-card>
 
       <mat-card>
-        <app-codes [codes]="savedCodes"></app-codes>
+        <app-codes [savedCodes]="notes.codes" [codes]="savedCodes"></app-codes>
       </mat-card>
 
       <mat-card>
-        <app-history></app-history>
+        <app-history [history]="notes.history"></app-history>
       </mat-card>
 
       <mat-card>
-        <app-remarks></app-remarks>
+        <app-remarks [remarks]="notes.remarks"></app-remarks>
       </mat-card>
     </mat-card>
   </div>

@@ -3,14 +3,18 @@
 
   <div fxLayout="row">
     <p fxFlex>Ins Representative Name</p>
-    <p>#7</p>
+    <p>{{remarks?.insuranceRepresentativeName}}</p>
   </div>
   <div fxLayout="row">
     <p fxFlex>Call Ref #</p>
-    <p>#7</p>
+    <p>{{remarks?.callRefNumber}}</p>
   </div>
   <div fxLayout="row">
-    <p fxFlex>Verified by & Verified Date</p>
-    <p>#7</p>
+    <p fxFlex>Verified by</p>
+    <p>{{remarks?.verifiedBy}}</p>
+  </div>
+  <div fxLayout="row">
+    <p fxFlex>Verified Date</p>
+    <p>{{remarks?.verifiedDate | date:"MMM dd, YYYY"}}</p>
   </div>
 </div>
