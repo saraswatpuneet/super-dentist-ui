@@ -186,6 +186,10 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
 
         this.agentForm.patchValue(value);
       }
+
+      if (this.agentForm.get('patientCoverage').get('missingToothClause').value === 'yes') {
+        this.showMissingToothClause = true;
+      }
     });
   }
 

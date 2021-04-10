@@ -1,82 +1,124 @@
-<mat-card class="agent-input">
-  <form [formGroup]="agentForm" fxLayout="column">
-
+<div class="agent-input">
+  <form [formGroup]="agentForm" fxLayout="column" fxLayoutGap="20px">
     <ng-container formGroupName="patientCoverage">
-      <h3>Coverage</h3>
+      <mat-card fxLayout="column">
+        <h3>Coverage</h3>
 
-      <div fxLayout="row" fxLayoutGap="12px">
+        <div fxLayout="row" fxLayoutGap="12px">
+          <div class="sd-input">
+            <label>Group name</label>
+            <input type="text" formControlName="groupName">
+          </div>
+          <div class="sd-input">
+            <label>Group number</label>
+            <input type="text" formControlName="groupNumber">
+          </div>
+        </div>
+
         <div class="sd-input">
-          <label>Group name</label>
-          <input type="text" formControlName="groupName">
+          <label>Payer ID</label>
+          <input type="text" formControlName="payerId">
         </div>
+
         <div class="sd-input">
-          <label>Group number</label>
-          <input type="text" formControlName="groupNumber">
+          <label>Eligibility start date</label>
+          <div fxLayout="row">
+            <button mat-icon-button (click)="picker1.open()">
+              <mat-icon>today</mat-icon>
+            </button>
+            <input disabled [matDatepicker]="picker1" type="text" formControlName="eligibilityStartDate">
+            <mat-datepicker disabled="false" #picker1></mat-datepicker>
+          </div>
         </div>
-      </div>
 
-      <div class="sd-input">
-        <label>Payer ID</label>
-        <input type="text" formControlName="payerId">
-      </div>
+        <div class="sd-input">
+          <label>Coordination of benefits</label>
 
-      <div class="sd-input">
-        <label>Eligibility start date</label>
-        <div fxLayout="row">
-          <button mat-icon-button (click)="picker1.open()">
-            <mat-icon>today</mat-icon>
-          </button>
-          <input disabled [matDatepicker]="picker1" type="text" formControlName="eligibilityStartDate">
-          <mat-datepicker disabled="false" #picker1></mat-datepicker>
+          <select formControlName="coordinationOfBenefits">
+            <option *ngFor="let clause of coordinationOfBenefits" [value]="clause.value">{{clause.label}}</option>
+          </select>
         </div>
-      </div>
 
-      <div class="sd-input">
-        <label>Coordination of benefits</label>
+        <div fxLayout="row" fxLayoutGap="12px">
+          <div class="sd-input" fxFlex>
+            <label>Annual maximum</label>
+            <input type="number" formControlName="annualMaximum">
+          </div>
 
-        <select formControlName="coordinationOfBenefits">
-          <option *ngFor="let clause of coordinationOfBenefits" [value]="clause.value">{{clause.label}}</option>
-        </select>
-      </div>
+          <div class="sd-input" fxFlex>
+            <label>Annual used amount</label>
+            <input type="number" formControlName="annualUsedAmount">
+          </div>
+        </div>
 
-      <div fxLayout="row" fxLayoutGap="12px">
+        <div fxLayout="row" fxLayoutGap="12px">
+          <div class="sd-input" fxFlex>
+            <label>Deductible (Individual)</label>
+            <input type="number" formControlName="deductibleIndividual">
+          </div>
+
+          <div class="sd-input" fxFlex>
+            <label>Deductible (Family)</label>
+            <input type="number" formControlName="deductibleFamily">
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="12px">
+          <div class="sd-input" fxFlex>
+            <label>Deductible met amount (Individual)</label>
+            <input type="number" formControlName="deductibleMetAmountIndividual">
+          </div>
+
+          <div class="sd-input" fxFlex>
+            <label>Deductible met amount (Family)</label>
+            <input type="number" formControlName="deductibleMetAmountFamily">
+          </div>
+        </div>
+
+        <div class="sd-input radio" fxFlex>
+          <label>Waiting periods</label>
+          <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="waitingPeriods">
+            <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+              {{clause.label}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+
         <div class="sd-input" fxFlex>
-          <label>Annual maximum</label>
-          <input type="number" formControlName="annualMaximum">
+          <label>Eligibility year</label>
+          <select formControlName="eligibilityYear">
+            <option *ngFor="let clause of eligibilityOptions" [value]="clause.value">{{clause.label}}</option>
+          </select>
+        </div>
+
+        <div class="sd-input radio" fxFlex>
+          <label>In-network</label>
+
+          <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="inNetwork">
+            <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+              {{clause.label}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div class="sd-input radio" fxFlex>
+          <label>Preventitive deducted from maximum</label>
+
+          <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="preventitiveDeductedFromMaximum">
+            <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+              {{clause.label}}
+            </mat-radio-button>
+          </mat-radio-group>
         </div>
 
         <div class="sd-input" fxFlex>
-          <label>Annual used amount</label>
-          <input type="number" formControlName="annualUsedAmount">
-        </div>
-      </div>
-
-      <div fxLayout="row" fxLayoutGap="12px">
-        <div class="sd-input" fxFlex>
-          <label>Deductible (Individual)</label>
-          <input type="number" formControlName="deductibleIndividual">
+          <label>Fee schedule</label>
+          <input type="text" formControlName="feeSchedule">
         </div>
 
-        <div class="sd-input" fxFlex>
-          <label>Deductible (Family)</label>
-          <input type="number" formControlName="deductibleFamily">
-        </div>
-      </div>
+      </mat-card>
 
-      <div fxLayout="row" fxLayoutGap="12px">
-        <div class="sd-input" fxFlex>
-          <label>Deductible met amount (Individual)</label>
-          <input type="number" formControlName="deductibleMetAmountIndividual">
-        </div>
-
-        <div class="sd-input" fxFlex>
-          <label>Deductible met amount (Family)</label>
-          <input type="number" formControlName="deductibleMetAmountFamily">
-        </div>
-      </div>
-
-
-      <div fxLayout="column">
+      <mat-card fxLayout="column">
         <h3>Tooth replacement clause</h3>
         <div class="sd-input radio">
           <label>Missing tooth clause</label>
@@ -120,99 +162,64 @@
             </mat-radio-group>
           </div>
         </div>
-      </div>
+      </mat-card>
+    </ng-container>
 
-      <div class="sd-input radio" fxFlex>
-        <label>Waiting periods</label>
-        <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="waitingPeriods">
-          <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
-            {{clause.label}}
-          </mat-radio-button>
-        </mat-radio-group>
-      </div>
-
-      <div class="sd-input" fxFlex>
-        <label>Eligibility year</label>
-        <select formControlName="eligibilityYear">
-          <option *ngFor="let clause of eligibilityOptions" [value]="clause.value">{{clause.label}}</option>
-        </select>
-      </div>
-
-      <div class="sd-input radio" fxFlex>
-        <label>In-network</label>
-
-        <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="inNetwork">
-          <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
-            {{clause.label}}
-          </mat-radio-button>
-        </mat-radio-group>
-      </div>
-
-      <div class="sd-input radio" fxFlex>
-        <label>Preventitive deducted from maximum</label>
-
-        <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="preventitiveDeductedFromMaximum">
-          <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
-            {{clause.label}}
-          </mat-radio-button>
-        </mat-radio-group>
-      </div>
-
-      <div class="sd-input" fxFlex>
-        <label>Fee schedule</label>
-        <input type="text" formControlName="feeSchedule">
-      </div>
-
+    <mat-card fxLayout="column">
       <div fxLayout="column">
         <h3>Dental Codes</h3>
         <app-code-inputs *ngIf="agentForm.get('codes')" [codes]="savedCodes" [groups]="agentForm.get('codes')"
           [increments]="increments" [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
         </app-code-inputs>
       </div>
-    </ng-container>
+    </mat-card>
 
-    <ng-container formGroupName="history">
-      <h3>History</h3>
+    <mat-card fxLayout="column">
+      <ng-container formGroupName="history">
+        <h3>History</h3>
 
-      <ng-container *ngFor="let key of codesHistory.breakDownKeys">
-        <ng-container *ngFor="let subKey of codesHistory.breakDowns[key].breakDownKeys">
-          <app-tooth-history [radioOptions]="radioOptions"
-            [label]="subKey + ' ' + codesHistory.breakDowns[key].breakDowns[subKey].label"
-            [historyForm]="agentForm.get('history')['controls'][subKey]"></app-tooth-history>
+        <ng-container *ngFor="let key of codesHistory.breakDownKeys">
+          <ng-container *ngFor="let subKey of codesHistory.breakDowns[key].breakDownKeys">
+            <app-tooth-history [radioOptions]="radioOptions"
+              [label]="subKey + ' ' + codesHistory.breakDowns[key].breakDowns[subKey].label"
+              [historyForm]="agentForm.get('history')['controls'][subKey]"></app-tooth-history>
+          </ng-container>
         </ng-container>
       </ng-container>
-    </ng-container>
+    </mat-card>
 
-    <ng-container formGroupName="remarks">
-      <h3>Remarks</h3>
+    <mat-card fxLayout="column">
+      <ng-container formGroupName="remarks">
+        <h3>Remarks</h3>
 
-      <div class="sd-input" fxFlex>
-        <label>Insurance representative name</label>
-        <input type="text" formControlName="insuranceRepresentativeName">
-      </div>
-
-      <div class="sd-input" fxFlex>
-        <label>Call ref #</label>
-        <input type="text" formControlName="callRefNumber">
-      </div>
-
-      <div fxLayout="row" fxLayoutGap="12px">
         <div class="sd-input" fxFlex>
-          <label>Verified by</label>
-          <input type="text" formControlName="verifiedBy">
+          <label>Insurance representative name</label>
+          <input type="text" formControlName="insuranceRepresentativeName">
         </div>
+
         <div class="sd-input" fxFlex>
-          <label>Verified date</label>
-          <div fxLayout="row">
-            <button mat-icon-button (click)="picker2.open()">
-              <mat-icon>today</mat-icon>
-            </button>
-            <input disabled [matDatepicker]="picker2" type="text" formControlName="verifiedDate">
-            <mat-datepicker disabled="false" #picker2></mat-datepicker>
+          <label>Call ref #</label>
+          <input type="text" formControlName="callRefNumber">
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="12px">
+          <div class="sd-input" fxFlex>
+            <label>Verified by</label>
+            <input type="text" formControlName="verifiedBy">
+          </div>
+          <div class="sd-input" fxFlex>
+            <label>Verified date</label>
+            <div fxLayout="row">
+              <button mat-icon-button (click)="picker2.open()">
+                <mat-icon>today</mat-icon>
+              </button>
+              <input disabled [matDatepicker]="picker2" type="text" formControlName="verifiedDate">
+              <mat-datepicker disabled="false" #picker2></mat-datepicker>
+            </div>
           </div>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
+    </mat-card>
 
     <div class="actions">
       <button mat-stroked-button [disabled]="!patient" color="primary" (click)="submit()">
@@ -223,4 +230,4 @@
       </button>
     </div>
   </form>
-</mat-card>
+</div>

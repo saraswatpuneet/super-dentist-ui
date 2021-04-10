@@ -10,61 +10,67 @@
       </div>
     </header>
     <div class="sub-breakdown">
-      <div fxLayout="row" formGroupName="codes" fxLayoutGap="12px"
+      <div fxLayout="row" formGroupName="codes" fxLayoutGap="16px"
         *ngFor="let subKey of codes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
         <ng-container [formGroupName]="subKey">
-          <div fxFlex fxLayout="column" fxLayoutAlign="start start">
+          <div fxFlex fxLayout="column" fxLayoutGap="32px">
             <p>{{subKey}} - {{codes?.breakDowns[breakDownKey]?.breakDowns[subKey]?.label}}</p>
-            <div>
-              <mat-form-field appearance="none">
-                <mat-label>Shared codes</mat-label>
-                <mat-select multiple (selectionChange)="checkOtherOptions($event, subKey)"
-                  formControlName="sharedCodes">
-                  <ng-container *ngFor="let breakDownKeySub of codes?.breakDownKeys">
-                    <ng-container *ngFor="let subtitlesAreBetter of codes?.breakDowns[breakDownKeySub].breakDownKeys">
-                      <mat-option *ngIf="subtitlesAreBetter !== subKey" [value]="subtitlesAreBetter">
-                        {{subtitlesAreBetter}}
-                      </mat-option>
-                    </ng-container>
-                  </ng-container>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </div>
 
-          <div fxLayout="column" fxLayoutAlign=" start" fxLayoutGap="12px">
-            <div>
-              <div class="sd-input">
+            <div fxLayout="row" fxLayoutGap="12px">
+              <div class="sd-input" fxFlex="105px">
+                <label>Coverage</label>
                 <select formControlName="percent">
                   <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
                 </select>
               </div>
+              <ng-container formGroupName="ageRange">
+                <div class="sd-input" fxFlex="120px">
+                  <label>Min age</label>
+                  <input type="number" formControlName="min">
+                </div>
+                <div class="sd-input" fxFlex="90px">
+                  <label>Max age</label>
+                  <input type="text" formControlName="max">
+                </div>
+              </ng-container>
             </div>
 
-            <div fxLayout="row" fxLayoutGap="12px" formGroupName="frequency">
-              <div class="sd-input" fxFlex="105px">
-                <input placeholder="Numerator" formControlName="numerator" type="number">
-              </div>
-              <div class="sd-input" fxFlex="120px">
-                <input placeholder="Denominator" type="text" formControlName="denominator">
-              </div>
-              <div class="sd-input" fxFlex="90px">
-                <select formConrolName="unit">
-                  <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>
-                </select>
-              </div>
-            </div>
+            <div fxLayout="row" fxLayoutGap="12px">
+              <ng-container formGroupName="frequency">
+                <div class="sd-input" fxFlex="105px">
+                  <label>Numerator</label>
+                  <input formControlName="numerator" type="number">
+                </div>
+                <div class="sd-input" fxFlex="120px">
+                  <label>Denominator</label>
+                  <input type="number" formControlName="denominator">
+                </div>
+                <div class="sd-input" fxFlex="90px">
+                  <label>Frequency</label>
+                  <select formControlName="unit">
+                    <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>
+                  </select>
+                </div>
+              </ng-container>
 
-            <div fxLayout="row" fxLayoutGap="12px" formGroupName="ageRange">
-              <div class="sd-input" fxFlex="100px">
-                <input placeholder="Min age" type="number" formControlName="min">
-              </div>
-              <div class="sd-input" fxFlex="120px">
-                <input placeholder="Max age" type="text" formControlName="max">
-              </div>
             </div>
+          </div>
 
-            <div fxFlex fxLayout="column" fxLayoutGap="8px">
+          <div fxLayout="column" fxLayoutAlign=" start">
+            <mat-form-field appearance="none">
+              <mat-label>Shared codes</mat-label>
+              <mat-select multiple (selectionChange)="checkOtherOptions($event, subKey)" formControlName="sharedCodes">
+                <ng-container *ngFor="let breakDownKeySub of codes?.breakDownKeys">
+                  <ng-container *ngFor="let subtitlesAreBetter of codes?.breakDowns[breakDownKeySub].breakDownKeys">
+                    <mat-option *ngIf="subtitlesAreBetter !== subKey" [value]="subtitlesAreBetter">
+                      {{subtitlesAreBetter}}
+                    </mat-option>
+                  </ng-container>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+
+            <div fxLayout="column" fxLayoutGap="8px">
               <label>Proof of medical necessity needed?</label>
 
               <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="medicalNecessity">
