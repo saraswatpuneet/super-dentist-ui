@@ -78,8 +78,8 @@ export class VisibleInsuranceFieldsComponent extends Base implements OnInit {
     const keys: DentalInsuranceKeys[] = this.generateKeysForSubmit(this.codeMap);
     const historyKeys: DentalInsuranceKeys[] = this.generateKeysForSubmit(this.historyCodeMap);
 
-    this.clinicService.saveSelectedPracticeCodesHistory(this.selectedClinic.addressId, historyKeys).pipe(take(1)).subscribe(console.log);
-    this.clinicService.saveSelectedPracticeCodes(this.selectedClinic.addressId, keys).pipe(take(1)).subscribe(console.log);
+    this.clinicService.saveSelectedPracticeCodesHistory(this.selectedClinic.addressId, historyKeys).pipe(take(1)).subscribe();
+    this.clinicService.saveSelectedPracticeCodes(this.selectedClinic.addressId, keys).pipe(take(1)).subscribe();
   }
 
   private generateKeysForSubmit(codeMap: any): DentalInsuranceKeys[] {

@@ -53,6 +53,18 @@
 
   <div class="list-items">
     <div fxLayout="row">
+      <p fxFlex>Group name</p>
+      <p>{{patientCoverage?.groupName}}</p>
+    </div>
+    <div fxLayout="row">
+      <p fxFlex>Group Number</p>
+      <p>{{patientCoverage?.groupNumber}}</p>
+    </div>
+    <div fxLayout="row">
+      <p fxFlex>Payer ID</p>
+      <p>{{patientCoverage?.payerId}}</p>
+    </div>
+    <div fxLayout="row">
       <p fxFlex>Eligibility start date</p>
       <p>{{patientCoverage?.eligibilityStartDate | date:"MMM dd, YYYY"}}</p>
     </div>

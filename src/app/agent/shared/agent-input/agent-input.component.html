@@ -3,6 +3,23 @@
 
     <ng-container formGroupName="patientCoverage">
       <h3>Coverage</h3>
+
+      <div fxLayout="row" fxLayoutGap="12px">
+        <div class="sd-input">
+          <label>Group name</label>
+          <input type="text" formControlName="groupName">
+        </div>
+        <div class="sd-input">
+          <label>Group number</label>
+          <input type="text" formControlName="groupNumber">
+        </div>
+      </div>
+
+      <div class="sd-input">
+        <label>Payer ID</label>
+        <input type="text" formControlName="payerId">
+      </div>
+
       <div class="sd-input">
         <label>Eligibility start date</label>
         <div fxLayout="row">

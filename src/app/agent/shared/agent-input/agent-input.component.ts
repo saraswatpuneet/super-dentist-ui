@@ -212,6 +212,9 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   private initForm(): void {
     this.agentForm = this.fb.group({
       patientCoverage: this.fb.group({
+        groupName: [],
+        groupNumber: [],
+        payerId: [],
         eligibilityStartDate: [],
         coordinationOfBenefits: [],
         annualMaximum: [],
