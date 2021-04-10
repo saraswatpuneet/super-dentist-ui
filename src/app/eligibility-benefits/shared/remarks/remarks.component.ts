@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./remarks.component.scss']
 })
 export class RemarksComponent implements OnInit {
-  @Input() remarks = {};
+  @Input() remarks: any = {};
 
   constructor() { }
 
