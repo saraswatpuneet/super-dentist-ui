@@ -18,8 +18,15 @@ import * as moment from 'moment';
 export class AgentInputComponent extends Base implements OnChanges, OnInit {
   @Input() patient: any;
   @Input() addressId = '';
+  showMissingToothClause = false;
   processing = false;
   agentForm: FormGroup;
+  missingToothClauses = [
+    { value: 'crowns', label: 'Crowns' },
+    { value: 'bridges', label: 'Bridges' },
+    { value: 'dentures', label: 'Dentures' },
+    { value: 'implants', label: 'Implants' },
+  ];
   radioOptions = [
     { value: 'yes', label: 'Yes' },
     { value: 'no', label: 'No' }
@@ -85,6 +92,15 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     this.patientService.setPatientNotes(this.patient.patientId, value)
       .pipe(take(1))
       .subscribe(res => this.processing = false);
+  }
+
+  toggleClause(yes: string): void {
+    if (yes === 'yes') {
+      this.showMissingToothClause = true;
+    } else {
+      this.showMissingToothClause = false;
+      this.agentForm.get('patientCoverage').get('toothReplacementClause').reset();
+    }
   }
 
   private getClinicCodes(): void {
@@ -230,6 +246,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         preventitiveDeductedFromMaximum: ['yes'],
         feeSchedule: [],
         toothReplacementClause: this.fb.group({
+          reason: [],
           numerator: [],
           denominator: [],
           unit: ['year'],
