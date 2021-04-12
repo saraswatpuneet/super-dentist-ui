@@ -1,8 +1,9 @@
 .patient-status-pill {
   padding: 4px 16px;
   border-radius: 24px;
-  width: 110px;
+  width: 128px;
   text-align: center;
+  font-size: 12px;
   
   &.pending {
     color: var(--grey);
