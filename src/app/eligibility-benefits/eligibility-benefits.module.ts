@@ -14,6 +14,7 @@ import { HistoryComponent } from './shared/history/history.component';
 import { RemarksComponent } from './shared/remarks/remarks.component';
 import { PatientDetailsComponent } from './shared/patient-details/patient-details.component';
 import { PatientListItemModule } from '../shared/patient-list-item/patient-list-item.module';
+import { PatientStatusPillModule } from '../shared/patient-status-pill/patient-status-pill.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { PatientListItemModule } from '../shared/patient-list-item/patient-list-
   imports: [
     CommonModule,
     FormsModule,
+    PatientStatusPillModule,
     PatientListItemModule,
     FlexLayoutModule,
     MatButtonModule,

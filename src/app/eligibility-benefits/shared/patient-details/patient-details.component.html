@@ -1,7 +1,8 @@
 <div *ngIf="patient" fxLayout="column" class="patient-details">
   <div fxLayout="row">
     <h3 fxFlex>{{patient.firstName}} {{patient.lastName}}</h3>
-    <span>{{patient.status}}</span>
+    <app-patient-status-pill [label]="patient?.status?.label" [value]="patient?.status?.value">
+    </app-patient-status-pill>
   </div>
   <header fxLayout="row">
     <div fxLayout="column" fxFlex>
