@@ -13,9 +13,12 @@
             <div class="name" fxFlex>
               {{patient.firstName}} {{patient.lastName}}
             </div>
-            <div class="lighter" *ngIf="patient.createdOn">
-              {{patient.createdOn | date:"MMM dd, yyyy"}}
+            <div class="p-status">
+              {{patient.status.label ? patient.status.label : 'Pending'}}
             </div>
+            <!-- <div class="lighter" *ngIf="patient.createdOn">
+              {{patient.createdOn | date:"MMM dd, yyyy"}}
+            </div> -->
           </div>
 
           <div fxLayout="row" fxLayoutGap="20px">

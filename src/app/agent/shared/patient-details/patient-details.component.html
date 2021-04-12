@@ -4,15 +4,15 @@
 
     <div>
       <div class="sd-input">
-        <select [(ngModel)]="selectedStatus" (change)="updateStatus()">
-          <option value="" disabled selected>Select status</option>
-          <option *ngFor="let stat of status" [value]="stat">{{stat}}</option>
+        <select [(ngModel)]="selectedStatusValue" (change)="updateStatus()">
+          <option *ngFor="let stat of status; let i = index" [value]="stat.value">{{stat.label}}
+          </option>
         </select>
       </div>
     </div>
   </div>
   <header fxLayout="row" fxLayoutAlign=" start">
-    <div fxLayout="column" fxFlex>
+    <div fxLayout="column">
       <div *ngIf="patient.dob">
         Birthday {{months[patient.dob.month].label}}
         {{patient.dob.day}},

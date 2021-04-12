@@ -18,7 +18,7 @@ import { takeUntil, map, take, switchMap } from 'rxjs/operators';
 // Incomplete information - Should have a list of wrong fields, updates user. Can type message for now
 // Discount plan
 // Medicare plan
-// 
+//
 
 @Component({
   selector: 'app-agent',
@@ -70,6 +70,7 @@ export class AgentComponent extends Base implements OnInit {
   selectPatient(patient: any, addressId: string): void {
     this.selectedPatient = patient;
     this.addressId = addressId;
+    console.log(patient);
   }
 
   filterPatientList(): void {

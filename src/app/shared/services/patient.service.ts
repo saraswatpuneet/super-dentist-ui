@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { PatientStatus } from './patient';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +24,8 @@ export class PatientService {
     return this.http.post(`${this.baseUrl}/notes/${patientId}`, patientData);
   }
 
-  updateStatus(patientId: string, status: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/status/${patientId}?status=${status}`, null);
+  updateStatus(patientId: string, status: PatientStatus): Observable<any> {
+    return this.http.post(`${this.baseUrl}/status/${patientId}`, status);
   }
 
 }

@@ -13,10 +13,10 @@
     <div class="sub-breakdown">
       <div formGroupName="codes" *ngFor="let subKey of codes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
         <ng-container [formGroupName]="subKey">
-          <div fxFlex fxLayout="column">
+          <div fxLayout="column">
             <p>{{subKey}} - {{codes?.breakDowns[breakDownKey]?.breakDowns[subKey]?.label}}</p>
 
-            <div fxFlex fxLayout="column" fxLayoutGap="32px">
+            <div fxFlex="0 0 auto" fxLayout="column" fxLayoutGap="32px">
               <div fxLayout="row" fxLayoutGap="12px" fxLayoutAlign=" start">
                 <div class="sd-input" fxFlex="105px">
                   <label>Coverage</label>
@@ -66,7 +66,7 @@
                     </select>
                   </div>
                 </ng-container>
-                <div fxLayout="column" fxFlex>
+                <div fxLayout="column" fxFlex="0 0 auto">
                   <div class="sd-input radio">
                     <label>Proof of medical necessity needed?</label>
 

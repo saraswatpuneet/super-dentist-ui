@@ -1,7 +1,7 @@
 <div class="agent-input">
   <form [formGroup]="agentForm" fxLayout="column" fxLayoutGap="20px">
     <ng-container formGroupName="patientCoverage">
-      <mat-card fxLayout="column">
+      <mat-card fxLayout="column" fxFlex="0 0 auto">
         <h3>Coverage</h3>
 
         <div fxLayout="row" fxLayoutGap="12px">
@@ -118,7 +118,7 @@
 
       </mat-card>
 
-      <mat-card fxLayout="column">
+      <mat-card fxLayout="column" fxFlex="0 0 auto">
         <h3>Tooth replacement clause</h3>
         <div class="sd-input radio">
           <label>Missing tooth clause</label>
@@ -165,8 +165,8 @@
       </mat-card>
     </ng-container>
 
-    <mat-card fxLayout="column">
-      <div fxLayout="column">
+    <mat-card fxLayout="column" fxFlex="0 0 auto">
+      <div fxLayout="column" fxFlex="0 0 auto">
         <h3>Dental Codes</h3>
         <app-code-inputs *ngIf="agentForm.get('codes')" [codes]="savedCodes" [groups]="agentForm.get('codes')"
           [increments]="increments" [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
@@ -174,7 +174,7 @@
       </div>
     </mat-card>
 
-    <mat-card fxLayout="column">
+    <mat-card fxLayout="column" fxFlex="0 0 auto">
       <ng-container formGroupName="history">
         <h3>History</h3>
 
@@ -188,7 +188,7 @@
       </ng-container>
     </mat-card>
 
-    <mat-card fxLayout="column">
+    <mat-card fxLayout="column" fxFlex="0 0 auto">
       <ng-container formGroupName="remarks">
         <h3>Remarks</h3>
 
