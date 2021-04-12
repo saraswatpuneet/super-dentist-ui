@@ -29,7 +29,7 @@
               {{patient.firstName}} {{patient.lastName}}
             </div>
             <div class="lighter" *ngIf="patient.createdOn">
-              {{patient.createdOn | date:"MMM dd, yyyy"}}
+              {{patient.status}} {{patient.createdOn | date:"MMM dd, yyyy"}}
             </div>
           </div>
 
