@@ -8,32 +8,7 @@
         <div [ngClass]="{'active': selectedPatient?.patientId === patient.patientId}"
           (click)="selectPatient(patient, clinic.addressId)" class="patient-items"
           *ngFor="let patient of filteredPatients[i]" fxLayout="column">
-
-          <div class="patient-name" fxLayout="row" fxLayoutAlign="center">
-            <div class="name" fxFlex>
-              {{patient.firstName}} {{patient.lastName}}
-            </div>
-            <div class="p-status">
-              {{patient.status.label ? patient.status.label : 'Pending'}}
-            </div>
-            <!-- <div class="lighter" *ngIf="patient.createdOn">
-              {{patient.createdOn | date:"MMM dd, yyyy"}}
-            </div> -->
-          </div>
-
-          <div fxLayout="row" fxLayoutGap="20px">
-            <div fxFlex="50" *ngIf="patient.dentalInsurance && patient.dentalInsurance[0]">
-              <div>{{patient.dentalInsurance[0]?.company}}</div>
-              <div class="lighter" *ngIf="patient.dentalInsurance[0].memberId">
-                {{patient.dentalInsurance[0]?.memberId}}</div>
-            </div>
-
-            <div fxFlex="50" *ngIf="patient.medicalInsurance && patient.medicalInsurance[0]">
-              <div>{{patient.medicalInsurance[0]?.company}}</div>
-              <div class="lighter" *ngIf="patient.medicalInsurance[0].memberId">
-                {{patient.medicalInsurance[0].memberId}}</div>
-            </div>
-          </div>
+          <app-patient-list-item [patient]="patient"></app-patient-list-item>
         </div>
       </div>
     </mat-card>

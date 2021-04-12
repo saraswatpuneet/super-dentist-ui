@@ -18,6 +18,7 @@ import { AgentRoutingModule } from './agent-routing.module';
 import { CodeInputsComponent } from './shared/code-inputs/code-inputs.component';
 import { PatientDetails2Component } from './shared/patient-details/patient-details.component';
 import { ToothHistoryComponent } from './shared/tooth-history/tooth-history.component';
+import { PatientListItemModule } from '../shared/patient-list-item/patient-list-item.module';
 
 @NgModule({
   declarations: [AgentComponent, PatientDetails2Component, AgentInputComponent, CodeInputsComponent, ToothHistoryComponent],
@@ -31,6 +32,7 @@ import { ToothHistoryComponent } from './shared/tooth-history/tooth-history.comp
     MatDatepickerModule,
     MatIconModule,
     MatProgressBarModule,
+    PatientListItemModule,
     MatProgressSpinnerModule,
     MatSelectModule,
     MatRadioModule,
