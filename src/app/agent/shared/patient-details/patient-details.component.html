@@ -1,6 +1,17 @@
 <mat-card *ngIf="patient" fxLayout="column" class="patient-details">
-  <h3>{{patient.firstName}} {{patient.lastName}}</h3>
-  <header fxLayout="row">
+  <div fxLayout="row">
+    <h3 fxFlex>{{patient.firstName}} {{patient.lastName}}</h3>
+
+    <div>
+      <div class="sd-input">
+        <select [(ngModel)]="selectedStatus" (change)="updateStatus()">
+          <option value="" disabled selected>Select status</option>
+          <option *ngFor="let stat of status" [value]="stat">{{stat}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <header fxLayout="row" fxLayoutAlign=" start">
     <div fxLayout="column" fxFlex>
       <div *ngIf="patient.dob">
         Birthday {{months[patient.dob.month].label}}
@@ -11,6 +22,7 @@
         Registered on {{patient.createdOn | date:"MMM dd, yyyy"}}
       </div>
     </div>
+
   </header>
 
   <div fxLayout="row" fxLayoutGap="20px">
