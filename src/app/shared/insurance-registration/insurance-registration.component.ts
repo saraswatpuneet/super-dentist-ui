@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { insuranceAnimations } from './insurance-registration.animations';
+import { InsuranceService } from '../services/insurance.service';
 
 interface PatientForInsurance {
   firstName: string;
@@ -85,6 +86,7 @@ export class InsuranceRegistrationComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
+    private insuranceService: InsuranceService,
   ) { }
 
   ngOnInit(): void {
@@ -92,6 +94,7 @@ export class InsuranceRegistrationComponent implements OnInit {
       this.selectedClinic = this.clinics[0];
     }
     this.initForm();
+    this.insuranceService.getDentalInsurance().subscribe(console.log);
   }
 
   onCancel(): void {

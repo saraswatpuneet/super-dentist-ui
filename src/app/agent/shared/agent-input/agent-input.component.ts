@@ -46,6 +46,20 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     { value: 'doesNotCoordinate', label: 'Does not coordinate' },
     { value: 'other', label: 'Other' }
   ];
+  months = [
+    { label: 'January', value: '1', },
+    { label: 'Febuary', value: '2', },
+    { label: 'March', value: '3', },
+    { label: 'April', value: '4', },
+    { label: 'May', value: '5', },
+    { label: 'June', value: '6', },
+    { label: 'July', value: '7', },
+    { label: 'August', value: '8', },
+    { label: 'September', value: '9', },
+    { label: 'October', value: '10', },
+    { label: 'November', value: '11', },
+    { label: 'December', value: '12', },
+  ];
   savedCodes: DentalBreakDowns = this.newSavedCodes();
   codesHistory: DentalBreakDowns = this.newSavedCodes();
   increments = ['', 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
@@ -100,6 +114,12 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     } else {
       this.showMissingToothClause = false;
       this.agentForm.get('patientCoverage').get('toothReplacementClause').reset();
+    }
+  }
+
+  resetWaitingPeriod(value: string): void {
+    if (value === 'no') {
+      this.agentForm.get('patientCoverage').get('waitingPeriods').get('month').reset();
     }
   }
 
@@ -244,7 +264,10 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         deductibleMetAmountIndividual: [],
         deductibleMetAmountFamily: [],
         missingToothClause: ['no'],
-        waitingPeriods: ['yes'],
+        waitingPeriods: this.fb.group({
+          enabled: ['no'],
+          month: []
+        }),
         eligibilityYear: ['calendar'],
         inNetwork: ['yes'],
         preventitiveDeductedFromMaximum: ['yes'],

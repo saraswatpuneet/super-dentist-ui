@@ -102,7 +102,11 @@
     </div>
     <div fxLayout="row">
       <p fxFlex>Waiting periods</p>
-      <p>{{patientCoverage?.waitingPeriods}}</p>
+      <p>
+        {{patientCoverage?.waitingPeriods?.enabled}}
+        <ng-container *ngIf="patientCoverage?.waitingPeriods?.enabled === 'yes'">
+          {{months[patientCoverage?.waitingPeriods?.month].label}}</ng-container>
+      </p>
     </div>
     <div fxLayout="row">
       <p fxFlex>Eligibility year</p>

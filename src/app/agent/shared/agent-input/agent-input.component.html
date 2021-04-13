@@ -75,13 +75,23 @@
           </div>
         </div>
 
-        <div class="sd-input radio" fxFlex>
-          <label>Waiting periods</label>
-          <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="waitingPeriods">
-            <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
-              {{clause.label}}
-            </mat-radio-button>
-          </mat-radio-group>
+        <div fxLayout="row" fxLayoutGap="12px" formGroupName="waitingPeriods">
+          <div class="sd-input radio" fxFlex>
+            <label>Waiting periods</label>
+            <mat-radio-group (change)="resetWaitingPeriod($event.value)" color="primary" fxLayoutGap="20px"
+              formControlName="enabled">
+              <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+                {{clause.label}}
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <div fxFlex *ngIf="agentForm.get('patientCoverage').value.waitingPeriods.enabled === 'yes'" class="sd-input">
+            <label>Month for waiting period</label>
+            <select formControlName="month">
+              <option *ngFor="let month of months" [value]="month.value">{{month.label}}</option>
+            </select>
+          </div>
         </div>
 
         <div class="sd-input" fxFlex>
