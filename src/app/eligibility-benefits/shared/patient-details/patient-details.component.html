@@ -105,7 +105,8 @@
       <p>
         {{patientCoverage?.waitingPeriods?.enabled}}
         <ng-container *ngIf="patientCoverage?.waitingPeriods?.enabled === 'yes'">
-          {{months[patientCoverage?.waitingPeriods?.month].label}}</ng-container>
+          {{months[patientCoverage?.waitingPeriods?.month].label}} {{patientCoverage?.waitingPeriods?.category}}
+        </ng-container>
       </p>
     </div>
     <div fxLayout="row">

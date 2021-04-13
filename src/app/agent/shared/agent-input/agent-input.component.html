@@ -87,6 +87,13 @@
           </div>
 
           <div fxFlex *ngIf="agentForm.get('patientCoverage').value.waitingPeriods.enabled === 'yes'" class="sd-input">
+            <label>Category</label>
+            <select formControlName="category">
+              <option *ngFor="let clause of missingToothClauses" [value]="clause.value">{{clause.label}}</option>
+            </select>
+          </div>
+
+          <div fxFlex *ngIf="agentForm.get('patientCoverage').value.waitingPeriods.enabled === 'yes'" class="sd-input">
             <label>Month for waiting period</label>
             <select formControlName="month">
               <option *ngFor="let month of months" [value]="month.value">{{month.label}}</option>

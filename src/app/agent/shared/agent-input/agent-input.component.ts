@@ -266,7 +266,8 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         missingToothClause: ['no'],
         waitingPeriods: this.fb.group({
           enabled: ['no'],
-          month: []
+          month: [],
+          category: [],
         }),
         eligibilityYear: ['calendar'],
         inNetwork: ['yes'],
