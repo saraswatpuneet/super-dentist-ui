@@ -5,8 +5,8 @@
 
       <ng-container [formGroupName]="breakDownKey">
         <div fxFlex="90px" class="sd-input">
-          <label>Coverage</label>
-          <select formControlName="value">
+          <label>Fixed</label>
+          <select formControlName="fixed">
             <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
           </select>
         </div>

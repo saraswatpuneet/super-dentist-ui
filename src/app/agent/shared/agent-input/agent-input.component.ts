@@ -148,7 +148,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         });
 
         codeForms.controls.push(this.fb.group({
-          [k]: this.fb.group({ value: [], min: [], max: [] }),
+          [k]: this.fb.group({ fixed: [], min: [], max: [] }),
           codes: codeInputs
         }));
       });
