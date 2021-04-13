@@ -3,7 +3,14 @@
   <div class="breakdowns" *ngFor="let breakDownKey of codes?.breakDownKeys; let i = index">
     <header fxLayout="row" fxLayoutGap="12px">
       <p fxFlex>{{breakDownKey}} {{codes.breakDowns[breakDownKey]?.label?.toLowerCase()}}</p>
-      <p *ngIf="savedCodes && savedCodes[i]">{{savedCodes[i][breakDownKey]}}%</p>
+      <p *ngIf="savedCodes && savedCodes[i] && savedCodes[i][breakDownKey]">
+        <ng-container *ngIf="savedCodes[i][breakDownKey].fixed === 0 || savedCodes[i][breakDownKey].fixed">
+          {{savedCodes[i][breakDownKey].fixed}}%</ng-container>
+        <ng-container
+          *ngIf="savedCodes[i][breakDownKey].min === 0 || savedCodes[i][breakDownKey].max === 0 || savedCodes[i][breakDownKey].min || savedCodes[i][breakDownKey].max">
+          {{savedCodes[i][breakDownKey].min}}% - {{savedCodes[i][breakDownKey].max}}%
+        </ng-container>
+      </p>
     </header>
     <div class="sub-breakdown">
       <div fxLayout="row" fxLayoutGap="12px"
