@@ -48,6 +48,10 @@ export class ClinicService {
     this.cache = {};
   }
 
+  clearFavorites(): void {
+    delete this.cache[this.favoriteCode];
+  }
+
   getNearbyClinics(): Observable<any> {
     return this.http.get(`${this.baseUrl}/getNearbyClinics`);
   }
