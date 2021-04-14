@@ -122,8 +122,8 @@
 
   <div class="adding-insurance" [@slideIn] *ngIf="selectedDental || selectedMedical">
     <div>
-      <app-dental-insurance header="Dental Insurance" *ngIf="selectedDental" (cancel)="onCancel()"
-        (addInsurance)="onAddInsurance($event)">
+      <app-dental-insurance [companies]="dentalCompanies" header="Dental Insurance" *ngIf="selectedDental"
+        (cancel)="onCancel()" (addInsurance)="onAddInsurance($event)">
       </app-dental-insurance>
       <app-medical-insurance *ngIf="selectedMedical" (cancel)="onCancel()" (addInsurance)="onAddInsurance($event)">
       </app-medical-insurance>

@@ -7,8 +7,13 @@
   </div>
 
   <div class="sd-input">
-    <label>Insurance Company Name</label>
-    <input autocomplete="off" type="text" formControlName="company">
+    <label>Select an insurance company</label>
+    <input type="text" formControlName="company">
+    <div class="autocomplete">
+      <div class="options" (click)="selectCompany(company)" *ngFor="let company of filteredCompanies">
+        <p class="label">{{company?.name}}</p>
+      </div>
+    </div>
   </div>
 
   <div class="sd-input">
@@ -37,7 +42,8 @@
 
   <div class="actions" fxLayout="row" fxLayoutGap="8px">
     <button mat-button (click)="cancel.emit()">Cancel</button>
-    <button mat-raised-button color="primary" (click)="sendInsurance()" [disabled]="!dentalForm.valid">Add Dental
+    <button mat-raised-button color="primary" (click)="sendInsurance()"
+      [disabled]="!dentalForm.valid || !usedAutoComplete">Add Dental
       Insurance</button>
   </div>
 </div>
