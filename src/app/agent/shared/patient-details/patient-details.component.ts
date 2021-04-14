@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { PatientService } from 'src/app/shared/services/patient.service';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { take } from 'rxjs/operators';
+
+import { PatientService } from 'src/app/shared/services/patient.service';
 import { PatientStatus } from 'src/app/shared/services/patient';
 
 @Component({
@@ -11,6 +12,7 @@ import { PatientStatus } from 'src/app/shared/services/patient';
 export class PatientDetails2Component implements OnChanges, OnInit {
   @Input() patient: any;
   @Input() months: any = [];
+  @Output() statusChange = new EventEmitter<any>();
   status: PatientStatus[] = [
     { value: 'pending', label: 'Pending' },
     { value: 'active', label: 'Active' },
@@ -40,6 +42,7 @@ export class PatientDetails2Component implements OnChanges, OnInit {
   updateStatus(): void {
     const status = this.status.find((s) => s.value === this.selectedStatusValue);
     this.patientService.updateStatus(this.patient.patientId, status).pipe(take(1)).subscribe();
+    this.patient.status = status;
   }
 
 }
