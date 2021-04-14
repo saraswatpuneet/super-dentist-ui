@@ -70,7 +70,6 @@ export class AgentComponent extends Base implements OnInit {
   selectPatient(patient: any, addressId: string): void {
     this.selectedPatient = patient;
     this.addressId = addressId;
-    console.log(patient);
   }
 
   filterPatientList(): void {

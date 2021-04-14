@@ -26,7 +26,6 @@ export class PatientDetails2Component implements OnChanges, OnInit {
 
   ngOnChanges(sc: SimpleChanges): void {
     if (sc.patient) {
-      console.log(this);
     }
   }
 
@@ -40,7 +39,6 @@ export class PatientDetails2Component implements OnChanges, OnInit {
 
   updateStatus(): void {
     const status = this.status.find((s) => s.value === this.selectedStatusValue);
-    console.log(status);
     this.patientService.updateStatus(this.patient.patientId, status).pipe(take(1)).subscribe();
   }
 
