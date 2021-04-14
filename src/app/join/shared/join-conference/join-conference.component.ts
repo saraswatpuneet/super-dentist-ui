@@ -29,13 +29,12 @@ export function ConfirmedValidator(controlName: string, matchingControlName: str
 }
 
 @Component({
-  selector: 'app-join-favorites',
-  templateUrl: './join-favorites.component.html',
-  styleUrls: ['./join-favorites.component.scss'],
+  selector: 'app-join-conference',
+  templateUrl: './join-conference.component.html',
+  styleUrls: ['./join-conference.component.scss'],
   animations: joinAnimations
 })
-export class JoinFavoritesComponent extends Base implements OnInit {
-  @Input() favorites: string[] = [];
+export class JoinConferenceComponent extends Base implements OnInit {
   active = 0;
   selectedClinic: Clinic = Clinic.Dentist;
   specialistTypes = [
@@ -120,11 +119,6 @@ export class JoinFavoritesComponent extends Base implements OnInit {
           specialty: this.specialistTypes.filter(s => s.selected).map(y => y.value),
           type: clinic.selectedClinic,
         }])),
-        switchMap(clinics => {
-          const addressId = clinics.data.clinicDetails[0].addressId;
-          return this.clinicService.addFavoriteClinics(addressId, this.favorites);
-        }
-        ),
         take(1)
       ).subscribe(() => {
         if (clinic.selectedClinic === 'specialist') {

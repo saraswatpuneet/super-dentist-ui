@@ -155,6 +155,7 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
 
   private setJoinParams(): void {
     this.route.queryParams.pipe(take(1)).subscribe((params) => {
+      this.conference = false;
       if (params.secureKey && params.places) {
         this.joinInfo = {
           secureKey: params.secureKey,
@@ -162,6 +163,8 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
         };
       } else if (params.favorites) {
         this.favorites = JSON.parse(atob(params.favorites));
+      } else if (params.conference) {
+        this.conference = true;
       }
     });
   }
