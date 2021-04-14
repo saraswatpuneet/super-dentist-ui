@@ -87,6 +87,7 @@ export class JoinConferenceComponent extends Base implements OnInit {
   goToLogin(): void {
     this.router.navigate(['./login']);
   }
+
   join(): void {
     const account = this.accountForm.value;
     this.loading = true;

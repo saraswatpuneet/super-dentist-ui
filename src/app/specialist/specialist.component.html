@@ -4,10 +4,10 @@
       <label>Search for a clinic</label>
       <input type="text" [(ngModel)]="searchFilter">
     </div> -->
-    <!-- <div>
+    <div>
       <button *ngIf="clinicType === 'specialist'" mat-raised-button (click)="editFavorites()" [disabled]="loading">Edit
         Referring Clinics</button>
-    </div> -->
+    </div>
 
     <app-loader class="loading" *ngIf="loading"></app-loader>
 
