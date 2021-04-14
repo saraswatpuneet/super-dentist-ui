@@ -111,7 +111,11 @@
     </div>
     <div fxLayout="row">
       <p fxFlex>Eligibility year</p>
-      <p>{{patientCoverage?.eligibilityYear}}</p>
+      <p>{{patientCoverage?.eligibilityYear?.value}} <ng-container
+          *ngIf="patientCoverage?.eligibilityYear?.value === 'benefit'">
+          {{months[patientCoverage?.eligibilityYear?.month].label}}
+        </ng-container>
+      </p>
     </div>
     <div fxLayout="row">
       <p fxFlex>In network</p>
