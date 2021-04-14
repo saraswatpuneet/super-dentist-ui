@@ -11,7 +11,8 @@ import { joinAnimations } from '../../join.animations';
 
 enum Clinic {
   Specialist = 'specialist',
-  Dentist = 'dentist'
+  Dentist = 'dentist',
+  Agent = 'agent',
 }
 export function ConfirmedValidator(controlName: string, matchingControlName: string) {
   return (formGroup: FormGroup) => {
