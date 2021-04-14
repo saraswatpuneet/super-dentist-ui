@@ -101,11 +101,21 @@
           </div>
         </div>
 
-        <div class="sd-input" fxFlex>
-          <label>Eligibility year</label>
-          <select formControlName="eligibilityYear">
-            <option *ngFor="let clause of eligibilityOptions" [value]="clause.value">{{clause.label}}</option>
-          </select>
+        <div fxLayout="row" fxLayoutGap="12px" formGroupName="eligibilityYear">
+          <div class="sd-input" fxFlex>
+            <label>Eligibility year</label>
+            <select formControlName="value" (change)="resetEligibilityYear()">
+              <option *ngFor="let clause of eligibilityOptions" [value]="clause.value">{{clause.label}}</option>
+            </select>
+          </div>
+
+          <div *ngIf="agentForm.get('patientCoverage').value.eligibilityYear.value === 'benefit'" class="sd-input"
+            fxFlex>
+            <label>Benefits month</label>
+            <select formControlName="month">
+              <option *ngFor="let month of months" [value]="month.value">{{month.label}}</option>
+            </select>
+          </div>
         </div>
 
         <div class="sd-input radio" fxFlex>

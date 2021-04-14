@@ -16,7 +16,7 @@ export class PatientDetails2Component implements OnChanges, OnInit {
     { value: 'active', label: 'Active' },
     { value: 'inactive', label: 'Inactive' },
     { value: 'termed', label: 'Termed' },
-    { value: 'incomplete', label: 'Incomplete' },
+    { value: 'incomplete', label: 'Incomplete Info' },
     { value: 'discount-plan', label: 'Discount plan' },
     { value: 'medicare-plan', label: 'Medicare plan' }
   ];

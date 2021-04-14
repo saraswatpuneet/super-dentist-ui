@@ -117,9 +117,16 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     }
   }
 
+  resetEligibilityYear(): void {
+    if (this.agentForm.get('patientCoverage').value.eligibilityYear.value === 'calendar') {
+      this.agentForm.get('patientCoverage').get('eligibilityYear').get('month').reset();
+    }
+  }
+
   resetWaitingPeriod(value: string): void {
     if (value === 'no') {
       this.agentForm.get('patientCoverage').get('waitingPeriods').get('month').reset();
+      this.agentForm.get('patientCoverage').get('waitingPeriods').get('category').reset();
     }
   }
 
@@ -269,7 +276,10 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
           month: [],
           category: [],
         }),
-        eligibilityYear: ['calendar'],
+        eligibilityYear: this.fb.group({
+          value: [],
+          month: []
+        }),
         inNetwork: ['yes'],
         preventitiveDeductedFromMaximum: ['yes'],
         feeSchedule: [],
