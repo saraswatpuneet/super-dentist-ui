@@ -78,6 +78,8 @@ export class LoginComponent extends Base implements OnInit {
       this.loading = false;
       if (c.type === 'dentist') {
         this.router.navigate(['/specialist']);
+      } else if (c.type === 'agent') {
+        this.router.navigate(['/agent']);
       } else {
         this.router.navigate(['/referrals']);
       }

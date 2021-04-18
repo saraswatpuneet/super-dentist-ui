@@ -26,8 +26,9 @@ export class AppComponent extends Base implements OnInit {
   emailVerified = true;
   expanded = true;
   home = false;
+  isDentist = false;
   isSpecialist = false;
-  isAdmin = false;
+  isAgent = false;
   clinicName = '';
   private expandedKey = 'sdNavExpanded';
   private themeKey = 'sdTheme';
@@ -92,11 +93,25 @@ export class AppComponent extends Base implements OnInit {
           .pipe(take(1))
           .subscribe(myClinics => {
             const c = myClinics.data.clinicDetails;
-            if (c.length === 1 && c[0].type === 'dentist') {
-              this.isSpecialist = false;
-            } else {
+            this.isDentist = false;
+            this.isSpecialist = false;
+            this.isAgent = false;
+
+            if (c[0].type === 'dentist') {
+              this.isDentist = true;
+            } else if (c[0].type === 'specialist') {
               this.isSpecialist = true;
+            } else if (c[0].type === 'agent') {
+              this.isAgent = true;
             }
+
+            // if (c.length === 1 && c[0].type === 'dentist') {
+            //   this.isSpecialist = false;
+            // } else if (c[0].type === 'specialist') {
+            //   this.isSpecialist = true;
+            // } else {
+            //   this.isAgent = true;
+            // }
 
             if (c[0] && c[0].name) {
               this.clinicName = c[0].name;
