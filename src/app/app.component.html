@@ -71,7 +71,8 @@
       </a>
 
       <a mat-button matTooltip="Settings" matTooltipPosition="after" [matTooltipDisabled]="expanded"
-        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="isSpecialist" routerLink="settings" class="nav-item">
+        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="isSpecialist || isDentist" routerLink="settings"
+        class="nav-item">
         <mat-icon>settings</mat-icon>
         <span *ngIf="expanded" [@sidebarToggle]>Settings</span>
       </a>
