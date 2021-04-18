@@ -6,8 +6,7 @@ import { ClinicService } from '../shared/services/clinic.service';
 import { InsuranceService } from '../shared/services/insurance.service';
 import { PatientService } from '../shared/services/patient.service';
 import { DentalBreakDowns } from '../shared/services/insurance';
-import { takeUntil, map, take, switchMap } from 'rxjs/operators';
-
+import { takeUntil, map, take, switchMap, tap, filter } from 'rxjs/operators';
 
 // Status for insurance
 
@@ -30,6 +29,7 @@ export class AgentComponent extends Base implements OnInit {
   showInsurance = false;
   clinics: any[];
   patientFilter = '';
+  selectedClinic: any;
   filteredPatients = [];
   selectedPatient: undefined;
   savedCodes: DentalBreakDowns = this.newSavedCodes();
@@ -48,6 +48,7 @@ export class AgentComponent extends Base implements OnInit {
     { label: 'December', value: '12', },
   ];
   private triggerPatients = new Subject();
+  private patientTrigger = new Subject<string>();
   private patients = [];
 
   constructor(
@@ -57,9 +58,30 @@ export class AgentComponent extends Base implements OnInit {
   ) { super(); }
 
   ngOnInit(): void {
+    this.clinicService.getAllClinics().pipe(
+      filter(r => !!r),
+      map(r => r.data),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(clinics => {
+      this.clinics = clinics;
+    });
+
     this.watchPatients();
     this.getClinicCodes();
     this.triggerPatients.next();
+  }
+
+  getPatients(clinic: any): void {
+    this.selectedClinic = clinic;
+    this.patients = undefined;
+    this.selectedPatient = undefined;
+    this.patientTrigger.next(this.selectedClinic.addressId);
+  }
+
+  clearAll(): void {
+    this.selectPatient = undefined;
+    this.patients = undefined;
+    this.selectedClinic = undefined;
   }
 
   onCancelRegistration(): void {
@@ -67,33 +89,24 @@ export class AgentComponent extends Base implements OnInit {
     this.triggerPatients.next();
   }
 
-  selectPatient(patient: any, addressId: string): void {
+  selectPatient(patient: any): void {
     this.selectedPatient = patient;
-    this.addressId = addressId;
   }
 
   filterPatientList(): void {
-    this.patients.forEach((group, index) => {
-      this.filteredPatients[index] = group.filter(patient =>
-        `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(this.patientFilter.toLowerCase())
-      );
-    });
+    this.filteredPatients = this.patients.filter(patient =>
+      `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(this.patientFilter.toLowerCase())
+    );
   }
 
   private watchPatients(): void {
-    this.triggerPatients.pipe(
-      switchMap(() => this.clinicService.getClinics()),
-      map(res => res.data.clinicDetails),
-      switchMap(clinics => {
-        this.clinics = clinics;
-        return forkJoin(this.clinics.map(clinic =>
-          this.patientService.getAllPatientsForClinic(clinic.addressId).pipe(map(p => p.data), take(1))
-        ));
-      }),
+    this.patientTrigger.pipe(
+      switchMap(addressId => this.patientService.getAllPatientsForClinic(addressId)),
+      map(r => r.data),
       takeUntil(this.unsubscribe$)
     ).subscribe(res => {
       this.patients = res;
-      this.patients.forEach(group => group.sort((a, b) => b.createdOn - a.createdOn));
+      this.patients.sort((a, b) => b.createdOn - a.createdOn);
       this.filterPatientList();
     });
   }
@@ -103,7 +116,6 @@ export class AgentComponent extends Base implements OnInit {
       .pipe(
         map(res => res.data.clinicDetails),
         switchMap(clinics => {
-
           return forkJoin([
             this.clinicService.getSelectedPracticeCodes(clinics[0].addressId).pipe(map(r => r.data), take(1)),
             this.insuranceService.getPracticeCodes().pipe(take(1))

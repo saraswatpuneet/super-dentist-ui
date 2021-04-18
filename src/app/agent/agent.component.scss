@@ -11,6 +11,34 @@
   height: 100%;
   overflow: hidden;
 
+  .selected-clinic {
+    padding-bottom: 24px;
+    cursor: pointer;
+
+    h3 {
+      margin-bottom: 0;
+    }
+
+    .sub {
+      opacity: 0.5;
+    }
+
+    .sd-input {
+      margin-top: 12px;
+    }
+  }
+  
+  .e-list-item {
+    border-top: 1px solid rgba(grey, 0.5);
+    position: relative;
+    padding: 16px 8px;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(grey, 0.2);
+    }
+  }
+
   .darken {
     font-weight: 500;
   }

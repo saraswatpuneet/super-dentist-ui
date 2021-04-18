@@ -1,13 +1,31 @@
 <div class="agent" fxLayout="row">
   <div class="patients">
     <mat-card class="c-card">
-      <div *ngFor="let clinic of clinics; let i = index">
-        <div fxLayout="row" fxLayoutAlign=" start">
-          <h3 fxFlex>{{clinic.name}}</h3>
+      <div class="e-list">
+        <div *ngIf="selectedClinic" class="selected-clinic">
+          <div (click)="clearAll()">
+            <h3>{{selectedClinic?.name}}</h3>
+            <div class="sub">{{selectedClinic?.address}}</div>
+          </div>
+          <div class="sd-input">
+            <input type="text" placeholder="Search for a patient" [(ngModel)]="patientFilter"
+              (keyup)="filterPatientList()">
+          </div>
         </div>
-        <div [ngClass]="{'active': selectedPatient?.patientId === patient.patientId}"
-          (click)="selectPatient(patient, clinic.addressId)" class="patient-items"
-          *ngFor="let patient of filteredPatients[i]" fxLayout="column">
+        <h3 *ngIf="!selectedClinic">Clinics</h3>
+        <ng-container *ngIf="!selectedClinic">
+          <div class="e-list-item" (click)="getPatients(clinic)"
+            [ngClass]="{'active-clinic': selectedClinic?.addressId === clinic.addressId}"
+            *ngFor="let clinic of clinics">
+            <div class="clinic-name">{{clinic.name}}</div>
+            <div class="clinic-address">{{clinic.address}}</div>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="patient-list" *ngIf="selectedClinic">
+        <div [ngClass]="{'active': selectedPatient?.patientId === patient.patientId}" (click)="selectPatient(patient)"
+          class="patient-items" *ngFor="let patient of filteredPatients" fxLayout="column">
           <app-patient-list-item [patient]="patient"></app-patient-list-item>
         </div>
       </div>
