@@ -3,9 +3,12 @@
     <mat-card class="c-card">
       <div class="e-list">
         <div *ngIf="selectedClinic" class="selected-clinic">
-          <div (click)="clearAll()">
-            <h3>{{selectedClinic?.name}}</h3>
-            <div class="sub">{{selectedClinic?.address}}</div>
+          <div (click)="clearAll()" fxLayoutAlign=" center" fxLayout="row">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+            <div fxLayout="column">
+              <h3>{{selectedClinic?.name}}</h3>
+              <div class="sub">{{selectedClinic?.address}}</div>
+            </div>
           </div>
           <div class="sd-input">
             <input type="text" placeholder="Search for a patient" [(ngModel)]="patientFilter"
