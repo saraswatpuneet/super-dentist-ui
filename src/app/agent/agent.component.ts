@@ -91,6 +91,7 @@ export class AgentComponent extends Base implements OnInit {
 
   selectPatient(patient: any): void {
     this.selectedPatient = patient;
+    this.addressId = this.selectedClinic.addressId;
   }
 
   filterPatientList(): void {
