@@ -1,0 +1,40 @@
+<div class="code-inputs" fxLayout="column">
+  <table>
+    <tr>
+      <th></th>
+      <th>Fixed</th>
+      <th>Min</th>
+      <th>Max</th>
+    </tr>
+
+    <ng-container class="breakdowns" [formGroup]="groups.at(i)"
+      *ngFor="let breakDownKey of codes?.breakDownKeys; let i = index">
+      <ng-container [formGroupName]="breakDownKey">
+        <tr>
+          <td>
+            <p>{{breakDownKey}} {{codes.breakDowns[breakDownKey]?.label?.toLowerCase()}}</p>
+          </td>
+
+          <td>
+            <select formControlName="fixed">
+              <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
+            </select>
+          </td>
+
+          <td>
+            <select formControlName="min">
+              <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
+            </select>
+          </td>
+
+          <td>
+            <select formControlName="max">
+              <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
+            </select>
+          </td>
+        </tr>
+      </ng-container>
+    </ng-container>
+
+  </table>
+</div>

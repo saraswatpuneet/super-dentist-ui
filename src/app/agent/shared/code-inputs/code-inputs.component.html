@@ -1,106 +1,86 @@
-<div class="code-inputs" fxLayout="column">
-  <div class="breakdowns" [formGroup]="groups.at(i)" *ngFor="let breakDownKey of codes?.breakDownKeys; let i = index">
-    <header fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="12px">
-      <p fxFlex>{{breakDownKey}} {{codes.breakDowns[breakDownKey]?.label?.toLowerCase()}}</p>
-
-      <ng-container [formGroupName]="breakDownKey">
-        <div fxFlex="90px" class="sd-input">
-          <label>Fixed</label>
-          <select formControlName="fixed">
-            <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
-          </select>
-        </div>
-
-        <span>Or</span>
-        <div fxFlex="90px" class="sd-input">
-          <label>Min</label>
-          <select formControlName="min">
-            <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
-          </select>
-        </div>
-        <span>-</span>
-        <div fxFlex="90px" class="sd-input">
-          <label>Max</label>
-          <select formControlName="max">
-            <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
-          </select>
-        </div>
-      </ng-container>
-    </header>
-    <div class="sub-breakdown">
-      <div formGroupName="codes" *ngFor="let subKey of codes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
+<div class="code-inputs">
+  <table>
+    <tr>
+      <th>
+        <div>Code</div>
+      </th>
+      <th>
+        <div>Coverage</div>
+      </th>
+      <th>
+        <div>Numerator</div>
+      </th>
+      <th>
+        <div>Denominator</div>
+      </th>
+      <th style="min-width:70px">
+        <div>Unit</div>
+      </th>
+      <th style="min-width:68px">
+        <div>Min age</div>
+      </th>
+      <th style="min-width:68px">
+        <div>Max age</div>
+      </th>
+      <th style="min-width:100px">
+        <div>Shared codes</div>
+      </th>
+      <th style="min-width: 220px">Need proof of medical necessity</th>
+    </tr>
+    <ng-container class="breakdowns" [formGroup]="groups.at(i)"
+      *ngFor="let breakDownKey of codes?.breakDownKeys; let i = index">
+      <ng-container formGroupName="codes"
+        *ngFor="let subKey of codes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
         <ng-container [formGroupName]="subKey">
-          <div fxLayout="column">
-            <p>{{subKey}} - {{codes?.breakDowns[breakDownKey]?.breakDowns[subKey]?.label}}</p>
-
-            <div fxFlex="0 0 auto" fxLayout="column" fxLayoutGap="16px">
-              <div fxLayout="row" fxLayoutGap="12px" fxLayoutAlign=" start">
-                <div class="sd-input" fxFlex="105px">
-                  <label>Coverage</label>
-                  <select formControlName="percent">
-                    <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
-                  </select>
-                </div>
-                <ng-container formGroupName="ageRange">
-                  <div class="sd-input" fxFlex="120px">
-                    <label>Min age</label>
-                    <input type="number" formControlName="min">
-                  </div>
-                  <div class="sd-input" fxFlex="90px">
-                    <label>Max age</label>
-                    <input type="text" formControlName="max">
-                  </div>
-                </ng-container>
-                <mat-form-field appearance="none">
-                  <mat-label>Shared codes</mat-label>
-                  <mat-select multiple (selectionChange)="checkOtherOptions($event, subKey)"
-                    formControlName="sharedCodes">
-                    <ng-container *ngFor="let breakDownKeySub of codes?.breakDownKeys">
-                      <ng-container *ngFor="let subtitlesAreBetter of codes?.breakDowns[breakDownKeySub].breakDownKeys">
-                        <mat-option *ngIf="subtitlesAreBetter !== subKey" [value]="subtitlesAreBetter">
-                          {{subtitlesAreBetter}}
-                        </mat-option>
-                      </ng-container>
+          <tr>
+            <td>
+              <p>{{subKey}} - {{codes?.breakDowns[breakDownKey]?.breakDowns[subKey]?.label}}</p>
+            </td>
+            <td>
+              <select formControlName="percent">
+                <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
+              </select>
+            </td>
+            <ng-container formGroupName="frequency">
+              <td> <input formControlName="numerator" type="number"> </td>
+              <td> <input type="number" formControlName="denominator"> </td>
+              <td>
+                <select formControlName="unit">
+                  <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>
+                </select>
+              </td>
+            </ng-container>
+            <ng-container formGroupName="ageRange">
+              <td> <input type="number" formControlName="min"> </td>
+              <td> <input type="number" formControlName="max"> </td>
+            </ng-container>
+            <td class="shared-code">
+              <mat-form-field appearance="none">
+                <mat-label></mat-label>
+                <mat-select multiple (selectionChange)="checkOtherOptions($event, subKey)"
+                  formControlName="sharedCodes">
+                  <ng-container *ngFor="let breakDownKeySub of codes?.breakDownKeys">
+                    <ng-container *ngFor="let subtitlesAreBetter of codes?.breakDowns[breakDownKeySub].breakDownKeys">
+                      <mat-option *ngIf="subtitlesAreBetter !== subKey" [value]="subtitlesAreBetter">
+                        {{subtitlesAreBetter}}
+                      </mat-option>
                     </ng-container>
-                  </mat-select>
-                </mat-form-field>
-              </div>
+                  </ng-container>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="medicalNecessity">
+                <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+                  {{clause.label}}
+                </mat-radio-button>
+              </mat-radio-group>
+            </td>
 
-              <div fxLayout="row" fxLayoutGap="12px" fxLayoutAlign=" start">
-                <ng-container formGroupName="frequency">
-                  <div class="sd-input" fxFlex="105px">
-                    <label>Numerator</label>
-                    <input formControlName="numerator" type="number">
-                  </div>
-                  <div class="sd-input" fxFlex="120px">
-                    <label>Denominator</label>
-                    <input type="number" formControlName="denominator">
-                  </div>
-                  <div class="sd-input" fxFlex="90px">
-                    <label>Unit</label>
-                    <select formControlName="unit">
-                      <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>
-                    </select>
-                  </div>
-                </ng-container>
-                <div fxLayout="column" fxFlex>
-                  <div class="sd-input radio">
-                    <label>Proof of medical necessity needed?</label>
-
-                    <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="medicalNecessity">
-                      <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
-                        {{clause.label}}
-                      </mat-radio-button>
-                    </mat-radio-group>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
+          </tr>
 
         </ng-container>
-      </div>
-    </div>
-  </div>
+      </ng-container>
+    </ng-container>
+  </table>
 </div>

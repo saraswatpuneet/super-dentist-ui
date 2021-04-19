@@ -194,7 +194,16 @@
 
     <mat-card fxLayout="column" fxFlex="0 0 auto">
       <div fxLayout="column" fxFlex="0 0 auto">
-        <h3>Dental Codes</h3>
+        <h3>Categories</h3>
+        <app-code-category *ngIf="agentForm.get('codes')" [codes]="savedCodes" [groups]="agentForm.get('codes')"
+          [increments]="increments" [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
+        </app-code-category>
+      </div>
+    </mat-card>
+
+    <mat-card fxLayout="column" fxFlex="0 0 auto">
+      <div fxLayout="column" fxFlex="0 0 auto">
+        <h3>Code Specific</h3>
         <app-code-inputs *ngIf="agentForm.get('codes')" [codes]="savedCodes" [groups]="agentForm.get('codes')"
           [increments]="increments" [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
         </app-code-inputs>
