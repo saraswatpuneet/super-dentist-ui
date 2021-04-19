@@ -79,7 +79,7 @@ export class AgentComponent extends Base implements OnInit {
   }
 
   clearAll(): void {
-    this.selectPatient = undefined;
+    this.selectedPatient = undefined;
     this.patients = undefined;
     this.selectedClinic = undefined;
   }
