@@ -21,14 +21,8 @@
         </div>
 
         <div class="sd-input">
-          <label>Eligibility start date</label>
-          <div fxLayout="row">
-            <button mat-icon-button (click)="picker1.open()">
-              <mat-icon>today</mat-icon>
-            </button>
-            <input disabled [matDatepicker]="picker1" type="text" formControlName="eligibilityStartDate">
-            <mat-datepicker disabled="false" #picker1></mat-datepicker>
-          </div>
+          <label>Eligibility start date (MM/DD/YYYY)</label>
+          <input type="text" formControlName="eligibilityStartDate" mask='00/00/0000' [showMaskTyped]="true">
         </div>
 
         <div class="sd-input">
@@ -256,14 +250,8 @@
             <input type="text" formControlName="verifiedBy">
           </div>
           <div class="sd-input" fxFlex>
-            <label>Verified date</label>
-            <div fxLayout="row">
-              <button mat-icon-button (click)="picker2.open()">
-                <mat-icon>today</mat-icon>
-              </button>
-              <input disabled [matDatepicker]="picker2" type="text" formControlName="verifiedDate">
-              <mat-datepicker disabled="false" #picker2></mat-datepicker>
-            </div>
+            <label>Verified date (MM/DD/YYYY)</label>
+            <input type="text" formControlName="verifiedDate" mask='00/00/0000' [showMaskTyped]="true">
           </div>
         </div>
       </ng-container>

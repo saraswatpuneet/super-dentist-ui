@@ -17,13 +17,7 @@
       </button>
 
       <div class="sd-input" fxFlex>
-        <div fxLayout="row">
-          <button mat-icon-button (click)="picker.open()">
-            <mat-icon>today</mat-icon>
-          </button>
-          <input disabled [matDatepicker]="picker" type="text" formControlName="date">
-          <mat-datepicker disabled="false" #picker></mat-datepicker>
-        </div>
+        <input type="text" formControlName="date" mask='00/00/0000' [showMaskTyped]="true">
       </div>
 
       <div class="sd-input" fxFlex>
