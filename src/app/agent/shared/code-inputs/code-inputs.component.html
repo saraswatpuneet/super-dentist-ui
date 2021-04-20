@@ -4,29 +4,29 @@
       <th>
         <div>Code</div>
       </th>
-      <th>
+      <th style="width: 70px;">
         <div>Coverage</div>
       </th>
-      <th>
+      <th style="width: 70px;">
         <div>Numerator</div>
       </th>
-      <th>
+      <th style="width: 70px;">
         <div>Denominator</div>
       </th>
       <th style="min-width:70px">
         <div>Unit</div>
       </th>
-      <th style="min-width:68px">
+      <th style="min-width:68px; width: 68px;">
         <div>Min age</div>
       </th>
-      <th style="min-width:68px">
+      <th style="min-width:68px; width: 68px;">
         <div>Max age</div>
       </th>
-      <th style="min-width:100px">
+      <th style="min-width:100px; width: 100px;">
         <div>Shared codes</div>
       </th>
-      <th style="min-width: 220px">Need proof of medical necessity</th>
-      <th style="min-width: 200px">Notes?</th>
+      <th style="width:140px">Medical necessity?</th>
+      <th style="min-width: 200px; width: 200px">Notes?</th>
     </tr>
     <ng-container class="breakdowns" [formGroup]="groups.at(i)"
       *ngFor="let breakDownKey of codes?.breakDownKeys; let i = index">

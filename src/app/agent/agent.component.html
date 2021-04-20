@@ -1,5 +1,5 @@
 <div class="agent" fxLayout="row">
-  <div class="patients">
+  <div class="patients" *ngIf="!selectedPatient">
     <mat-card class="c-card">
       <div class="e-list">
         <div *ngIf="selectedClinic" class="selected-clinic">
