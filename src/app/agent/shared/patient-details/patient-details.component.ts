@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { take } from 'rxjs/operators';
 
 import { PatientService } from 'src/app/shared/services/patient.service';
@@ -9,10 +9,11 @@ import { PatientStatus } from 'src/app/shared/services/patient';
   templateUrl: './patient-details.component.html',
   styleUrls: ['./patient-details.component.scss']
 })
-export class PatientDetails2Component implements OnChanges, OnInit {
+export class PatientDetails2Component implements OnInit {
   @Input() patient: any;
   @Input() months: any = [];
   @Output() statusChange = new EventEmitter<any>();
+  @Output() closePatient = new EventEmitter();
   status: PatientStatus[] = [
     { value: 'pending', label: 'Pending' },
     { value: 'active', label: 'Active' },
@@ -25,11 +26,6 @@ export class PatientDetails2Component implements OnChanges, OnInit {
   selectedStatusValue: string;
 
   constructor(private patientService: PatientService) { }
-
-  ngOnChanges(sc: SimpleChanges): void {
-    if (sc.patient) {
-    }
-  }
 
   ngOnInit(): void {
     if (this.patient.status && this.patient.status.value) {
@@ -44,5 +40,4 @@ export class PatientDetails2Component implements OnChanges, OnInit {
     this.patientService.updateStatus(this.patient.patientId, status).pipe(take(1)).subscribe();
     this.patient.status = status;
   }
-
 }

@@ -37,7 +37,8 @@
 
   <div class="patient-details" fxFlex fxLayout="column" fxLayoutGap="24px">
     <ng-container *ngIf="selectedPatient">
-      <app-patient-details2 [months]="months" [patient]="selectedPatient"></app-patient-details2>
+      <app-patient-details2 (closePatient)="selectedPatient = undefined" [months]="months" [patient]="selectedPatient">
+      </app-patient-details2>
       <app-agent-input [addressId]="addressId" [patient]="selectedPatient"></app-agent-input>
     </ng-container>
   </div>
