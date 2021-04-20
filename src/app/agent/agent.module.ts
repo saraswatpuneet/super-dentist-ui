@@ -11,6 +11,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { AgentComponent } from './agent.component';
@@ -39,6 +40,7 @@ import { CodeCategoryComponent } from './shared/code-category/code-category.comp
     MatCardModule,
     MatCheckboxModule,
     MatButtonToggleModule,
+    MatTabsModule,
     MatDatepickerModule,
     MatIconModule,
     MatProgressBarModule,

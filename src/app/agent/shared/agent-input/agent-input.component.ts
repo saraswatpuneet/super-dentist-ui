@@ -149,36 +149,8 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       this.codesHistory = codesHistory;
       this.agentForm.reset();
       this.initForm();
-
-      const codeForms: FormArray = this.agentForm.get('codes') as FormArray;
-      let codeList = [];
-      codes.breakDownKeys.forEach(k => codeList = [...codeList, ...codes.breakDowns[k].breakDownKeys]);
-      this.codeList = codeList;
-      codes.breakDownKeys.forEach(k => {
-        const codeInputs = this.fb.group({});
-
-        codes.breakDowns[k].breakDownKeys.forEach(sk => {
-          codeInputs.addControl(sk, this.fb.group({
-            percent: [0],
-            frequency: this.fb.group({
-              numerator: [''],
-              denominator: [''],
-              unit: ['year'],
-            }),
-            ageRange: this.fb.group({
-              min: [''],
-              max: ['']
-            }),
-            medicalNecessity: ['no'],
-            sharedCodes: []
-          }));
-        });
-
-        codeForms.controls.push(this.fb.group({
-          [k]: this.fb.group({ fixed: [], min: [], max: [] }),
-          codes: codeInputs
-        }));
-      });
+      this.setCodes('codes', codes);
+      this.setCodes('medicalCodes', codes);
 
       const historyGroup: FormGroup = this.agentForm.get('history') as FormGroup;
       codesHistory.breakDownKeys.forEach(k => {
@@ -217,6 +189,38 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       if (this.agentForm.get('patientCoverage').get('missingToothClause').value === 'yes') {
         this.showMissingToothClause = true;
       }
+    });
+  }
+
+  private setCodes(groupName: string, codes: DentalBreakDowns): void {
+    const codeForms: FormArray = this.agentForm.get(groupName) as FormArray;
+    let codeList = [];
+    codes.breakDownKeys.forEach(k => codeList = [...codeList, ...codes.breakDowns[k].breakDownKeys]);
+    this.codeList = codeList;
+    codes.breakDownKeys.forEach(k => {
+      const codeInputs = this.fb.group({});
+
+      codes.breakDowns[k].breakDownKeys.forEach(sk => {
+        codeInputs.addControl(sk, this.fb.group({
+          percent: [0],
+          frequency: this.fb.group({
+            numerator: [''],
+            denominator: [''],
+            unit: ['year'],
+          }),
+          ageRange: this.fb.group({
+            min: [''],
+            max: ['']
+          }),
+          medicalNecessity: ['no'],
+          sharedCodes: []
+        }));
+      });
+
+      codeForms.controls.push(this.fb.group({
+        [k]: this.fb.group({ fixed: [], min: [], max: [] }),
+        codes: codeInputs
+      }));
     });
   }
 
@@ -292,6 +296,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         }),
       }),
       codes: this.fb.array([]),
+      medicalCodes: this.fb.array([]),
       history: this.fb.group({}),
       remarks: this.fb.group({
         insuranceRepresentativeName: [],
