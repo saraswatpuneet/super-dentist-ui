@@ -103,10 +103,9 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       value.remarks.verifiedDate = value.remarks.verifiedDate.valueOf();
     }
     this.processing = true;
-    console.log(value);
-    // this.patientService.setPatientNotes(this.patient.patientId, value)
-    //   .pipe(take(1))
-    //   .subscribe(res => this.processing = false);
+    this.patientService.setPatientNotes(this.patient.patientId, value)
+      .pipe(take(1))
+      .subscribe(res => this.processing = false);
   }
 
   toggleClause(yes: string): void {
