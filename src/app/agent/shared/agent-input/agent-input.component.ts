@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { forkJoin, Subject, of } from 'rxjs';
-import { take, map, switchMap, takeUntil, catchError } from 'rxjs/operators';
+import { take, map, switchMap, takeUntil, catchError, tap } from 'rxjs/operators';
 
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { Base } from 'src/app/shared/base/base-component';
@@ -64,6 +64,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   codesHistory: DentalBreakDowns = this.newSavedCodes();
   increments = ['', 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
   codeList = [];
+  allCodes: DentalBreakDowns = this.newSavedCodes();
   private triggerPatient = new Subject<void>();
 
   constructor(
@@ -86,7 +87,12 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   }
 
   submit(): void {
-    const value = { ...this.agentForm.value, ...{ codes: (this.agentForm.controls.codes as FormArray).controls.map(c => c.value) } };
+    const value = {
+      ...this.agentForm.value,
+      ...{ codes: (this.agentForm.controls.codes as FormArray).controls.map(c => c.value) },
+      ...{ medicalCodes: (this.agentForm.controls.medicalCodes as FormArray).controls.map(c => c.value) }
+    };
+
     Object.keys(value.history).forEach(key => {
       value.history[key].forEach((history, index) => {
         if (history.date) {
@@ -134,7 +140,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     this.triggerPatient.pipe(
       switchMap(() => {
         return forkJoin([
-          this.insuranceService.getPracticeCodes().pipe(take(1)),
+          this.insuranceService.getPracticeCodes().pipe(take(1), tap(allCodes => this.allCodes = allCodes)),
           this.clinicService.getSelectedPracticeCodes(this.addressId).pipe(map(r => r.data), take(1)),
           this.clinicService.getSelectedPracticeCodesHistory(this.addressId).pipe(map(r => r.data), take(1)),
           this.patientService.getPatientNotes(this.patient.patientId).pipe(map(r => r.data), catchError(() => of(undefined)), take(1))
@@ -149,6 +155,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       this.codesHistory = codesHistory;
       this.agentForm.reset();
       this.initForm();
+
       this.setCodes('codes', codes);
       this.setCodes('medicalCodes', codes);
 
@@ -213,7 +220,8 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
             max: ['']
           }),
           medicalNecessity: ['no'],
-          sharedCodes: []
+          sharedCodes: [],
+          notes: ['']
         }));
       });
 

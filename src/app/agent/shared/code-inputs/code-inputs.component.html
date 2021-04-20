@@ -26,6 +26,7 @@
         <div>Shared codes</div>
       </th>
       <th style="min-width: 220px">Need proof of medical necessity</th>
+      <th style="min-width: 200px">Notes?</th>
     </tr>
     <ng-container class="breakdowns" [formGroup]="groups.at(i)"
       *ngFor="let breakDownKey of codes?.breakDownKeys; let i = index">
@@ -59,8 +60,9 @@
                 <mat-label></mat-label>
                 <mat-select multiple (selectionChange)="checkOtherOptions($event, subKey)"
                   formControlName="sharedCodes">
-                  <ng-container *ngFor="let breakDownKeySub of codes?.breakDownKeys">
-                    <ng-container *ngFor="let subtitlesAreBetter of codes?.breakDowns[breakDownKeySub].breakDownKeys">
+                  <ng-container *ngFor="let breakDownKeySub of allCodes?.breakDownKeys">
+                    <ng-container
+                      *ngFor="let subtitlesAreBetter of allCodes?.breakDowns[breakDownKeySub].breakDownKeys">
                       <mat-option *ngIf="subtitlesAreBetter !== subKey" [value]="subtitlesAreBetter">
                         {{subtitlesAreBetter}}
                       </mat-option>
@@ -76,7 +78,7 @@
                 </mat-radio-button>
               </mat-radio-group>
             </td>
-
+            <td> <input type="text" formControlName="notes"> </td>
           </tr>
 
         </ng-container>

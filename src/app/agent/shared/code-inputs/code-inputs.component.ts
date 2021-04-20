@@ -14,6 +14,7 @@ export class CodeInputsComponent implements OnInit {
   @Input() groups: FormArray;
   @Input() codes: DentalBreakDowns;
   @Input() codeList = [];
+  @Input() allCodes: DentalBreakDowns;
 
   constructor() { }
 
@@ -21,8 +22,6 @@ export class CodeInputsComponent implements OnInit {
   }
 
   checkOtherOptions($event, selectThatChanged: string): void {
-    // console.log($event, selectThatChanged, this.groups);
-
     // removes key from all codes
     this.codeList.forEach(key => {
       this.groups.controls.forEach((group: FormGroup) => {
@@ -54,6 +53,5 @@ export class CodeInputsComponent implements OnInit {
         }
       });
     });
-
   }
 }

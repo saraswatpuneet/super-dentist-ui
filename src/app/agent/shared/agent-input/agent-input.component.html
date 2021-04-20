@@ -206,12 +206,14 @@
         <h3>Code Specific</h3>
         <mat-tab-group animationDuration="150ms">
           <mat-tab label="Dental">
-            <app-code-inputs *ngIf="agentForm.get('codes')" [codes]="savedCodes" [groups]="agentForm.get('codes')"
-              [increments]="increments" [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
+            <app-code-inputs *ngIf="agentForm.get('codes')" [allCodes]="allCodes" [codes]="savedCodes"
+              [groups]="agentForm.get('codes')" [increments]="increments" [codeList]="codeList"
+              [unitOptions]="unitOptions" [radioOptions]="radioOptions">
             </app-code-inputs>
           </mat-tab>
+
           <mat-tab label="Medical">
-            <app-code-inputs *ngIf="agentForm.get('medicalCodes')" [codes]="savedCodes"
+            <app-code-inputs *ngIf="agentForm.get('medicalCodes')" [allCodes]="allCodes" [codes]="savedCodes"
               [groups]="agentForm.get('medicalCodes')" [increments]="increments" [codeList]="codeList"
               [unitOptions]="unitOptions" [radioOptions]="radioOptions">
             </app-code-inputs>
