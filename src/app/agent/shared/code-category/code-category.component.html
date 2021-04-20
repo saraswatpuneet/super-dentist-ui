@@ -16,19 +16,19 @@
           </td>
 
           <td>
-            <select formControlName="fixed">
+            <select formControlName="fixed" (change)="changeFixed(i, breakDownKey)">
               <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
             </select>
           </td>
 
           <td>
-            <select formControlName="min">
+            <select formControlName="min" (change)="changeRange(i, breakDownKey)">
               <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
             </select>
           </td>
 
           <td>
-            <select formControlName="max">
+            <select formControlName="max" (change)="changeRange(i, breakDownKey)">
               <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
             </select>
           </td>
