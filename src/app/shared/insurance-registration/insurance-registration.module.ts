@@ -7,6 +7,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgxMaskModule } from 'ngx-mask';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -20,6 +21,7 @@ import { MedicalInsuranceComponent } from './shared/medical-insurance/medical-in
   imports: [
     CommonModule,
     FormsModule,
+    MatAutocompleteModule,
     FlexLayoutModule,
     MatButtonModule,
     MatRadioModule,

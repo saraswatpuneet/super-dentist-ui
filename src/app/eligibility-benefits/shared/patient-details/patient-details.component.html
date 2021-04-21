@@ -61,7 +61,7 @@
       <p>{{patientCoverage?.groupName}}</p>
     </div>
     <div fxLayout="row">
-      <p fxFlex>Group Number</p>
+      <p fxFlex>Group number</p>
       <p>{{patientCoverage?.groupNumber}}</p>
     </div>
     <div fxLayout="row">
@@ -93,11 +93,11 @@
       <p>{{patientCoverage?.deductibleIndividual}}</p>
     </div>
     <div fxLayout="row">
-      <p fxFlex>Deductible met Amount (Family)</p>
+      <p fxFlex>Deductible met amount (Family)</p>
       <p>{{patientCoverage?.deductibleMetAmountFamily}}</p>
     </div>
     <div fxLayout="row">
-      <p fxFlex>Deductible met Amount (Individual)</p>
+      <p fxFlex>Deductible met amount (Individual)</p>
       <p>{{patientCoverage?.deductibleMetAmountIndividual}}</p>
     </div>
     <div fxLayout="row">
@@ -134,7 +134,7 @@
       <p>{{patientCoverage?.missingToothClause}}</p>
     </div>
     <div *ngIf="patientCoverage?.missingToothClause === 'yes'" fxLayout="row">
-      <p fxFlex>Tooth Replacement Clause</p>
+      <p fxFlex>Tooth replacement clause</p>
       <p>
         {{patientCoverage?.toothReplacementClause.numerator}} / {{patientCoverage?.toothReplacementClause.denominator}}
         {{patientCoverage?.toothReplacementClause.unit}}.
