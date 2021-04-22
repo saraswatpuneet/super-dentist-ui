@@ -1,4 +1,10 @@
 <div class="agent-input">
+  <div class="m-20">
+    <app-patient-details2 (closePatient)="closePatient.emit()" [processing]="processing" (save)="onSave()"
+      [months]="months" [patient]="patient">
+    </app-patient-details2>
+  </div>
+
   <form [formGroup]="agentForm" fxLayout="column" fxLayoutGap="20px">
     <ng-container formGroupName="patientCoverage">
       <mat-card fxLayout="column" fxFlex="0 0 auto">
@@ -143,7 +149,7 @@
       </mat-card>
 
       <mat-card fxLayout="column" fxFlex="0 0 auto">
-        <h3>Tooth replacement clause</h3>
+        <h3>Missing tooth clause</h3>
         <div class="sd-input radio">
           <label>Missing tooth clause</label>
           <mat-radio-group (change)="toggleClause($event.value)" color="primary" fxLayoutGap="20px"
@@ -259,14 +265,5 @@
         </div>
       </ng-container>
     </mat-card>
-
-    <div class="actions">
-      <button mat-stroked-button [disabled]="!patient" color="primary" (click)="submit()">
-        <span fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
-          <mat-progress-spinner *ngIf="processing" mode="indeterminate" diameter="24"></mat-progress-spinner>
-          <span>{{processing ? 'Saving' : 'Save form'}}</span>
-        </span>
-      </button>
-    </div>
   </form>
 </div>

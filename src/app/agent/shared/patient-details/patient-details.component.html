@@ -1,12 +1,19 @@
 <mat-card *ngIf="patient" fxLayout="column" class="patient-details">
-  <div fxLayout="row">
-    <h3 class="back" fxFlex fxLayoutGap="8px" fxLayout="row" fxLayoutAlign=" center" (click)="closePatient.emit()">
-      <mat-icon>keyboard_arrow_left</mat-icon>
-      <span>{{patient.firstName}} {{patient.lastName}}</span>
-    </h3>
+  <div class="actions" fxLayout="row" fxLayoutAlign="space-between " fxLayoutGap="12px">
+    <button class="back" mat-stroked-button (click)="closePatient.emit()">
+      <mat-icon>keyboard_arrow_left</mat-icon> Back
+    </button>
 
-    <div>
+    <div fxLayout="row" fxLayoutGap="12px">
+      <button fxFlex="0 0 auto" mat-stroked-button [disabled]="!patient || processing" color="primary"
+        (click)="save.emit()">
+        <span fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
+          <mat-progress-spinner *ngIf="processing" mode="indeterminate" diameter="24"></mat-progress-spinner>
+          <span>{{processing ? 'Saving' : 'Save form'}}</span>
+        </span>
+      </button>
       <div class="sd-input">
+        <label>Status</label>
         <select [(ngModel)]="selectedStatusValue" (change)="updateStatus()">
           <option *ngFor="let stat of status; let i = index" [value]="stat.value">{{stat.label}}
           </option>
@@ -14,6 +21,9 @@
       </div>
     </div>
   </div>
+  <h3>
+    {{patient.firstName}} {{patient.lastName}}
+  </h3>
   <header fxLayout="row" fxLayoutAlign=" start">
     <div fxLayout="column">
       <div *ngIf="patient.dob">

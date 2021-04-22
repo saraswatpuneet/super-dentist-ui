@@ -1,11 +1,18 @@
 .patient-details {
 
+  .actions {
+    button {
+      height: 100%;
+    }
+  }
+
   .back {
     transition: 0.3s;
     cursor: pointer;
+    opacity: 0.5;
 
     &:hover {
-      background: rgba(grey, 0.2);
+      opacity: 1;
     }
   }
   .sub-title {

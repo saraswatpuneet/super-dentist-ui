@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { forkJoin, Subject, of } from 'rxjs';
 import { take, map, switchMap, takeUntil, catchError, tap } from 'rxjs/operators';
@@ -18,6 +18,7 @@ import * as moment from 'moment';
 export class AgentInputComponent extends Base implements OnChanges, OnInit {
   @Input() patient: any;
   @Input() addressId = '';
+  @Output() closePatient = new EventEmitter();
   showMissingToothClause = false;
   processing = false;
   agentForm: FormGroup;
@@ -86,7 +87,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     this.triggerPatient.next();
   }
 
-  submit(): void {
+  onSave(): void {
     const value = {
       ...this.agentForm.value,
       ...{ codes: (this.agentForm.controls.codes as FormArray).controls.map(c => c.value) },

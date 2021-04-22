@@ -79,8 +79,7 @@
   </div>
 
   <div class="patient-details" *ngIf="selectedPatient" fxLayout="column" fxLayoutGap="24px">
-    <app-patient-details2 (closePatient)="selectedPatient = undefined" [months]="months" [patient]="selectedPatient">
-    </app-patient-details2>
-    <app-agent-input [addressId]="addressId" [patient]="selectedPatient"></app-agent-input>
+    <app-agent-input [addressId]="addressId" (closePatient)="selectedPatient = undefined" [patient]="selectedPatient">
+    </app-agent-input>
   </div>
 </div>

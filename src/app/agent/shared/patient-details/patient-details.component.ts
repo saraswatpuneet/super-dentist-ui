@@ -12,8 +12,10 @@ import { PatientStatus } from 'src/app/shared/services/patient';
 export class PatientDetails2Component implements OnInit {
   @Input() patient: any;
   @Input() months: any = [];
+  @Input() processing = false;
   @Output() statusChange = new EventEmitter<any>();
   @Output() closePatient = new EventEmitter();
+  @Output() save = new EventEmitter();
   status: PatientStatus[] = [
     { value: 'pending', label: 'Pending' },
     { value: 'active', label: 'Active' },
