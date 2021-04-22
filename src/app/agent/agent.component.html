@@ -15,7 +15,6 @@
               (keyup)="filterPatientList()">
           </div>
         </div>
-        <h3 *ngIf="!selectedClinic">Clinics</h3>
         <ng-container *ngIf="!selectedClinic">
           <table mat-table [dataSource]="clinics" class="mat-elevation-z8">
 

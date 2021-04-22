@@ -36,36 +36,39 @@
         <div fxLayout="row" fxLayoutGap="12px">
           <div class="sd-input" fxFlex>
             <label>Annual maximum</label>
-            <input type="number" formControlName="annualMaximum">
+            <input type="text" prefix="$" mask="separator.2" thousandSeparator="," formControlName="annualMaximum">
           </div>
 
           <div class="sd-input" fxFlex>
             <label>Annual used amount</label>
-            <input type="number" formControlName="annualUsedAmount">
+            <input type="text" prefix="$" mask="separator.2" thousandSeparator="," formControlName="annualUsedAmount">
           </div>
         </div>
 
         <div fxLayout="row" fxLayoutGap="12px">
           <div class="sd-input" fxFlex>
             <label>Deductible (Individual)</label>
-            <input type="number" formControlName="deductibleIndividual">
+            <input type="text" prefix="$" mask="separator.2" thousandSeparator=","
+              formControlName="deductibleIndividual">
           </div>
 
           <div class="sd-input" fxFlex>
             <label>Deductible (Family)</label>
-            <input type="number" formControlName="deductibleFamily">
+            <input type="text" prefix="$" mask="separator.2" thousandSeparator="," formControlName="deductibleFamily">
           </div>
         </div>
 
         <div fxLayout="row" fxLayoutGap="12px">
           <div class="sd-input" fxFlex>
             <label>Deductible met amount (Individual)</label>
-            <input type="number" formControlName="deductibleMetAmountIndividual">
+            <input type="text" prefix="$" mask="separator.2" thousandSeparator=","
+              formControlName="deductibleMetAmountIndividual">
           </div>
 
           <div class="sd-input" fxFlex>
             <label>Deductible met amount (Family)</label>
-            <input type="number" formControlName="deductibleMetAmountFamily">
+            <input type="text" prefix="$" mask="separator.2" thousandSeparator=","
+              formControlName="deductibleMetAmountFamily">
           </div>
         </div>
 
