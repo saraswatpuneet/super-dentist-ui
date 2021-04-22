@@ -14,6 +14,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 import { NgxMaskModule } from 'ngx-mask';
 
 import { AgentComponent } from './agent.component';
@@ -39,6 +40,7 @@ import { PatientStatusPillModule } from '../shared/patient-status-pill/patient-s
     CommonModule,
     FlexLayoutModule,
     FormsModule,
+    MatSortModule,
     MatTableModule,
     MatButtonModule,
     MatCardModule,

@@ -29,9 +29,9 @@ export class AgentComponent extends Base implements OnInit {
   displayedColumns: string[] = ['clinicName', 'address', 'phoneNumber'];
   patientColumns: string[] = ['name', 'birthday', 'carriers', 'status'];
   showInsurance = false;
-  clinics: any[];
   patientFilter = '';
   selectedClinic: any;
+  clinics: any[] = [];
   filteredPatients = [];
   selectedPatient: undefined;
   savedCodes: DentalBreakDowns = this.newSavedCodes();
