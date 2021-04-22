@@ -59,8 +59,8 @@ export class InsuranceRegistrationComponent extends Base implements OnInit {
   @Input() canCancel = false;
   @Input() referralId: string;
   @Input() clinics: any[];
+  @Input() dentalCompanies = [];
   @Output() cancelRegistration = new EventEmitter();
-  dentalCompanies = [];
   selectedClinic: any;
   insuranceForm: FormGroup;
   moreDental = false;
@@ -96,13 +96,7 @@ export class InsuranceRegistrationComponent extends Base implements OnInit {
       this.selectedClinic = this.clinics[0];
     }
     this.initForm();
-    this.insuranceService.getDentalInsurance().pipe(
-      map(r => r.data),
-      takeUntil(this.unsubscribe$)
-    )
-      .subscribe(r => {
-        this.dentalCompanies = r;
-      });
+
   }
 
   onCancel(): void {

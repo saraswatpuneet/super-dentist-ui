@@ -24,6 +24,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   selectedPatient = undefined;
   savedCodes: DentalBreakDowns = this.newSavedCodes();
   allCodes: DentalBreakDowns;
+  dentalCompanies = [];
   months = [
     { label: 'January', value: '1', },
     { label: 'Febuary', value: '2', },
@@ -49,6 +50,13 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   ) { super(); }
 
   ngOnInit(): void {
+    this.insuranceService.getDentalInsurance().pipe(
+      map(r => r.data),
+      takeUntil(this.unsubscribe$)
+    )
+      .subscribe(r => {
+        this.dentalCompanies = r;
+      });
     this.watchPatients();
     this.getClinicCodes();
     this.watchTriggerPatientGet();

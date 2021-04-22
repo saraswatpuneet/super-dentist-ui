@@ -10,19 +10,12 @@
 
   <div class="sd-input">
     <label>Select an insurance company</label>
-    <input type="text" formControlName="company" [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let company of filteredCompanies" (click)="selectCompany(company)">
-        {{company?.name}}
-      </mat-option>
-    </mat-autocomplete>
-    <!-- <label>Select an insurance company</label>
     <input type="text" formControlName="company">
     <div class="autocomplete">
       <div class="options" (click)="selectCompany(company)" *ngFor="let company of filteredCompanies">
         <p class="label">{{company?.name}}</p>
       </div>
-    </div> -->
+    </div>
   </div>
 
   <div class="sd-input">
