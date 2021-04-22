@@ -1,11 +1,31 @@
 <div class="agent-input">
-  <div class="m-20">
+  <mat-card class="c-card actions" fxLayout="row" fxLayoutAlign="space-between">
+    <button class="back" mat-stroked-button (click)="closePatient.emit()">
+      <mat-icon>keyboard_arrow_left</mat-icon> Back
+    </button>
+
+    <div fxLayout="row" fxLayoutGap="12px">
+      <button fxFlex="0 0 auto" mat-stroked-button [disabled]="!patient || processing" color="primary"
+        (click)="onSave()">
+        <span fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
+          <mat-progress-spinner *ngIf="processing" mode="indeterminate" diameter="24"></mat-progress-spinner>
+          <span>{{processing ? 'Saving' : 'Save form'}}</span>
+        </span>
+      </button>
+      <div class="sd-input">
+        <select [(ngModel)]="selectedStatusValue" (change)="updateStatus()">
+          <option *ngFor="let stat of status; let i = index" [value]="stat.value">{{stat.label}}
+          </option>
+        </select>
+      </div>
+    </div>
+  </mat-card>
+
+
+  <form [formGroup]="agentForm" class="m-20" fxLayout="column" fxLayoutGap="20px">
     <app-patient-details2 (closePatient)="closePatient.emit()" [processing]="processing" (save)="onSave()"
       [months]="months" [patient]="patient">
     </app-patient-details2>
-  </div>
-
-  <form [formGroup]="agentForm" fxLayout="column" fxLayoutGap="20px">
     <ng-container formGroupName="patientCoverage">
       <mat-card fxLayout="column" fxFlex="0 0 auto">
         <h3>Coverage</h3>

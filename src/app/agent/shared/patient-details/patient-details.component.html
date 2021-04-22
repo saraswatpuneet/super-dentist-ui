@@ -1,46 +1,22 @@
 <mat-card *ngIf="patient" fxLayout="column" class="patient-details">
-  <div class="actions" fxLayout="row" fxLayoutAlign="space-between " fxLayoutGap="12px">
-    <button class="back" mat-stroked-button (click)="closePatient.emit()">
-      <mat-icon>keyboard_arrow_left</mat-icon> Back
-    </button>
-
-    <div fxLayout="row" fxLayoutGap="12px">
-      <button fxFlex="0 0 auto" mat-stroked-button [disabled]="!patient || processing" color="primary"
-        (click)="save.emit()">
-        <span fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
-          <mat-progress-spinner *ngIf="processing" mode="indeterminate" diameter="24"></mat-progress-spinner>
-          <span>{{processing ? 'Saving' : 'Save form'}}</span>
-        </span>
-      </button>
-      <div class="sd-input">
-        <label>Status</label>
-        <select [(ngModel)]="selectedStatusValue" (change)="updateStatus()">
-          <option *ngFor="let stat of status; let i = index" [value]="stat.value">{{stat.label}}
-          </option>
-        </select>
-      </div>
-    </div>
-  </div>
-  <h3>
-    {{patient.firstName}} {{patient.lastName}}
-  </h3>
-  <header fxLayout="row" fxLayoutAlign=" start">
-    <div fxLayout="column">
-      <div *ngIf="patient.dob">
-        Birthday {{months[patient.dob.month].label}}
-        {{patient.dob.day}},
-        {{patient.dob.year}}
-      </div>
-      <div *ngIf="patient.createdOn">
-        Registered on {{patient.createdOn | date:"MMM dd, yyyy"}}
+  <h2> {{patient.firstName}} {{patient.lastName}} </h2>
+  <header fxLayout="row">
+    <div fxFlex="33" fxLayout="column">
+      <h3>Patient Details</h3>
+      <div fxLayout="column" fxLayoutGap="12px">
+        <div *ngIf="patient.dob" class="detail">
+          <div>Birthday</div>
+          <div>{{months[patient.dob.month].label}} {{patient.dob.day}}, {{patient.dob.year}}</div>
+        </div>
+        <div *ngIf="patient.createdOn" class="detail">
+          <div>Registered</div>
+          <div>{{patient.createdOn | date:"MMM dd, yyyy"}}</div>
+        </div>
       </div>
     </div>
 
-  </header>
-
-  <div fxLayout="row" fxLayoutGap="20px">
-    <div fxFlex="50" *ngIf="patient.dentalInsurance">
-      <h4>Dental Insurance(s)</h4>
+    <div fxFlex="33" *ngIf="patient.dentalInsurance">
+      <h3>Dental Insurance(s)</h3>
       <div class="insurance" *ngFor="let dInsurance of patient.dentalInsurance">
         <div>{{dInsurance.company}}</div>
         <div class="lighter" *ngIf="dInsurance.memberId">Member ID: {{dInsurance.memberId}}</div>
@@ -58,8 +34,8 @@
       </div>
 
     </div>
-    <div fxflex="50" *ngIf="patient.medicalInsurance">
-      <h4>Medical Insurance(s)</h4>
+    <div fxflex="33" *ngIf="patient.medicalInsurance">
+      <h3>Medical Insurance(s)</h3>
 
       <div class="insurance" *ngFor="let mInsurance of patient.medicalInsurance">
         <div>{{mInsurance.company}}</div>
@@ -74,5 +50,6 @@
         </div>
       </div>
     </div>
-  </div>
+  </header>
+
 </mat-card>

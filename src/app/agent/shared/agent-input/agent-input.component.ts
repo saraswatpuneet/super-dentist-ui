@@ -9,6 +9,7 @@ import { InsuranceService } from 'src/app/shared/services/insurance.service';
 import { DentalBreakDowns } from 'src/app/shared/services/insurance';
 import { PatientService } from 'src/app/shared/services/patient.service';
 import * as moment from 'moment';
+import { PatientStatus } from 'src/app/shared/services/patient';
 
 @Component({
   selector: 'app-agent-input',
@@ -61,6 +62,16 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     { label: 'November', value: '11', },
     { label: 'December', value: '12', },
   ];
+  status: PatientStatus[] = [
+    { value: 'pending', label: 'Pending' },
+    { value: 'active', label: 'Active' },
+    { value: 'inactive', label: 'Inactive' },
+    { value: 'termed', label: 'Termed' },
+    { value: 'incomplete', label: 'Incomplete Info' },
+    { value: 'discount-plan', label: 'Discount plan' },
+    { value: 'medicare-plan', label: 'Medicare plan' }
+  ];
+  selectedStatusValue: string;
   savedCodes: DentalBreakDowns = this.newSavedCodes();
   codesHistory: DentalBreakDowns = this.newSavedCodes();
   increments = ['', 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
@@ -79,12 +90,26 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     if (sc.addressId || sc.patient && this.patient && this.addressId) {
       this.triggerPatient.next();
     }
+
+    if (sc.patient) {
+      if (this.patient.status && this.patient.status.value) {
+        this.selectedStatusValue = this.patient.status.value;
+      } else {
+        this.selectedStatusValue = this.status[0].value;
+      }
+    }
   }
 
   ngOnInit(): void {
     this.initForm();
     this.getClinicCodes();
     this.triggerPatient.next();
+  }
+
+  updateStatus(): void {
+    const status = this.status.find((s) => s.value === this.selectedStatusValue);
+    this.patientService.updateStatus(this.patient.patientId, status).pipe(take(1)).subscribe();
+    this.patient.status = status;
   }
 
   onSave(): void {

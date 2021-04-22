@@ -1,8 +1,20 @@
 .patient-details {
 
+  h2 {
+    margin-bottom: 8px;
+  }
+
   .actions {
+    margin-bottom: 12px;
     button {
       height: 100%;
+    }
+  }
+
+  .detail {
+    > :first-child {
+      opacity: 0.5;
+      font-size: 12px;
     }
   }
 
@@ -23,10 +35,6 @@
   .lighter {
     opacity: 0.5;
     font-size: 12px;
-  }
-
-  header {
-    margin-bottom: 20px;
   }
 
   h3, h4 {

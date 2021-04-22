@@ -1,7 +1,24 @@
 .agent-input {
+  height: calc(100vh - 76px);
+  padding: 4px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+
+  .actions {
+    .sd-input {
+      margin: 0;
+    }
+  }
+
+  .mmm {
+    margin-top: 20px;
+  }
 
   .m-20 {
-    margin-bottom: 20px;
+    margin-top: 20px;
+    height: calc(100% - 58px);
+    overflow: auto;
   }
 
   .sd-input {
