@@ -81,6 +81,16 @@
     table {
       width: 100%;
     }
+    
+    .mat-row {
+      transition: 0.3s;
+      cursor: pointer;
+
+      &:hover {
+        background: rgba(grey, 0.2) !important;
+      }
+    }
+
   }
 
 
