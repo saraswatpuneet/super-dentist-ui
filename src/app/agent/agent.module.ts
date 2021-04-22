@@ -13,6 +13,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatTableModule } from '@angular/material/table';
 import { NgxMaskModule } from 'ngx-mask';
 
 import { AgentComponent } from './agent.component';
@@ -23,6 +24,7 @@ import { PatientDetails2Component } from './shared/patient-details/patient-detai
 import { ToothHistoryComponent } from './shared/tooth-history/tooth-history.component';
 import { PatientListItemModule } from '../shared/patient-list-item/patient-list-item.module';
 import { CodeCategoryComponent } from './shared/code-category/code-category.component';
+import { PatientStatusPillModule } from '../shared/patient-status-pill/patient-status-pill.module';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { CodeCategoryComponent } from './shared/code-category/code-category.comp
     CommonModule,
     FlexLayoutModule,
     FormsModule,
+    MatTableModule,
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,
@@ -46,6 +49,7 @@ import { CodeCategoryComponent } from './shared/code-category/code-category.comp
     MatDatepickerModule,
     MatIconModule,
     MatProgressBarModule,
+    PatientStatusPillModule,
     PatientListItemModule,
     MatProgressSpinnerModule,
     MatSelectModule,
