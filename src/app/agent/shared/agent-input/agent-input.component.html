@@ -97,39 +97,6 @@
           </div>
         </div>
 
-        <div fxLayout="row" fxLayoutGap="12px" formGroupName="waitingPeriods">
-          <div class="sd-input radio" fxFlex>
-            <label>Waiting periods</label>
-            <mat-radio-group (change)="resetWaitingPeriod($event.value)" color="primary" fxLayoutGap="20px"
-              formControlName="enabled">
-              <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
-                {{clause.label}}
-              </mat-radio-button>
-            </mat-radio-group>
-          </div>
-
-          <ng-container *ngIf="agentForm.get('patientCoverage').value.waitingPeriods.enabled === 'yes'">
-            <div fxFlex class="sd-input">
-              <label>Category</label>
-              <select formControlName="category">
-                <option *ngFor="let clause of missingToothClauses" [value]="clause.value">{{clause.label}}</option>
-              </select>
-            </div>
-
-            <div fxFlex class="sd-input">
-              <label>Frequency</label>
-              <input type="number" formControlName="frequency">
-            </div>
-
-            <div fxFlex class="sd-input">
-              <label>Unit</label>
-              <select formControlName="unit">
-                <option *ngFor="let unit of unitOptions" [value]="unit.value">{{unit.label}}</option>
-              </select>
-            </div>
-          </ng-container>
-        </div>
-
         <div fxLayout="row" fxLayoutGap="12px" formGroupName="eligibilityYear">
           <div class="sd-input" fxFlex>
             <label>Eligibility year</label>
@@ -174,10 +141,79 @@
 
       </mat-card>
 
+      <mat-card fxLayout="column" fxFlex="0 0 auto" formGroupName="waitingPeriods">
+        <h3>Waiting periods</h3>
+        <div fxLayout="row" fxLayoutGap="12px">
+          <div class="sd-input radio" fxFlex>
+            <label>Has waiting periods?</label>
+            <mat-radio-group (change)="resetWaitingPeriod($event.value)" color="primary" fxLayoutGap="20px"
+              formControlName="enabled">
+              <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+                {{clause.label}}
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <ng-container *ngIf="agentForm.get('patientCoverage').value.waitingPeriods.enabled === 'yes'">
+            <div fxFlex class="sd-input">
+              <label>Category</label>
+              <select formControlName="category">
+                <option *ngFor="let clause of missingToothClauses" [value]="clause.value">{{clause.label}}</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div fxFlex class="sd-input"
+              *ngIf="agentForm.get('patientCoverage').value.waitingPeriods.category === 'other'">
+              <label>Other</label>
+              <input type="text" formControlName="other">
+            </div>
+
+            <div fxFlex class="sd-input">
+              <label>Frequency</label>
+              <input type="number" formControlName="frequency">
+            </div>
+
+            <div fxFlex class="sd-input">
+              <label>Unit</label>
+              <select formControlName="unit">
+                <option *ngFor="let unit of unitOptions" [value]="unit.value">{{unit.label}}</option>
+              </select>
+            </div>
+          </ng-container>
+
+        </div>
+        <table class="waiting-table" *ngIf="agentForm.get('patientCoverage').value.waitingPeriods.enabled === 'yes'">
+          <tr>
+            <th></th>
+            <th>Frequency</th>
+            <th>Unit</th>
+          </tr>
+
+          <tr formGroupName="basicService">
+            <td>Basic Services</td>
+            <td> <input type="number" formControlName="frequency"></td>
+            <td>
+              <select formControlName="unit">
+                <option *ngFor="let unit of unitOptions" [value]="unit.value">{{unit.label}}</option>
+              </select>
+            </td>
+          </tr>
+          <tr formGroupName="majorService">
+            <td>Major Services</td>
+            <td> <input type="number" formControlName="frequency"></td>
+            <td>
+              <select formControlName="unit">
+                <option *ngFor="let unit of unitOptions" [value]="unit.value">{{unit.label}}</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+      </mat-card>
+
       <mat-card fxLayout="column" fxFlex="0 0 auto">
         <h3>Missing tooth clause</h3>
         <div class="sd-input radio">
-          <label>Missing tooth clause</label>
+          <label>Has missing tooth clause?</label>
           <mat-radio-group (change)="toggleClause($event.value)" color="primary" fxLayoutGap="20px"
             formControlName="missingToothClause">
             <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">

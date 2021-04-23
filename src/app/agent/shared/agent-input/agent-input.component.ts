@@ -314,6 +314,15 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
           category: [],
           frequency: [],
           unit: [],
+          other: [],
+          basicService: this.fb.group({
+            unit: [],
+            frequency: []
+          }),
+          majorService: this.fb.group({
+            unit: [],
+            frequency: []
+          })
         }),
         eligibilityYear: this.fb.group({
           value: [],
