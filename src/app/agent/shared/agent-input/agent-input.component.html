@@ -21,7 +21,6 @@
     </div>
   </mat-card>
 
-
   <form [formGroup]="agentForm" class="m-20" fxLayout="column" fxLayoutGap="20px">
     <app-patient-details2 (closePatient)="closePatient.emit()" [processing]="processing" (save)="onSave()"
       [months]="months" [patient]="patient">
