@@ -50,12 +50,20 @@
           <input type="text" formControlName="eligibilityStartDate" mask='00/00/0000' [showMaskTyped]="true">
         </div>
 
-        <div class="sd-input">
-          <label>Coordination of benefits</label>
+        <div fxLayout="row" fxLayoutGap="12px" formGroupName="coordinationOfBenefits">
+          <div fxFlex class="sd-input">
+            <label>Coordination of benefits</label>
 
-          <select formControlName="coordinationOfBenefits">
-            <option *ngFor="let clause of coordinationOfBenefits" [value]="clause.value">{{clause.label}}</option>
-          </select>
+            <select formControlName="category">
+              <option *ngFor="let clause of coordinationOfBenefits" [value]="clause.value">{{clause.label}}</option>
+            </select>
+          </div>
+
+          <div fxFlex class="sd-input"
+            *ngIf="agentForm.get('patientCoverage').value.coordinationOfBenefits.category === 'other'">
+            <label>Other</label>
+            <input type="text" formControlName="other">
+          </div>
         </div>
 
         <div fxLayout="row" fxLayoutGap="12px">
