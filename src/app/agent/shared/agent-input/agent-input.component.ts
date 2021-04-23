@@ -348,6 +348,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
           unit: ['year'],
           notes: []
         }),
+        generalNotes: []
       }),
       codes: this.fb.array([]),
       medicalCodes: this.fb.array([]),
@@ -360,5 +361,4 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       }),
     });
   }
-
 }

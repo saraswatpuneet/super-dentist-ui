@@ -4,6 +4,17 @@
   position: relative;
   overflow: hidden;
 
+  .incomplete-notes {
+    .sd-input {
+      margin: 0;
+    }
+
+    textarea {
+      height: 130px;
+      width: 100%;
+    }
+  }
+
   .actions {
     margin-right:20px;
     .sd-input {

@@ -26,6 +26,11 @@
       [months]="months" [patient]="patient">
     </app-patient-details2>
     <ng-container formGroupName="patientCoverage">
+      <mat-card class="incomplete-notes" *ngIf="selectedStatusValue === 'incomplete'">
+        <h3>Incomplete Notes</h3>
+        <textarea class="sd-input" formControlName="generalNotes"></textarea>
+      </mat-card>
+
       <mat-card fxLayout="column" fxFlex="0 0 auto">
         <h3>Coverage</h3>
 
