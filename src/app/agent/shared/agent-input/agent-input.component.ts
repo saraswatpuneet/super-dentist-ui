@@ -157,7 +157,11 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
 
   resetWaitingPeriod(value: string): void {
     if (value === 'no') {
-      this.agentForm.get('patientCoverage').get('waitingPeriods').get('month').reset();
+      this.agentForm.get('patientCoverage').get('waitingPeriods').get('frequency').reset();
+      this.agentForm.get('patientCoverage').get('waitingPeriods').get('unit').reset();
+      this.agentForm.get('patientCoverage').get('waitingPeriods').get('other').reset();
+      this.agentForm.get('patientCoverage').get('waitingPeriods').get('basicService').reset();
+      this.agentForm.get('patientCoverage').get('waitingPeriods').get('majorService').reset();
       this.agentForm.get('patientCoverage').get('waitingPeriods').get('category').reset();
     }
   }
@@ -339,7 +343,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
           numerator: [],
           denominator: [],
           unit: ['year'],
-          exclusions: ['no']
+          notes: []
         }),
       }),
       codes: this.fb.array([]),

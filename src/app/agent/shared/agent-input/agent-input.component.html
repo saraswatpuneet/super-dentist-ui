@@ -253,13 +253,8 @@
           </div>
 
           <div class="sd-input radio" fxFlex>
-            <label>Exclusions</label>
-
-            <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="exclusions">
-              <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
-                {{clause.label}}
-              </mat-radio-button>
-            </mat-radio-group>
+            <label>Notes</label>
+            <input type="text" formControlName="notes">
           </div>
         </div>
       </mat-card>
