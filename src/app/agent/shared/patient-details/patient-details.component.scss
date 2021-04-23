@@ -4,13 +4,6 @@
     margin-bottom: 8px;
   }
 
-  .actions {
-    margin-bottom: 12px;
-    button {
-      height: 100%;
-    }
-  }
-
   .detail {
     > :first-child {
       opacity: 0.5;
@@ -18,15 +11,6 @@
     }
   }
 
-  .back {
-    transition: 0.3s;
-    cursor: pointer;
-    opacity: 0.5;
-
-    &:hover {
-      opacity: 1;
-    }
-  }
   .sub-title {
     font-size: 12px;
     opacity: 0.5;
