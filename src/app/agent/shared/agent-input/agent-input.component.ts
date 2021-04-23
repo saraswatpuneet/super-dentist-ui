@@ -76,7 +76,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   codesHistory: DentalBreakDowns = this.newSavedCodes();
   increments = ['', 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
   codeList = [];
-  allCodes: DentalBreakDowns = this.newSavedCodes();
+  allCodes = this.newSavedCodes();
   private triggerPatient = new Subject<void>();
 
   constructor(
@@ -311,8 +311,9 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         missingToothClause: ['no'],
         waitingPeriods: this.fb.group({
           enabled: ['no'],
-          month: [],
           category: [],
+          frequency: [],
+          unit: [],
         }),
         eligibilityYear: this.fb.group({
           value: [],

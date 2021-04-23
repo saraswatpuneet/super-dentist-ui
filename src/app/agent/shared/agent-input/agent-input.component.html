@@ -108,19 +108,26 @@
             </mat-radio-group>
           </div>
 
-          <div fxFlex *ngIf="agentForm.get('patientCoverage').value.waitingPeriods.enabled === 'yes'" class="sd-input">
-            <label>Category</label>
-            <select formControlName="category">
-              <option *ngFor="let clause of missingToothClauses" [value]="clause.value">{{clause.label}}</option>
-            </select>
-          </div>
+          <ng-container *ngIf="agentForm.get('patientCoverage').value.waitingPeriods.enabled === 'yes'">
+            <div fxFlex class="sd-input">
+              <label>Category</label>
+              <select formControlName="category">
+                <option *ngFor="let clause of missingToothClauses" [value]="clause.value">{{clause.label}}</option>
+              </select>
+            </div>
 
-          <div fxFlex *ngIf="agentForm.get('patientCoverage').value.waitingPeriods.enabled === 'yes'" class="sd-input">
-            <label>Month for waiting period</label>
-            <select formControlName="month">
-              <option *ngFor="let month of months" [value]="month.value">{{month.label}}</option>
-            </select>
-          </div>
+            <div fxFlex class="sd-input">
+              <label>Frequency</label>
+              <input type="number" formControlName="frequency">
+            </div>
+
+            <div fxFlex class="sd-input">
+              <label>Unit</label>
+              <select formControlName="unit">
+                <option *ngFor="let unit of unitOptions" [value]="unit.value">{{unit.label}}</option>
+              </select>
+            </div>
+          </ng-container>
         </div>
 
         <div fxLayout="row" fxLayoutGap="12px" formGroupName="eligibilityYear">
