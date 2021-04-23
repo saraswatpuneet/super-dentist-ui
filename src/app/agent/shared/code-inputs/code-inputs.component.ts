@@ -9,6 +9,7 @@ import { DentalBreakDowns } from 'src/app/insurance-completion/insurance-complet
 })
 export class CodeInputsComponent implements OnInit {
   @Input() unitOptions = [];
+  @Input() hasMedicalNecessity = false;
   @Input() increments = [];
   @Input() radioOptions = [];
   @Input() groups: FormArray;

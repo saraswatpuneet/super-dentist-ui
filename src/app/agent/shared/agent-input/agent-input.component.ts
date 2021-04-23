@@ -234,25 +234,28 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     let codeList = [];
     codes.breakDownKeys.forEach(k => codeList = [...codeList, ...codes.breakDowns[k].breakDownKeys]);
     this.codeList = codeList;
+    const group = {
+      percent: [0],
+      frequency: this.fb.group({
+        numerator: [''],
+        denominator: [''],
+        unit: ['year'],
+      }),
+      ageRange: this.fb.group({
+        min: [''],
+        max: ['']
+      }),
+      medicalNecessity: ['no'],
+      sharedCodes: [],
+      notes: ['']
+    };
+    if (groupName === 'codes') {
+      delete group.medicalNecessity;
+    }
     codes.breakDownKeys.forEach(k => {
       const codeInputs = this.fb.group({});
-
       codes.breakDowns[k].breakDownKeys.forEach(sk => {
-        codeInputs.addControl(sk, this.fb.group({
-          percent: [0],
-          frequency: this.fb.group({
-            numerator: [''],
-            denominator: [''],
-            unit: ['year'],
-          }),
-          ageRange: this.fb.group({
-            min: [''],
-            max: ['']
-          }),
-          medicalNecessity: ['no'],
-          sharedCodes: [],
-          notes: ['']
-        }));
+        codeInputs.addControl(sk, this.fb.group({ ...group }));
       });
 
       codeForms.controls.push(this.fb.group({

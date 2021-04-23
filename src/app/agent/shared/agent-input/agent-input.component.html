@@ -281,9 +281,9 @@
           </mat-tab>
 
           <mat-tab label="Medical">
-            <app-code-inputs *ngIf="agentForm.get('medicalCodes')" [allCodes]="allCodes" [codes]="savedCodes"
-              [groups]="agentForm.get('medicalCodes')" [increments]="increments" [codeList]="codeList"
-              [unitOptions]="unitOptions" [radioOptions]="radioOptions">
+            <app-code-inputs [hasMedicalNecessity]="true" *ngIf="agentForm.get('medicalCodes')" [allCodes]="allCodes"
+              [codes]="savedCodes" [groups]="agentForm.get('medicalCodes')" [increments]="increments"
+              [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
             </app-code-inputs>
           </mat-tab>
         </mat-tab-group>

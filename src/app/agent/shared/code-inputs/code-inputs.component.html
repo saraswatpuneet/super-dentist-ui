@@ -25,7 +25,7 @@
       <th style="min-width:100px; width: 100px;">
         <div>Shared codes</div>
       </th>
-      <th style="min-width:140px; width:140px">Medical necessity?</th>
+      <th *ngIf="hasMedicalNecessity" style="min-width:140px; width:140px">Medical necessity?</th>
       <th style="min-width: 200px; width: 200px">Notes?</th>
     </tr>
     <ng-container class="breakdowns" [formGroup]="groups.at(i)"
@@ -71,7 +71,7 @@
                 </mat-select>
               </mat-form-field>
             </td>
-            <td>
+            <td *ngIf="hasMedicalNecessity">
               <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="medicalNecessity">
                 <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
                   {{clause.label}}
