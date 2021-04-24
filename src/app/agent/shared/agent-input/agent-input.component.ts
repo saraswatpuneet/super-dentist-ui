@@ -112,9 +112,17 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     this.patientService.updateStatus(this.patient.patientId, status).pipe(take(1)).subscribe();
     this.patient.status = status;
     if (status.value === 'incomplete') {
-      setTimeout(() => this.incompleteEl.nativeElement.scrollIntoView({
-        behavior: 'smooth'
-      }), 100);
+      setTimeout(() => {
+        this.incompleteEl.nativeElement.scrollIntoView({
+          behavior: 'smooth'
+        });
+        setTimeout(() => {
+          try {
+            this.incompleteEl.nativeElement.parentElement.childNodes[2].focus();
+          } catch (e) { }
+        }, 800);
+
+      }, 100);
     }
   }
 
