@@ -5,6 +5,12 @@
   overflow: hidden;
 
   .incomplete-notes {
+
+    > div {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
     .sd-input {
       margin: 0;
     }
@@ -16,6 +22,8 @@
   }
 
   .actions {
+    position: sticky;
+    top: 0;
     margin-right:20px;
     .sd-input {
       margin: 0;

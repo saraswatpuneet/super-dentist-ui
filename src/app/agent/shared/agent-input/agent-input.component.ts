@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { forkJoin, Subject, of } from 'rxjs';
 import { take, map, switchMap, takeUntil, catchError, tap } from 'rxjs/operators';
@@ -20,6 +20,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   @Input() patient: any;
   @Input() addressId = '';
   @Output() closePatient = new EventEmitter();
+  @ViewChild('incompleteNotesEl') incompleteEl: ElementRef;
   showMissingToothClause = false;
   processing = false;
   agentForm: FormGroup;
@@ -110,6 +111,11 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     const status = this.status.find((s) => s.value === this.selectedStatusValue);
     this.patientService.updateStatus(this.patient.patientId, status).pipe(take(1)).subscribe();
     this.patient.status = status;
+    if (status.value === 'incomplete') {
+      setTimeout(() => this.incompleteEl.nativeElement.scrollIntoView({
+        behavior: 'smooth'
+      }), 100);
+    }
   }
 
   onSave(): void {
