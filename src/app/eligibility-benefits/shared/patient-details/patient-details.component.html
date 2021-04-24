@@ -1,22 +1,24 @@
 <div *ngIf="patient" fxLayout="column" class="patient-details" fxLayoutGap="24px">
-  <mat-card>
+  <mat-card fxLayout="column" fxFlex="0 0 auto">
     <div fxLayout="row">
       <h1 fxFlex>{{patient.firstName}} {{patient.lastName}}</h1>
       <app-patient-status-pill [label]="patient?.status?.label" [value]="patient?.status?.value">
       </app-patient-status-pill>
     </div>
     <header fxLayout="row">
-      <div fxLayout="column" fxFlex>
+      <div fxLayout="column" fxFlex="33" fxLayoutGap="12px">
         <div *ngIf="patient.dob">
-          Birthday {{months[patient.dob.month].label}}
-          {{patient.dob.day}},
-          {{patient.dob.year}}
+          <div class="lighter">Birthday</div>
+          <div>
+            {{months[patient.dob.month].label}} {{patient.dob.day}}, {{patient.dob.year}}
+          </div>
         </div>
         <div *ngIf="patient.createdOn">
-          Registered on {{patient.createdOn | date:"MMM dd, yyyy"}}
+          <div class="lighter">Registered</div>
+          <div>{{patient.createdOn | date:"MMM dd, yyyy"}}</div>
         </div>
       </div>
-      <div fxFlex="50" *ngIf="patient.dentalInsurance">
+      <div fxFlex="33" *ngIf="patient.dentalInsurance">
         <h4>Dental Insurance</h4>
         <div class="insurance" *ngFor="let dInsurance of patient.dentalInsurance">
           <div>{{dInsurance.company}}</div>
@@ -35,7 +37,7 @@
         </div>
       </div>
 
-      <div fxFlex="50" *ngIf="patient.medicalInsurance">
+      <div fxFlex="33" *ngIf="patient.medicalInsurance">
         <h4>Medical Insurance</h4>
 
         <div class="insurance" *ngFor="let mInsurance of patient.medicalInsurance">
