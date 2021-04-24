@@ -6,7 +6,7 @@ import { ClinicService } from '../shared/services/clinic.service';
 import { PatientService } from '../shared/services/patient.service';
 import { Base } from '../shared/base/base-component';
 import { InsuranceService } from '../shared/services/insurance.service';
-import { DentalBreakDowns } from '../shared/services/insurance';
+import { DentalBreakDowns, months } from '../shared/services/insurance';
 
 @Component({
   selector: 'app-eligibility-benefits',
@@ -25,20 +25,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   savedCodes: DentalBreakDowns = this.newSavedCodes();
   allCodes: DentalBreakDowns;
   dentalCompanies = [];
-  months = [
-    { label: 'January', value: '1', },
-    { label: 'Febuary', value: '2', },
-    { label: 'March', value: '3', },
-    { label: 'April', value: '4', },
-    { label: 'May', value: '5', },
-    { label: 'June', value: '6', },
-    { label: 'July', value: '7', },
-    { label: 'August', value: '8', },
-    { label: 'September', value: '9', },
-    { label: 'October', value: '10', },
-    { label: 'November', value: '11', },
-    { label: 'December', value: '12', },
-  ];
+  months = months();
   private triggerPatients = new Subject();
   private triggerGetPatientCodes = new Subject();
   private patients = [];

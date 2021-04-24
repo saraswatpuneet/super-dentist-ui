@@ -1,45 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { take, takeUntil, map } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { insuranceAnimations } from './insurance-registration.animations';
-import { InsuranceService } from '../services/insurance.service';
 import { Base } from '../base/base-component';
-
-interface PatientForInsurance {
-  firstName: string;
-  lastName: string;
-  dob: DOB;
-  zipCode: string;
-  dentalInsurance: PatientDentalInsurance[];
-  medicalInsurance: PatientMedicalInsurance[];
-}
-
-interface DOB {
-  year: string;
-  month: string;
-  day: string;
-}
-
-interface PatientDentalInsurance {
-  company: string;
-  memberId: string;
-  subscriber: Subscriber;
-}
-
-interface PatientMedicalInsurance {
-  company: string;
-  memberId: string;
-  ssn: string;
-  subscriber: Subscriber;
-}
-
-interface Subscriber {
-  firstName: string;
-  lastName: string;
-  dob: DOB;
-}
 
 enum PatientStates {
   Invalid,
@@ -88,7 +53,6 @@ export class InsuranceRegistrationComponent extends Base implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private insuranceService: InsuranceService,
   ) { super(); }
 
   ngOnInit(): void {

@@ -29,10 +29,8 @@
     </mat-card>
 
     <mat-card class="c-card patient-details" fxFlex *ngIf="selectedPatient" fxLayout="column" fxLayoutGap="24px">
-      <mat-card>
-        <app-patient-details [months]="months" [patient]="selectedPatient" [patientCoverage]="notes.patientCoverage">
-        </app-patient-details>
-      </mat-card>
+      <app-patient-details [months]="months" [patient]="selectedPatient" [patientCoverage]="notes.patientCoverage">
+      </app-patient-details>
 
       <mat-card>
         <app-codes [savedCodes]="notes.codes" [codes]="savedCodes"></app-codes>

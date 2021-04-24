@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { take } from 'rxjs/operators';
 
 import { PatientService } from 'src/app/shared/services/patient.service';
-import { PatientStatus } from 'src/app/shared/services/patient';
+import { patientStatus } from 'src/app/shared/services/insurance';
 
 @Component({
   selector: 'app-patient-details2',
@@ -16,15 +16,7 @@ export class PatientDetails2Component implements OnInit {
   @Output() statusChange = new EventEmitter<any>();
   @Output() closePatient = new EventEmitter();
   @Output() save = new EventEmitter();
-  status: PatientStatus[] = [
-    { value: 'pending', label: 'Pending' },
-    { value: 'active', label: 'Active' },
-    { value: 'inactive', label: 'Inactive' },
-    { value: 'termed', label: 'Termed' },
-    { value: 'incomplete', label: 'Incomplete Info' },
-    { value: 'discount-plan', label: 'Discount plan' },
-    { value: 'medicare-plan', label: 'Medicare plan' }
-  ];
+  status = patientStatus();
   selectedStatusValue: string;
 
   constructor(private patientService: PatientService) { }

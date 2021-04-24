@@ -8,7 +8,6 @@
     </app-patient-status-pill>
   </div>
   <div class="carrier" fxLayout="column">
-    <header>Carrier</header>
     <div fxLayout="row wrap">
       <div class="company" *ngFor="let insurance of patient.dentalInsurance">{{insurance.company}}</div>
       <div class="company" *ngFor="let insurance of patient.medicalInsurance">{{insurance.company}}</div>

@@ -6,7 +6,7 @@ import { take, map, switchMap, takeUntil, catchError, tap } from 'rxjs/operators
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { Base } from 'src/app/shared/base/base-component';
 import { InsuranceService } from 'src/app/shared/services/insurance.service';
-import { DentalBreakDowns } from 'src/app/shared/services/insurance';
+import { DentalBreakDowns, missingToothClauses, radioOptions, eligibilityOptions, unitOptions, coordinationOfBenefits, months, patientStatus } from 'src/app/shared/services/insurance';
 import { PatientService } from 'src/app/shared/services/patient.service';
 import * as moment from 'moment';
 import { PatientStatus } from 'src/app/shared/services/patient';
@@ -24,54 +24,13 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   showMissingToothClause = false;
   processing = false;
   agentForm: FormGroup;
-  missingToothClauses = [
-    { value: 'crowns', label: 'Crowns' },
-    { value: 'bridges', label: 'Bridges' },
-    { value: 'dentures', label: 'Dentures' },
-    { value: 'implants', label: 'Implants' },
-  ];
-  radioOptions = [
-    { value: 'yes', label: 'Yes' },
-    { value: 'no', label: 'No' }
-  ];
-  eligibilityOptions = [
-    { value: 'calendar', label: 'Calendar' },
-    { value: 'benefit', label: 'Benefit' },
-  ];
-  unitOptions = [
-    { value: 'month', label: 'Month' },
-    { value: 'year', label: 'Year' },
-    { value: 'lt', label: 'Lifetime' },
-  ];
-  coordinationOfBenefits = [
-    { value: 'standard', label: 'Standard' },
-    { value: 'nonDuplication', label: 'Non-Duplication' },
-    { value: 'doesNotCoordinate', label: 'Does not coordinate' },
-    { value: 'other', label: 'Other' }
-  ];
-  months = [
-    { label: 'January', value: '1', },
-    { label: 'Febuary', value: '2', },
-    { label: 'March', value: '3', },
-    { label: 'April', value: '4', },
-    { label: 'May', value: '5', },
-    { label: 'June', value: '6', },
-    { label: 'July', value: '7', },
-    { label: 'August', value: '8', },
-    { label: 'September', value: '9', },
-    { label: 'October', value: '10', },
-    { label: 'November', value: '11', },
-    { label: 'December', value: '12', },
-  ];
-  status: PatientStatus[] = [
-    { value: 'pending', label: 'Pending' },
-    { value: 'active', label: 'Active' },
-    { value: 'inactive', label: 'Inactive' },
-    { value: 'termed', label: 'Termed' },
-    { value: 'incomplete', label: 'Incomplete Info' },
-    { value: 'discount-plan', label: 'Discount plan' },
-    { value: 'medicare-plan', label: 'Medicare plan' }
-  ];
+  missingToothClauses = missingToothClauses();
+  radioOptions = radioOptions();
+  eligibilityOptions = eligibilityOptions();
+  unitOptions = unitOptions();
+  coordinationOfBenefits = coordinationOfBenefits();
+  months = months();
+  status = patientStatus();
   selectedStatusValue: string;
   savedCodes: DentalBreakDowns = this.newSavedCodes();
   codesHistory: DentalBreakDowns = this.newSavedCodes();
