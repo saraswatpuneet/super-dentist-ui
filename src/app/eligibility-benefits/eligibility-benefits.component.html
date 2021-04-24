@@ -5,7 +5,7 @@
         placeholder="Search for patient">
     </div>
     <span fxFlex></span>
-    <button mat-raised-button (click)="showInsurance = true">Insurance check</button>
+    <button mat-raised-button color="primary" (click)="showInsurance = true">Insurance check</button>
   </div>
 
   <div fxLayout="row" fxLayoutGap="24px" class="overflow">
@@ -43,6 +43,8 @@
       <mat-card>
         <app-remarks [remarks]="notes.remarks"></app-remarks>
       </mat-card>
+
+      <div style="min-height:10px"></div>
     </mat-card>
   </div>
 </div>

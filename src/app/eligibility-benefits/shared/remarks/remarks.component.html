@@ -2,19 +2,26 @@
   <h3>Remarks</h3>
 
   <div fxLayout="row">
-    <p fxFlex>Insurance Representative Name</p>
-    <p>{{remarks?.insuranceRepresentativeName}}</p>
+    <div fxLayout="column" fxFlex="50" fxLayoutGap="12px">
+      <div>
+        <div class="lighter">Insurance Representative Name</div>
+        <div>{{remarks?.insuranceRepresentativeName}}</div>
+      </div>
+      <div>
+        <div class="lighter">Call Ref #</div>
+        <div>{{remarks?.callRefNumber}}</div>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="50" fxLayoutGap="12px">
+      <div>
+        <div class="lighter">Verified by</div>
+        <div>{{remarks?.verifiedBy}}</div>
+      </div>
+      <div>
+        <div class="lighter">Verified Date</div>
+        <div>{{remarks?.verifiedDate | date:"MMM dd, YYYY"}}</div>
+      </div>
+    </div>
   </div>
-  <div fxLayout="row">
-    <p fxFlex>Call Ref #</p>
-    <p>{{remarks?.callRefNumber}}</p>
-  </div>
-  <div fxLayout="row">
-    <p fxFlex>Verified by</p>
-    <p>{{remarks?.verifiedBy}}</p>
-  </div>
-  <div fxLayout="row">
-    <p fxFlex>Verified Date</p>
-    <p>{{remarks?.verifiedDate | date:"MMM dd, YYYY"}}</p>
-  </div>
+
 </div>
