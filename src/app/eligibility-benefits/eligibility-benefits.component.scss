@@ -21,15 +21,16 @@
   }
 
   .search-bar {
-    height: 42px;
+    height: 62px;
     padding-right: 20px;
+    padding-bottom: 20px;
   }
 
   .overflow {
     height: calc(100% - 42px);
     position: relative;
     overflow: auto;
-    padding: 20px 20px 20px 0;
+    padding: 0 20px 20px 0;
     box-sizing: border-box;
   }
 
@@ -81,6 +82,9 @@
   }
 
   .patient-details {
-    max-width: 1200px;
+
+    mat-card {
+      margin-bottom: 20px;
+    }
   }
 }

@@ -27,6 +27,14 @@ export function missingToothClauses(): ValueLabel[] {
     { value: 'implants', label: 'Implants' },
   ];
 }
+export function missingToothClausesKeyValue(): any {
+  return {
+    crowns: 'Crowns',
+    bridges: 'Bridges',
+    dentures: 'Dentures',
+    implants: 'Implants',
+  };
+}
 
 export function radioOptions(): ValueLabel[] {
   return [
@@ -34,12 +42,24 @@ export function radioOptions(): ValueLabel[] {
     { value: 'no', label: 'No' }
   ];
 }
+export function radioOptionsKeyValue(): any {
+  return {
+    yes: 'Yes',
+    no: 'No'
+  };
+}
 
 export function eligibilityOptions(): ValueLabel[] {
   return [
     { value: 'calendar', label: 'Calendar' },
     { value: 'benefit', label: 'Benefit' },
   ];
+}
+export function eligibilityOptionsKeyValue(): any {
+  return {
+    calendar: 'Calendar',
+    benefit: 'Benefit',
+  };
 }
 
 export function unitOptions(): ValueLabel[] {
@@ -57,6 +77,15 @@ export function coordinationOfBenefits(): ValueLabel[] {
     { value: 'doesNotCoordinate', label: 'Does not coordinate' },
     { value: 'other', label: 'Other' }
   ];
+}
+
+export function coordinationOfBenefitsKeyValue(): any {
+  return {
+    standard: 'Standard',
+    nonDuplication: 'Non-Duplication',
+    doesNotCoordinate: 'Does not coordinate',
+    other: 'Other'
+  };
 }
 
 export function months(): ValueLabel[] {
