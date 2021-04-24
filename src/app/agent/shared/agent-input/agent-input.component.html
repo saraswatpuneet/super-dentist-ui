@@ -1,4 +1,5 @@
 <div class="agent-input">
+
   <mat-card class="c-card actions" fxLayout="row" fxLayoutAlign="space-between">
     <button class="back" mat-stroked-button (click)="closePatient.emit()">
       <mat-icon>keyboard_arrow_left</mat-icon> Back
@@ -235,34 +236,54 @@
             </mat-radio-button>
           </mat-radio-group>
         </div>
-        <div *ngIf="showMissingToothClause" fxLayout="row" fxLayoutGap="12px" formGroupName="toothReplacementClause">
-          <div class="sd-input" fxFlex>
-            <label>Reason</label>
-            <select formControlName="reason">
-              <option *ngFor="let reason of missingToothClauses" [value]="reason.value">{{reason.label}}</option>
-            </select>
+        <ng-container *ngIf="showMissingToothClause" formGroupName="toothReplacementClause">
+          <div fxLayout="row" fxLayoutGap="12px">
+            <div class="sd-input" fxFlex>
+              <label>Reason</label>
+              <select formControlName="reason">
+                <option *ngFor="let reason of missingToothClauses" [value]="reason.value">{{reason.label}}</option>
+              </select>
+            </div>
+
+            <div class="sd-input" fxFlex>
+              <label>Numerator</label>
+              <input type="text" formControlName="numerator">
+            </div>
+            <div class="sd-input" fxFlex>
+              <label>Denominator</label>
+              <input type="text" formControlName="denominator">
+            </div>
+            <div class="sd-input" fxFlex>
+              <label>Unit</label>
+              <select formControlName="unit">
+                <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>
+              </select>
+            </div>
+
+            <div class="sd-input radio" fxFlex>
+              <label>Notes</label>
+              <input type="text" formControlName="notes">
+            </div>
           </div>
 
-          <div class="sd-input" fxFlex>
-            <label>Numerator</label>
-            <input type="text" formControlName="numerator">
-          </div>
-          <div class="sd-input" fxFlex>
-            <label>Denominator</label>
-            <input type="text" formControlName="denominator">
-          </div>
-          <div class="sd-input" fxFlex>
-            <label>Unit</label>
-            <select formControlName="unit">
-              <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>
-            </select>
-          </div>
+          <table class="waiting-table" formGroupName="callouts">
+            <tr>
+              <th>Callout</th>
+              <th>Frequency</th>
+              <th>Unit</th>
+            </tr>
 
-          <div class="sd-input radio" fxFlex>
-            <label>Notes</label>
-            <input type="text" formControlName="notes">
-          </div>
-        </div>
+            <tr *ngFor="let clause of missingToothClauses" [formGroupName]="clause.value">
+              <td>{{clause.label}}</td>
+              <td><input type="text" formControlName="frequency"></td>
+              <td>
+                <select formControlName="unit">
+                  <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>
+                </select>
+              </td>
+            </tr>
+          </table>
+        </ng-container>
       </mat-card>
     </ng-container>
 

@@ -360,7 +360,25 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
           numerator: [],
           denominator: [],
           unit: ['year'],
-          notes: []
+          notes: [],
+          callouts: this.fb.group({
+            crowns: this.fb.group({
+              unit: [],
+              frequency: []
+            }),
+            dentures: this.fb.group({
+              unit: [],
+              frequency: []
+            }),
+            implants: this.fb.group({
+              unit: [],
+              frequency: []
+            }),
+            bridges: this.fb.group({
+              unit: [],
+              frequency: []
+            }),
+          })
         }),
         generalNotes: []
       }),
