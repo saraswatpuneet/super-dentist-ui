@@ -175,18 +175,31 @@
     </div>
 
     <ng-container *ngIf="patientCoverage?.waitingPeriods?.enabled === 'yes'">
-      <div>
-        {{categories[patientCoverage?.waitingPeriods?.category]}}:
-        {{patientCoverage?.waitingPeriods?.frequency}} / {{patientCoverage?.waitingPeriods?.unit}}
+      <div fxLayout="row" fxLayoutGap="12px">
+        <div fxFlex="50" fxLayout="column" fxLayoutGap="12px">
+          <div>
+            <div class="lighter">{{categories[patientCoverage?.waitingPeriods?.category]}}</div>
+            <div>{{patientCoverage?.waitingPeriods?.frequency}} / {{patientCoverage?.waitingPeriods?.unit}}</div>
+          </div>
+        </div>
+        <div fxFlex="50" fxLayout="column" fxLayoutGap="12px">
+          <div>
+            <div class="lighter">Basic services</div>
+            <div>
+              {{patientCoverage?.waitingPeriods?.basicService?.frequency}} /
+              {{patientCoverage?.waitingPeriods?.basicService?.unit}}
+            </div>
+          </div>
+          <div>
+            <div class="lighter"> Major services </div>
+            <div>
+              {{patientCoverage?.waitingPeriods?.majorService?.frequency}} /
+              {{patientCoverage?.waitingPeriods?.majorService?.unit}}
+            </div>
+          </div>
+        </div>
       </div>
-      <div>
-        Basic services: {{patientCoverage?.waitingPeriods?.basicService?.frequency}} /
-        {{patientCoverage?.waitingPeriods?.basicService?.unit}}
-      </div>
-      <div>
-        Major services: {{patientCoverage?.waitingPeriods?.majorService?.frequency}} /
-        {{patientCoverage?.waitingPeriods?.majorService?.unit}}
-      </div>
+
     </ng-container>
   </mat-card>
 
@@ -197,29 +210,44 @@
     </div>
 
     <ng-container *ngIf="patientCoverage?.missingToothClause === 'yes'">
-      <div fxLayout="row" fxLayoutAlign=" center">
-        <span>{{categories[patientCoverage?.toothReplacementClause.reason]}}:</span>
-        <span style="margin: 0px 4px" fxLayout="column">
-          <span class="divider">{{patientCoverage?.toothReplacementClause.numerator}}</span>
-          <span>{{patientCoverage?.toothReplacementClause.denominator}}</span>
-        </span>
-        <span>{{patientCoverage?.toothReplacementClause.unit}}</span>
-      </div>
-      <div *ngIf="patientCoverage?.toothReplacementClause.notes">
-        Notes: {{patientCoverage?.toothReplacementClause.notes}}
+      <div fxFlex="row" fxLayoutGap="12px">
+        <div fxFlex="50" fxLayout="column" fxLayoutGap="12px">
+          <div>
+            <div class="lighter">{{categories[patientCoverage?.toothReplacementClause.reason]}}</div>
+            <div>
+              {{patientCoverage?.toothReplacementClause.numerator}} /
+              {{patientCoverage?.toothReplacementClause.denominator}}
+              {{patientCoverage?.toothReplacementClause.unit}}
+            </div>
+          </div>
+          <div *ngIf="patientCoverage?.toothReplacementClause.notes">
+            <div class="lighter">Notes</div>
+            <div>{{patientCoverage?.toothReplacementClause.notes}}</div>
+          </div>
+        </div>
+
+        <div fxFlex="50">
+          <h4>Callouts</h4>
+          <div fxLayout="column" fxLayoutGap="12px">
+            <ng-container *ngFor="let item of patientCoverage?.toothReplacementClause?.callouts | keyvalue">
+              <div>
+                <div class="lighter">{{categories[item.key]}}</div>
+                <div>
+                  <ng-container *ngIf="!patientCoverage?.toothReplacementClause?.callouts[item.key].frequency">N/A
+                  </ng-container>
+                  <ng-container *ngIf="patientCoverage?.toothReplacementClause?.callouts[item.key].frequency">
+                    {{patientCoverage?.toothReplacementClause?.callouts[item.key].frequency}} /
+                    {{patientCoverage?.toothReplacementClause?.callouts[item.key].unit}}
+                  </ng-container>
+                </div>
+              </div>
+            </ng-container>
+
+          </div>
+        </div>
       </div>
 
-      <ng-container *ngFor="let item of patientCoverage?.toothReplacementClause?.callouts | keyvalue">
-        <div>
-          {{categories[item.key]}}:
-          <ng-container *ngIf="!patientCoverage?.toothReplacementClause?.callouts[item.key].frequency">N/A
-          </ng-container>
-          <ng-container *ngIf="patientCoverage?.toothReplacementClause?.callouts[item.key].frequency">
-            {{patientCoverage?.toothReplacementClause?.callouts[item.key].frequency}} /
-            {{patientCoverage?.toothReplacementClause?.callouts[item.key].unit}}
-          </ng-container>
-        </div>
-      </ng-container>
+
     </ng-container>
   </mat-card>
 
