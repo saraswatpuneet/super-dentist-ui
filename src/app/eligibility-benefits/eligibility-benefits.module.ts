@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FormsModule } from '@angular/forms';
 
 import { EligibilityBenefitsRoutingModule } from './eligibility-benefits-routing.module';
@@ -30,6 +31,7 @@ import { PatientStatusPillModule } from '../shared/patient-status-pill/patient-s
     PatientStatusPillModule,
     PatientListItemModule,
     FlexLayoutModule,
+    MatProgressBarModule,
     MatButtonModule,
     MatCardModule,
     MatIconModule,

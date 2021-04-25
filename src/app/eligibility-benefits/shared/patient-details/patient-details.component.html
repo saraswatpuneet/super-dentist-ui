@@ -60,6 +60,58 @@
     </div>
   </mat-card>
 
+  <mat-card fxLayout="column" fxLayoutGap="20px">
+    <h3>Coverage amounts</h3>
+    <div fxLayout="row" fxLayoutGap="12px">
+      <div class="chart-border" fxFlex="33" fxLayout="column">
+        <div>Annual</div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <div class="lighter">Spent</div>
+          <div class="lighter">Budget</div>
+        </div>
+        <mat-progress-bar mode="determinate"
+          [color]="patientCoverage?.annualMaximum - patientCoverage?.annualUsedAmount <= 0 ? 'warn' : 'primary'"
+          [value]="patientCoverage?.annualMaximum - patientCoverage?.annualUsedAmount <= 0 ? 100 : (1 - ((patientCoverage?.annualMaximum - patientCoverage?.annualUsedAmount)/patientCoverage?.annualMaximum)) * 100 ">
+        </mat-progress-bar>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <div>{{patientCoverage?.annualUsedAmount | currency}}</div>
+          <div>{{patientCoverage?.annualMaximum | currency}}</div>
+        </div>
+      </div>
+      <div class="chart-border" fxFlex="33" fxLayout="column">
+        <div>Deductible (Individual)</div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <div class="lighter">Spent</div>
+          <div class="lighter">Budget</div>
+        </div>
+        <mat-progress-bar mode="determinate"
+          [color]="patientCoverage?.deductibleIndividual - patientCoverage?.deductibleMetAmountIndividual <= 0 ? 'warn' : 'primary'"
+          [value]="patientCoverage?.deductibleIndividual - patientCoverage?.deductibleMetAmountIndividual <= 0 ? 100 : (1 - ((patientCoverage?.deductibleIndividual - patientCoverage?.deductibleMetAmountIndividual)/patientCoverage?.deductibleIndividual)) * 100 ">
+        </mat-progress-bar>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <div>{{patientCoverage?.deductibleMetAmountIndividual | currency}}</div>
+          <div>{{patientCoverage?.deductibleIndividual | currency}}</div>
+        </div>
+      </div>
+
+      <div class="chart-border" fxFlex="33" fxLayout="column">
+        <div>Deductible (Family)</div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <div class="lighter">Spent</div>
+          <div class="lighter">Budget</div>
+        </div>
+        <mat-progress-bar mode="determinate"
+          [color]="patientCoverage?.deductibleFamily - patientCoverage?.deductibleMetAmountFamily <= 0 ? 'warn' : 'primary'"
+          [value]="patientCoverage?.deductibleFamily - patientCoverage?.deductibleMetAmountFamily <= 0 ? 100 : (1 - ((patientCoverage?.deductibleFamily - patientCoverage?.deductibleMetAmountFamily)/patientCoverage?.deductibleFamily)) * 100 ">
+        </mat-progress-bar>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <div>{{patientCoverage?.deductibleMetAmountFamily | currency}}</div>
+          <div>{{patientCoverage?.deductibleFamily | currency}}</div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
   <mat-card fxLayout="column" fxLayoutGap="12px">
     <h3>Coverage details</h3>
     <div fxLayout="row" fxLayoutGap="12px">
@@ -108,45 +160,6 @@
           <div>{{patientCoverage?.feeSchedule}}<div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-  </mat-card>
-
-  <mat-card fxLayout="column" fxLayoutGap="12px">
-    <h3>Coverage amounts</h3>
-    <div fxLayout="row" fxLayoutGap="12px">
-      <div fxFlex="50">
-        <div class="lighter"> Annual maximum </div>
-        <div>{{patientCoverage?.annualMaximum | currency}}</div>
-      </div>
-      <div fxFlex="50">
-        <div class="lighter"> Annual used amount</div>
-        <div>{{patientCoverage?.annualUsedAmount | currency}}</div>
-      </div>
-
-    </div>
-
-    <div fxFlex="row" fxLayoutGap="12px">
-      <div fxFlex="50" fxLayout="column" fxLayoutGap="12px">
-        <div>
-          <div class="lighter">Deductible (Individual)</div>
-          <div>{{patientCoverage?.deductibleIndividual | currency}}</div>
-        </div>
-        <div>
-          <div class="lighter">Deductible met amount (Individual)</div>
-          <div>{{patientCoverage?.deductibleMetAmountIndividual | currency}}</div>
-        </div>
-      </div>
-      <div fxFlex="50" fxLayout="column" fxLayoutGap="12px">
-        <div>
-          <div class="lighter">Deductible (Family)</div>
-          <div>{{patientCoverage?.deductibleFamily | currency}}</div>
-        </div>
-        <div>
-          <div class="lighter">Deductible met amount (Family)</div>
-          <div>{{patientCoverage?.deductibleMetAmountFamily | currency}}</div>
         </div>
       </div>
     </div>
