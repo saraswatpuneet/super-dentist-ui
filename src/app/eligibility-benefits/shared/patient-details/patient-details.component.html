@@ -60,73 +60,95 @@
     </div>
   </mat-card>
 
-  <mat-card class="list-items">
-    <div fxLayout="row">
-      <p fxFlex>Group name</p>
-      <p>{{patientCoverage?.groupName}}</p>
-    </div>
-    <div fxLayout="row">
-      <p fxFlex>Group number</p>
-      <p>{{patientCoverage?.groupNumber}}</p>
-    </div>
-    <div fxLayout="row">
-      <p fxFlex>Payer ID</p>
-      <p>{{patientCoverage?.payerId}}</p>
-    </div>
-    <div fxLayout="row">
-      <p fxFlex>Eligibility start date</p>
-      <p>{{patientCoverage?.eligibilityStartDate | date:"MMM dd, YYYY"}}</p>
-    </div>
-    <div fxLayout="row">
-      <p fxFlex>Coordination of benefits</p>
-      <p>
-        {{patientCoverage?.coordinationOfBenefits?.category === 'other' ? patientCoverage?.coordinationOfBenefits?.other : coordinationOfBenefits[patientCoverage?.coordinationOfBenefits?.category]}}
-      </p>
-    </div>
-    <div fxLayout="row">
-      <p fxFlex> Annual maximum </p>
-      <p>{{patientCoverage?.annualMaximum | currency}}</p>
-    </div>
-    <div fxLayout="row">
-      <p fxFlex> Annual used amount</p>
-      <p>{{patientCoverage?.annualUsedAmount | currency}}</p>
-    </div>
-    <div fxLayout="row">
-      <p fxFlex>Deductible (Family)</p>
-      <p>{{patientCoverage?.deductibleFamily | currency}}</p>
-    </div>
-    <div fxLayout="row">
-      <p fxFlex>Deductible (Individual)</p>
-      <p>{{patientCoverage?.deductibleIndividual | currency}}</p>
-    </div>
-    <div fxLayout="row">
-      <p fxFlex>Deductible met amount (Family)</p>
-      <p>{{patientCoverage?.deductibleMetAmountFamily | currency}}</p>
-    </div>
-    <div fxLayout="row">
-      <p fxFlex>Deductible met amount (Individual)</p>
-      <p>{{patientCoverage?.deductibleMetAmountIndividual | currency}}</p>
+  <mat-card fxLayout="column" fxLayoutGap="12px">
+    <h3>Coverage details</h3>
+    <div fxLayout="row" fxLayoutGap="12px">
+      <div fxFlex="50" fxLayout="column" fxLayoutGap="12px">
+        <div>
+          <div class="lighter">Group name, Group number</div>
+          <div>{{patientCoverage?.groupName}}, {{patientCoverage?.groupNumber}}</div>
+        </div>
+        <div>
+          <div class="lighter">Payer ID</div>
+          <div>{{patientCoverage?.payerId}}</div>
+        </div>
+        <div>
+          <div class="lighter">Eligibility start date</div>
+          <div>{{patientCoverage?.eligibilityStartDate | date:"MMM dd, YYYY"}}</div>
+        </div>
+
+        <div>
+          <div class="lighter">Eligibility year</div>
+          <div>{{eligibilityOptions[patientCoverage?.eligibilityYear?.value]}}<ng-container
+              *ngIf="patientCoverage?.eligibilityYear?.value === 'benefit'">,
+              {{months[patientCoverage?.eligibilityYear?.month].label}}
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div fxFlex="50" fxLayout="column" fxLayoutGap="12px">
+        <div>
+          <div class="lighter">Coordination of benefits</div>
+          <div>
+            {{patientCoverage?.coordinationOfBenefits?.category === 'other' ? patientCoverage?.coordinationOfBenefits?.other : coordinationOfBenefits[patientCoverage?.coordinationOfBenefits?.category]}}
+          </div>
+        </div>
+
+        <div>
+          <div class="lighter">In network</div>
+          <div>{{radioOptions[patientCoverage?.inNetwork]}}</div>
+        </div>
+        <div>
+          <div class="lighter">Preventive deducted from maximum</div>
+          <div>{{radioOptions[patientCoverage?.preventitiveDeductedFromMaximum]}}</div>
+        </div>
+        <div>
+          <div class="lighter">Fee schedule</div>
+          <div>{{patientCoverage?.feeSchedule}}<div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div fxLayout="row">
-      <p fxFlex>Eligibility year</p>
-      <p>{{eligibilityOptions[patientCoverage?.eligibilityYear?.value]}} <ng-container
-          *ngIf="patientCoverage?.eligibilityYear?.value === 'benefit'">
-          {{months[patientCoverage?.eligibilityYear?.month].label}}
-        </ng-container>
-      </p>
+  </mat-card>
+
+  <mat-card fxLayout="column" fxLayoutGap="12px">
+    <h3>Coverage amounts</h3>
+    <div fxLayout="row" fxLayoutGap="12px">
+      <div fxFlex="50">
+        <div class="lighter"> Annual maximum </div>
+        <div>{{patientCoverage?.annualMaximum | currency}}</div>
+      </div>
+      <div fxFlex="50">
+        <div class="lighter"> Annual used amount</div>
+        <div>{{patientCoverage?.annualUsedAmount | currency}}</div>
+      </div>
+
     </div>
-    <div fxLayout="row">
-      <p fxFlex>In network</p>
-      <p>{{radioOptions[patientCoverage?.inNetwork]}}</p>
-    </div>
-    <div fxLayout="row">
-      <p fxFlex>Preventive deducted from maximum</p>
-      <p>{{radioOptions[patientCoverage?.preventitiveDeductedFromMaximum]}}</p>
-    </div>
-    <div fxLayout="row">
-      <p fxFlex>Fee schedule</p>
-      <p>{{patientCoverage?.feeSchedule}}</p>
+
+    <div fxFlex="row" fxLayoutGap="12px">
+      <div fxFlex="50" fxLayout="column" fxLayoutGap="12px">
+        <div>
+          <div class="lighter">Deductible (Individual)</div>
+          <div>{{patientCoverage?.deductibleIndividual | currency}}</div>
+        </div>
+        <div>
+          <div class="lighter">Deductible met amount (Individual)</div>
+          <div>{{patientCoverage?.deductibleMetAmountIndividual | currency}}</div>
+        </div>
+      </div>
+      <div fxFlex="50" fxLayout="column" fxLayoutGap="12px">
+        <div>
+          <div class="lighter">Deductible (Family)</div>
+          <div>{{patientCoverage?.deductibleFamily | currency}}</div>
+        </div>
+        <div>
+          <div class="lighter">Deductible met amount (Family)</div>
+          <div>{{patientCoverage?.deductibleMetAmountFamily | currency}}</div>
+        </div>
+      </div>
     </div>
 
   </mat-card>
