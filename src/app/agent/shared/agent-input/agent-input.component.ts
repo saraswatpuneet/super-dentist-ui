@@ -30,6 +30,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   @Output() closePatient = new EventEmitter();
   @ViewChild('incompleteNotesEl') incompleteEl: ElementRef;
   showMissingToothClause = false;
+  loading = false;
   processing = false;
   agentForm: FormGroup;
   missingToothClauses = missingToothClauses();
@@ -154,6 +155,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   private getClinicCodes(): void {
     this.triggerPatient.pipe(
       switchMap(() => {
+        this.loading = true;
         return forkJoin([
           this.insuranceService.getPracticeCodes().pipe(take(1), tap(allCodes => this.allCodes = allCodes)),
           this.clinicService.getSelectedPracticeCodes(this.addressId).pipe(map(r => r.data), take(1)),
@@ -167,6 +169,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(([codes, codesHistory, savedRecords]) => {
       this.savedCodes = codes;
+      this.loading = false;
       this.codesHistory = codesHistory;
       this.agentForm.reset();
       this.initForm();
