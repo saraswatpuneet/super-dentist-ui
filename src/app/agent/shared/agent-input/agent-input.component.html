@@ -13,12 +13,17 @@
           <span>{{processing ? 'Saving' : 'Save form'}}</span>
         </span>
       </button>
-      <div class="sd-input">
+      <div class="sd-input" style="width:150px">
         <select [(ngModel)]="selectedStatusValue" (change)="updateStatus()">
           <option *ngFor="let stat of status; let i = index" [value]="stat.value">{{stat.label}}
           </option>
         </select>
       </div>
+      <form *ngIf="selectedStatusValue === 'termed'" [formGroup]="agentForm" style="width:150px">
+        <div class="sd-input" formGroupName="patientCoverage">
+          <input type="text" formControlName="termDate" mask='00/00/0000' [showMaskTyped]="true">
+        </div>
+      </form>
     </div>
   </mat-card>
 

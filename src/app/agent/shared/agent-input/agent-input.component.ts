@@ -104,6 +104,10 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       value.patientCoverage.eligibilityStartDate = moment(value.patientCoverage.eligibilityStartDate, 'MM/DD/YYYY').valueOf();
     }
 
+    if (value.patientCoverage.termDate) {
+      value.patientCoverage.termDate = moment(value.patientCoverage.termDate, 'MM/DD/YYYY').valueOf();
+    }
+
     if (value.remarks.verifiedDate) {
       value.remarks.verifiedDate = moment(value.remarks.verifiedDate, 'MM/DD/YYYY').valueOf();
     }
@@ -177,6 +181,9 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       }
 
       if (value) {
+        if (value.patientCoverage.termDate) {
+          value.patientCoverage.termDate = moment(value.patientCoverage.termDate).format('MM/DD/YYYY');
+        }
         if (value.patientCoverage.eligibilityStartDate) {
           value.patientCoverage.eligibilityStartDate = moment(value.patientCoverage.eligibilityStartDate).format('MM/DD/YYYY');
         }
@@ -339,7 +346,8 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
             }),
           })
         }),
-        generalNotes: []
+        generalNotes: [],
+        termDate: []
       }),
       codes: this.fb.array([]),
       medicalCodes: this.fb.array([]),
