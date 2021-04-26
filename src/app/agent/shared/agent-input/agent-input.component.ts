@@ -6,10 +6,18 @@ import { take, map, switchMap, takeUntil, catchError, tap } from 'rxjs/operators
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { Base } from 'src/app/shared/base/base-component';
 import { InsuranceService } from 'src/app/shared/services/insurance.service';
-import { DentalBreakDowns, missingToothClauses, radioOptions, eligibilityOptions, unitOptions, coordinationOfBenefits, months, patientStatus } from 'src/app/shared/services/insurance';
+import {
+  DentalBreakDowns,
+  missingToothClauses,
+  radioOptions,
+  eligibilityOptions,
+  unitOptions,
+  coordinationOfBenefits,
+  months,
+  patientStatus
+} from 'src/app/shared/services/insurance';
 import { PatientService } from 'src/app/shared/services/patient.service';
 import * as moment from 'moment';
-import { PatientStatus } from 'src/app/shared/services/patient';
 
 @Component({
   selector: 'app-agent-input',
