@@ -46,12 +46,14 @@
     <div class="text" fxLayout="row" *ngFor="let m of messageChunks">
       <mat-icon>account_circle</mat-icon>
       <div class="convo" fxLayout="column">
-        <header>{{m.header.name}} <span class="ts">{{m.header.timeStamp | date:'hh:mm a'}}</span></header>
+        <header>{{m.header.name}} </header>
         <div *ngFor="let mIds of m.messageIds" fxLayout="row">
-          <div (click)="downloadFile(conversation[mIds].file)" class="file" *ngIf="conversation[mIds].file">
+          <div class="file" *ngIf="conversation[mIds].file">
             <ng-container *ngFor="let media of conversation[mIds].media">
-              <img *ngIf="media.image" [src]="'data:image/png;base64,' + media.image" alt="">
-              <img *ngIf="!media.image" src="assets/icons/file.svg" alt="">
+              <img (click)="previewFile(conversation[mIds].file, media.image)" *ngIf="media.image"
+                [src]="'data:image/png;base64,' + media.image" alt="">
+              <img (click)="downloadFile(conversation[mIds].file)" *ngIf="!media.image" src="assets/icons/file.svg"
+                alt="">
             </ng-container>
             <div>
               {{conversation[mIds].file}}
@@ -79,3 +81,14 @@
     </div>
   </div>
 </mat-card>
+
+<div class="preview" *ngIf="viewingFile" fxLayout="column" fxLayoutGap="12px" fxLayoutAlign="center center">
+  <button mat-icon-button (click)="closePreview()" class="top-right">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div (click)="closePreview()" class="close-preview"></div>
+
+  <h2>{{imagePreviewName}}</h2>
+  <img fxFlex [src]="imagePreview" alt="">
+  <button mat-raised-button (click)="downloadFile([imagePreviewName])">Download</button>
+</div>

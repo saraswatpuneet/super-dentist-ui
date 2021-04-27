@@ -27,6 +27,7 @@ import * as moment from 'moment';
 export class AgentInputComponent extends Base implements OnChanges, OnInit {
   @Input() patient: any;
   @Input() addressId = '';
+  @Input() clinic: any;
   @Output() closePatient = new EventEmitter();
   @ViewChild('incompleteNotesEl') incompleteEl: ElementRef;
   showMissingToothClause = false;

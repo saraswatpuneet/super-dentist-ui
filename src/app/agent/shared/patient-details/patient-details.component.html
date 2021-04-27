@@ -1,20 +1,82 @@
 <mat-card *ngIf="patient" fxLayout="column" class="patient-details">
-  <h2> {{patient.firstName}} {{patient.lastName}} </h2>
+  <div fxLayout="row" fxLayoutGap="24px">
+    <h2> {{patient.firstName}} {{patient.lastName}} </h2>
+
+
+  </div>
+  <!-- <table>
+    <tr>
+      <th></th>
+      <th>Dental Primary</th>
+      <th>Dental Secondary</th>
+      <th>Medical Primary</th>
+      <th>Medical Secondary</th>
+    </tr>
+
+    <tr>
+      <td>Insurance name</td>
+      <td>{{patient.dentalInsurance[0]?.company}}</td>
+      <td>{{patient.dentalInsurance[1]?.company}}</td>
+      <td>{{patient.medicalInsurance[0]?.company}}</td>
+      <td>{{patient.medicalInsurance[1]?.company}}</td>
+    </tr>
+
+    <tr>
+      <td>Member ID</td>
+      <td>{{patient.dentalInsurance[0]?.memberId}}</td>
+      <td>{{patient.dentalInsurance[1]?.memberId}}</td>
+      <td>{{patient.medicalInsurance[0]?.memberId}}</td>
+      <td>{{patient.medicalInsurance[1]?.memberId}}</td>
+    </tr>
+
+    <tr>
+      <td>Subscriber name</td>
+      <td>
+        {{patient.dentalInsurance[0]?.subscriber?.firstName}} {{patient.dentalInsurance[0]?.subscriber?.lastName}}
+      </td>
+      <td>
+        {{patient.dentalInsurance[1]?.subscriber?.firstName}} {{patient.dentalInsurance[1]?.subscriber?.lastName}}
+      </td>
+      <td>
+        {{patient.medicalInsurance[0]?.subscriber?.firstName}} {{patient.medicalInsurance[0]?.subscriber?.lastName}}
+      </td>
+      <td>
+        {{patient.medicalInsurance[1]?.subscriber?.firstName}} {{patient.medicalInsurance[1]?.subscriber?.lastName}}
+      </td>
+    </tr>
+
+    <tr>
+      <td>Subscriber birthday</td>
+      <td>
+        {{months[patient.dentalInsurance[0]?.subscriber?.dob.month]?.label}}
+        {{patient.dentalInsurance[0]?.subscriber?.dob.day}}, {{patient.dentalInsurance[0]?.subscriber?.dob.year}}
+      </td>
+      <td>
+        {{months[patient.dentalInsurance[1]?.subscriber?.dob.month]?.label}}
+        {{patient.dentalInsurance[1]?.subscriber?.dob.day}}, {{patient.dentalInsurance[1]?.subscriber?.dob.year}}
+      </td>
+      <td>
+        {{months[patient.medicalInsurance[0]?.subscriber?.dob.month]?.label}}
+        {{patient.medicalInsurance[0]?.subscriber?.dob.day}}, {{patient.medicalInsurance[0]?.subscriber?.dob.year}}
+      </td>
+      <td>
+        {{months[patient.medicalInsurance[1]?.subscriber?.dob.month]?.label}}
+        {{patient.medicalInsurance[1]?.subscriber?.dob.day}}, {{patient.medicalInsurance[1]?.subscriber?.dob.year}}
+      </td>
+    </tr>
+  </table> -->
   <header fxLayout="row">
-    <div fxFlex="33" fxLayout="column">
-      <h3>Patient Details</h3>
-      <div fxLayout="column" fxLayoutGap="12px">
-        <div *ngIf="patient.dob" class="detail">
-          <div>Birthday</div>
-          <div>{{months[patient.dob.month].label}} {{patient.dob.day}}, {{patient.dob.year}}</div>
-        </div>
-        <div *ngIf="patient.createdOn" class="detail">
-          <div>Registered</div>
-          <div>{{patient.createdOn | date:"MMM dd, yyyy"}}</div>
-        </div>
+
+    <div fxLayout="column" fxLayoutGap="12px">
+      <div *ngIf="patient.dob" class="detail">
+        <div>Birthday</div>
+        <div>{{months[patient.dob.month].label}} {{patient.dob.day}}, {{patient.dob.year}}</div>
+      </div>
+      <div *ngIf="patient.createdOn" class="detail">
+        <div>Registered</div>
+        <div>{{patient.createdOn | date:"MMM dd, yyyy"}}</div>
       </div>
     </div>
-
     <div fxFlex="33" *ngIf="patient.dentalInsurance">
       <h3>Dental Insurance(s)</h3>
       <div class="insurance" *ngFor="let dInsurance of patient.dentalInsurance">
