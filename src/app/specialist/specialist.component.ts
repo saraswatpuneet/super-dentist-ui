@@ -112,7 +112,6 @@ export class SpecialistComponent extends Base implements OnInit, AfterViewInit, 
   editFavorites(): void {
     this.dialogService.openNearbyClinics(this.clinics[0].addressId, this.favoriteClinics).afterClosed().pipe(take(1)).subscribe(res => {
       if (!!res) {
-        console.log('edit favorites');
         this.clinicService.clearFavorites();
         this.triggerFavorites.next();
       }
