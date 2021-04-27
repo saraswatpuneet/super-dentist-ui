@@ -15,9 +15,10 @@ import { JoinRoutingModule } from './join-routing.module';
 import { JoinComponent } from './join.component';
 import { LoaderModule } from '../shared/loader/loader.module';
 import { JoinFavoritesComponent } from './shared/join-favorites/join-favorites.component';
+import { JoinConferenceComponent } from './shared/join-conference/join-conference.component';
 
 @NgModule({
-  declarations: [JoinComponent, JoinFavoritesComponent],
+  declarations: [JoinComponent, JoinFavoritesComponent, JoinConferenceComponent],
   imports: [
     CommonModule,
     FormsModule,

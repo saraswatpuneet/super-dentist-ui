@@ -4,40 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { insuranceAnimations } from './insurance-registration.animations';
-
-interface PatientForInsurance {
-  firstName: string;
-  lastName: string;
-  dob: DOB;
-  zipCode: string;
-  dentalInsurance: PatientDentalInsurance[];
-  medicalInsurance: PatientMedicalInsurance[];
-}
-
-interface DOB {
-  year: string;
-  month: string;
-  day: string;
-}
-
-interface PatientDentalInsurance {
-  company: string;
-  memberId: string;
-  subscriber: Subscriber;
-}
-
-interface PatientMedicalInsurance {
-  company: string;
-  memberId: string;
-  ssn: string;
-  subscriber: Subscriber;
-}
-
-interface Subscriber {
-  firstName: string;
-  lastName: string;
-  dob: DOB;
-}
+import { Base } from '../base/base-component';
 
 enum PatientStates {
   Invalid,
@@ -53,10 +20,11 @@ enum PatientStates {
   styleUrls: ['./insurance-registration.component.scss'],
   animations: insuranceAnimations
 })
-export class InsuranceRegistrationComponent implements OnInit {
+export class InsuranceRegistrationComponent extends Base implements OnInit {
   @Input() canCancel = false;
   @Input() referralId: string;
   @Input() clinics: any[];
+  @Input() dentalCompanies = [];
   @Output() cancelRegistration = new EventEmitter();
   selectedClinic: any;
   insuranceForm: FormGroup;
@@ -85,13 +53,14 @@ export class InsuranceRegistrationComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-  ) { }
+  ) { super(); }
 
   ngOnInit(): void {
     if (this.clinics && this.clinics.length > 0) {
       this.selectedClinic = this.clinics[0];
     }
     this.initForm();
+
   }
 
   onCancel(): void {

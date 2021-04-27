@@ -1,0 +1,18 @@
+<div class="history" fxLayout="column">
+  <h3>History</h3>
+
+  <div class="breakdowns" *ngFor="let group of savedHistory">
+    <header fxLayout="row" fxLayoutGap="12px">
+      {{group?.groupId}} {{allCodes?.breakDowns[group.groupId].label}}
+    </header>
+
+    <div class="sub-breakdown" fxLayout="column" *ngFor="let subId of group.codeIds">
+      <p fxFlex>{{subId}} - {{allCodes?.breakDowns[group.groupId].breakDowns[subId].label}}</p>
+      <span *ngFor="let his of history[subId]">
+        <ng-container *ngIf="his.date">{{his.date | date:"MMM dd, YYYY"}}</ng-container>
+        <ng-container *ngIf="his.tooth"> - {{his.tooth}}</ng-container>
+      </span>
+      <span *ngIf="history[subId] && history[subId].length === 0">No history</span>
+    </div>
+  </div>
+</div>

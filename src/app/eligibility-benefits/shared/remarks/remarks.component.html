@@ -1,0 +1,27 @@
+<div class="remarks">
+  <h3>Remarks</h3>
+
+  <div fxLayout="row">
+    <div fxLayout="column" fxFlex="50" fxLayoutGap="12px">
+      <div>
+        <div class="lighter">Insurance Representative Name</div>
+        <div>{{remarks?.insuranceRepresentativeName}}</div>
+      </div>
+      <div>
+        <div class="lighter">Call Ref #</div>
+        <div>{{remarks?.callRefNumber}}</div>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="50" fxLayoutGap="12px">
+      <div>
+        <div class="lighter">Verified by</div>
+        <div>{{remarks?.verifiedBy}}</div>
+      </div>
+      <div>
+        <div class="lighter">Verified Date</div>
+        <div>{{remarks?.verifiedDate | date:"MMM dd, YYYY"}}</div>
+      </div>
+    </div>
+  </div>
+
+</div>

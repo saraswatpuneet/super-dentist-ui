@@ -1,0 +1,16 @@
+<div class="patient-list-item">
+  <div class="gap1" fxLayout="row">
+    <div fxFlex fxLayout="column" class="name">
+      <header>{{patient?.firstName}} {{patient?.lastName}}</header>
+      <span>DOB - {{months[patient.dob.month].label}} {{patient.dob.day}}, {{patient.dob.year}}</span>
+    </div>
+    <app-patient-status-pill [label]="patient?.status?.label" [value]="patient?.status?.value">
+    </app-patient-status-pill>
+  </div>
+  <div class="carrier" fxLayout="column">
+    <div fxLayout="row wrap">
+      <div class="company" *ngFor="let insurance of patient.dentalInsurance">{{insurance.company}}</div>
+      <div class="company" *ngFor="let insurance of patient.medicalInsurance">{{insurance.company}}</div>
+    </div>
+  </div>
+</div>

@@ -1,23 +1,49 @@
 import { Component, OnInit, Input, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Base } from 'src/app/shared/base/base-component';
+import { takeUntil, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dental-insurance',
   templateUrl: './dental-insurance.component.html',
   styleUrls: ['./dental-insurance.component.scss']
 })
-export class DentalInsuranceComponent implements OnInit {
+export class DentalInsuranceComponent extends Base implements OnInit {
+  @Input() companies = [];
   @Output() cancel = new EventEmitter();
   @Output() addInsurance = new EventEmitter();
+  filteredCompanies = [];
   dentalForm: FormGroup;
   subscriber = true;
+  usedAutoComplete = false;
+  private fromSelect = false;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) { super(); }
 
   ngOnInit(): void {
     this.dentalForm = this.fb.group({
       company: ['', Validators.required],
+      companyId: [''],
       memberId: ['', Validators.required]
+    });
+
+    this.dentalForm.get('company').valueChanges.pipe(
+      filter(() => {
+        if (this.fromSelect) {
+          this.fromSelect = false;
+          return false;
+        }
+
+        return true;
+      }),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(value => {
+      this.usedAutoComplete = false;
+      if (!value) {
+        this.filteredCompanies = [];
+      } else {
+        this.filteredCompanies = this.companies.filter(c => c.name.toLowerCase().includes(value.toLowerCase()));
+      }
     });
   }
 
@@ -28,6 +54,13 @@ export class DentalInsuranceComponent implements OnInit {
     } else {
       this.add();
     }
+  }
+
+  selectCompany(company: any): void {
+    this.usedAutoComplete = true;
+    this.fromSelect = true;
+    this.dentalForm.patchValue({ company: company.name, companyId: company.id });
+    this.filteredCompanies = [];
   }
 
   sendInsurance(): void {

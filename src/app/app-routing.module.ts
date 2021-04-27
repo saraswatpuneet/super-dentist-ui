@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from './auth.guard';
-import { AdminGuard } from './account.guard';
 
 const routes: Routes = [
   {
@@ -13,6 +12,11 @@ const routes: Routes = [
   {
     path: 'patient',
     loadChildren: () => import('./patient/patient.module').then(m => m.PatientModule),
+  },
+  {
+    path: 'agent',
+    loadChildren: () => import('./agent/agent.module').then(m => m.AgentModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'referrals',
@@ -34,11 +38,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'admin',
-    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
-    canActivate: [AuthGuard, AdminGuard]
-  },
-  {
     path: 'settings',
     loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),
     canActivate: [AuthGuard]
@@ -48,20 +47,6 @@ const routes: Routes = [
     loadChildren: () => import('./eligibility-benefits/eligibility-benefits.module').then(m => m.EligibilityBenefitsModule),
     canActivate: [AuthGuard]
   },
-  {
-    path: 'insurance-completion',
-    loadChildren: () => import('./insurance-completion/insurance-completion.module').then(m => m.InsuranceCompletionModule),
-    canActivate: [AuthGuard]
-  },
-  // {
-  //   path: 'login',
-  //   loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
-  // },
-  // {
-  //   path: 'verify',
-  //   loadChildren: () => import('./verify/verify.module').then(m => m.VerifyModule),
-  //   canActivate: [AuthGuard, VerifiedGuard]
-  // },
   {
     path: 'join',
     loadChildren: () => import('./join/join.module').then(m => m.JoinModule)
@@ -73,7 +58,6 @@ const routes: Routes = [
   {
     path: '404',
     loadChildren: () => import('./not-found/not-found.module').then(m => m.NotFoundModule),
-    // canActivate: [AuthGuard, VerifiedGuard]
   },
   {
     path: '**',

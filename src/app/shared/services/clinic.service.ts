@@ -48,6 +48,10 @@ export class ClinicService {
     this.cache = {};
   }
 
+  clearFavorites(): void {
+    delete this.cache[this.favoriteCode];
+  }
+
   getNearbyClinics(): Observable<any> {
     return this.http.get(`${this.baseUrl}/getNearbyClinics`);
   }
@@ -122,7 +126,15 @@ export class ClinicService {
     return this.http.get(`${this.baseUrl}/practiceCodes/${addressId}`);
   }
 
+  getSelectedPracticeCodesHistory(addressId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/practiceCodesHistory/${addressId}`);
+  }
+
   saveSelectedPracticeCodes(addressId: string, selectedCodes: DentalInsuranceKeys[]): Observable<DentalBreakDowns> {
     return this.http.post<any>(`${this.baseUrl}/practiceCodes/${addressId}`, selectedCodes);
+  }
+
+  saveSelectedPracticeCodesHistory(addressId: string, selectedCodes: DentalInsuranceKeys[]): Observable<DentalBreakDowns> {
+    return this.http.post<any>(`${this.baseUrl}/practiceCodesHistory/${addressId}`, selectedCodes);
   }
 }

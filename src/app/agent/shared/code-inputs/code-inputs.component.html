@@ -1,0 +1,87 @@
+<div class="code-inputs">
+  <table>
+    <tr>
+      <th>
+        <div>Code</div>
+      </th>
+      <th style="min-width:70px; width: 70p;">
+        <div>Coverage</div>
+      </th>
+      <th style="min-width:70px; width: 70p;">
+        <div>Numerator</div>
+      </th>
+      <th style="min-width:70px; width: 70p;">
+        <div>Denominator</div>
+      </th>
+      <th style="min-width:70px; width: 70p;">
+        <div>Unit</div>
+      </th>
+      <th style="min-width:68px; width: 68px;">
+        <div>Min age</div>
+      </th>
+      <th style="min-width:68px; width: 68px;">
+        <div>Max age</div>
+      </th>
+      <th style="min-width:100px; width: 100px;">
+        <div>Shared codes</div>
+      </th>
+      <th *ngIf="hasMedicalNecessity" style="min-width:140px; width:140px">Medical necessity?</th>
+      <th style="min-width: 200px; width: 200px">Notes?</th>
+    </tr>
+    <ng-container class="breakdowns" [formGroup]="groups.at(i)"
+      *ngFor="let breakDownKey of codes?.breakDownKeys; let i = index">
+      <ng-container formGroupName="codes"
+        *ngFor="let subKey of codes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
+        <ng-container [formGroupName]="subKey">
+          <tr>
+            <td>
+              <p>{{subKey}} - {{codes?.breakDowns[breakDownKey]?.breakDowns[subKey]?.label}}</p>
+            </td>
+            <td>
+              <select formControlName="percent">
+                <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
+              </select>
+            </td>
+            <ng-container formGroupName="frequency">
+              <td> <input formControlName="numerator" type="number"> </td>
+              <td> <input type="number" formControlName="denominator"> </td>
+              <td>
+                <select formControlName="unit">
+                  <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>
+                </select>
+              </td>
+            </ng-container>
+            <ng-container formGroupName="ageRange">
+              <td> <input type="number" formControlName="min"></td>
+              <td> <input type="number" formControlName="max"> </td>
+            </ng-container>
+            <td class="shared-code">
+              <mat-form-field appearance="none">
+                <mat-label></mat-label>
+                <mat-select multiple (selectionChange)="checkOtherOptions($event, subKey)"
+                  formControlName="sharedCodes">
+                  <ng-container *ngFor="let breakDownKeySub of allCodes?.breakDownKeys">
+                    <ng-container
+                      *ngFor="let subtitlesAreBetter of allCodes?.breakDowns[breakDownKeySub].breakDownKeys">
+                      <mat-option *ngIf="subtitlesAreBetter !== subKey" [value]="subtitlesAreBetter">
+                        {{subtitlesAreBetter}}
+                      </mat-option>
+                    </ng-container>
+                  </ng-container>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td *ngIf="hasMedicalNecessity">
+              <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="medicalNecessity">
+                <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+                  {{clause.label}}
+                </mat-radio-button>
+              </mat-radio-group>
+            </td>
+            <td> <input type="text" formControlName="notes"> </td>
+          </tr>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </table>
+</div>

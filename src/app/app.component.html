@@ -37,37 +37,42 @@
       [ngClass]="{'collapsed-sidenav': !expanded}">
 
       <a mat-button matTooltip="Specialist" matTooltipPosition="after" [matTooltipDisabled]="expanded"
-        matTooltipShowDelay="750" routerLinkActive="active" routerLink="specialist" class="nav-item">
+        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="isDentist || isSpecialist" routerLink="specialist"
+        class="nav-item">
         <mat-icon>book_online</mat-icon>
         <span *ngIf="expanded" [@sidebarToggle]>{{ isSpecialist ? 'Referring Clinics' : 'Specialist'}}</span>
       </a>
 
       <a mat-button matTooltip="Referrals" matTooltipPosition="after" [matTooltipDisabled]="expanded"
-        matTooltipShowDelay="750" routerLinkActive="active" routerLink="referrals" class="nav-item">
+        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="isDentist || isSpecialist" routerLink="referrals"
+        class="nav-item">
         <mat-icon>send</mat-icon>
         <span *ngIf="expanded" [@sidebarToggle]>Referrals</span>
       </a>
 
       <a mat-button matTooltip="Eligibilty & Benefits" matTooltipPosition="after" [matTooltipDisabled]="expanded"
-        matTooltipShowDelay="750" routerLinkActive="active" routerLink="eligibility-benefits" class="nav-item">
+        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="isDentist || isSpecialist"
+        routerLink="eligibility-benefits" class="nav-item">
         <mat-icon>health_and_safety</mat-icon>
         <span *ngIf="expanded" [@sidebarToggle]> Eligibility & Benefits</span>
       </a>
 
-      <a mat-button matTooltip="Admin" matTooltipPosition="after" [matTooltipDisabled]="expanded"
-        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="isAdmin" routerLink="admin" class="nav-item">
-        <mat-icon>admin_panel_settings</mat-icon>
-        <span *ngIf="expanded" [@sidebarToggle]>Admin</span>
-      </a>
-
       <a mat-button matTooltip="KPI" matTooltipPosition="after" [matTooltipDisabled]="expanded"
-        matTooltipShowDelay="750" routerLinkActive="active" routerLink="kpi" class="nav-item">
+        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="isDentist || isSpecialist" routerLink="kpi"
+        class="nav-item">
         <mat-icon>analytics</mat-icon>
         <span *ngIf="expanded" [@sidebarToggle]>KPI</span>
       </a>
 
+      <a mat-button matTooltip="Agent" matTooltipPosition="after" [matTooltipDisabled]="expanded"
+        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="isAgent" routerLink="agent" class="nav-item">
+        <mat-icon>manage_accounts</mat-icon>
+        <span *ngIf="expanded" [@sidebarToggle]>Agent</span>
+      </a>
+
       <a mat-button matTooltip="Settings" matTooltipPosition="after" [matTooltipDisabled]="expanded"
-        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="isSpecialist" routerLink="settings" class="nav-item">
+        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="isSpecialist || isDentist" routerLink="settings"
+        class="nav-item">
         <mat-icon>settings</mat-icon>
         <span *ngIf="expanded" [@sidebarToggle]>Settings</span>
       </a>

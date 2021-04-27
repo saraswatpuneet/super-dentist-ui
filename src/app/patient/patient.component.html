@@ -17,7 +17,7 @@
       <div class="referred-by">Referred by {{fromPlaceDetails[0]?.name}} </div>
     </div>
 
-    <div fxLayout="column" fxLayoutGap="36px">
+    <div fxLayout="column" fxFlex="0 0 auto" fxLayoutGap="36px">
       <div class="sd-input">
         <label>First Name</label>
         <input type="text" #firstName autocomplete="off" formControlName="firstName">
@@ -38,10 +38,11 @@
         <input autocomplete="off" mask='(000) 000-0000' [showMaskTyped]="true" formControlName="phoneNumber">
       </div>
 
-      <div class="from-clinics">
+      <div class="from-clinics" fxLayout="column">
         <h3>Select your specialist</h3>
 
-        <mat-radio-group color="primary" formControlName="selectedClinic" fxLayout="column" fxLayoutGap="12px">
+        <mat-radio-group color="primary" formControlName="selectedClinic" fxLayout="column" fxFlex="0 0 auto"
+          fxLayoutGap="12px">
           <mat-radio-button *ngFor="let clinic of toPlaceDetails" [value]="clinic">
             <div class="wrap"> {{clinic.name}} </div>
             <div class="wrap address"> {{clinic.formatted_address}} </div>
@@ -62,8 +63,8 @@
     </div>
   </form>
 
-  <div class="success" fxLayout="column" fxLayoutAlign="center" *ngIf="state === patientStates.Success"
-    fxLayoutGap="32px">
+  <div class="success" fxLayout="column" fxFlex="0 0 auto" fxLayoutAlign="center"
+    *ngIf="state === patientStates.Success" fxLayoutGap="32px">
     <div>
       <h1>Hi {{patientForm?.value?.firstName}} : )</h1>
       <p> You can now text {{patientForm?.value?.selectedClinic?.name}} your preferred appointment
@@ -82,6 +83,5 @@
 
   <div class="failed" *ngIf="state === patientStates.Failed">
     <h2>Failed </h2>
-    <div></div>
   </div>
 </mat-card>

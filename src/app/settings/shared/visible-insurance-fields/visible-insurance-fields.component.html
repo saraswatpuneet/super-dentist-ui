@@ -20,10 +20,17 @@
       </mat-expansion-panel-header>
 
       <div fxLayout="column" fxLayoutGap="16px">
-        <mat-checkbox [checked]="ids[subKey]" (change)="toggleBreakDown($event.checked, breakDownKey, i, subKey, j)"
-          color="primary" *ngFor="let subKey of insuranceCodes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
-          {{subKey}} - {{insuranceCodes?.breakDowns[breakDownKey].breakDowns[subKey].label}}
-        </mat-checkbox>
+        <div fxLayout="row"
+          *ngFor="let subKey of insuranceCodes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
+          <mat-checkbox fxFlex [checked]="ids[subKey]"
+            (change)="toggleBreakDown($event.checked, breakDownKey, i, subKey, j)" color="primary">
+            {{subKey}} - {{insuranceCodes?.breakDowns[breakDownKey].breakDowns[subKey].label}}
+          </mat-checkbox>
+
+          <mat-checkbox [checked]="historyIds[subKey]"
+            (change)="toggleBreakDownHistory($event.checked, breakDownKey, i, subKey, j)" color="accent">Show history
+          </mat-checkbox>
+        </div>
       </div>
     </mat-expansion-panel>
 

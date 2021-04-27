@@ -4,10 +4,10 @@
       <label>Search for a clinic</label>
       <input type="text" [(ngModel)]="searchFilter">
     </div> -->
-    <!-- <div>
+    <div>
       <button *ngIf="clinicType === 'specialist'" mat-raised-button (click)="editFavorites()" [disabled]="loading">Edit
         Referring Clinics</button>
-    </div> -->
+    </div>
 
     <app-loader class="loading" *ngIf="loading"></app-loader>
 
@@ -15,7 +15,7 @@
       You haven't added any referring clinics yet.
     </mat-card>
 
-    <div fxLayout="column" *ngFor="let a of favoriteClinics; let l = last">
+    <div fxLayout="column" *ngFor="let a of favoriteClinics; let l = last" fxFlex="0 0 auto">
       <mat-card class="c-card favorite-specialist" fxLayout="column" fxFlex="0 0 auto">
         <div fxLayout="row" fxLayoutGap="16px">
           <div fxFlex fxLayout="column">
@@ -62,42 +62,6 @@
       <div class="divider" *ngIf="!l"></div>
     </div>
 
-    <!-- <mat-card class="favorite-specialist" *ngIf="networkClinics && networkClinics.length !== 0" fxLayout="row"
-      fxLayoutAlign=" center" fxLayoutGap="12px" class="network-message c-card">
-      <div class="l" fxFlex="48px"></div>
-      <div class="message">Clinics who favorited you</div>
-      <div class="l" fxFlex></div>
-    </mat-card>
-
-    <mat-card class="favorite-specialist" fxFlex="0 0 auto" fxLayout="column" *ngFor="let a of networkClinics">
-      <mat-icon class="verified" *ngIf="a.verified" color="primary">verified</mat-icon>
-      <div #favoriteCardEls class="specialist-title">{{a.name}} </div>
-
-      <div>{{a.type}}</div>
-
-      <div class="rating" *ngIf="a.rating">
-        <span class="score">{{a.rating}}</span>
-        <div class="stars" [style]="'--rating: ' + a.rating"></div>
-        <span class="count">({{a.ratingCount}})</span>
-        <ng-container *ngIf="a.types">&middot; {{a.types[0]}}</ng-container>
-      </div>
-
-      <div>{{a.phoneNumber}}</div>
-      <div>{{a.address}}</div>
-
-      <div fxFlex></div>
-
-      <div *ngIf="clinicType === 'dentist'">
-        <button mat-raised-button (click)="createReferral(a, favoriteCardEls)">Create Referral</button>
-      </div>
-
-      <div *ngIf="clinicType === 'specialist'">
-        <button mat-raised-button [matMenuTriggerFor]="appMenu"
-          [matMenuTriggerData]="{clinicForTreatment: a, favoritesEl: favoriteCardEls}">
-          Create Treatment Summary <mat-icon>arrow_drop_down</mat-icon>
-        </button>
-      </div>
-    </mat-card> -->
     <div class="selected-referral" #refEl>
       <mat-card class="favorite-specialist" fxLayout="column" fxLayoutAlign=" start">
         <div class="specialist-type">{{selectedReferral?.type}}</div>

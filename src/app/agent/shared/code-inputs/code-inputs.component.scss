@@ -1,0 +1,65 @@
+.code-inputs {
+
+  h3 {
+    margin: 0;
+  }
+  
+  p {
+    margin: 0;
+  }
+
+  .breakdowns {
+    header {
+      padding: 16px 0 8px;
+
+      p {
+        font-weight: 500;
+      }
+    }
+  }
+
+  p {
+    word-break: none;
+    word-wrap: none;
+    white-space: nowrap;
+  }
+  
+  table {
+    border-collapse: collapse;
+    border-spacing: 0px;
+  }
+  
+  td {
+    border: 1px solid rgba(grey, 0.4);
+    padding: 0 8px;
+    height: 100%;
+  }
+
+  th {
+    text-align: left;
+    > div {
+      padding-right: 12px;
+    }
+  }
+
+  .shared-code {
+    position: relative;
+
+    mat-form-field {
+      position: absolute;
+      top: -13px;
+      left: 0;
+      width: 100%;
+    }
+  }
+
+  input, select {
+    width: 100%;
+    display:inline-block;
+    outline:none;
+    height: 32px;
+    padding: 0;
+    margin: 0;
+    border: none;
+  }
+}

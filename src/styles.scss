@@ -66,7 +66,7 @@ $mat-dark-theme-background: (
 );
 
 $super-dentist-primary: mat-palette($mat-light-blue);
-$super-dentist-accent: mat-palette($mat-pink, A200, A100, A400);
+$super-dentist-accent: mat-palette($mat-green);
 $super-dentist-warn: mat-palette($mat-red);
 
 $super-dentist-theme: mat-dark-theme((
@@ -127,18 +127,34 @@ textarea {
   font-size: 16px;
 }
 
+textarea {
+  font-family: 'Roboto';
+}
+
 .sd-input {
   border-radius: 4px;
   background: transparent;
   border: 1px solid rgba(white, 0.15);
-  // font-size: 16px;
   width: 100%;
   box-sizing: border-box;
   transition: 0.3s;
   color: rgba(white, 0.8);
   position: relative;
 
-  label {
+  &.radio {
+    min-height: 40px;
+    // border: 1px solid transparent;
+
+    mat-radio-group {
+      padding-left: 10px;
+    }
+
+    mat-radio-button {
+      transform: translateY(8px);
+    }
+  }
+
+  > label {
     position: absolute;
     top: -22px;
     left: 10px;
@@ -149,11 +165,12 @@ textarea {
     border: none;
     outline: none;
     width: 100%;
+    font-size: 16px;
     height: 40px;
     box-sizing: border-box;
     background: transparent;
     padding: 0 12px;
-    
+    color: inherit;
   }
 
   .error {
@@ -223,13 +240,12 @@ textarea {
     border-radius: 4px;
     background: transparent;
     border: 1px solid rgba(black, 0.15);
-    // font-size: 16px;
     width: 100%;
     box-sizing: border-box;
     transition: 0.3s;
     position: relative;
   
-    label {
+    > label {
       position: absolute;
       top: -22px;
       left: 10px;

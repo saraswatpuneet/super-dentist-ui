@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
+import { months } from 'src/app/shared/services/insurance';
+
 @Component({
   selector: 'app-dob',
   templateUrl: './dob.component.html',
@@ -10,20 +12,7 @@ export class DobComponent implements OnInit {
   @Input() dobGroup: FormGroup;
   days = [];
   years = [];
-  months = [
-    { label: 'January', value: '1', },
-    { label: 'Febuary', value: '2', },
-    { label: 'March', value: '3', },
-    { label: 'April', value: '4', },
-    { label: 'May', value: '5', },
-    { label: 'June', value: '6', },
-    { label: 'July', value: '7', },
-    { label: 'August', value: '8', },
-    { label: 'September', value: '9', },
-    { label: 'October', value: '10', },
-    { label: 'November', value: '11', },
-    { label: 'December', value: '12', },
-  ];
+  months = months();
 
   constructor() { }
 

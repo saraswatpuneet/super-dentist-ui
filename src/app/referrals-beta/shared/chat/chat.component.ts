@@ -32,6 +32,9 @@ export class ChatComponent extends Base implements OnInit {
   @Input() clinicType = '';
   @Output() filesUploaded = new EventEmitter<boolean>();
   @Output() closeChat = new EventEmitter();
+  viewingFile = false;
+  imagePreview = '';
+  imagePreviewName = '';
   selectedChannel: Channel = 'c2c';
   messagePlaceholder = '';
   referral: Referral;
@@ -87,6 +90,34 @@ export class ChatComponent extends Base implements OnInit {
   downloadFile(fileName: string): void {
     this.referralService.getDocumentFile(this.referralId, fileName[0]).pipe(take(1)).subscribe(res =>
       saveAs(new Blob([res]), fileName[0]));
+  }
+
+  previewFile(fileName: string, image: any): void {
+    this.imagePreviewName = fileName[0];
+    this.imagePreview = `data:image/png;base64,${image}`;
+    this.viewingFile = true;
+    this.referralService.getDocumentFile(this.referralId, this.imagePreviewName).pipe(
+      take(1)
+    ).subscribe(res => {
+      const self = this;
+      console.log(res);
+      try {
+        const reader = new FileReader();
+        reader.readAsDataURL(res);
+        reader.onloadend = () => {
+          const base64data = reader.result;
+          self.imagePreview = base64data.toString().replace('data:application/zip;base64,', 'data:image/png;base64,');
+        };
+      } catch (e) {
+
+      }
+    });
+  }
+
+  closePreview(): void {
+    this.imagePreview = undefined;
+    this.imagePreviewName = undefined;
+    this.viewingFile = false;
   }
 
   onFileSelect($event): void {

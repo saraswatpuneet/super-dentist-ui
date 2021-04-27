@@ -9,7 +9,7 @@
 
 
   .nav {
-    width: 350px;
+    width: 300px;
     position: sticky;
     padding: 0;
     position: -webkit-sticky; /* for Safari */
@@ -36,8 +36,5 @@
 
   .settings-content {
     align-self: start;
-    mat-card {
-      // min-height: 500px;
-    }
   }
 }

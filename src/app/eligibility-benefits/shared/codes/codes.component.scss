@@ -1,0 +1,26 @@
+.codes {
+
+  h3 {
+    margin: 0;
+  }
+  
+  p {
+    margin: 0;
+  }
+
+  .sub-breakdown {
+    padding-left: 24px;
+
+    > div {
+      padding: 8px 0;
+      border-top: 1px solid rgba(grey, 0.2);
+    }
+  }
+
+  .breakdowns {
+    header {
+      padding: 16px 0 8px;
+      font-weight: 500;
+    }
+  }
+}

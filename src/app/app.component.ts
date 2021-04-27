@@ -11,6 +11,7 @@ import { Base } from './shared/base/base-component';
 import { appAnimations } from './app.animations';
 import { ClinicService } from './shared/services/clinic.service';
 import { SettingsService } from './shared/services/settings.service';
+import { InsuranceService } from './shared/services/insurance.service';
 
 @Component({
   selector: 'app-root',
@@ -25,8 +26,9 @@ export class AppComponent extends Base implements OnInit {
   emailVerified = true;
   expanded = true;
   home = false;
+  isDentist = false;
   isSpecialist = false;
-  isAdmin = false;
+  isAgent = false;
   clinicName = '';
   private expandedKey = 'sdNavExpanded';
   private themeKey = 'sdTheme';
@@ -35,6 +37,7 @@ export class AppComponent extends Base implements OnInit {
     private domSanitizer: DomSanitizer,
     private iconRegistry: MatIconRegistry,
     private auth: AngularFireAuth,
+    private insuranceService: InsuranceService,
     private router: Router,
     private overlayContainer: OverlayContainer,
     private clinicService: ClinicService,
@@ -90,11 +93,25 @@ export class AppComponent extends Base implements OnInit {
           .pipe(take(1))
           .subscribe(myClinics => {
             const c = myClinics.data.clinicDetails;
-            if (c.length === 1 && c[0].type === 'dentist') {
-              this.isSpecialist = false;
-            } else {
+            this.isDentist = false;
+            this.isSpecialist = false;
+            this.isAgent = false;
+
+            if (c[0].type === 'dentist') {
+              this.isDentist = true;
+            } else if (c[0].type === 'specialist') {
               this.isSpecialist = true;
+            } else if (c[0].type === 'agent') {
+              this.isAgent = true;
             }
+
+            // if (c.length === 1 && c[0].type === 'dentist') {
+            //   this.isSpecialist = false;
+            // } else if (c[0].type === 'specialist') {
+            //   this.isSpecialist = true;
+            // } else {
+            //   this.isAgent = true;
+            // }
 
             if (c[0] && c[0].name) {
               this.clinicName = c[0].name;
@@ -109,6 +126,7 @@ export class AppComponent extends Base implements OnInit {
 
   signOut(): void {
     this.clinicService.clearCache();
+    this.insuranceService.clearCache();
     this.auth.signOut().then(() => {
       this.authenticated = false;
       this.isSpecialist = false;

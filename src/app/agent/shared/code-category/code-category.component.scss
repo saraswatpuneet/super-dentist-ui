@@ -1,0 +1,38 @@
+.code-inputs {
+  p {
+    margin: 0;
+  }
+
+  .breakdowns {
+    header {
+      padding: 16px 0 8px;
+      p {
+        font-weight: 500;
+      }
+    }
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0px;
+  }
+
+  th {
+    text-align: left;
+  }
+  td {
+    border: 1px solid rgba(grey, 0.4);
+    padding: 0 8px;
+    height: 100%;
+  }
+
+  select {
+    width: 100%;
+    display:inline-block;
+    outline:none;
+    height: 32px;
+    padding: 0;
+    margin: 0;
+    border: none;
+  }
+}

@@ -1,0 +1,94 @@
+<div class="agent">
+  <div class="patients" *ngIf="!selectedPatient">
+    <mat-card class="c-card">
+      <div class="e-list">
+        <div *ngIf="selectedClinic" class="selected-clinic">
+          <div (click)="clearAll()" fxLayoutAlign=" center" fxLayout="row">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+            <div fxLayout="column">
+              <h3>{{selectedClinic?.name}}</h3>
+              <div class="sub">{{selectedClinic?.address}}</div>
+            </div>
+          </div>
+          <div class="sd-input">
+            <input type="text" placeholder="Search for a patient" [(ngModel)]="patientFilter"
+              (keyup)="filterPatientList()">
+          </div>
+        </div>
+        <ng-container *ngIf="!selectedClinic">
+          <table mat-table [dataSource]="clinics" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="clinicName">
+              <th mat-header-cell *matHeaderCellDef> Clinic </th>
+              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="address">
+              <th mat-header-cell *matHeaderCellDef> Address </th>
+              <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="phoneNumber">
+              <th mat-header-cell *matHeaderCellDef> Phone Number </th>
+              <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row (click)="getPatients(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </ng-container>
+      </div>
+
+      <div class="patient-list" *ngIf="selectedClinic">
+        <table mat-table [dataSource]="filteredPatients" class="mat-elevation-z8">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Patient </th>
+            <td mat-cell *matCellDef="let element"> {{element?.firstName}} {{element?.lastName}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="birthday">
+            <th mat-header-cell *matHeaderCellDef> Birthday </th>
+            <td mat-cell *matCellDef="let element"> {{months[element.dob.month].label}} {{element.dob.day}},
+              {{element.dob.year}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="dentalInsurance">
+            <th mat-header-cell *matHeaderCellDef> Dental Insurance </th>
+            <td mat-cell *matCellDef="let element">
+              <div fxLayout="row" fxLayoutGap="8px">
+                <div class="company" *ngFor="let insurance of element.dentalInsurance">{{insurance.company}}</div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="medicalInsurance">
+            <th mat-header-cell *matHeaderCellDef> Medical Insurance</th>
+            <td mat-cell *matCellDef="let element">
+              <div fxLayout="row" fxLayoutGap="8px">
+                <div class="company" *ngFor="let insurance of element.medicalInsurance">{{insurance.company}}</div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+            <td mat-cell *matCellDef="let element">
+
+              <app-patient-status-pill [label]="element?.status?.label" [value]="element?.status?.value">
+              </app-patient-status-pill>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="patientColumns"></tr>
+          <tr mat-row (click)="selectPatient(row)" *matRowDef="let row; columns: patientColumns;"></tr>
+        </table>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="patient-details" *ngIf="selectedPatient" fxLayout="column" fxLayoutGap="24px">
+    <app-agent-input [addressId]="addressId" [clinic]="selectedClinic" (closePatient)="selectedPatient = undefined"
+      [patient]="selectedPatient">
+    </app-agent-input>
+  </div>
+</div>
