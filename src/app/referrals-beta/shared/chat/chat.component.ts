@@ -100,7 +100,6 @@ export class ChatComponent extends Base implements OnInit {
       take(1)
     ).subscribe(res => {
       const self = this;
-      console.log(res);
       try {
         const reader = new FileReader();
         reader.readAsDataURL(res);
