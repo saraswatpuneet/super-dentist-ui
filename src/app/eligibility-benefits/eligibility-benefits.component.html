@@ -19,11 +19,11 @@
         <input type="email" [(ngModel)]="patientFilter" (ngModelChange)="filterPatientList()"
           placeholder="Search for patient">
       </div>
+      <span fxFlex></span>
       <button mat-button [matMenuTriggerFor]="menu">
         <mat-icon>sort</mat-icon> Sort by
       </button>
-      <span fxFlex></span>
-      <button fxFlex="150px" mat-raised-button color="primary" (click)="showInsurance = true">Insurance check</button>
+      <button fxFlex="150px" mat-stroked-button (click)="showInsurance = true">Insurance check</button>
     </mat-card>
   </div>
 
