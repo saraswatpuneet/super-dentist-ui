@@ -47,7 +47,7 @@
       <mat-icon>account_circle</mat-icon>
       <div class="convo" fxLayout="column">
         <header>{{m.header.name}} </header>
-        <div *ngFor="let mIds of m.messageIds" fxLayout="row">
+        <div style="word-break: break-word" *ngFor="let mIds of m.messageIds" fxLayout="row">
           <div class="file" *ngIf="conversation[mIds].file">
             <ng-container *ngFor="let media of conversation[mIds].media; let mediaIndex = index">
               <img (click)="previewFile(conversation[mIds].file[mediaIndex], media.image)" *ngIf="media.image"

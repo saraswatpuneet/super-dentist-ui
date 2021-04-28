@@ -177,7 +177,7 @@ export class ChatComponent extends Base implements OnInit {
       ),
       tap(messages => this.messages = messages),
       tap(() => this.messageChunks = this.mapMessages(this.messages)),
-      delay(10000),
+      delay(100000),
       repeat(),
       takeUntil(merge(this.unsubscribe$, this.polling.pipe(filter(res => res === false))))
     ).subscribe();
