@@ -6,6 +6,19 @@
     }
   }
 
+  .appointment-time {
+    font-size: 20px;
+    line-height: 36px;
+    margin-right: 12px;
+  }
+
+  p {
+    margin-bottom: 4px;
+  }
+  .right {
+    opacity: 0.4;
+  }
+
   .name {
     header {
       font-size: 16px;
@@ -18,7 +31,7 @@
   }
 
   .gap1 {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
 
   .company {
