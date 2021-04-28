@@ -4,13 +4,32 @@
       <header>{{patient?.firstName}} {{patient?.lastName}}</header>
       <span>DOB - {{months[patient.dob.month].label}} {{patient.dob.day}}, {{patient.dob.year}}</span>
     </div>
+    <div class="appointment-time">8:00 AM</div>
     <app-patient-status-pill [label]="patient?.status?.label" [value]="patient?.status?.value">
     </app-patient-status-pill>
   </div>
-  <div class="carrier" fxLayout="column">
-    <div fxLayout="row wrap">
-      <div class="company" *ngFor="let insurance of patient.dentalInsurance">{{insurance.company}}</div>
-      <div class="company" *ngFor="let insurance of patient.medicalInsurance">{{insurance.company}}</div>
+  <div class="carrier" fxLayout="row" fxLayoutGap="20px">
+    <div fxFlex="50" fxLayout="column">
+      <p>Primary Insurance</p>
+      <div fxLayout="row" fxLayoutGap="8px" *ngIf="patient.dentalInsurance && patient.dentalInsurance[0]">
+        <div class="right" fxFlex="50px">Dental</div>
+        <div>{{patient?.dentalInsurance[0]?.company}}</div>
+      </div>
+      <div fxLayout="row" fxLayoutGap="8px" *ngIf="patient.medicalInsurance && patient.medicalInsurance[0]">
+        <div class="right" fxFlex="50px">Medical</div>
+        <div>{{patient?.medicalInsurance[0]?.company}}</div>
+      </div>
+    </div>
+    <div fxFlex="50" fxLayout="column">
+      <p>Secondary Insurance</p>
+      <div fxLayout="row" fxLayoutGap="8px" *ngIf="patient.dentalInsurance && patient.dentalInsurance[1]">
+        <div class="right" fxFlex="50px">Dental</div>
+        <div>{{patient?.dentalInsurance[1]?.company}}</div>
+      </div>
+      <div fxLayout="row" fxLayoutGap="8px" *ngIf="patient.medicalInsurance && patient.medicalInsurance[1]">
+        <div class="right" fxFlex="50px">Medical</div>
+        <div>{{patient?.medicalInsurance[1]?.company}}</div>
+      </div>
     </div>
   </div>
 </div>

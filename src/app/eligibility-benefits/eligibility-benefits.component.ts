@@ -20,6 +20,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   addressId = '';
   patientFilter = '';
   filteredPatients = [];
+  patientColumns: string[] = ['name', 'dentalInsurance', 'medicalInsurance', 'status'];
   codeHistory: {};
   selectedPatient = undefined;
   savedCodes: DentalBreakDowns = this.newSavedCodes();
@@ -67,6 +68,61 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
         `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(this.patientFilter.toLowerCase())
       );
     });
+  }
+
+  sortBy(group: string, order: string): void {
+    console.log(group, order);
+    if (group === 'patient') {
+      this.sortPatientOrder(order);
+    } else if (group === 'status') {
+      this.sortPatientStatus(order);
+    }
+  }
+
+  private sortPatientStatus(order: string): void {
+    this.clinics.forEach((_, i) => {
+      this.filteredPatients[i] = this.filteredPatients[i].sort((a, b) => {
+        if (a.status.value !== order) {
+          return -1;
+        }
+        if (b.status.value === order) {
+          return 1;
+        }
+        return 0;
+      });
+    });
+  }
+
+  private sortPatientOrder(order: string): void {
+    if (order === 'az') {
+      this.clinics.forEach((_, i) => {
+        this.filteredPatients[i] = this.filteredPatients[i].sort((a, b) => {
+          const name = `${a.firstName} ${a.lastName}`;
+          const name2 = `${b.firstName} ${b.lastName}`;
+          if (name < name2) {
+            return -1;
+          }
+          if (name > name2) {
+            return 1;
+          }
+          return 0;
+        });
+      });
+    } else {
+      this.clinics.forEach((_, i) => {
+        this.filteredPatients[i] = this.filteredPatients[i].sort((b, a) => {
+          const name = `${a.firstName} ${a.lastName}`;
+          const name2 = `${b.firstName} ${b.lastName}`;
+          if (name < name2) {
+            return -1;
+          }
+          if (name > name2) {
+            return 1;
+          }
+          return 0;
+        });
+      });
+    }
   }
 
   private watchTriggerPatientGet(): void {

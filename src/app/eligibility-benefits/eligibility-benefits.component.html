@@ -1,25 +1,92 @@
+<mat-menu #menu="matMenu">
+  <button mat-menu-item [matMenuTriggerFor]="patientMenu">Patient name</button>
+  <!-- <button mat-menu-item [matMenuTriggerFor]="statusMenu">Status</button> -->
+</mat-menu>
+<mat-menu #patientMenu="matMenu">
+  <button mat-menu-item (click)="sortBy('patient', 'az')">A -> Z</button>
+  <button mat-menu-item (click)="sortBy('patient', 'za')">Z -> A</button>
+</mat-menu>
+<!-- <mat-menu #statusMenu="matMenu">
+  <button mat-menu-item (click)="sortBy('status', 'pending')">Pending</button>
+  <button mat-menu-item (click)="sortBy('status', 'active')">Active</button>
+  <button mat-menu-item (click)="sortBy('status', 'incomplete')">Incomplete</button>
+  <button mat-menu-item (click)="sortBy('status', 'termed')">Termed</button>
+</mat-menu> -->
 <div class="eligibility-benefits" fxLayout="column">
-  <div fxLayout="row" class="search-bar" fxLayoutGap="20px">
-    <div class="sd-input patients" fxFlex>
-      <input type="email" [(ngModel)]="patientFilter" (ngModelChange)="filterPatientList()"
-        placeholder="Search for patient">
-    </div>
-    <span fxFlex></span>
-    <button mat-raised-button color="primary" (click)="showInsurance = true">Insurance check</button>
+  <div class="search-bar">
+    <mat-card class="c-card" fxLayout="row">
+      <div class="sd-input" style="width: 300px">
+        <input type="email" [(ngModel)]="patientFilter" (ngModelChange)="filterPatientList()"
+          placeholder="Search for patient">
+      </div>
+      <span fxFlex></span>
+      <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon>sort</mat-icon> Sort by
+      </button>
+      <button fxFlex="150px" mat-stroked-button (click)="showInsurance = true">Insurance check</button>
+    </mat-card>
   </div>
 
   <div fxLayout="row" fxLayoutGap="24px" class="overflow">
     <mat-card class="c-card patients">
-      <div class="fix" *ngIf="showInsurance">
-        <app-insurance-registration [dentalCompanies]="dentalCompanies" (cancelRegistration)="onCancelRegistration()"
-          [clinics]="clinics" [canCancel]="true">
-        </app-insurance-registration>
-      </div>
-
       <div *ngFor="let clinic of clinics; let i = index">
         <div fxLayout="row" fxLayoutAlign=" start">
           <h3 fxFlex>{{clinic.name}}</h3>
         </div>
+        <!-- <table mat-table [dataSource]="filteredPatients[i]" class="mat-elevation-z8">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Patient </th>
+            <td mat-cell *matCellDef="let element">
+              <div>
+                <div>{{element?.firstName}} {{element?.lastName}} </div>
+                <div class="lighter">
+                  DoB - {{months[element.dob.month].label}} {{element.dob.day}}, {{element.dob.year}}
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="dentalInsurance">
+            <th mat-header-cell *matHeaderCellDef> Primary insurance</th>
+            <td mat-cell *matCellDef="let element">
+              <div fxLayout="row" fxLayoutGap="8px" *ngIf="element.dentalInsurance && element.dentalInsurance[0]">
+                <div class="right" fxFlex="50px">Dental</div>
+                <div>{{element?.dentalInsurance[0]?.company}}</div>
+              </div>
+              <div fxLayout="row" fxLayoutGap="8px" *ngIf="element.medicalInsurance && element.medicalInsurance[0]">
+                <div class="right" fxFlex="50px">Medical</div>
+                <div>{{element?.medicalInsurance[0]?.company}}</div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="medicalInsurance">
+            <th mat-header-cell *matHeaderCellDef> Secondary insurance</th>
+            <td mat-cell *matCellDef="let element">
+              <div fxLayout="row" fxLayoutGap="8px" *ngIf="element.dentalInsurance && element.dentalInsurance[1]">
+                <div class="right" fxFlex="50px">Dental</div>
+                <div>{{element?.dentalInsurance[1]?.company}}</div>
+              </div>
+              <div fxLayout="row" fxLayoutGap="8px" *ngIf="element.medicalInsurance && element.medicalInsurance[1]">
+                <div class="right" fxFlex="50px">Medical</div>
+                <div>{{element?.medicalInsurance[1]?.company}}</div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th style="width:100px" mat-header-cell *matHeaderCellDef> Status </th>
+            <td mat-cell *matCellDef="let element">
+
+              <app-patient-status-pill [label]="element?.status?.label" [value]="element?.status?.value">
+              </app-patient-status-pill>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="patientColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: patientColumns;"></tr>
+        </table> -->
+
         <div [ngClass]="{'active': selectedPatient?.patientId === patient.patientId}"
           (click)="selectPatient(patient, clinic.addressId)" class="patient-items"
           *ngFor="let patient of filteredPatients[i]" fxLayout="column">

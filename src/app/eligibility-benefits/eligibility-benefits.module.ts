@@ -1,21 +1,23 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTableModule } from '@angular/material/table';
+import { MatMenuModule } from '@angular/material/menu';
+import { NgModule } from '@angular/core';
 
-import { EligibilityBenefitsRoutingModule } from './eligibility-benefits-routing.module';
-import { EligibilityBenefitsComponent } from './eligibility-benefits.component';
-import { InsuranceRegistrationModule } from '../shared/insurance-registration/insurance-registration.module';
 import { CodesComponent } from './shared/codes/codes.component';
+import { EligibilityBenefitsComponent } from './eligibility-benefits.component';
+import { EligibilityBenefitsRoutingModule } from './eligibility-benefits-routing.module';
 import { HistoryComponent } from './shared/history/history.component';
-import { RemarksComponent } from './shared/remarks/remarks.component';
+import { InsuranceRegistrationModule } from '../shared/insurance-registration/insurance-registration.module';
 import { PatientDetailsComponent } from './shared/patient-details/patient-details.component';
 import { PatientListItemModule } from '../shared/patient-list-item/patient-list-item.module';
 import { PatientStatusPillModule } from '../shared/patient-status-pill/patient-status-pill.module';
+import { RemarksComponent } from './shared/remarks/remarks.component';
 
 @NgModule({
   declarations: [
@@ -27,15 +29,17 @@ import { PatientStatusPillModule } from '../shared/patient-status-pill/patient-s
   ],
   imports: [
     CommonModule,
-    FormsModule,
-    PatientStatusPillModule,
-    PatientListItemModule,
     FlexLayoutModule,
-    MatProgressBarModule,
+    FormsModule,
+    InsuranceRegistrationModule,
     MatButtonModule,
+    MatMenuModule,
     MatCardModule,
     MatIconModule,
-    InsuranceRegistrationModule,
+    MatProgressBarModule,
+    MatTableModule,
+    PatientListItemModule,
+    PatientStatusPillModule,
     EligibilityBenefitsRoutingModule
   ]
 })
