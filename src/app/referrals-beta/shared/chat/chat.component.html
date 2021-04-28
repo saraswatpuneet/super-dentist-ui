@@ -49,8 +49,8 @@
         <header>{{m.header.name}} </header>
         <div *ngFor="let mIds of m.messageIds" fxLayout="row">
           <div class="file" *ngIf="conversation[mIds].file">
-            <ng-container *ngFor="let media of conversation[mIds].media">
-              <img (click)="previewFile(conversation[mIds].file, media.image)" *ngIf="media.image"
+            <ng-container *ngFor="let media of conversation[mIds].media; let mediaIndex = index">
+              <img (click)="previewFile(conversation[mIds].file[mediaIndex], media.image)" *ngIf="media.image"
                 [src]="'data:image/png;base64,' + media.image" alt="">
               <img (click)="downloadFile(conversation[mIds].file)" *ngIf="!media.image" src="assets/icons/file.svg"
                 alt="">

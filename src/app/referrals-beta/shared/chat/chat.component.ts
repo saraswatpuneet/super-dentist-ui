@@ -93,7 +93,7 @@ export class ChatComponent extends Base implements OnInit {
   }
 
   previewFile(fileName: string, image: any): void {
-    this.imagePreviewName = fileName[0];
+    this.imagePreviewName = fileName;
     this.imagePreview = `data:image/png;base64,${image}`;
     this.viewingFile = true;
     this.referralService.getDocumentFile(this.referralId, this.imagePreviewName).pipe(

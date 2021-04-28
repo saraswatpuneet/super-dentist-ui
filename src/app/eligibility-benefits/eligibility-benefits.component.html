@@ -30,8 +30,9 @@
   <div fxLayout="row" fxLayoutGap="24px" class="overflow">
     <mat-card class="c-card patients">
       <div *ngFor="let clinic of clinics; let i = index">
-        <div fxLayout="row" fxLayoutAlign=" start">
-          <h3 fxFlex>{{clinic.name}}</h3>
+        <div class="padd-bot" fxLayout="column">
+          <h3 class="no-m">{{clinic.name}}</h3>
+          <div class="lighter">{{clinic.address}}</div>
         </div>
         <!-- <table mat-table [dataSource]="filteredPatients[i]" class="mat-elevation-z8">
           <ng-container matColumnDef="name">

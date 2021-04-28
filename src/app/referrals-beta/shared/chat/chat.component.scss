@@ -74,21 +74,19 @@
   .file {
     position: relative;
     margin-bottom: 12px;
-    cursor: pointer;
-    
-    &:hover {
-      img {
-        box-shadow: 0px 4px 5px -2px rgb(0 0 0 / 20%), 0px 7px 10px 1px rgb(0 0 0 / 14%), 0px 2px 16px 1px rgb(0 0 0 / 12%);
-      }
-    }
     
     img {
+      cursor: pointer;
       transition: 0.3s;
       height: 86px;
       border: 1px solid rgba(grey, 0.4);
       border-radius: 12px;
       margin: 12px 0 4px;
       box-shadow: 0px 4px 5px -2px rgb(0 0 0 / 0%), 0px 7px 10px 1px rgb(0 0 0 / 0%), 0px 2px 16px 1px rgb(0 0 0 / 0%);
+      
+      &:hover {
+        box-shadow: 0px 4px 5px -2px rgb(0 0 0 / 20%), 0px 7px 10px 1px rgb(0 0 0 / 14%), 0px 2px 16px 1px rgb(0 0 0 / 12%);
+      }
     }
   }
 
