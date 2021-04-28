@@ -4,7 +4,7 @@
       <header>{{patient?.firstName}} {{patient?.lastName}}</header>
       <span>DOB - {{months[patient.dob.month].label}} {{patient.dob.day}}, {{patient.dob.year}}</span>
     </div>
-    <div class="appointment-time">8:00 AM</div>
+    <!-- <div class="appointment-time">8:00 AM</div> -->
     <app-patient-status-pill [label]="patient?.status?.label" [value]="patient?.status?.value">
     </app-patient-status-pill>
   </div>
