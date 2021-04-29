@@ -104,7 +104,6 @@ export class ChatComponent extends Base implements OnInit {
     this.mediaPreview = media.map(m => ({ ...m, requestMade: false }));
     this.selectedPreviewIndex = selectedIndex;
     this.previewFile();
-    console.log(this.mediaPreview);
   }
 
   moveLeft(): void {
