@@ -13,6 +13,20 @@
     z-index: 10;
   }
 
+  .abs {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    &.l {
+      left: 12px;
+    }
+
+    &.r {
+      right: 12px;
+    }
+  }
+
   .top-right {
     position: absolute;
     top: 10px;
@@ -28,13 +42,26 @@
     z-index: 9;
   }
 
-  img {
-    max-height:90%;
-    max-width: 90%;
-    object-fit: contain;
+  .imgcontainer {
+    height: calc(100% - 44px - 48px);
+    width: calc(100% - 102px);
+    overflow: hidden;
+    position: relative;
   }
 
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-height: 100%;
+    max-width: 100%;
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    transition: 0.3s;
+  }
 }
+
 .chat {
   box-sizing: border-box;
   height: 100%;
