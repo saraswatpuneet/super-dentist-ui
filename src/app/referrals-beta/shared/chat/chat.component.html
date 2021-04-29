@@ -50,7 +50,7 @@
         <div style="word-break: break-word" *ngFor="let mIds of m.messageIds" fxLayout="row">
           <div class="file" *ngIf="conversation[mIds].file">
             <ng-container *ngFor="let media of conversation[mIds].media; let mediaIndex = index">
-              <img (click)="previewFile(conversation[mIds].file[mediaIndex], media.image)" *ngIf="media.image"
+              <img (click)="previewFile2(conversation[mIds].media, mediaIndex)" *ngIf="media.image"
                 [src]="'data:image/png;base64,' + media.image" alt="">
               <img (click)="downloadFile(conversation[mIds].file)" *ngIf="!media.image" src="assets/icons/file.svg"
                 alt="">
@@ -87,8 +87,16 @@
     <mat-icon>close</mat-icon>
   </button>
   <div (click)="closePreview()" class="close-preview"></div>
+  <button class="abs l" mat-icon-button (click)="moveLeft()">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <button class="abs r" mat-icon-button (click)="moveRight()">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
 
-  <h2>{{imagePreviewName}}</h2>
-  <img fxFlex [src]="imagePreview" alt="">
-  <button mat-raised-button (click)="downloadFile([imagePreviewName])">Download</button>
+  <h2>{{mediaPreview[selectedPreviewIndex].name}}</h2>
+  <div class="imgcontainer">
+    <img [src]="'data:image/png;base64,' + mediaPreview[selectedPreviewIndex].image" alt="">
+  </div>
+  <button mat-raised-button (click)="downloadFile([mediaPreview[selectedPreviewIndex].name])">Download</button>
 </div>

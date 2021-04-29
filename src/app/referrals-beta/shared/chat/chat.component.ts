@@ -21,6 +21,12 @@ interface MessageHeader {
   timeStamp: number;
 }
 
+interface MediaPreview {
+  name: string;
+  requestMade: boolean;
+  image: string;
+}
+
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -35,6 +41,8 @@ export class ChatComponent extends Base implements OnInit {
   viewingFile = false;
   imagePreview = '';
   imagePreviewName = '';
+  mediaPreview: MediaPreview[] = [];
+  selectedPreviewIndex = 0;
   selectedChannel: Channel = 'c2c';
   messagePlaceholder = '';
   referral: Referral;
@@ -92,25 +100,50 @@ export class ChatComponent extends Base implements OnInit {
       saveAs(new Blob([res]), fileName[0]));
   }
 
-  previewFile(fileName: string, image: any): void {
-    this.imagePreviewName = fileName;
-    this.imagePreview = `data:image/png;base64,${image}`;
-    this.viewingFile = true;
-    this.referralService.getDocumentFile(this.referralId, this.imagePreviewName).pipe(
-      take(1)
-    ).subscribe(res => {
-      const self = this;
-      try {
-        const reader = new FileReader();
-        reader.readAsDataURL(res);
-        reader.onloadend = () => {
-          const base64data = reader.result;
-          self.imagePreview = base64data.toString().replace('data:application/zip;base64,', 'data:image/png;base64,');
-        };
-      } catch (e) {
+  previewFile2(media, selectedIndex: number): void {
+    this.mediaPreview = media.map(m => ({ ...m, requestMade: false }));
+    this.selectedPreviewIndex = selectedIndex;
+    this.previewFile();
+  }
 
-      }
-    });
+  moveLeft(): void {
+    if (this.selectedPreviewIndex === 0) {
+      this.selectedPreviewIndex = this.mediaPreview.length - 1;
+    } else {
+      this.selectedPreviewIndex--;
+    }
+    this.previewFile();
+  }
+
+  moveRight(): void {
+    if (this.selectedPreviewIndex === this.mediaPreview.length - 1) {
+      this.selectedPreviewIndex = 0;
+    } else {
+      this.selectedPreviewIndex++;
+    }
+    this.previewFile();
+  }
+
+  previewFile(): void {
+    this.viewingFile = true;
+    if (!this.mediaPreview[this.selectedPreviewIndex].requestMade) {
+      const index = this.selectedPreviewIndex;
+      this.mediaPreview[this.selectedPreviewIndex].requestMade = true;
+      this.referralService.getDocumentFile(this.referralId, this.mediaPreview[this.selectedPreviewIndex].name)
+        .pipe(take(1)).subscribe(res => {
+          const self = this;
+          if (this.viewingFile) {
+            try {
+              const reader = new FileReader();
+              reader.readAsDataURL(res);
+              reader.onloadend = () => {
+                const base64data = reader.result;
+                self.mediaPreview[index].image = base64data.toString().replace('data:application/zip;base64,', '');
+              };
+            } catch (e) { }
+          }
+        });
+    }
   }
 
   closePreview(): void {

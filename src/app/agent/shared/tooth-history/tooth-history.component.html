@@ -6,8 +6,8 @@
       <button mat-icon-button (click)="addHistory()">
         <mat-icon>add_circle_outline</mat-icon>
       </button>
-      <span fxFlex>Date (MM/DD/YYY)</span>
-      <span fxFlex>Tooth # | Quadrant</span>
+      <span class="lighter" fxFlex>Date (MM/DD/YYY)</span>
+      <span class="lighter" fxFlex>Tooth # | Quadrant</span>
     </div>
 
     <div class="row-form" fxLayout="row" *ngFor="let control of historyForm.controls; let i = index"
