@@ -98,5 +98,5 @@
   <div class="imgcontainer">
     <img [src]="'data:image/png;base64,' + mediaPreview[selectedPreviewIndex].image" alt="">
   </div>
-  <button mat-raised-button (click)="downloadFile([imagePreviewName])">Download</button>
+  <button mat-raised-button (click)="downloadFile([mediaPreview[selectedPreviewIndex].name])">Download</button>
 </div>
