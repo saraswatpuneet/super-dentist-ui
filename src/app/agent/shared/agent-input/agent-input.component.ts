@@ -304,12 +304,12 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
           other: [],
           category: []
         }),
-        annualMaximum: [],
-        annualUsedAmount: [],
-        deductibleIndividual: [],
-        deductibleFamily: [],
-        deductibleMetAmountIndividual: [],
-        deductibleMetAmountFamily: [],
+        annualMaximum: [''],
+        annualUsedAmount: [''],
+        deductibleIndividual: [''],
+        deductibleMetAmountIndividual: [''],
+        deductibleFamily: [''],
+        deductibleMetAmountFamily: [''],
         missingToothClause: ['no'],
         waitingPeriods: this.fb.group({
           enabled: ['no'],
