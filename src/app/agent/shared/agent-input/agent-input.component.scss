@@ -4,6 +4,13 @@
   position: relative;
   overflow: hidden;
 
+  .abs-bottom {
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+  }
+
   .lighter {
     opacity: 0.5;
     font-size: 13px;
@@ -36,7 +43,7 @@
   }
 
   .m-20 {
-    padding-right: 20px;
+    padding: 4px 20px 4px 4px;
     height: calc(100% - 60px);
     overflow: auto;
   }
