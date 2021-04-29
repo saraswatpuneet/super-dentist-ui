@@ -43,6 +43,7 @@
     <app-patient-details2 (closePatient)="closePatient.emit()" [processing]="processing" (save)="onSave()"
       [months]="months" [patient]="patient">
     </app-patient-details2>
+
     <ng-container formGroupName="patientCoverage">
       <mat-card class="incomplete-notes" *ngIf="selectedStatusValue === 'incomplete'">
         <div #incompleteNotesEl> </div>
@@ -50,139 +51,96 @@
         <textarea class="sd-input" formControlName="generalNotes"></textarea>
       </mat-card>
 
-      <mat-card fxLayout="column" fxFlex="0 0 auto">
-        <h3>Coverage</h3>
-
-        <div fxLayout="row" fxLayoutGap="12px">
-          <div fxLayout="column" fxFlex="50">
-            <div class="sd-input">
-              <label>Group name</label>
-              <input type="text" formControlName="groupName">
-            </div>
-            <div class="sd-input">
-              <label>Group number</label>
-              <input type="text" formControlName="groupNumber">
-            </div>
-            <div class="sd-input">
-              <label>Payer ID</label>
-              <input type="text" formControlName="payerId">
-            </div>
-          </div>
-
-          <div fxLayout="column" fxFlex="50">
-            <div class="sd-input">
-              <label>Eligibility start date (MM/DD/YYYY)</label>
-              <input type="text" formControlName="eligibilityStartDate" mask='00/00/0000' [showMaskTyped]="true">
-            </div>
-
-            <div fxLayout="row" fxLayoutGap="12px" formGroupName="eligibilityYear">
-              <div class="sd-input" fxFlex>
-                <label>Eligibility year</label>
-                <select formControlName="value" (change)="resetEligibilityYear()">
-                  <option *ngFor="let clause of eligibilityOptions" [value]="clause.value">{{clause.label}}</option>
-                </select>
+      <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign=" start">
+        <mat-card fxFlex="50">
+          <h3>Deductions</h3>
+          <div fxLayout="row" fxLayoutGap="20px">
+            <div fxLayout="column" fxFlex="50">
+              <div class="sd-input">
+                <label>Annual maximum</label>
+                <input type="text" prefix="$" mask="separator.2" thousandSeparator="," formControlName="annualMaximum">
               </div>
 
-              <div *ngIf="agentForm.get('patientCoverage').value.eligibilityYear.value === 'benefit'" class="sd-input"
-                fxFlex>
-                <label>Benefits month</label>
-                <select formControlName="month">
-                  <option *ngFor="let month of months" [value]="month.value">{{month.label}}</option>
-                </select>
+              <div class="sd-input">
+                <label>Annual used amount</label>
+                <input type="text" prefix="$" mask="separator.2" thousandSeparator=","
+                  formControlName="annualUsedAmount">
+              </div>
+              <div class="sd-input">
+                <label>Deductible (Individual)</label>
+                <input type="text" prefix="$" mask="separator.2" thousandSeparator=","
+                  formControlName="deductibleIndividual">
+              </div>
+
+              <div class="sd-input">
+                <label>Deductible met amount (Individual)</label>
+                <input type="text" prefix="$" mask="separator.2" thousandSeparator=","
+                  formControlName="deductibleMetAmountIndividual">
+              </div>
+            </div>
+
+
+            <div fxLayout="column" fxFlex="50">
+              <div class="sd-input">
+                <label>Deductible (Family)</label>
+                <input type="text" prefix="$" mask="separator.2" thousandSeparator=","
+                  formControlName="deductibleFamily">
+              </div>
+
+              <div class="sd-input">
+                <label>Deductible met amount (Family)</label>
+                <input type="text" prefix="$" mask="separator.2" thousandSeparator=","
+                  formControlName="deductibleMetAmountFamily">
               </div>
             </div>
           </div>
-        </div>
+        </mat-card>
 
-        <div fxLayout="row" fxLayoutGap="12px" formGroupName="coordinationOfBenefits">
-          <div fxFlex class="sd-input">
-            <label>Coordination of benefits</label>
-
-            <select formControlName="category">
-              <option *ngFor="let clause of coordinationOfBenefits" [value]="clause.value">{{clause.label}}</option>
-            </select>
-          </div>
-
-          <div fxFlex class="sd-input"
-            *ngIf="agentForm.get('patientCoverage').value.coordinationOfBenefits.category === 'other'">
-            <label>Other</label>
-            <input type="text" formControlName="other">
-          </div>
-        </div>
-
-        <div fxLayout="row" fxLayoutGap="12px">
-          <div class="sd-input radio" fxFlex>
-            <label>In-network</label>
-
-            <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="inNetwork">
-              <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
-                {{clause.label}}
-              </mat-radio-button>
-            </mat-radio-group>
-          </div>
-
-          <div class="sd-input radio" fxFlex>
-            <label>Preventitive deducted from maximum</label>
-
-            <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="preventitiveDeductedFromMaximum">
-              <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
-                {{clause.label}}
-              </mat-radio-button>
-            </mat-radio-group>
-          </div>
-        </div>
-
-
-        <div class="sd-input" fxFlex>
-          <label>Fee schedule</label>
-          <input type="text" formControlName="feeSchedule">
-        </div>
-
-      </mat-card>
-
-      <mat-card>
-        <h3>Deductions</h3>
-        <div fxLayout="row" fxLayoutGap="40px">
-          <div fxLayout="column" fxFlex="33">
-            <div class="sd-input">
-              <label>Annual maximum</label>
-              <input type="text" prefix="$" mask="separator.2" thousandSeparator="," formControlName="annualMaximum">
+        <mat-card fxFlex="50">
+          <h3>More details</h3>
+          <div fxLayout="row" fxLayoutGap="12px">
+            <div fxLayout="column" fxFlex="50">
+              <div class="sd-input">
+                <label>Group name</label>
+                <input type="text" formControlName="groupName">
+              </div>
+              <div class="sd-input">
+                <label>Group number</label>
+                <input type="text" formControlName="groupNumber">
+              </div>
+              <div class="sd-input">
+                <label>Payer ID</label>
+                <input type="text" formControlName="payerId">
+              </div>
             </div>
 
-            <div class="sd-input">
-              <label>Annual used amount</label>
-              <input type="text" prefix="$" mask="separator.2" thousandSeparator="," formControlName="annualUsedAmount">
+            <div fxLayout="column" fxFlex="50">
+              <div class="sd-input">
+                <label>Eligibility start date (MM/DD/YYYY)</label>
+                <input type="text" formControlName="eligibilityStartDate" mask='00/00/0000' [showMaskTyped]="true">
+              </div>
+
+              <div fxLayout="row" fxLayoutGap="12px" formGroupName="eligibilityYear">
+                <div class="sd-input" fxFlex>
+                  <label>Eligibility year</label>
+                  <select formControlName="value" (change)="resetEligibilityYear()">
+                    <option *ngFor="let clause of eligibilityOptions" [value]="clause.value">{{clause.label}}</option>
+                  </select>
+                </div>
+
+                <div *ngIf="agentForm.get('patientCoverage').value.eligibilityYear.value === 'benefit'" class="sd-input"
+                  fxFlex>
+                  <label>Benefits month</label>
+                  <select formControlName="month">
+                    <option *ngFor="let month of months" [value]="month.value">{{month.label}}</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
+        </mat-card>
+      </div>
 
-          <div fxLayout="column" fxFlex="33">
-            <div class="sd-input">
-              <label>Deductible (Individual)</label>
-              <input type="text" prefix="$" mask="separator.2" thousandSeparator=","
-                formControlName="deductibleIndividual">
-            </div>
-
-            <div class="sd-input">
-              <label>Deductible met amount (Individual)</label>
-              <input type="text" prefix="$" mask="separator.2" thousandSeparator=","
-                formControlName="deductibleMetAmountIndividual">
-            </div>
-          </div>
-
-          <div fxLayout="column" fxFlex="33">
-            <div class="sd-input">
-              <label>Deductible (Family)</label>
-              <input type="text" prefix="$" mask="separator.2" thousandSeparator="," formControlName="deductibleFamily">
-            </div>
-
-            <div class="sd-input">
-              <label>Deductible met amount (Family)</label>
-              <input type="text" prefix="$" mask="separator.2" thousandSeparator=","
-                formControlName="deductibleMetAmountFamily">
-            </div>
-          </div>
-        </div>
-      </mat-card>
 
       <div fxLayout="row" fxLayoutAlign=" start" fxLayoutGap="20px">
         <mat-card style="width:calc(50% - 10px)" fxLayout="column" fxFlex="0 0 auto" formGroupName="waitingPeriods">
@@ -291,14 +249,68 @@
 
     </ng-container>
 
-    <mat-card fxLayout="column" fxFlex="0 0 auto">
-      <div fxLayout="column" fxFlex="0 0 auto">
-        <h3>Categories</h3>
-        <app-code-category *ngIf="agentForm.get('codes')" [codes]="savedCodes" [groups]="agentForm.get('codes')"
-          [increments]="increments" [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
-        </app-code-category>
-      </div>
-    </mat-card>
+    <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign=" start">
+
+      <ng-container formGroupName="patientCoverage">
+        <mat-card fxLayout="column" fxFlex="50">
+          <h3>Coverage</h3>
+
+          <div fxLayout="row" fxLayoutGap="12px" formGroupName="coordinationOfBenefits">
+            <div fxFlex class="sd-input">
+              <label>Coordination of benefits</label>
+
+              <select formControlName="category">
+                <option *ngFor="let clause of coordinationOfBenefits" [value]="clause.value">{{clause.label}}</option>
+              </select>
+            </div>
+
+            <div fxFlex class="sd-input"
+              *ngIf="agentForm.get('patientCoverage').value.coordinationOfBenefits.category === 'other'">
+              <label>Other</label>
+              <input type="text" formControlName="other">
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="12px">
+            <div class="sd-input radio" fxFlex>
+              <label>In-network</label>
+
+              <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="inNetwork">
+                <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+                  {{clause.label}}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="sd-input radio" fxFlex>
+              <label>Preventitive deducted from maximum</label>
+
+              <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="preventitiveDeductedFromMaximum">
+                <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+                  {{clause.label}}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+
+          <div class="sd-input" fxFlex>
+            <label>Fee schedule</label>
+            <input type="text" formControlName="feeSchedule">
+          </div>
+
+        </mat-card>
+      </ng-container>
+
+      <mat-card fxFlex="50" fxLayout="column">
+        <div fxLayout="column" fxFlex="0 0 auto">
+          <h3>Categories</h3>
+          <app-code-category *ngIf="agentForm.get('codes')" [codes]="savedCodes" [groups]="agentForm.get('codes')"
+            [increments]="increments" [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
+          </app-code-category>
+        </div>
+      </mat-card>
+    </div>
 
     <mat-card fxLayout="column" fxFlex="0 0 auto">
       <div fxLayout="column" fxFlex="0 0 auto">
@@ -321,45 +333,46 @@
       </div>
     </mat-card>
 
-    <mat-card fxLayout="column" fxFlex="0 0 auto">
-      <ng-container formGroupName="history">
-        <h3>History</h3>
+    <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign=" start">
+      <mat-card fxLayout="column" fxFlex="50">
+        <ng-container formGroupName="remarks">
+          <h3>Remarks</h3>
 
-        <ng-container *ngFor="let key of codesHistory.breakDownKeys">
-          <ng-container *ngFor="let subKey of codesHistory.breakDowns[key].breakDownKeys">
-            <app-tooth-history [radioOptions]="radioOptions"
-              [label]="subKey + ' ' + codesHistory.breakDowns[key].breakDowns[subKey].label"
-              [historyForm]="agentForm.get('history')['controls'][subKey]"></app-tooth-history>
+          <div class="sd-input">
+            <label>Insurance representative name</label>
+            <input type="text" formControlName="insuranceRepresentativeName">
+          </div>
+
+          <div class="sd-input">
+            <label>Call ref #</label>
+            <input type="text" formControlName="callRefNumber">
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="12px">
+            <div class="sd-input" fxFlex>
+              <label>Verified by</label>
+              <input type="text" formControlName="verifiedBy">
+            </div>
+            <div class="sd-input" fxFlex>
+              <label>Verified date (MM/DD/YYYY)</label>
+              <input type="text" formControlName="verifiedDate" mask='00/00/0000' [showMaskTyped]="true">
+            </div>
+          </div>
+        </ng-container>
+      </mat-card>
+      <mat-card fxLayout="column" fxFlex="50">
+        <ng-container formGroupName="history">
+          <h3>History</h3>
+
+          <ng-container *ngFor="let key of codesHistory.breakDownKeys">
+            <ng-container *ngFor="let subKey of codesHistory.breakDowns[key].breakDownKeys">
+              <app-tooth-history [radioOptions]="radioOptions"
+                [label]="subKey + ' ' + codesHistory.breakDowns[key].breakDowns[subKey].label"
+                [historyForm]="agentForm.get('history')['controls'][subKey]"></app-tooth-history>
+            </ng-container>
           </ng-container>
         </ng-container>
-      </ng-container>
-    </mat-card>
-
-    <mat-card fxLayout="column" fxFlex="0 0 auto">
-      <ng-container formGroupName="remarks">
-        <h3>Remarks</h3>
-
-        <div class="sd-input" fxFlex>
-          <label>Insurance representative name</label>
-          <input type="text" formControlName="insuranceRepresentativeName">
-        </div>
-
-        <div class="sd-input" fxFlex>
-          <label>Call ref #</label>
-          <input type="text" formControlName="callRefNumber">
-        </div>
-
-        <div fxLayout="row" fxLayoutGap="12px">
-          <div class="sd-input" fxFlex>
-            <label>Verified by</label>
-            <input type="text" formControlName="verifiedBy">
-          </div>
-          <div class="sd-input" fxFlex>
-            <label>Verified date (MM/DD/YYYY)</label>
-            <input type="text" formControlName="verifiedDate" mask='00/00/0000' [showMaskTyped]="true">
-          </div>
-        </div>
-      </ng-container>
-    </mat-card>
+      </mat-card>
+    </div>
   </form>
 </div>
