@@ -29,6 +29,11 @@
 
   <div fxLayout="row" fxLayoutGap="24px" class="overflow">
     <mat-card class="c-card patients">
+      <div class="fix" *ngIf="showInsurance">
+        <app-insurance-registration [dentalCompanies]="dentalCompanies" (cancelRegistration)="onCancelRegistration()"
+          [clinics]="clinics" [canCancel]="true">
+        </app-insurance-registration>
+      </div>
       <div *ngFor="let clinic of clinics; let i = index">
         <div class="padd-bot" fxLayout="column">
           <h3 class="no-m">{{clinic.name}}</h3>

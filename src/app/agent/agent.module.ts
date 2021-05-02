@@ -26,6 +26,7 @@ import { ToothHistoryComponent } from './shared/tooth-history/tooth-history.comp
 import { PatientListItemModule } from '../shared/patient-list-item/patient-list-item.module';
 import { CodeCategoryComponent } from './shared/code-category/code-category.component';
 import { PatientStatusPillModule } from '../shared/patient-status-pill/patient-status-pill.module';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { PatientStatusPillModule } from '../shared/patient-status-pill/patient-s
     MatRadioModule,
     MatSelectModule,
     MatSortModule,
+    MatPaginatorModule,
     MatTableModule,
     MatTabsModule,
     NgxMaskModule,

@@ -5,7 +5,7 @@ import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
 import { InsuranceService } from '../shared/services/insurance.service';
 import { PatientService } from '../shared/services/patient.service';
-import { DentalBreakDowns } from '../shared/services/insurance';
+import { DentalBreakDowns, months } from '../shared/services/insurance';
 import { takeUntil, map, take, switchMap, tap, filter } from 'rxjs/operators';
 
 // Status for insurance
@@ -27,7 +27,7 @@ import { takeUntil, map, take, switchMap, tap, filter } from 'rxjs/operators';
 export class AgentComponent extends Base implements OnInit {
   addressId = '';
   displayedColumns: string[] = ['clinicName', 'address', 'phoneNumber'];
-  patientColumns: string[] = ['name', 'birthday', 'dentalInsurance', 'medicalInsurance', 'status'];
+  patientColumns: string[] = ['appointment', 'patient', 'subscriber', 'memberInfo', 'insurance', 'status'];
   showInsurance = false;
   patientFilter = '';
   selectedClinic: any;
@@ -35,20 +35,7 @@ export class AgentComponent extends Base implements OnInit {
   filteredPatients = [];
   selectedPatient: undefined;
   savedCodes: DentalBreakDowns = this.newSavedCodes();
-  months = [
-    { label: 'January', value: '1', },
-    { label: 'Febuary', value: '2', },
-    { label: 'March', value: '3', },
-    { label: 'April', value: '4', },
-    { label: 'May', value: '5', },
-    { label: 'June', value: '6', },
-    { label: 'July', value: '7', },
-    { label: 'August', value: '8', },
-    { label: 'September', value: '9', },
-    { label: 'October', value: '10', },
-    { label: 'November', value: '11', },
-    { label: 'December', value: '12', },
-  ];
+  months = months();
   private triggerPatients = new Subject();
   private patientTrigger = new Subject<string>();
   private patients = [];
@@ -109,8 +96,29 @@ export class AgentComponent extends Base implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(res => {
       this.patients = res;
+      const patients = [];
+      this.patients.forEach(patient => {
+        if (patient.dentalInsurance) {
+          patient.dentalInsurance.forEach(i => {
+            const tmpP = JSON.parse(JSON.stringify(patient));
+            delete tmpP.dentalInsurance;
+            delete tmpP.medicalInsurance;
+            patients.push({ dentalInsurance: i, ...tmpP });
+          });
+        }
+        if (patient.medicalInsurance) {
+          patient.medicalInsurance.forEach(i => {
+            const tmpP = JSON.parse(JSON.stringify(patient));
+            delete tmpP.dentalInsurance;
+            delete tmpP.medicalInsurance;
+            patients.push({ medicalInsurance: i, ...tmpP });
+          });
+        }
+      });
+      this.patients = patients;
       this.patients.sort((a, b) => b.createdOn - a.createdOn);
       this.filterPatientList();
+      console.log(this.filteredPatients);
     });
   }
 
