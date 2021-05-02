@@ -118,7 +118,6 @@ export class AgentComponent extends Base implements OnInit {
       this.patients = patients;
       this.patients.sort((a, b) => b.createdOn - a.createdOn);
       this.filterPatientList();
-      console.log(this.filteredPatients);
     });
   }
 
