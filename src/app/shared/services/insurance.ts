@@ -90,18 +90,18 @@ export function coordinationOfBenefitsKeyValue(): any {
 
 export function months(): ValueLabel[] {
   return [
-    { label: 'January', value: '1', },
-    { label: 'Febuary', value: '2', },
-    { label: 'March', value: '3', },
-    { label: 'April', value: '4', },
-    { label: 'May', value: '5', },
-    { label: 'June', value: '6', },
-    { label: 'July', value: '7', },
-    { label: 'August', value: '8', },
-    { label: 'September', value: '9', },
-    { label: 'October', value: '10', },
-    { label: 'November', value: '11', },
-    { label: 'December', value: '12', },
+    { label: 'Jan', value: '0', },
+    { label: 'Feb', value: '1', },
+    { label: 'Mar', value: '2', },
+    { label: 'Apr', value: '3', },
+    { label: 'May', value: '4', },
+    { label: 'June', value: '5', },
+    { label: 'July', value: '6', },
+    { label: 'Aug', value: '7', },
+    { label: 'Sept', value: '8', },
+    { label: 'Oct', value: '9', },
+    { label: 'Nov', value: '10', },
+    { label: 'Dec', value: '11', },
   ];
 }
 

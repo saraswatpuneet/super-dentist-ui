@@ -57,7 +57,7 @@
       </div>
 
     </mat-card>
-    <div class="patient-list mat-elevation-z8" *ngIf="selectedClinic">
+    <mat-card class="patient-list mat-elevation-z8" *ngIf="selectedClinic">
       <table mat-table [dataSource]="filteredPatients" class="mat-elevation-z8">
         <ng-container matColumnDef="appointment">
           <th mat-header-cell *matHeaderCellDef> Appointment </th>
@@ -79,25 +79,51 @@
         <ng-container matColumnDef="subscriber">
           <th mat-header-cell *matHeaderCellDef> Subscriber / Date of Birth </th>
           <td mat-cell *matCellDef="let element">
-            <div> Sub name </div>
-            <div class="lighter"> {{months[element.dob.month].label}} {{element.dob.day}}, {{element.dob.year}}
-            </div>
+            <ng-container *ngIf="element.dentalInsurance">
+              <div> {{element.dentalInsurance.subscriber.firstName}} {{element.dentalInsurance.subscriber.lastName}}
+              </div>
+              <div class="lighter">{{months[element.dentalInsurance.subscriber.dob.month]?.label}}
+                {{element.dentalInsurance.subscriber.dob.day}}, {{element.dentalInsurance.subscriber.dob.year}}</div>
+            </ng-container>
+            <ng-container *ngIf="element.medicalInsurance">
+              <div> {{element.medicalInsurance.subscriber.firstName}} {{element.medicalInsurance.subscriber.lastName}}
+              </div>
+              <div class="lighter">{{months[element.medicalInsurance.subscriber.dob.month]?.label}}
+                {{element.medicalInsurance.subscriber.dob.day}}, {{element.medicalInsurance.subscriber.dob.year}}
+              </div>
+            </ng-container>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="memberInfo">
           <th mat-header-cell *matHeaderCellDef> Member ID / SSN </th>
           <td mat-cell *matCellDef="let element">
-            <div> 5o6-25t9e2 </div>
-            <div class="lighter"> 654-32-1234</div>
+            <ng-container *ngIf="element.dentalInsurance">
+              <div> {{element.dentalInsurance.memberId}}
+              </div>
+              <div class="lighter">{{months[element.dentalInsurance.subscriber.dob.month]?.label}}
+                {{element.dentalInsurance.subscriber.dob.day}}, {{element.dentalInsurance.subscriber.dob.year}}</div>
+            </ng-container>
+            <ng-container *ngIf="element.medicalInsurance">
+              <div> {{element.medicalInsurance.memberId}}
+              </div>
+              <div class="lighter" *ngIf="element.medicalInsurance">{{element.medicalInsurance.ssn}}
+              </div>
+            </ng-container>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="insurance">
           <th mat-header-cell *matHeaderCellDef> Insurance / Type & Phone </th>
           <td mat-cell *matCellDef="let element">
-            <div> Delta Dental </div>
-            <div class="lighter">Dental (281) 432-1253</div>
+            <ng-container *ngIf="element.dentalInsurance">
+              <div> {{element.dentalInsurance.company}} </div>
+              <div class="lighter">Dental (281) 432-1253</div>
+            </ng-container>
+            <ng-container *ngIf="element.medicalInsurance">
+              <div> {{element.medicalInsurance.company}} </div>
+              <div class="lighter">Medical (281) 432-1253</div>
+            </ng-container>
           </td>
         </ng-container>
 
@@ -132,7 +158,7 @@
         <tr mat-row (click)="selectPatient(row)" *matRowDef="let row; columns: patientColumns;"></tr>
       </table>
       <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
-    </div>
+    </mat-card>
   </div>
 
   <div class="patient-details" *ngIf="selectedPatient" fxLayout="column" fxLayoutGap="24px">
