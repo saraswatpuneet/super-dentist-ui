@@ -3,18 +3,35 @@
     <mat-card class="c-card">
       <div class="e-list">
         <div *ngIf="selectedClinic" class="selected-clinic">
-          <div (click)="clearAll()" fxLayoutAlign=" center" fxLayout="row">
-            <mat-icon>keyboard_arrow_left</mat-icon>
+          <div fxLayoutAlign=" center" fxLayout="row" fxLayoutGap="20px">
+            <button mat-stroked-button (click)="clearAll()">
+              <mat-icon>keyboard_arrow_left</mat-icon>
+              Back
+            </button>
             <div fxLayout="column">
-              <h3>{{selectedClinic?.name}}</h3>
-              <div class="sub">{{selectedClinic?.address}}</div>
+              <div>{{selectedClinic?.name}} <span class="lighter">{{selectedClinic?.phoneNumber}}</span></div>
+              <div class="lighter">{{selectedClinic?.address}}</div>
+            </div>
+            <div fxLayout="row" fxLayoutGap="4px">
+              <div fxLayout="column" fxLayoutAlign=" end">
+                <div class="lighter">Tax ID</div>
+                <div class="lighter">NPI</div>
+              </div>
+              <div fxLayout="column">
+                <div *ngIf="selectedClinic?.taxId">{{clinic.taxId}}</div>
+                <div *ngIf="selectedClinic?.groupNpi">{{clinic.groupNpi}}</div>
+              </div>
             </div>
           </div>
-          <div class="sd-input">
+          <!-- <div class="sd-input ">
             <input type="text" placeholder="Search for a patient" [(ngModel)]="patientFilter"
               (keyup)="filterPatientList()">
-          </div>
+          </div> -->
         </div>
+        <mat-tab-group *ngIf="selectedClinic" animationDuration="150ms">
+          <mat-tab label="Upcoming"> </mat-tab>
+          <mat-tab label="Today"> </mat-tab>
+        </mat-tab-group>
         <ng-container *ngIf="!selectedClinic">
           <table mat-table [dataSource]="clinics" class="mat-elevation-z8">
 
@@ -39,51 +56,83 @@
         </ng-container>
       </div>
 
-      <div class="patient-list" *ngIf="selectedClinic">
-        <table mat-table [dataSource]="filteredPatients" class="mat-elevation-z8">
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> Patient </th>
-            <td mat-cell *matCellDef="let element"> {{element?.firstName}} {{element?.lastName}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="birthday">
-            <th mat-header-cell *matHeaderCellDef> Birthday </th>
-            <td mat-cell *matCellDef="let element"> {{months[element.dob.month].label}} {{element.dob.day}},
-              {{element.dob.year}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="dentalInsurance">
-            <th mat-header-cell *matHeaderCellDef> Dental Insurance </th>
-            <td mat-cell *matCellDef="let element">
-              <div fxLayout="row" fxLayoutGap="8px">
-                <div class="company" *ngFor="let insurance of element.dentalInsurance">{{insurance.company}}</div>
-              </div>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="medicalInsurance">
-            <th mat-header-cell *matHeaderCellDef> Medical Insurance</th>
-            <td mat-cell *matCellDef="let element">
-              <div fxLayout="row" fxLayoutGap="8px">
-                <div class="company" *ngFor="let insurance of element.medicalInsurance">{{insurance.company}}</div>
-              </div>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef> Status </th>
-            <td mat-cell *matCellDef="let element">
-
-              <app-patient-status-pill [label]="element?.status?.label" [value]="element?.status?.value">
-              </app-patient-status-pill>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="patientColumns"></tr>
-          <tr mat-row (click)="selectPatient(row)" *matRowDef="let row; columns: patientColumns;"></tr>
-        </table>
-      </div>
     </mat-card>
+    <div class="patient-list mat-elevation-z8" *ngIf="selectedClinic">
+      <table mat-table [dataSource]="filteredPatients" class="mat-elevation-z8">
+        <ng-container matColumnDef="appointment">
+          <th mat-header-cell *matHeaderCellDef> Appointment </th>
+          <td mat-cell *matCellDef="let element">
+            <div>{{element.dueDate | date:"h:mm a"}}</div>
+            <div class="lighter">{{element.dueDate | date:"MMM dd, YYYY"}}</div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="patient">
+          <th mat-header-cell *matHeaderCellDef> Patient / Date of Birth </th>
+          <td mat-cell *matCellDef="let element">
+            <div>{{element?.firstName}} {{element?.lastName}} </div>
+            <div class="lighter"> {{months[element.dob.month].label}} {{element.dob.day}}, {{element.dob.year}}
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="subscriber">
+          <th mat-header-cell *matHeaderCellDef> Subscriber / Date of Birth </th>
+          <td mat-cell *matCellDef="let element">
+            <div> Sub name </div>
+            <div class="lighter"> {{months[element.dob.month].label}} {{element.dob.day}}, {{element.dob.year}}
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="memberInfo">
+          <th mat-header-cell *matHeaderCellDef> Member ID / SSN </th>
+          <td mat-cell *matCellDef="let element">
+            <div> 5o6-25t9e2 </div>
+            <div class="lighter"> 654-32-1234</div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="insurance">
+          <th mat-header-cell *matHeaderCellDef> Insurance / Type & Phone </th>
+          <td mat-cell *matCellDef="let element">
+            <div> Delta Dental </div>
+            <div class="lighter">Dental (281) 432-1253</div>
+          </td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="dentalInsurance">
+                <th mat-header-cell *matHeaderCellDef> Dental Insurance </th>
+                <td mat-cell *matCellDef="let element">
+                  <div fxLayout="row" fxLayoutGap="8px">
+                    <div class="company" *ngFor="let insurance of element.dentalInsurance">{{insurance.company}}</div>
+                  </div>
+                </td>
+              </ng-container>
+    
+              <ng-container matColumnDef="medicalInsurance">
+                <th mat-header-cell *matHeaderCellDef> Medical Insurance</th>
+                <td mat-cell *matCellDef="let element">
+                  <div fxLayout="row" fxLayoutGap="8px">
+                    <div class="company" *ngFor="let insurance of element.medicalInsurance">{{insurance.company}}</div>
+                  </div>
+                </td>
+              </ng-container> -->
+
+        <ng-container matColumnDef="status">
+          <th style="width:175px" mat-header-cell *matHeaderCellDef> Status </th>
+          <td mat-cell *matCellDef="let element">
+
+            <app-patient-status-pill [label]="element?.status?.label" [value]="element?.status?.value">
+            </app-patient-status-pill>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="patientColumns"></tr>
+        <tr mat-row (click)="selectPatient(row)" *matRowDef="let row; columns: patientColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+    </div>
   </div>
 
   <div class="patient-details" *ngIf="selectedPatient" fxLayout="column" fxLayoutGap="24px">

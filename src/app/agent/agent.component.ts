@@ -27,7 +27,7 @@ import { takeUntil, map, take, switchMap, tap, filter } from 'rxjs/operators';
 export class AgentComponent extends Base implements OnInit {
   addressId = '';
   displayedColumns: string[] = ['clinicName', 'address', 'phoneNumber'];
-  patientColumns: string[] = ['name', 'birthday', 'dentalInsurance', 'medicalInsurance', 'status'];
+  patientColumns: string[] = ['appointment', 'patient', 'subscriber', 'memberInfo', 'insurance', 'status'];
   showInsurance = false;
   patientFilter = '';
   selectedClinic: any;
