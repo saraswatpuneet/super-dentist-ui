@@ -101,8 +101,6 @@
             <ng-container *ngIf="element.dentalInsurance">
               <div> {{element.dentalInsurance.memberId}}
               </div>
-              <div class="lighter">{{months[element.dentalInsurance.subscriber.dob.month]?.label}}
-                {{element.dentalInsurance.subscriber.dob.day}}, {{element.dentalInsurance.subscriber.dob.year}}</div>
             </ng-container>
             <ng-container *ngIf="element.medicalInsurance">
               <div> {{element.medicalInsurance.memberId}}
