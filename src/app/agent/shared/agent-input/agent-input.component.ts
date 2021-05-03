@@ -26,6 +26,7 @@ import * as moment from 'moment';
 })
 export class AgentInputComponent extends Base implements OnChanges, OnInit {
   @Input() patient: any;
+  @Input() backButtonText = 'Patients';
   @Input() addressId = '';
   @Input() clinic: any;
   @Output() closePatient = new EventEmitter();
@@ -68,6 +69,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         this.selectedStatusValue = this.status[0].value;
       }
     }
+    console.log(this);
   }
 
   ngOnInit(): void {

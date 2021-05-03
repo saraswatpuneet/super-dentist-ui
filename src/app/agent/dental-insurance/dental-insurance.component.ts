@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { takeUntil, switchMap, filter, take } from 'rxjs/operators';
+import { takeUntil, switchMap, filter, take, map } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { PatientService } from 'src/app/shared/services/patient.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Base } from 'src/app/shared/base/base-component';
 
 @Component({
@@ -31,8 +31,8 @@ export class DentalInsuranceComponent extends Base implements OnInit {
       switchMap(p => {
         this.addressId = p.clinicId;
         return forkJoin([
-          this.clinicService.getClinic(p.clinicId).pipe(take(1)),
-          this.patientService.getPatient(p.patientId).pipe(take(1))
+          this.clinicService.getClinic(p.clinicId).pipe(map(d => d.data), take(1)),
+          this.patientService.getPatient(p.patientId).pipe(map(d => d.data), take(1))
         ]);
       }),
       takeUntil(this.unsubscribe$)
@@ -40,6 +40,10 @@ export class DentalInsuranceComponent extends Base implements OnInit {
       this.clinic = clinic;
       this.patient = patient;
     });
+  }
+
+  backToPatients(): void {
+    this.router.navigate([`agent/clinics/${this.addressId}/patients`]);
   }
 
 }

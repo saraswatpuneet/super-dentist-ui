@@ -57,7 +57,10 @@ export class PatientsComponent extends Base implements OnInit {
   }
 
   private checkRoute(): void {
-    this.route.parent.params.subscribe(r => {
+    this.route.parent.params.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      console.log(r);
       if (r.clinicId) {
         this.clinicId = r.clinicId;
         this.patientTrigger.next(r.clinicId);
