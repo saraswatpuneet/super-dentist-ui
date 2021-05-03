@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+
 import { PatientStatus } from './patient';
 
 @Injectable({
@@ -14,6 +15,15 @@ export class PatientService {
 
   getAllPatientsForClinic(addressId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/list/${addressId}`);
+  }
+
+  getAllPatientsForClinic2(addressId: string, pageSize: number, cursor: string): Observable<any> {
+    let url = `${this.baseUrl}/list/${addressId}?pageSize=${pageSize}`;
+    if (cursor) {
+      url += `&cursor=${cursor}`;
+    }
+
+    return this.http.get(url);
   }
 
   getPatientNotes(patientId: string): Observable<any> {

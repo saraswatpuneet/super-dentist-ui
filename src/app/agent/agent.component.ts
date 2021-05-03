@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subject, forkJoin } from 'rxjs';
+import { MatPaginator } from '@angular/material/paginator';
+import { takeUntil, map, take, switchMap, filter } from 'rxjs/operators';
 
 import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
 import { InsuranceService } from '../shared/services/insurance.service';
 import { PatientService } from '../shared/services/patient.service';
 import { DentalBreakDowns, months } from '../shared/services/insurance';
-import { takeUntil, map, take, switchMap, tap, filter } from 'rxjs/operators';
 
 // Status for insurance
 
@@ -25,6 +26,8 @@ import { takeUntil, map, take, switchMap, tap, filter } from 'rxjs/operators';
   styleUrls: ['./agent.component.scss']
 })
 export class AgentComponent extends Base implements OnInit {
+  @ViewChild('clinicPaginator') clinicPaginator: MatPaginator;
+  @ViewChild('patientPaginator') patientPaginator: MatPaginator;
   addressId = '';
   displayedColumns: string[] = ['clinicName', 'address', 'phoneNumber'];
   patientColumns: string[] = ['appointment', 'patient', 'subscriber', 'memberInfo', 'insurance', 'status'];
@@ -36,6 +39,9 @@ export class AgentComponent extends Base implements OnInit {
   selectedPatient: undefined;
   savedCodes: DentalBreakDowns = this.newSavedCodes();
   months = months();
+  pageSize = 20;
+  clinicPageSize = 20;
+  cursor = undefined;
   private triggerPatients = new Subject();
   private patientTrigger = new Subject<string>();
   private patients = [];
@@ -47,6 +53,7 @@ export class AgentComponent extends Base implements OnInit {
   ) { super(); }
 
   ngOnInit(): void {
+    this.clinicService.getAllClinics(3, this.cursor).subscribe(console.log);
     this.clinicService.getAllClinics().pipe(
       filter(r => !!r),
       map(r => r.data),

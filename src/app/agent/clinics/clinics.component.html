@@ -1,0 +1,25 @@
+<mat-card class="clinics mat-elevation-z5">
+  <div class="c-table">
+    <table mat-table [dataSource]="clinics" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="clinicName">
+        <th mat-header-cell *matHeaderCellDef> Clinic </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef> Address </th>
+        <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="phoneNumber">
+        <th mat-header-cell *matHeaderCellDef> Phone Number </th>
+        <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row (click)="getPatients(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  <mat-paginator [(pageSize)]="pageSize" [pageSizeOptions]="[5, 20, 50, 100]"></mat-paginator>
+</mat-card>

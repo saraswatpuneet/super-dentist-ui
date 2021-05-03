@@ -15,6 +15,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxMaskModule } from 'ngx-mask';
 
 import { AgentComponent } from './agent.component';
@@ -26,7 +27,6 @@ import { ToothHistoryComponent } from './shared/tooth-history/tooth-history.comp
 import { PatientListItemModule } from '../shared/patient-list-item/patient-list-item.module';
 import { CodeCategoryComponent } from './shared/code-category/code-category.component';
 import { PatientStatusPillModule } from '../shared/patient-status-pill/patient-status-pill.module';
-import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     AgentInputComponent,
     CodeInputsComponent,
     ToothHistoryComponent,
-    CodeCategoryComponent
+    CodeCategoryComponent,
   ],
   imports: [
     CommonModule,

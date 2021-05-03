@@ -40,8 +40,18 @@ export class ClinicService {
       }));
   }
 
-  getAllClinics(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/getAll`);
+  getAllClinics(pageSize?: number, cursor?: string): Observable<any> {
+    let url = `${this.baseUrl}/getAll`;
+
+    if (pageSize) {
+      url += `?pageSize=${pageSize}`;
+      if (cursor) {
+        url += `&cursor=${cursor}`;
+      }
+    }
+
+
+    return this.http.get(url);
   }
 
   clearCache(): void {
