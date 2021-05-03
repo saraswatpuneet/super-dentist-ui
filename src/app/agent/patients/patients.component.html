@@ -3,13 +3,13 @@
     <div class="e-list">
       <div class="selected-clinic">
         <div fxLayoutAlign=" center" fxLayout="row" fxLayoutGap="20px">
-          <button mat-stroked-button (click)="clearAll()">
+          <button mat-stroked-button (click)="goToClinics()">
             <mat-icon>keyboard_arrow_left</mat-icon>
-            Back
+            Clinic list
           </button>
           <div fxLayout="column">
-            <div>{{selectedClinic?.name}} <span class="lighter">{{selectedClinic?.phoneNumber}}</span></div>
-            <div class="lighter">{{selectedClinic?.address}}</div>
+            <div>{{clinic?.name}} <span class="lighter">{{clinic?.phoneNumber}}</span></div>
+            <div class="lighter">{{clinic?.address}}</div>
           </div>
           <div fxLayout="row" fxLayoutGap="4px">
             <div fxLayout="column" fxLayoutAlign=" end">
@@ -17,8 +17,8 @@
               <div class="lighter">NPI</div>
             </div>
             <div fxLayout="column">
-              <div *ngIf="selectedClinic?.taxId">{{clinic.taxId}}</div>
-              <div *ngIf="selectedClinic?.groupNpi">{{clinic.groupNpi}}</div>
+              <div *ngIf="clinic.taxId">{{clinic.taxId}}</div>
+              <div *ngIf="clinic.groupNpi">{{clinic.groupNpi}}</div>
             </div>
           </div>
         </div>
@@ -34,7 +34,8 @@
     </div>
 
   </mat-card>
-  <mat-card class="patient-list mat-elevation-z8" *ngIf="selectedClinic">
+
+  <mat-card class="patient-list mat-elevation-z8">
     <div class="p-table">
       <table mat-table [dataSource]="filteredPatients" class="mat-elevation-z8">
         <ng-container matColumnDef="appointment">

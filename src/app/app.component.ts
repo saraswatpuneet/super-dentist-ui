@@ -74,7 +74,7 @@ export class AppComponent extends Base implements OnInit {
       this.home = false;
       if (
         this.router.url.includes('/join') ||
-        this.router.url.includes('/patient') ||
+        (this.router.url.includes('/patient') && !this.router.url.includes('/patients')) ||
         this.router.url.includes('/verify') ||
         this.router.url.includes('/secure') ||
         this.router.url.includes('/early-access') ||
@@ -85,7 +85,6 @@ export class AppComponent extends Base implements OnInit {
           this.opacMode = true;
           this.home = true;
         }
-
         this.authenticated = false;
       } else {
         this.authenticated = true;
@@ -104,14 +103,6 @@ export class AppComponent extends Base implements OnInit {
             } else if (c[0].type === 'agent') {
               this.isAgent = true;
             }
-
-            // if (c.length === 1 && c[0].type === 'dentist') {
-            //   this.isSpecialist = false;
-            // } else if (c[0].type === 'specialist') {
-            //   this.isSpecialist = true;
-            // } else {
-            //   this.isAgent = true;
-            // }
 
             if (c[0] && c[0].name) {
               this.clinicName = c[0].name;

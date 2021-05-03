@@ -26,6 +26,10 @@ export class ClinicService {
     return this.http.get(`${this.baseUrl}/getAllDoctors`);
   }
 
+  getClinic(clinicId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/info/${clinicId}`);
+  }
+
   getClinics(): Observable<any> {
     if (this.cache[this.clinicCode]) {
       return this.cache[this.clinicCode];

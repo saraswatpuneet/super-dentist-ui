@@ -53,7 +53,6 @@ export class AgentComponent extends Base implements OnInit {
   ) { super(); }
 
   ngOnInit(): void {
-    this.clinicService.getAllClinics(3, this.cursor).subscribe(console.log);
     this.clinicService.getAllClinics().pipe(
       filter(r => !!r),
       map(r => r.data),

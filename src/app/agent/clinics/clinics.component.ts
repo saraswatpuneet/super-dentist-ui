@@ -28,13 +28,10 @@ export class ClinicsComponent extends Base implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log(this.paginator);
   }
 
   getPatients(clinic: any): void {
-    this.router.navigate([`/${clinic.addressId}/patients`], {
-      relativeTo: this.route
-    });
+    this.router.navigate([`agent/clinics/${clinic.addressId}/patients`]);
   }
 
   private getClinics(): void {

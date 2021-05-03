@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DentalInsuranceRoutingModule } from './dental-insurance-routing.module';
 import { DentalInsuranceComponent } from './dental-insurance.component';
+import { AgentInputModule } from '../shared/agent-input/agent-input.module';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { DentalInsuranceComponent } from './dental-insurance.component';
   ],
   imports: [
     CommonModule,
+    AgentInputModule,
     DentalInsuranceRoutingModule
   ]
 })

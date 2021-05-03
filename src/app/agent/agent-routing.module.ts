@@ -9,14 +9,14 @@ const routes: Routes = [
     path: '', component: AgentComponent, canActivate: [IsAgentGuard], children: [
       { path: '', redirectTo: 'clinics', pathMatch: 'full' },
       { path: 'clinics', loadChildren: () => import('./clinics/clinics.module').then(m => m.ClinicsModule) },
-      { path: 'clinics/:clinicId/patients', loadChildren: () => import('./clinics/clinics.module').then(m => m.ClinicsModule) },
+      { path: 'clinics/:clinicId/patients', loadChildren: () => import('./patients/patients.module').then(m => m.PatientsModule) },
       {
         path: 'clinics/:clinicId/patients/:patientId/dental-insurance',
-        loadChildren: () => import('./clinics/clinics.module').then(m => m.ClinicsModule)
+        loadChildren: () => import('./dental-insurance/dental-insurance.module').then(m => m.DentalInsuranceModule)
       },
       {
         path: 'clinics/:clinicId/patients/:patientId/medical-insurance',
-        loadChildren: () => import('./clinics/clinics.module').then(m => m.ClinicsModule)
+        loadChildren: () => import('./medical-insurance/medical-insurance.module').then(m => m.MedicalInsuranceModule)
       },
     ]
   }

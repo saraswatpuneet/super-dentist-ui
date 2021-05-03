@@ -5,9 +5,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatButtonModule } from '@angular/material/button';
 
 import { PatientsRoutingModule } from './patients-routing.module';
 import { PatientsComponent } from './patients.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { PatientsComponent } from './patients.component';
   ],
   imports: [
     CommonModule,
+    MatButtonModule,
+    FlexLayoutModule,
     MatCardModule,
     MatIconModule,
     MatPaginatorModule,

@@ -26,6 +26,10 @@ export class PatientService {
     return this.http.get(url);
   }
 
+  getPatient(patientId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/info/${patientId}`);
+  }
+
   getPatientNotes(patientId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/notes/${patientId}`);
   }
