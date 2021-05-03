@@ -1,0 +1,26 @@
+.clinics {
+  height: calc(100% - 40px);
+  width: calc(100% - 30px);
+  box-sizing: border-box;
+  padding: 0;
+  margin: 20px 20px 20px 10px;
+
+  table {
+    width: 100%;
+
+  }
+
+  .c-table {
+    height: calc(100% - 56px);
+    overflow: auto;
+  }
+  
+  .mat-row {
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(grey, 0.2) !important;
+    }
+  }
+}

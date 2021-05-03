@@ -71,7 +71,6 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   }
 
   sortBy(group: string, order: string): void {
-    console.log(group, order);
     if (group === 'patient') {
       this.sortPatientOrder(order);
     } else if (group === 'status') {

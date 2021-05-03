@@ -1,5 +1,6 @@
 .not-found {
-  height: 100vh;
+  height: calc(100vh - 58px);
+  position: relative;
 
   .space {
     position: absolute;

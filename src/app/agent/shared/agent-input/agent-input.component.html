@@ -3,7 +3,7 @@
   <mat-card class="c-card actions" fxLayout="row" fxLayoutAlign="space-between">
     <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
       <button class="back" mat-stroked-button (click)="closePatient.emit()">
-        <mat-icon>keyboard_arrow_left</mat-icon> Back
+        <mat-icon>keyboard_arrow_left</mat-icon> Patients
       </button>
 
       <div fxLayout="column">
@@ -40,9 +40,9 @@
   </mat-card>
 
   <form [formGroup]="agentForm" class="m-20" fxLayout="column" fxLayoutGap="20px">
-    <mat-card>
+    <!-- <mat-card>
       <app-patient-list-item [patient]="patient"></app-patient-list-item>
-    </mat-card>
+    </mat-card> -->
     <app-patient-details2 (closePatient)="closePatient.emit()" [processing]="processing" (save)="onSave()"
       [months]="months" [patient]="patient">
     </app-patient-details2>
@@ -366,7 +366,6 @@
       <mat-card fxLayout="column" fxFlex="50">
         <ng-container formGroupName="history">
           <h3>History</h3>
-
           <ng-container *ngFor="let key of codesHistory.breakDownKeys">
             <ng-container *ngFor="let subKey of codesHistory.breakDowns[key].breakDownKeys">
               <app-tooth-history [radioOptions]="radioOptions"
