@@ -23,6 +23,7 @@ export class PatientsComponent extends Base implements OnInit {
   private patients = [];
   private clinicId = '';
   private patientTrigger = new Subject<string>();
+  private clinicTrigger = new Subject<string>();
 
   constructor(
     private router: Router,
@@ -33,6 +34,7 @@ export class PatientsComponent extends Base implements OnInit {
 
   ngOnInit(): void {
     this.watchPatients();
+    this.watchClinics();
     this.checkRoute();
   }
 
@@ -59,9 +61,20 @@ export class PatientsComponent extends Base implements OnInit {
       if (r.clinicId) {
         this.clinicId = r.clinicId;
         this.patientTrigger.next(r.clinicId);
+        this.clinicTrigger.next(r.clinicId);
       } else {
         this.goToClinics();
       }
+    });
+  }
+
+  private watchClinics(): void {
+    this.clinicTrigger.pipe(
+      switchMap(addressId => this.clinicService.getClinic(addressId)),
+      map(d => d.data),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(clinic => {
+      this.clinic = clinic;
     });
   }
 

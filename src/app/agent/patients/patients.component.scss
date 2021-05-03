@@ -7,6 +7,25 @@
     table {
       width: 100%;
     }
+
+    mat-tab-group {
+      margin-bottom: 16px;
+    }
+    .selected-clinic {
+      padding-bottom: 24px;
+  
+      h3 {
+        margin-bottom: 0;
+      }
+  
+      .sub {
+        opacity: 0.5;
+      }
+  
+      .sd-input {
+        margin-top: 12px;
+      }
+    }
     
     .mat-row {
       transition: 0.3s;

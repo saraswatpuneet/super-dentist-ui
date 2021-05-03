@@ -18,7 +18,6 @@ export class DentalInsuranceComponent extends Base implements OnInit {
   clinic: any;
   patient: any;
 
-
   constructor(
     private router: Router,
     private route: ActivatedRoute,
