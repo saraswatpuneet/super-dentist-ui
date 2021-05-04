@@ -1,1 +1,28 @@
-<div class="medical-insurance"></div>
+<div class="medical-insurance" fxLayout="column" fxLayoutGap="20px">
+  <mat-card *ngIf="clinic" class="c-card">
+    <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+      <button class="back" mat-stroked-button (click)="toPatients()">
+        <mat-icon>keyboard_arrow_left</mat-icon> Patients
+      </button>
+
+      <div fxLayout="column">
+        <div>{{clinic?.name}} <span class="lighter">{{clinic?.phoneNumber}}</span></div>
+        <div class="lighter">{{clinic?.address}}</div>
+      </div>
+      <div fxLayout="column">
+        <div *ngIf="clinic.groupNpi"><span class="lighter">Npi: </span>{{clinic.groupNpi}}</div>
+        <div *ngIf="clinic.taxId"><span class="lighter">Tax ID: </span>{{clinic.taxId}}</div>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-card>
+    <h3>Code Specific</h3>
+    <form [formGroup]="agentForm" class="m-20">
+      <app-code-inputs [hasMedicalNecessity]="true" *ngIf="agentForm.get('medicalCodes')" [allCodes]="allCodes"
+        [codes]="savedCodes" [groups]="agentForm.get('medicalCodes')" [increments]="increments" [codeList]="codeList"
+        [unitOptions]="unitOptions" [radioOptions]="radioOptions">
+      </app-code-inputs>
+    </form>
+  </mat-card>
+</div>
