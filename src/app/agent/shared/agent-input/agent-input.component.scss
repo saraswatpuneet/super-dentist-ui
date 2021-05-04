@@ -4,6 +4,10 @@
   position: relative;
   overflow: hidden;
 
+  .code-inputs {
+    overflow: auto;
+  }
+
   .abs-bottom {
     position: absolute;
     bottom: -10px;

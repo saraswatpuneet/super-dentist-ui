@@ -317,21 +317,16 @@
     <mat-card fxLayout="column" fxFlex="0 0 auto">
       <div fxLayout="column" fxFlex="0 0 auto">
         <h3>Code Specific</h3>
-        <mat-tab-group animationDuration="150ms">
-          <mat-tab label="Dental">
-            <app-code-inputs *ngIf="agentForm.get('codes')" [allCodes]="allCodes" [codes]="savedCodes"
-              [groups]="agentForm.get('codes')" [increments]="increments" [codeList]="codeList"
-              [unitOptions]="unitOptions" [radioOptions]="radioOptions">
-            </app-code-inputs>
-          </mat-tab>
-
-          <mat-tab label="Medical">
-            <app-code-inputs [hasMedicalNecessity]="true" *ngIf="agentForm.get('medicalCodes')" [allCodes]="allCodes"
+        <div class="code-inputs">
+          <app-code-inputs *ngIf="agentForm.get('codes')" [allCodes]="allCodes" [codes]="savedCodes"
+            [groups]="agentForm.get('codes')" [increments]="increments" [codeList]="codeList"
+            [unitOptions]="unitOptions" [radioOptions]="radioOptions">
+          </app-code-inputs>
+        </div>
+        <!-- <app-code-inputs [hasMedicalNecessity]="true" *ngIf="agentForm.get('medicalCodes')" [allCodes]="allCodes"
               [codes]="savedCodes" [groups]="agentForm.get('medicalCodes')" [increments]="increments"
               [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
-            </app-code-inputs>
-          </mat-tab>
-        </mat-tab-group>
+            </app-code-inputs> -->
       </div>
     </mat-card>
 
