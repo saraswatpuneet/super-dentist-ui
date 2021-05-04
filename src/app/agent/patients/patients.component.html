@@ -50,7 +50,7 @@
           <th mat-header-cell *matHeaderCellDef> Patient / Date of Birth </th>
           <td mat-cell *matCellDef="let element">
             <div>{{element?.firstName}} {{element?.lastName}} </div>
-            <div class="lighter"> {{months[element.dob.month].label}} {{element.dob.day}}, {{element.dob.year}}
+            <div class="lighter"> {{months[element.dob.month]?.label}} {{element.dob.day}}, {{element.dob.year}}
             </div>
           </td>
         </ng-container>

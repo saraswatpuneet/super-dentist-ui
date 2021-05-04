@@ -60,7 +60,6 @@ export class PatientsComponent extends Base implements OnInit {
     this.route.parent.params.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
-      console.log(r);
       if (r.clinicId) {
         this.clinicId = r.clinicId;
         this.patientTrigger.next(r.clinicId);
@@ -108,7 +107,7 @@ export class PatientsComponent extends Base implements OnInit {
         }
       });
       this.patients = patients;
-      this.patients.sort((a, b) => b.createdOn - a.createdOn);
+      this.patients.sort((a, b) => a.createdOn - b.createdOn);
       this.filterPatientList();
     });
   }

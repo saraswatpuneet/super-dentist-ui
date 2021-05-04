@@ -61,7 +61,7 @@ export class DentalInsuranceComponent extends Base implements OnInit {
     )
       .subscribe(codes => {
         this.savedCodes = codes;
-        console.log(codes);
+
       });
   }
 

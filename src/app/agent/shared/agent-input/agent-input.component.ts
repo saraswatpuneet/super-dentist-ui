@@ -69,7 +69,6 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         this.selectedStatusValue = this.status[0].value;
       }
     }
-    console.log(this);
   }
 
   ngOnInit(): void {
@@ -220,6 +219,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       if (this.agentForm.get('patientCoverage').get('missingToothClause').value === 'yes') {
         this.showMissingToothClause = true;
       }
+      console.log(this);
     });
   }
 
