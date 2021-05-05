@@ -183,7 +183,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       this.agentForm.reset();
       this.initForm();
 
-      this.setCodes('codes', codes);
+      this.setCodes(codes);
 
       const historyGroup: FormGroup = this.agentForm.get('history') as FormGroup;
       codesHistory.breakDownKeys.forEach(k => {
@@ -200,6 +200,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       }
 
       if (value) {
+        this.groupModel = value.codes;
         if (value.patientCoverage.termDate) {
           value.patientCoverage.termDate = moment(value.patientCoverage.termDate).format('MM/DD/YYYY');
         }
@@ -228,8 +229,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     });
   }
 
-  private setCodes(groupName: string, codes: DentalBreakDowns): void {
-    const codeForms: FormArray = this.agentForm.get(groupName) as FormArray;
+  private setCodes(codes: DentalBreakDowns): void {
     let codeList = [];
     codes.breakDownKeys.forEach(k => codeList = [...codeList, ...codes.breakDowns[k].breakDownKeys]);
     this.codeList = codeList;
