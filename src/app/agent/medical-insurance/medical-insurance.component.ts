@@ -31,7 +31,6 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
   patientId = '';
   status = patientStatus();
   savedCodes: DentalBreakDowns = this.newSavedCodes();
-  codesHistory: DentalBreakDowns = this.newSavedCodes();
   private triggerPatient = new Subject<void>();
 
   constructor(
@@ -83,6 +82,7 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
   }
 
   private checkRoute(): void {
+    this.route.queryParams.pipe(take(1)).subscribe(console.log);
     this.route.parent.params.pipe(
       filter(p => !!p),
       switchMap(p => {
@@ -108,18 +108,14 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
         return forkJoin([
           this.insuranceService.getPracticeCodes().pipe(take(1), tap(allCodes => this.allCodes = allCodes)),
           this.clinicService.getSelectedPracticeCodes(this.addressId).pipe(map(r => r.data), take(1)),
-          this.clinicService.getSelectedPracticeCodesHistory(this.addressId).pipe(map(r => r.data), take(1)),
           this.patientService.getPatientNotes(this.patient.patientId).pipe(map(r => r.data), catchError(() => of(undefined)), take(1))
         ]);
       }),
-      map(([codes, savedCodes, savedCodesHistory, savedRecords]) =>
-        [this.mapToCodes([codes, savedCodes]), this.mapToCodes([codes, savedCodesHistory]), savedRecords]
-      ),
+      map(([codes, savedCodes, savedRecords]) => [this.mapToCodes([codes, savedCodes]), savedRecords]),
       takeUntil(this.unsubscribe$)
-    ).subscribe(([codes, codesHistory, savedRecords]) => {
+    ).subscribe(([codes, savedRecords]) => {
       this.savedCodes = codes;
       this.loading = false;
-      this.codesHistory = codesHistory;
       this.agentForm.reset();
       this.initForm();
 
@@ -143,14 +139,6 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
         if (value.remarks.verifiedDate) {
           value.remarks.verifiedDate = moment(value.remarks.verifiedDate).format('MM/DD/YYYY');
         }
-        Object.keys(value.history).forEach(key => {
-          value.history[key].forEach((history, index) => {
-            if (history.date) {
-              value.history[key][index].date = moment(history.date).format('MM/DD/YYYY');
-            }
-            (this.agentForm.get('history').get(key) as FormArray).push(this.fb.group(history));
-          });
-        });
 
         this.agentForm.patchValue(value);
       }

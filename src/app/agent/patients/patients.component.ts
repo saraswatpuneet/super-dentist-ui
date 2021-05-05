@@ -60,7 +60,7 @@ export class PatientsComponent extends Base implements OnInit {
       formType = this.dentalKeys[patient.dentalInsurance.index];
     }
 
-    this.router.navigate([`agent/clinics/${this.clinicId}/patients/${patient.patientId}/${insurancePath}`, { formType }]);
+    this.router.navigate([`agent/clinics/${this.clinicId}/patients/${patient.patientId}/${insurancePath}`], { queryParams: { formType } });
   }
 
   private checkRoute(): void {
