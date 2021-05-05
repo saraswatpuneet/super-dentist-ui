@@ -37,54 +37,27 @@
       </div>
 
       <div fxLayout="row" fxLayoutGap="20px">
-        <button fxFlex mat-raised-button (click)="addDentalInsurance()">Dental</button>
-        <button fxFlex mat-raised-button (click)="addMedicalInsurance()">Medical</button>
+        <button fxFlex mat-raised-button (click)="addDentalInsurance()"
+          [disabled]="dentalInsurances.length > 2">Dental</button>
+        <button fxFlex mat-raised-button (click)="addMedicalInsurance()"
+          [disabled]="medicalInsurances.length > 2">Medical</button>
       </div>
 
-      <div class="divider" *ngIf="insurances.length !== 0"></div>
+      <div class="divider" *ngIf="dentalInsurances.length !== 0 || medicalInsurances.length !== 0"></div>
 
       <div class="insurance-summary" fxLayout="column"
-        *ngFor="let insurance of insurances; let i = index; let l = last">
-        <header fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="16px">
-          <h3>{{insurance.company}}</h3>
-          <button mat-icon-button (click)="removeInsurance(i)">
-            <mat-icon>close</mat-icon>
-          </button>
-        </header>
+        *ngFor="let insurance of dentalInsurances; let i = index; let l = last">
+        <app-insurance-summary [insurance]="insurance" (removeInsurance)="removeDentalInsurance(i)"
+          [header]="dentalLabels[i]">
+        </app-insurance-summary>
+        <div class="divider"></div>
+      </div>
 
-        <div fxLayout="row" fxLayoutGap="16px">
-          <div fxFlex class="detail" *ngIf="insurance.memberId">
-            <div>Member Id</div>
-            <div>{{insurance.memberId}}</div>
-          </div>
-
-          <div fxFlex class="detail" *ngIf="insurance.medId">
-            <div>Member Id</div>
-            <div>{{insurance.medId}}</div>
-          </div>
-
-          <div fxFlex class="detail" *ngIf="insurance.ssn">
-            <div>SSN</div>
-            <div>{{insurance.ssn | mask: '000-00-0000'}}</div>
-          </div>
-
-          <div fxFlex class="detail" *ngIf="insurance.groupNumber">
-            <div>Group Number</div>
-            <div>{{insurance.groupNumber}}</div>
-          </div>
-        </div>
-
-        <div class="detail sub" *ngIf="insurance.subscriber">
-          <div>Subscriber</div>
-          <div>
-            {{insurance.subscriber.firstName}} {{insurance.subscriber.lastName}}
-          </div>
-          <div>
-            {{displayMonths[insurance.subscriber.dob.month]}} {{insurance.subscriber.dob.day}},
-            {{insurance.subscriber.dob.year}}
-          </div>
-        </div>
-
+      <div class="insurance-summary" fxLayout="column"
+        *ngFor="let insurance of medicalInsurances; let i = index; let l = last">
+        <app-insurance-summary [insurance]="insurance" (removeInsurance)="removeMedicalInsurance(i)"
+          [header]="medicalLabels[i]">
+        </app-insurance-summary>
         <div class="divider"></div>
       </div>
     </div>
@@ -102,14 +75,14 @@
 
     <div fxLayout="row" fxLayoutGap="12px">
       <button mat-raised-button type="button" (click)="cancel()" fxFlex *ngIf="canCancel">Cancel</button>
-      <button fxFlex [disabled]="!insuranceForm.valid || insurances.length === 0 || state === patientStates.Processing"
+      <button fxFlex
+        [disabled]="!insuranceForm.valid || (dentalInsurances.length === 0 && medicalInsurances.length === 0) || state === patientStates.Processing"
         (click)="submit()" mat-raised-button color="primary">
         <span fxLayout="row" fxLayoutGap="4px" fxLayoutAlign="center center">
           <mat-progress-spinner *ngIf="state === patientStates.Processing" mode="indeterminate" diameter="24">
           </mat-progress-spinner>
           <span>Submit Insurance</span>
         </span>
-
       </button>
     </div>
   </form>
@@ -123,9 +96,10 @@
   <div class="adding-insurance" [@slideIn] *ngIf="selectedDental || selectedMedical">
     <div>
       <app-dental-insurance [companies]="dentalCompanies" header="Dental Insurance" *ngIf="selectedDental"
-        (cancel)="onCancel()" (addInsurance)="onAddInsurance($event)">
+        (cancel)="onCancel()" (addInsurance)="onAddDentalInsurance($event)">
       </app-dental-insurance>
-      <app-medical-insurance *ngIf="selectedMedical" (cancel)="onCancel()" (addInsurance)="onAddInsurance($event)">
+      <app-medical-insurance *ngIf="selectedMedical" (cancel)="onCancel()"
+        (addInsurance)="onAddMedicalInsurance($event)">
       </app-medical-insurance>
     </div>
   </div>

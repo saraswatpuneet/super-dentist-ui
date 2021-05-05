@@ -13,6 +13,27 @@
         <div *ngIf="clinic.groupNpi"><span class="lighter">Npi: </span>{{clinic.groupNpi}}</div>
         <div *ngIf="clinic.taxId"><span class="lighter">Tax ID: </span>{{clinic.taxId}}</div>
       </div>
+
+      <span fxFlex></span>
+
+      <button fxFlex="0 0 auto" mat-stroked-button [disabled]="!patient || processing" color="primary"
+        (click)="onSave()">
+        <span fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
+          <mat-progress-spinner *ngIf="processing" mode="indeterminate" diameter="24"></mat-progress-spinner>
+          <span>{{processing ? 'Saving' : 'Save form'}}</span>
+        </span>
+      </button>
+      <div class="sd-input" style="width:150px">
+        <select [(ngModel)]="selectedStatusValue" (change)="updateStatus()">
+          <option *ngFor="let stat of status; let i = index" [value]="stat.value">{{stat.label}}
+          </option>
+        </select>
+      </div>
+      <form *ngIf="selectedStatusValue === 'termed'" [formGroup]="agentForm" style="width:150px">
+        <div class="sd-input" formGroupName="patientCoverage">
+          <input type="text" formControlName="termDate" mask='00/00/0000' [showMaskTyped]="true">
+        </div>
+      </form>
     </div>
   </mat-card>
 

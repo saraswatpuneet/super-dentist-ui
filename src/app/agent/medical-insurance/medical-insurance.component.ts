@@ -1,25 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import * as moment from 'moment';
 import { takeUntil, map, switchMap, take, tap, catchError, filter } from 'rxjs/operators';
 import { forkJoin, of, Subject } from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Base } from 'src/app/shared/base/base-component';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
-import { DentalBreakDowns, radioOptions, unitOptions } from 'src/app/shared/services/insurance';
+import { DentalBreakDowns, radioOptions, unitOptions, patientStatus } from 'src/app/shared/services/insurance';
 import { InsuranceService } from 'src/app/shared/services/insurance.service';
 import { PatientService } from 'src/app/shared/services/patient.service';
-import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-medical-insurance',
   templateUrl: './medical-insurance.component.html',
   styleUrls: ['./medical-insurance.component.scss']
 })
-export class MedicalInsuranceComponent extends Base implements OnInit {
+export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit {
   patient: any;
   clinic: any;
   unitOptions = unitOptions();
+  selectedStatusValue
   radioOptions = radioOptions();
   codeList = [];
   allCodes = this.newSavedCodes();
@@ -28,6 +29,7 @@ export class MedicalInsuranceComponent extends Base implements OnInit {
   loading = false;
   addressId = '';
   patientId = '';
+  status = patientStatus();
   savedCodes: DentalBreakDowns = this.newSavedCodes();
   codesHistory: DentalBreakDowns = this.newSavedCodes();
   private triggerPatient = new Subject<void>();
@@ -45,6 +47,35 @@ export class MedicalInsuranceComponent extends Base implements OnInit {
     this.initForm();
     this.getClinicCodes();
     this.checkRoute();
+  }
+
+  ngOnChanges(sc: SimpleChanges): void {
+    if (sc.patient) {
+      if (this.patient.status && this.patient.status.value) {
+        this.selectedStatusValue = this.patient.status.value;
+      } else {
+        this.selectedStatusValue = this.status[0].value;
+      }
+    }
+  }
+
+  updateStatus(): void {
+    const status = this.status.find((s) => s.value === this.selectedStatusValue);
+    this.patientService.updateStatus(this.patient.patientId, status).pipe(take(1)).subscribe();
+    this.patient.status = status;
+    // if (status.value === 'incomplete') {
+    //   setTimeout(() => {
+    //     this.incompleteEl.nativeElement.scrollIntoView({
+    //       behavior: 'smooth'
+    //     });
+    //     setTimeout(() => {
+    //       try {
+    //         this.incompleteEl.nativeElement.parentElement.childNodes[2].focus();
+    //       } catch (e) { }
+    //     }, 800);
+
+    //   }, 100);
+    // }
   }
 
   toPatients(): void {
@@ -208,75 +239,7 @@ export class MedicalInsuranceComponent extends Base implements OnInit {
 
   private initForm(): void {
     this.agentForm = this.fb.group({
-      patientCoverage: this.fb.group({
-        groupName: [],
-        groupNumber: [],
-        payerId: [],
-        eligibilityStartDate: [],
-        coordinationOfBenefits: this.fb.group({
-          other: [],
-          category: []
-        }),
-        annualMaximum: [''],
-        annualUsedAmount: [''],
-        deductibleIndividual: [''],
-        deductibleMetAmountIndividual: [''],
-        deductibleFamily: [''],
-        deductibleMetAmountFamily: [''],
-        missingToothClause: ['no'],
-        waitingPeriods: this.fb.group({
-          enabled: ['no'],
-          category: [],
-          frequency: [],
-          unit: [],
-          other: [],
-          basicService: this.fb.group({
-            unit: [],
-            frequency: []
-          }),
-          majorService: this.fb.group({
-            unit: [],
-            frequency: []
-          })
-        }),
-        eligibilityYear: this.fb.group({
-          value: [],
-          month: []
-        }),
-        inNetwork: ['yes'],
-        preventitiveDeductedFromMaximum: ['yes'],
-        feeSchedule: [],
-        toothReplacementClause: this.fb.group({
-          reason: [],
-          numerator: [],
-          denominator: [],
-          unit: ['year'],
-          notes: [],
-          callouts: this.fb.group({
-            crowns: this.fb.group({
-              unit: [],
-              frequency: []
-            }),
-            dentures: this.fb.group({
-              unit: [],
-              frequency: []
-            }),
-            implants: this.fb.group({
-              unit: [],
-              frequency: []
-            }),
-            bridges: this.fb.group({
-              unit: [],
-              frequency: []
-            }),
-          })
-        }),
-        generalNotes: [],
-        termDate: []
-      }),
       codes: this.fb.array([]),
-      medicalCodes: this.fb.array([]),
-      history: this.fb.group({}),
       remarks: this.fb.group({
         insuranceRepresentativeName: [],
         callRefNumber: [],
