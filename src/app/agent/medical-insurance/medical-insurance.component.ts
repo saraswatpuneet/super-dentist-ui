@@ -17,8 +17,8 @@ import { PatientService } from 'src/app/shared/services/patient.service';
   styleUrls: ['./medical-insurance.component.scss']
 })
 export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit {
-  patient: any;
-  clinic: any;
+  patient: any = {};
+  clinic: any = {};
   unitOptions = unitOptions();
   formType = '';
   selectedStatusValue: any;

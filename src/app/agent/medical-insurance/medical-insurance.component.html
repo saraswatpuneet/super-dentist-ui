@@ -1,22 +1,5 @@
 <div class="medical-insurance" fxLayout="column" fxLayoutGap="20px">
-  <mat-card>
-    <div fxflex="33" *ngIf="patient.medicalInsurance">
-      <h3>Medical Insurance(s)</h3>
 
-      <div class="insurance" *ngFor="let mInsurance of patient.medicalInsurance">
-        <div>{{mInsurance.company}}</div>
-        <div class="lighter" *ngIf="mInsurance.memberId">Member ID: {{mInsurance.memberId}}</div>
-
-        <div fxLayout="column" *ngIf="mInsurance.subscriber && mInsurance.subscriber.firstName">
-          <div class="lighter">Subscriber Name: {{mInsurance.subscriber.firstName}} {{mInsurance.subscriber.lastName}}
-          </div>
-          <div class="lighter">Subscriber Birthday: {{months[mInsurance.subscriber.dob.month]?.label}}
-            {{mInsurance.subscriber.dob.day}},
-            {{mInsurance.subscriber.dob.year}} </div>
-        </div>
-      </div>
-    </div>
-  </mat-card>
   <mat-card *ngIf="clinic" class="c-card">
     <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
       <button class="back" mat-stroked-button (click)="toPatients()">
@@ -52,6 +35,24 @@
           <input type="text" formControlName="termDate" mask='00/00/0000' [showMaskTyped]="true">
         </div>
       </form>
+    </div>
+  </mat-card>
+  <mat-card>
+    <div fxflex="33" *ngIf="patient.medicalInsurance">
+      <h3>{{patient.firstName}} {{patient.lastName}}</h3>
+
+      <div class="insurance" *ngFor="let mInsurance of patient.medicalInsurance">
+        <div>{{mInsurance.company}}</div>
+        <div class="lighter" *ngIf="mInsurance.memberId">Member ID: {{mInsurance.memberId}}</div>
+
+        <div fxLayout="column" *ngIf="mInsurance.subscriber && mInsurance.subscriber.firstName">
+          <div class="lighter">Subscriber Name: {{mInsurance.subscriber.firstName}} {{mInsurance.subscriber.lastName}}
+          </div>
+          <div class="lighter">Subscriber Birthday: {{months[mInsurance.subscriber.dob.month]?.label}}
+            {{mInsurance.subscriber.dob.day}},
+            {{mInsurance.subscriber.dob.year}} </div>
+        </div>
+      </div>
     </div>
   </mat-card>
 
