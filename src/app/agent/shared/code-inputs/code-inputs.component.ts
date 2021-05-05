@@ -16,6 +16,7 @@ export class CodeInputsComponent implements OnInit {
   @Input() codes: DentalBreakDowns;
   @Input() codeList = [];
   @Input() allCodes: DentalBreakDowns;
+  @Input() groupModel = [];
 
   constructor() { }
 

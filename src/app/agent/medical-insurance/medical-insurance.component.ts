@@ -26,6 +26,7 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
   };
   unitOptions = unitOptions();
   formType = '';
+  groupModel = [];
   processing = false;
   selectedStatusValue: any;
   radioOptions = radioOptions();
@@ -68,7 +69,7 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
   onSave(): void {
     const value = {
       ...this.agentForm.value,
-      ...{ codes: (this.agentForm.controls.codes as FormArray).controls.map(c => c.value) },
+      ...{ codes: this.groupModel },
     };
 
     if (value.remarks.verifiedDate) {
@@ -145,7 +146,7 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
       this.agentForm.reset();
       this.initForm();
 
-      this.setCodes('codes', codes);
+      this.setCodes(codes);
 
       let value = savedRecords;
       try {
@@ -155,46 +156,46 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
       }
 
       if (value) {
-
+        this.groupModel = value.codes;
         if (value.remarks.verifiedDate) {
           value.remarks.verifiedDate = moment(value.remarks.verifiedDate).format('MM/DD/YYYY');
         }
-
         this.agentForm.patchValue(value);
       }
     });
   }
 
-  private setCodes(groupName: string, codes: DentalBreakDowns): void {
-    const codeForms: FormArray = this.agentForm.get(groupName) as FormArray;
+  private setCodes(codes: DentalBreakDowns): void {
     let codeList = [];
+    this.groupModel = [];
     codes.breakDownKeys.forEach(k => codeList = [...codeList, ...codes.breakDowns[k].breakDownKeys]);
     this.codeList = codeList;
-    const group = {
-      percent: [0],
-      frequency: this.fb.group({
-        numerator: [''],
-        denominator: [''],
-        unit: ['year'],
-      }),
-      ageRange: this.fb.group({
-        min: [''],
-        max: ['']
-      }),
-      medicalNecessity: ['no'],
-      sharedCodes: [],
-      notes: ['']
-    };
-    codes.breakDownKeys.forEach(k => {
-      const codeInputs = this.fb.group({});
-      codes.breakDowns[k].breakDownKeys.forEach(sk => {
-        codeInputs.addControl(sk, this.fb.group({ ...group }));
-      });
 
-      codeForms.controls.push(this.fb.group({
-        [k]: this.fb.group({ fixed: [], min: [], max: [] }),
+    const group = {
+      percent: 0,
+      frequency: {
+        numerator: null,
+        denominator: null,
+        unit: null,
+      },
+      ageRange: {
+        min: null,
+        max: null
+      },
+      medicalNecessity: 'no',
+      sharedCodes: [],
+      notes: ''
+    };
+
+    codes.breakDownKeys.forEach(k => {
+      const codeInputs = {};
+      codes.breakDowns[k].breakDownKeys.forEach(sk => {
+        codeInputs[sk] = JSON.parse(JSON.stringify(group));
+      });
+      this.groupModel.push({
+        [k]: { fixed: null, min: null, max: null },
         codes: codeInputs
-      }));
+      });
     });
   }
 
@@ -205,6 +206,7 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
     savedCodes.breakDownKeys = [];
 
     if (!clinicCodes) {
+      console.log(savedCodes);
       clinicCodes = [];
     }
 
@@ -221,7 +223,7 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
         breakDowns,
       };
     });
-
+    console.log(savedCodes);
     return savedCodes;
   }
 
@@ -236,7 +238,6 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
 
   private initForm(): void {
     this.agentForm = this.fb.group({
-      codes: this.fb.array([]),
       remarks: this.fb.group({
         insuranceRepresentativeName: [],
         callRefNumber: [],

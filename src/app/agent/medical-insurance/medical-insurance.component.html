@@ -76,11 +76,8 @@
 
   <mat-card>
     <h3>Code Specific</h3>
-    <form [formGroup]="agentForm" class="m-20 flower">
-      <app-code-inputs [hasMedicalNecessity]="true" *ngIf="agentForm.get('codes')" [allCodes]="allCodes"
-        [codes]="savedCodes" [groups]="agentForm.get('codes')" [increments]="increments" [codeList]="codeList"
-        [unitOptions]="unitOptions" [radioOptions]="radioOptions">
-      </app-code-inputs>
-    </form>
+    <app-code-inputs [hasMedicalNecessity]="true" [allCodes]="allCodes" [codes]="savedCodes" [groupModel]="groupModel"
+      [increments]="increments" [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
+    </app-code-inputs>
   </mat-card>
 </div>

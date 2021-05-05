@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { CodeInputsComponent } from './code-inputs.component';
 
@@ -10,7 +10,6 @@ import { CodeInputsComponent } from './code-inputs.component';
   declarations: [CodeInputsComponent],
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     FormsModule,
     MatRadioModule,
     MatSelectModule,

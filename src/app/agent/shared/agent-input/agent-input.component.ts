@@ -32,6 +32,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   @Input() clinic: any;
   @Output() closePatient = new EventEmitter();
   @ViewChild('incompleteNotesEl') incompleteEl: ElementRef;
+  groupModel = [];
   showMissingToothClause = false;
   loading = false;
   processing = false;
@@ -105,7 +106,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   onSave(): void {
     const value = {
       ...this.agentForm.value,
-      ...{ codes: (this.agentForm.controls.codes as FormArray).controls.map(c => c.value) },
+      ...{ codes: this.groupModel },
     };
 
     Object.keys(value.history).forEach(key => {
@@ -233,29 +234,30 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     codes.breakDownKeys.forEach(k => codeList = [...codeList, ...codes.breakDowns[k].breakDownKeys]);
     this.codeList = codeList;
     const group = {
-      percent: [0],
-      frequency: this.fb.group({
-        numerator: [''],
-        denominator: [''],
-        unit: ['year'],
-      }),
-      ageRange: this.fb.group({
-        min: [''],
-        max: ['']
-      }),
+      percent: 0,
+      frequency: {
+        numerator: null,
+        denominator: null,
+        unit: null,
+      },
+      ageRange: {
+        min: null,
+        max: null
+      },
+      medicalNecessity: 'no',
       sharedCodes: [],
-      notes: ['']
+      notes: ''
     };
-    codes.breakDownKeys.forEach(k => {
-      const codeInputs = this.fb.group({});
-      codes.breakDowns[k].breakDownKeys.forEach(sk => {
-        codeInputs.addControl(sk, this.fb.group({ ...group }));
-      });
 
-      codeForms.controls.push(this.fb.group({
-        [k]: this.fb.group({ fixed: [], min: [], max: [] }),
+    codes.breakDownKeys.forEach(k => {
+      const codeInputs = {};
+      codes.breakDowns[k].breakDownKeys.forEach(sk => {
+        codeInputs[sk] = JSON.parse(JSON.stringify(group));
+      });
+      this.groupModel.push({
+        [k]: { fixed: null, min: null, max: null },
         codes: codeInputs
-      }));
+      });
     });
   }
 
@@ -363,7 +365,6 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         generalNotes: [],
         termDate: []
       }),
-      codes: this.fb.array([]),
       history: this.fb.group({}),
       remarks: this.fb.group({
         insuranceRepresentativeName: [],
