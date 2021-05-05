@@ -243,13 +243,9 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         min: [''],
         max: ['']
       }),
-      medicalNecessity: ['no'],
       sharedCodes: [],
       notes: ['']
     };
-    if (groupName === 'codes') {
-      delete group.medicalNecessity;
-    }
     codes.breakDownKeys.forEach(k => {
       const codeInputs = this.fb.group({});
       codes.breakDowns[k].breakDownKeys.forEach(sk => {

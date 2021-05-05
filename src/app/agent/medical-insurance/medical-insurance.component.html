@@ -37,28 +37,46 @@
       </form>
     </div>
   </mat-card>
-  <mat-card>
-    <div fxflex="33" *ngIf="patient.medicalInsurance">
-      <h3>{{patient.firstName}} {{patient.lastName}}</h3>
 
-      <div class="insurance" *ngFor="let mInsurance of patient.medicalInsurance">
-        <div>{{mInsurance.company}}</div>
-        <div class="lighter" *ngIf="mInsurance.memberId">Member ID: {{mInsurance.memberId}}</div>
+  <div fxLayout="row" fxLayoutGap="20px">
+    <app-patient-details2 fxFlex="50" *ngIf="patient && patient.medicalInsurance"
+      [insurance]="patient.medicalInsurance[medicalIndex[formType]]" [processing]="processing" [months]="months"
+      [patient]="patient">
+    </app-patient-details2>
 
-        <div fxLayout="column" *ngIf="mInsurance.subscriber && mInsurance.subscriber.firstName">
-          <div class="lighter">Subscriber Name: {{mInsurance.subscriber.firstName}} {{mInsurance.subscriber.lastName}}
+    <mat-card fxLayout="column" fxFlex="50" fxLayoutGap="32px">
+      <ng-container [formGroup]="agentForm">
+        <ng-container formGroupName="remarks">
+          <h3>Remarks</h3>
+
+          <div class="sd-input">
+            <label>Insurance representative name</label>
+            <input type="text" formControlName="insuranceRepresentativeName">
           </div>
-          <div class="lighter">Subscriber Birthday: {{months[mInsurance.subscriber.dob.month]?.label}}
-            {{mInsurance.subscriber.dob.day}},
-            {{mInsurance.subscriber.dob.year}} </div>
-        </div>
-      </div>
-    </div>
-  </mat-card>
+
+          <div class="sd-input">
+            <label>Call ref #</label>
+            <input type="text" formControlName="callRefNumber">
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="12px">
+            <div class="sd-input" fxFlex>
+              <label>Verified by</label>
+              <input type="text" formControlName="verifiedBy">
+            </div>
+            <div class="sd-input" fxFlex>
+              <label>Verified date (MM/DD/YYYY)</label>
+              <input type="text" formControlName="verifiedDate" mask='00/00/0000' [showMaskTyped]="true">
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </mat-card>
+  </div>
 
   <mat-card>
     <h3>Code Specific</h3>
-    <form [formGroup]="agentForm" class="m-20">
+    <form [formGroup]="agentForm" class="m-20 flower">
       <app-code-inputs [hasMedicalNecessity]="true" *ngIf="agentForm.get('codes')" [allCodes]="allCodes"
         [codes]="savedCodes" [groups]="agentForm.get('codes')" [increments]="increments" [codeList]="codeList"
         [unitOptions]="unitOptions" [radioOptions]="radioOptions">

@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { Base } from 'src/app/shared/base/base-component';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
-import { DentalBreakDowns, radioOptions, unitOptions, patientStatus } from 'src/app/shared/services/insurance';
+import { DentalBreakDowns, radioOptions, unitOptions, patientStatus, months } from 'src/app/shared/services/insurance';
 import { InsuranceService } from 'src/app/shared/services/insurance.service';
 import { PatientService } from 'src/app/shared/services/patient.service';
 
@@ -19,8 +19,14 @@ import { PatientService } from 'src/app/shared/services/patient.service';
 export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit {
   patient: any = {};
   clinic: any = {};
+  medicalIndex = {
+    primaryMedical: 0,
+    secondaryMedical: 1,
+    tertiaryMedical: 2
+  };
   unitOptions = unitOptions();
   formType = '';
+  processing = false;
   selectedStatusValue: any;
   radioOptions = radioOptions();
   codeList = [];
@@ -31,6 +37,7 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
   addressId = '';
   patientId = '';
   status = patientStatus();
+  months = months();
   savedCodes: DentalBreakDowns = this.newSavedCodes();
   private triggerPatient = new Subject<void>();
 
@@ -57,6 +64,20 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
         this.selectedStatusValue = this.status[0].value;
       }
     }
+  }
+  onSave(): void {
+    const value = {
+      ...this.agentForm.value,
+      ...{ codes: (this.agentForm.controls.codes as FormArray).controls.map(c => c.value) },
+    };
+
+    if (value.remarks.verifiedDate) {
+      value.remarks.verifiedDate = moment(value.remarks.verifiedDate, 'MM/DD/YYYY').valueOf();
+    }
+    this.processing = true;
+    this.patientService.setPatientNotes(this.patient.patientId, value, this.formType)
+      .pipe(take(1))
+      .subscribe(res => this.processing = false);
   }
 
   updateStatus(): void {
@@ -112,13 +133,13 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
         return forkJoin([
           this.insuranceService.getPracticeCodes().pipe(take(1), tap(allCodes => this.allCodes = allCodes)),
           this.clinicService.getSelectedPracticeCodes(this.addressId).pipe(map(r => r.data), take(1)),
-          this.patientService.getPatientNotes(this.patient.patientId).pipe(map(r => r.data), catchError(() => of(undefined)), take(1))
+          this.patientService.getPatientNotes(this.patient.patientId, this.formType)
+            .pipe(map(r => r.data), catchError(() => of(undefined)), take(1))
         ]);
       }),
       map(([codes, savedCodes, savedRecords]) => [this.mapToCodes([codes, savedCodes]), savedRecords]),
       takeUntil(this.unsubscribe$)
     ).subscribe(([codes, savedRecords]) => {
-      console.log(codes, savedRecords);
       this.savedCodes = codes;
       this.loading = false;
       this.agentForm.reset();
@@ -134,12 +155,6 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
       }
 
       if (value) {
-        if (value.patientCoverage.termDate) {
-          value.patientCoverage.termDate = moment(value.patientCoverage.termDate).format('MM/DD/YYYY');
-        }
-        if (value.patientCoverage.eligibilityStartDate) {
-          value.patientCoverage.eligibilityStartDate = moment(value.patientCoverage.eligibilityStartDate).format('MM/DD/YYYY');
-        }
 
         if (value.remarks.verifiedDate) {
           value.remarks.verifiedDate = moment(value.remarks.verifiedDate).format('MM/DD/YYYY');
@@ -170,9 +185,6 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
       sharedCodes: [],
       notes: ['']
     };
-    if (groupName === 'codes') {
-      delete group.medicalNecessity;
-    }
     codes.breakDownKeys.forEach(k => {
       const codeInputs = this.fb.group({});
       codes.breakDowns[k].breakDownKeys.forEach(sk => {
@@ -184,8 +196,6 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
         codes: codeInputs
       }));
     });
-
-    console.log(this);
   }
 
   private mapToCodes([insuranceCodes, clinicCodes]): DentalBreakDowns {
