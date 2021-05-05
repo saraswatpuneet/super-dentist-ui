@@ -12,11 +12,9 @@
     margin-bottom: 8px;
   }
 
-  .detail {
-    > :first-child {
-      opacity: 0.5;
-      font-size: 12px;
-    }
+  .lighter {
+    opacity: 0.5;
+    font-size: 12px;
   }
 
   .sub-title {

@@ -11,6 +11,7 @@ import { patientStatus } from 'src/app/shared/services/insurance';
 })
 export class PatientDetails2Component implements OnInit {
   @Input() patient: any;
+  @Input() insurance: any;
   @Input() months: any = [];
   @Input() processing = false;
   @Output() statusChange = new EventEmitter<any>();

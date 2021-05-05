@@ -18,6 +18,7 @@ import {
 } from 'src/app/shared/services/insurance';
 import { PatientService } from 'src/app/shared/services/patient.service';
 import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-agent-input',
@@ -26,6 +27,7 @@ import * as moment from 'moment';
 })
 export class AgentInputComponent extends Base implements OnChanges, OnInit {
   @Input() patient: any;
+  @Input() formType = '';
   @Input() backButtonText = 'Patients';
   @Input() addressId = '';
   @Input() clinic: any;
@@ -48,13 +50,18 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   increments = ['', 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
   codeList = [];
   allCodes = this.newSavedCodes();
+  dentalIndex = {
+    primaryDental: 0,
+    secondaryDental: 1,
+    tertiaryDental: 2
+  };
   private triggerPatient = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
     private clinicService: ClinicService,
     private insuranceService: InsuranceService,
-    private patientService: PatientService
+    private patientService: PatientService,
   ) { super(); }
 
   ngOnChanges(sc: SimpleChanges): void {

@@ -20,6 +20,7 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
   patient: any;
   clinic: any;
   unitOptions = unitOptions();
+  formType = '';
   selectedStatusValue: any;
   radioOptions = radioOptions();
   codeList = [];
@@ -82,7 +83,10 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
   }
 
   private checkRoute(): void {
-    this.route.queryParams.pipe(take(1)).subscribe(console.log);
+    this.route.queryParams.pipe(take(1)).subscribe(p => {
+      this.formType = p.formType;
+    });
+
     this.route.parent.params.pipe(
       filter(p => !!p),
       switchMap(p => {
@@ -114,6 +118,7 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
       map(([codes, savedCodes, savedRecords]) => [this.mapToCodes([codes, savedCodes]), savedRecords]),
       takeUntil(this.unsubscribe$)
     ).subscribe(([codes, savedRecords]) => {
+      console.log(codes, savedRecords);
       this.savedCodes = codes;
       this.loading = false;
       this.agentForm.reset();
@@ -179,6 +184,8 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
         codes: codeInputs
       }));
     });
+
+    console.log(this);
   }
 
   private mapToCodes([insuranceCodes, clinicCodes]): DentalBreakDowns {

@@ -30,12 +30,21 @@ export class PatientService {
     return this.http.get(`${this.baseUrl}/info/${patientId}`);
   }
 
-  getPatientNotes(patientId: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/notes/${patientId}`);
+  getPatientNotes(patientId: string, formType?: string): Observable<any> {
+    let url = `${this.baseUrl}/notes/${patientId}`;
+    if (formType) {
+      url += `?notesType=${formType}`;
+    }
+
+    return this.http.get(url);
   }
 
-  setPatientNotes(patientId: string, patientData: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/notes/${patientId}`, patientData);
+  setPatientNotes(patientId: string, patientData: any, formType?: string): Observable<any> {
+    let url = `${this.baseUrl}/notes/${patientId}`;
+    if (formType) {
+      url += `?notesType=${formType}`;
+    }
+    return this.http.post(url, patientData);
   }
 
   updateStatus(patientId: string, status: PatientStatus): Observable<any> {

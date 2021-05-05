@@ -17,6 +17,7 @@ import { InsuranceService } from 'src/app/shared/services/insurance.service';
 export class DentalInsuranceComponent extends Base implements OnInit {
   addressId = '';
   patientId = '';
+  formType = '';
   clinic: any;
   patient: any;
   savedCodes: DentalBreakDowns = this.newSavedCodes();
@@ -30,6 +31,9 @@ export class DentalInsuranceComponent extends Base implements OnInit {
   ) { super(); }
 
   ngOnInit(): void {
+    this.route.queryParams.pipe(take(1)).subscribe(p => {
+      this.formType = p.formType;
+    });
     this.route.parent.params.pipe(
       filter(p => !!p),
       switchMap(p => {
