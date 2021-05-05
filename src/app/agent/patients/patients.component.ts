@@ -20,6 +20,8 @@ export class PatientsComponent extends Base implements OnInit {
   pageSize = 20;
   months = months();
   patientColumns: string[] = ['appointment', 'patient', 'subscriber', 'memberInfo', 'insurance', 'status'];
+  dentalKeys = ['primaryDental', 'secondaryDental', 'tertiaryDental'];
+  medicalKeys = ['primaryMedical', 'secondaryMedical', 'tertiaryMedical'];
   private patients = [];
   private clinicId = '';
   private patientTrigger = new Subject<string>();
@@ -49,11 +51,16 @@ export class PatientsComponent extends Base implements OnInit {
   }
 
   selectPatient(patient): void {
+    let formType = '';
     let insurancePath = 'dental-insurance';
     if (patient.medicalInsurance) {
       insurancePath = 'medical-insurance';
+      formType = this.medicalKeys[patient.medicalInsurance.index];
+    } else {
+      formType = this.dentalKeys[patient.dentalInsurance.index];
     }
-    this.router.navigate([`agent/clinics/${this.clinicId}/patients/${patient.patientId}/${insurancePath}`]);
+
+    this.router.navigate([`agent/clinics/${this.clinicId}/patients/${patient.patientId}/${insurancePath}`, { formType }]);
   }
 
   private checkRoute(): void {
@@ -90,19 +97,21 @@ export class PatientsComponent extends Base implements OnInit {
       const patients = [];
       this.patients.forEach(patient => {
         if (patient.dentalInsurance) {
-          patient.dentalInsurance.forEach(i => {
+          patient.dentalInsurance.forEach((p, i) => {
             const tmpP = JSON.parse(JSON.stringify(patient));
+            p.index = i;
             delete tmpP.dentalInsurance;
             delete tmpP.medicalInsurance;
-            patients.push({ dentalInsurance: i, ...tmpP });
+            patients.push({ dentalInsurance: p, ...tmpP });
           });
         }
         if (patient.medicalInsurance) {
-          patient.medicalInsurance.forEach(i => {
+          patient.medicalInsurance.forEach((p, i) => {
             const tmpP = JSON.parse(JSON.stringify(patient));
+            p.index = i;
             delete tmpP.dentalInsurance;
             delete tmpP.medicalInsurance;
-            patients.push({ medicalInsurance: i, ...tmpP });
+            patients.push({ medicalInsurance: p, ...tmpP });
           });
         }
       });

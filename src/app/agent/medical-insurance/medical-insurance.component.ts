@@ -20,7 +20,7 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
   patient: any;
   clinic: any;
   unitOptions = unitOptions();
-  selectedStatusValue
+  selectedStatusValue: any;
   radioOptions = radioOptions();
   codeList = [];
   allCodes = this.newSavedCodes();
@@ -124,14 +124,6 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
       this.initForm();
 
       this.setCodes('codes', codes);
-      this.setCodes('medicalCodes', codes);
-
-      const historyGroup: FormGroup = this.agentForm.get('history') as FormGroup;
-      codesHistory.breakDownKeys.forEach(k => {
-        codesHistory.breakDowns[k].breakDownKeys.forEach(sk => {
-          historyGroup.addControl(sk, this.fb.array([]));
-        });
-      });
 
       let value = savedRecords;
       try {
