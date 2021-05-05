@@ -18,7 +18,6 @@ import {
 } from 'src/app/shared/services/insurance';
 import { PatientService } from 'src/app/shared/services/patient.service';
 import * as moment from 'moment';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-agent-input',
@@ -107,7 +106,6 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     const value = {
       ...this.agentForm.value,
       ...{ codes: (this.agentForm.controls.codes as FormArray).controls.map(c => c.value) },
-      ...{ medicalCodes: (this.agentForm.controls.medicalCodes as FormArray).controls.map(c => c.value) }
     };
 
     Object.keys(value.history).forEach(key => {
@@ -130,7 +128,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       value.remarks.verifiedDate = moment(value.remarks.verifiedDate, 'MM/DD/YYYY').valueOf();
     }
     this.processing = true;
-    this.patientService.setPatientNotes(this.patient.patientId, value)
+    this.patientService.setPatientNotes(this.patient.patientId, value, this.formType)
       .pipe(take(1))
       .subscribe(res => this.processing = false);
   }
@@ -169,7 +167,8 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
           this.insuranceService.getPracticeCodes().pipe(take(1), tap(allCodes => this.allCodes = allCodes)),
           this.clinicService.getSelectedPracticeCodes(this.addressId).pipe(map(r => r.data), take(1)),
           this.clinicService.getSelectedPracticeCodesHistory(this.addressId).pipe(map(r => r.data), take(1)),
-          this.patientService.getPatientNotes(this.patient.patientId).pipe(map(r => r.data), catchError(() => of(undefined)), take(1))
+          this.patientService.getPatientNotes(this.patient.patientId, this.formType)
+            .pipe(map(r => r.data), catchError(() => of(undefined)), take(1))
         ]);
       }),
       map(([codes, savedCodes, savedCodesHistory, savedRecords]) =>
@@ -184,7 +183,6 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       this.initForm();
 
       this.setCodes('codes', codes);
-      this.setCodes('medicalCodes', codes);
 
       const historyGroup: FormGroup = this.agentForm.get('history') as FormGroup;
       codesHistory.breakDownKeys.forEach(k => {
@@ -370,7 +368,6 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         termDate: []
       }),
       codes: this.fb.array([]),
-      medicalCodes: this.fb.array([]),
       history: this.fb.group({}),
       remarks: this.fb.group({
         insuranceRepresentativeName: [],
