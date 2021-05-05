@@ -1,0 +1,40 @@
+<div class="insurance-summary" fxLayout="column">
+  <header fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="16px">
+    <div>
+      <div class="lighter">{{header}}</div>
+      <h3>{{insurance.company}}</h3>
+    </div>
+    <button mat-icon-button (click)="removeInsurance.emit()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <div fxLayout="row" fxLayoutGap="12px">
+    <div fxFlex *ngIf="insurance.memberId">
+      <div class="lighter">Member Id</div>
+      <div>{{insurance.memberId}}</div>
+    </div>
+
+    <div fxFlex *ngIf="insurance.ssn">
+      <div class="lighter">SSN</div>
+      <div>{{insurance.ssn | mask: '000-00-0000'}}</div>
+    </div>
+
+    <div fxFlex *ngIf="insurance.groupNumber">
+      <div class="lighter">Group Number</div>
+      <div>{{insurance.groupNumber}}</div>
+    </div>
+
+    <div fxFlex class="detail sub" *ngIf="insurance.subscriber">
+      <div class="lighter">Subscriber</div>
+      <div>
+        {{insurance.subscriber.firstName}} {{insurance.subscriber.lastName}}
+      </div>
+      <div>
+        {{displayMonths[insurance.subscriber.dob.month]}} {{insurance.subscriber.dob.day}},
+        {{insurance.subscriber.dob.year}}
+      </div>
+    </div>
+  </div>
+
+</div>
