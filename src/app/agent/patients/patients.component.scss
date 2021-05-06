@@ -3,6 +3,7 @@
     height: 100%;
     padding: 20px 20px 20px 10px;
     overflow: auto;
+    box-sizing: border-box;
 
     table {
       width: 100%;
@@ -41,7 +42,7 @@
       font-size: 13px;
     }
       .patient-list {
-        height: calc(100% - 170px);
+        height: calc(100% - 130px);
         padding: 0;
         position: relative;
       }
