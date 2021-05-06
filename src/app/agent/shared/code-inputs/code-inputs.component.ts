@@ -21,7 +21,6 @@ export class CodeInputsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    setTimeout(() => console.log(this.groupModel), 1500);
   }
 
   checkOtherOptions($event, selectThatChanged: string): void {
@@ -40,23 +39,6 @@ export class CodeInputsComponent implements OnInit {
       });
     });
 
-    // removes key from all codes
-    // this.codeList.forEach(key => {
-    //   this.groups.controls.forEach((group: FormGroup) => {
-    //     const control = group.controls.codes.get(key);
-    //     if (control) {
-    //       const cas = control.get('sharedCodes');
-    //       if (cas.value) {
-    //         const index = cas.value.indexOf(selectThatChanged);
-    //         if (index > -1) {
-    //           cas.value.splice(index, 1);
-    //           cas.setValue([...cas.value]);
-    //         }
-    //       }
-    //     }
-    //   });
-    // });
-
     //  Adds the key to other codes that were selected
     $event.value.forEach(key => {
       this.groupModel.forEach((group) => {
@@ -69,19 +51,5 @@ export class CodeInputsComponent implements OnInit {
         }
       });
     });
-    console.log(this.groupModel);
-    // $event.value.forEach(key => {
-    //   this.groups.controls.forEach((group: FormGroup) => {
-    //     const control = group.controls.codes.get(key);
-    //     if (control) {
-    //       const cas = control.get('sharedCodes');
-    //       if (cas.value) {
-    //         cas.setValue([selectThatChanged, ...cas.value]);
-    //       } else {
-    //         cas.setValue([selectThatChanged]);
-    //       }
-    //     }
-    //   });
-    // });
   }
 }
