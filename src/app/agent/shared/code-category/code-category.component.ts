@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DentalBreakDowns } from 'src/app/shared/services/insurance';
 import { FormArray } from '@angular/forms';
+
+import { DentalBreakDowns } from 'src/app/shared/services/insurance';
 
 @Component({
   selector: 'app-code-category',
@@ -12,26 +13,22 @@ export class CodeCategoryComponent implements OnInit {
   @Input() increments = [];
   @Input() radioOptions = [];
   @Input() groups: FormArray;
+  @Input() groupModel = [];
   @Input() codes: DentalBreakDowns;
   @Input() codeList = [];
 
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.groupModel);
   }
 
   changeFixed(index: number, breakdownKey: string): void {
-    const control = this.groups.controls[index].get(breakdownKey);
-    control.patchValue({
-      min: undefined,
-      max: undefined
-    });
+    this.groupModel[index][breakdownKey].min = undefined;
+    this.groupModel[index][breakdownKey].max = undefined;
   }
 
   changeRange(index: number, breakdownKey: string): void {
-    const control = this.groups.controls[index].get(breakdownKey);
-    control.patchValue({
-      fixed: undefined
-    });
+    this.groupModel[index][breakdownKey].fixed = undefined;
   }
 }

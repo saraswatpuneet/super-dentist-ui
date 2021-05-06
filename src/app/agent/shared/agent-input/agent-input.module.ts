@@ -22,22 +22,22 @@ import { PatientDetailsModule } from '../patient-details/patient-details.module'
 @NgModule({
   declarations: [AgentInputComponent, CodeCategoryComponent, ToothHistoryComponent],
   imports: [
+    CommonModule,
+    CodeInputsModule,
+    FlexLayoutModule,
     FormsModule,
     MatButtonModule,
-    PatientStatusPillModule,
-    FlexLayoutModule,
     MatCardModule,
     MatDatepickerModule,
     MatIconModule,
-    PatientDetailsModule,
-    CodeInputsModule,
     MatProgressBarModule,
     MatRadioModule,
     MatSelectModule,
     MatTabsModule,
     NgxMaskModule,
+    PatientDetailsModule,
+    PatientStatusPillModule,
     ReactiveFormsModule,
-    CommonModule
   ],
   exports: [AgentInputComponent]
 })

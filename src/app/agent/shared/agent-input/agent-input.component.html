@@ -308,8 +308,8 @@
       <mat-card fxFlex="50" fxLayout="column">
         <div fxLayout="column" fxFlex="0 0 auto">
           <h3>Categories</h3>
-          <app-code-category *ngIf="agentForm.get('codes')" [codes]="savedCodes" [groups]="agentForm.get('codes')"
-            [increments]="increments" [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
+          <app-code-category [codes]="savedCodes" [groups]="agentForm.get('codes')" [increments]="increments"
+            [groupModel]="groupModel" [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
           </app-code-category>
         </div>
       </mat-card>

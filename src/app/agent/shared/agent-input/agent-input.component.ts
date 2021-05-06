@@ -231,6 +231,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
 
   private setCodes(codes: DentalBreakDowns): void {
     let codeList = [];
+    this.groupModel = [];
     codes.breakDownKeys.forEach(k => codeList = [...codeList, ...codes.breakDowns[k].breakDownKeys]);
     this.codeList = codeList;
     const group = {
