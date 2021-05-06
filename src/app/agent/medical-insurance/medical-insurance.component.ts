@@ -206,7 +206,6 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
     savedCodes.breakDownKeys = [];
 
     if (!clinicCodes) {
-      console.log(savedCodes);
       clinicCodes = [];
     }
 
@@ -223,7 +222,6 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
         breakDowns,
       };
     });
-    console.log(savedCodes);
     return savedCodes;
   }
 

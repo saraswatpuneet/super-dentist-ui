@@ -20,7 +20,6 @@ export class CodeCategoryComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.groupModel);
   }
 
   changeFixed(index: number, breakdownKey: string): void {
