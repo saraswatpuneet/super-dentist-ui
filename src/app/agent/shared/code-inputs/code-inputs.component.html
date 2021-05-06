@@ -57,7 +57,7 @@
               <mat-form-field appearance="none">
                 <mat-label></mat-label>
                 <mat-select multiple (selectionChange)="checkOtherOptions($event, subKey)"
-                  [(ngModel)]="groupModel[i].codes[subKey].sharedCodes">
+                  [ngModel]="groupModel[i].codes[subKey].sharedCodes">
                   <ng-container *ngFor="let breakDownKeySub of allCodes?.breakDownKeys">
                     <ng-container
                       *ngFor="let subtitlesAreBetter of allCodes?.breakDowns[breakDownKeySub].breakDownKeys">

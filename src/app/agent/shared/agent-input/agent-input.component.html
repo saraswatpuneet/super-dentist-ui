@@ -308,8 +308,9 @@
       <mat-card fxFlex="50" fxLayout="column">
         <div fxLayout="column" fxFlex="0 0 auto">
           <h3>Categories</h3>
-          <app-code-category [codes]="savedCodes" [groups]="agentForm.get('codes')" [increments]="increments"
-            [groupModel]="groupModel" [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
+          <app-code-category *ngIf="groupModel.length > 0" [codes]="savedCodes" [groups]="agentForm.get('codes')"
+            [increments]="increments" [groupModel]="groupModel" [codeList]="codeList" [unitOptions]="unitOptions"
+            [radioOptions]="radioOptions">
           </app-code-category>
         </div>
       </mat-card>
@@ -319,8 +320,9 @@
       <div fxLayout="column" fxFlex="0 0 auto">
         <h3>Code Specific</h3>
         <div class="code-inputs">
-          <app-code-inputs [allCodes]="allCodes" [codes]="savedCodes" [groupModel]="groupModel"
-            [increments]="increments" [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
+          <app-code-inputs *ngIf="groupModel.length > 0" [allCodes]="allCodes" [codes]="savedCodes"
+            [groupModel]="groupModel" [increments]="increments" [codeList]="codeList" [unitOptions]="unitOptions"
+            [radioOptions]="radioOptions">
           </app-code-inputs>
         </div>
       </div>
