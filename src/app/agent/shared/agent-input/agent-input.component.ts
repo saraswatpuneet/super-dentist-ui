@@ -69,9 +69,9 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       this.triggerPatient.next();
     }
 
-    if (sc.patient) {
-      if (this.patient.status && this.patient.status.value) {
-        this.selectedStatusValue = this.patient.status.value;
+    if (this.formType) {
+      if (this.patient && this.patient.status && this.patient.status.value) {
+        this.selectedStatusValue = this.patient.dentalInsurance[this.dentalIndex[this.formType]].status.value;
       } else {
         this.selectedStatusValue = this.status[0].value;
       }
@@ -86,7 +86,8 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
 
   updateStatus(): void {
     const status = this.status.find((s) => s.value === this.selectedStatusValue);
-    this.patientService.updateStatus(this.patient.patientId, status).pipe(take(1)).subscribe();
+    const insurance = this.patient.dentalInsurance[this.dentalIndex[this.formType]];
+    this.patientService.updateStatus(this.patient.patientId, status, insurance.memberId).pipe(take(1)).subscribe();
     this.patient.status = status;
     if (status.value === 'incomplete') {
       setTimeout(() => {

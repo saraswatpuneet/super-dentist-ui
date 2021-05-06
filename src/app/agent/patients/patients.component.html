@@ -108,7 +108,11 @@
           <th style="width:175px" mat-header-cell *matHeaderCellDef> Status </th>
           <td mat-cell *matCellDef="let element">
 
-            <app-patient-status-pill [label]="element?.status?.label" [value]="element?.status?.value">
+            <app-patient-status-pill *ngIf="element.dentalInsurance" [label]="element?.dentalInsurance?.status?.label"
+              [value]="element?.dentalInsurance?.status?.value">
+            </app-patient-status-pill>
+            <app-patient-status-pill *ngIf="element.medicalInsurance" [label]="element?.medicalInsurance?.status?.label"
+              [value]="element?.medicalInsurance?.status?.value">
             </app-patient-status-pill>
           </td>
         </ng-container>

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { takeUntil, map, switchMap, take, tap, catchError, filter } from 'rxjs/operators';
 import { forkJoin, of, Subject } from 'rxjs';
@@ -55,17 +55,19 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
     this.initForm();
     this.getClinicCodes();
     this.checkRoute();
+    console.log(this);
   }
 
   ngOnChanges(sc: SimpleChanges): void {
-    if (sc.patient) {
-      if (this.patient.status && this.patient.status.value) {
-        this.selectedStatusValue = this.patient.status.value;
+    if (this.formType) {
+      if (this.patient && this.patient.status && this.patient.status.value) {
+        this.selectedStatusValue = this.patient.medicalInsurance[this.medicalIndex[this.formType]].status.value;
       } else {
         this.selectedStatusValue = this.status[0].value;
       }
     }
   }
+
   onSave(): void {
     const value = {
       ...this.agentForm.value,
@@ -83,21 +85,17 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
 
   updateStatus(): void {
     const status = this.status.find((s) => s.value === this.selectedStatusValue);
-    this.patientService.updateStatus(this.patient.patientId, status).pipe(take(1)).subscribe();
+    const insurance = this.patient.medicalInsurance[this.medicalIndex[this.formType]];
+    let id = '';
+    if (insurance.memberId) {
+      id = insurance.memberId;
+    } else if (insurance.groupId) {
+      id = insurance.groupId;
+    } else if (insurance.ssn) {
+      id = insurance.ssn;
+    }
+    this.patientService.updateStatus(this.patient.patientId, status, id).pipe(take(1)).subscribe();
     this.patient.status = status;
-    // if (status.value === 'incomplete') {
-    //   setTimeout(() => {
-    //     this.incompleteEl.nativeElement.scrollIntoView({
-    //       behavior: 'smooth'
-    //     });
-    //     setTimeout(() => {
-    //       try {
-    //         this.incompleteEl.nativeElement.parentElement.childNodes[2].focus();
-    //       } catch (e) { }
-    //     }, 800);
-
-    //   }, 100);
-    // }
   }
 
   toPatients(): void {
@@ -123,6 +121,13 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
     ).subscribe(([clinic, patient]) => {
       this.clinic = clinic;
       this.patient = patient;
+      if (this.formType) {
+        if (this.patient && this.patient.status && this.patient.status.value) {
+          this.selectedStatusValue = this.patient.medicalInsurance[this.medicalIndex[this.formType]].status.value;
+        } else {
+          this.selectedStatusValue = this.status[0].value;
+        }
+      }
       this.triggerPatient.next();
     });
   }

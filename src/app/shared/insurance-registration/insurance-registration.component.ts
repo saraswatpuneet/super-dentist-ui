@@ -95,9 +95,11 @@ export class InsuranceRegistrationComponent extends Base implements OnInit {
     const p = this.insuranceForm.value;
 
     if (this.dentalInsurances.length > 0) {
+      this.dentalInsurances.forEach(d => d.status = { value: 'pending', label: 'Pending' });
       formData.append('dentalInsurance', JSON.stringify(this.dentalInsurances));
     }
     if (this.medicalInsurances.length > 0) {
+      this.medicalInsurances.forEach(d => d.status = { value: 'pending', label: 'Pending' });
       formData.append('medicalInsurance', JSON.stringify(this.medicalInsurances));
     }
 

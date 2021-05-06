@@ -47,9 +47,8 @@ export class PatientService {
     return this.http.post(url, patientData);
   }
 
-  updateStatus(patientId: string, status: PatientStatus): Observable<any> {
-    return this.http.post(`${this.baseUrl}/status/${patientId}`, status);
+  updateStatus(patientId: string, status: PatientStatus, id: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/status/${patientId}?memberId=${id}`, status);
   }
-
 }
 

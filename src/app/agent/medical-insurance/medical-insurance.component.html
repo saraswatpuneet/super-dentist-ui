@@ -76,8 +76,10 @@
 
   <mat-card>
     <h3>Code Specific</h3>
-    <app-code-inputs [hasMedicalNecessity]="true" [allCodes]="allCodes" [codes]="savedCodes" [groupModel]="groupModel"
-      [increments]="increments" [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
-    </app-code-inputs>
+    <div class="flower">
+      <app-code-inputs [hasMedicalNecessity]="true" [allCodes]="allCodes" [codes]="savedCodes" [groupModel]="groupModel"
+        [increments]="increments" [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
+      </app-code-inputs>
+    </div>
   </mat-card>
 </div>
