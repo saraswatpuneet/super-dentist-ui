@@ -1,7 +1,8 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil, switchMap, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { Base } from 'src/app/shared/base/base-component';
@@ -16,15 +17,18 @@ export class ClinicsComponent extends Base implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['clinicName', 'address', 'phoneNumber'];
   clinics = [];
   pageSize = 20;
+  cursor = '';
+  loading = false;
+  private triggerPageChange = new Subject<void>();
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
     private clinicService: ClinicService
   ) { super(); }
 
   ngOnInit(): void {
-    this.getClinics();
+    this.watchClinics();
+    this.changePageSize();
   }
 
   ngAfterViewInit(): void {
@@ -34,13 +38,34 @@ export class ClinicsComponent extends Base implements OnInit, AfterViewInit {
     this.router.navigate([`agent/clinics/${clinic.addressId}/patients`]);
   }
 
-  private getClinics(): void {
-    this.clinicService.getAllClinics().pipe(
+  onPage($event): void {
+    console.log($event);
+  }
+
+  changePageSize(): void {
+    this.cursor = undefined;
+    this.triggerPageChange.next();
+  }
+
+  back(): void {
+
+  }
+
+  forward(): void {
+    this.triggerPageChange.next();
+  }
+
+  private watchClinics(): void {
+    this.triggerPageChange.pipe(
+      tap(() => this.loading = true),
+      switchMap(() => this.clinicService.getAllClinics(this.pageSize, this.cursor)),
+      tap(() => this.loading = false),
       filter(r => !!r),
       map(r => r.data),
       takeUntil(this.unsubscribe$)
-    ).subscribe(clinics => {
-      this.clinics = clinics;
+    ).subscribe(r => {
+      this.clinics = r.clinics;
+      this.cursor = r.cursor;
     });
   }
 }

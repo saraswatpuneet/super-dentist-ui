@@ -5,9 +5,28 @@
   padding: 0;
   margin: 20px 20px 20px 10px;
 
+  .abs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
   table {
     width: 100%;
+  }
 
+  .lighter {
+    font-size: 12px;
+    opacity: 0.5;
+  }
+
+  .m-right {
+    margin-right: 8px;
+  }
+
+  .m-right2 {
+    margin-right: 20px;
   }
 
   .c-table {
@@ -22,5 +41,9 @@
     &:hover {
       background: rgba(grey, 0.2) !important;
     }
+  }
+
+  .count {
+    width: 50px;
   }
 }
