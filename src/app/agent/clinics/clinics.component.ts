@@ -19,7 +19,7 @@ export class ClinicsComponent extends Base implements OnInit, AfterViewInit {
   pageSize = 20;
   cursorNext = '';
   cursor = '';
-  cursorPrevious = '';
+  cursorPrev = '';
   loading = false;
   private triggerPageChange = new Subject<void>();
 
@@ -46,7 +46,7 @@ export class ClinicsComponent extends Base implements OnInit, AfterViewInit {
   }
 
   back(): void {
-    this.cursor = this.cursorPrevious;
+    this.cursor = this.cursorPrev;
     this.triggerPageChange.next();
   }
 
@@ -66,7 +66,7 @@ export class ClinicsComponent extends Base implements OnInit, AfterViewInit {
     ).subscribe(r => {
       this.clinics = r.clinics;
       this.cursorNext = r.cursorNext;
-      this.cursorPrevious = r.cursorPrevious;
+      this.cursorPrev = r.cursorPrev;
     });
   }
 }
