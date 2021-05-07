@@ -22,6 +22,10 @@ export class PatientsComponent extends Base implements OnInit {
   patientColumns: string[] = ['appointment', 'patient', 'subscriber', 'memberInfo', 'insurance', 'status'];
   dentalKeys = ['primaryDental', 'secondaryDental', 'tertiaryDental'];
   medicalKeys = ['primaryMedical', 'secondaryMedical', 'tertiaryMedical'];
+  cursor = '';
+  previousCursor = '';
+  nextCursor = '';
+  loading = false;
   private patients = [];
   private clinicId = '';
   private patientTrigger = new Subject<string>();
@@ -63,6 +67,21 @@ export class PatientsComponent extends Base implements OnInit {
     this.router.navigate([`agent/clinics/${this.clinicId}/patients/${patient.patientId}/${insurancePath}`], { queryParams: { formType } });
   }
 
+  changePageSize(): void {
+    this.cursor = undefined;
+    this.patientTrigger.next(this.clinicId);
+  }
+
+  back(): void {
+    this.cursor = this.previousCursor;
+    this.patientTrigger.next(this.clinicId);
+  }
+
+  forward(): void {
+    this.cursor = this.nextCursor;
+    this.patientTrigger.next(this.clinicId);
+  }
+
   private checkRoute(): void {
     this.route.parent.params.pipe(
       takeUntil(this.unsubscribe$)
@@ -89,11 +108,13 @@ export class PatientsComponent extends Base implements OnInit {
 
   private watchPatients(): void {
     this.patientTrigger.pipe(
-      switchMap(addressId => this.patientService.getAllPatientsForClinic(addressId)),
+      switchMap(addressId => this.patientService.getAllPatientsForClinic2(addressId, this.pageSize, this.cursor)),
       map(r => r.data),
       takeUntil(this.unsubscribe$)
     ).subscribe(res => {
-      this.patients = res;
+      this.patients = res.patients;
+      this.nextCursor = res.nextCursor;
+      this.previousCursor = res.nextCursor;
       const patients = [];
       this.patients.forEach(patient => {
         if (patient.dentalInsurance) {

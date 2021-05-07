@@ -17,7 +17,9 @@ export class ClinicsComponent extends Base implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['clinicName', 'address', 'phoneNumber'];
   clinics = [];
   pageSize = 20;
+  nextCursor = '';
   cursor = '';
+  previousCursor = '';
   loading = false;
   private triggerPageChange = new Subject<void>();
 
@@ -38,20 +40,18 @@ export class ClinicsComponent extends Base implements OnInit, AfterViewInit {
     this.router.navigate([`agent/clinics/${clinic.addressId}/patients`]);
   }
 
-  onPage($event): void {
-    console.log($event);
-  }
-
   changePageSize(): void {
     this.cursor = undefined;
     this.triggerPageChange.next();
   }
 
   back(): void {
-
+    this.cursor = this.previousCursor;
+    this.triggerPageChange.next();
   }
 
   forward(): void {
+    this.cursor = this.nextCursor;
     this.triggerPageChange.next();
   }
 
@@ -65,7 +65,8 @@ export class ClinicsComponent extends Base implements OnInit, AfterViewInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       this.clinics = r.clinics;
-      this.cursor = r.cursor;
+      this.nextCursor = r.nextCursor;
+      this.previousCursor = r.previousCursor;
     });
   }
 }

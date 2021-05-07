@@ -121,6 +121,20 @@
         <tr mat-row (click)="selectPatient(row)" *matRowDef="let row; columns: patientColumns;"></tr>
       </table>
     </div>
-    <mat-paginator [(pageSize)]="pageSize" #patientPaginator [pageSizeOptions]="[5, 20, 50, 100]"></mat-paginator>
+    <div class="pager" fxLayout="row" fxLayoutAlign="end center">
+      <span class="lighter m-right">Patients per page</span>
+      <mat-form-field class="count">
+        <mat-select [(ngModel)]="pageSize" (selectionChange)="changePageSize()">
+          <mat-option *ngFor="let a of [5, 10, 20, 50, 100]" [value]="a">{{a}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span class="m-right2"></span>
+      <button mat-icon-button (click)="back()" [disabled]="loading || !previousCursor">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <button mat-icon-button (click)="forward()" [disabled]="loading || !nextCursor">
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
   </mat-card>
 </div>

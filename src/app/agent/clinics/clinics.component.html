@@ -24,17 +24,17 @@
   </div>
 
   <div class="pager" fxLayout="row" fxLayoutAlign="end center">
-    <span class="lighter m-right">Items per page</span>
+    <span class="lighter m-right">Clinics per page</span>
     <mat-form-field class="count">
       <mat-select [(ngModel)]="pageSize" (selectionChange)="changePageSize()">
         <mat-option *ngFor="let a of [5, 10, 20, 50, 100]" [value]="a">{{a}}</mat-option>
       </mat-select>
     </mat-form-field>
     <span class="m-right2"></span>
-    <button mat-icon-button (click)="back()" [disabled]="loading">
+    <button mat-icon-button (click)="back()" [disabled]="loading || !previousCursor">
       <mat-icon>keyboard_arrow_left</mat-icon>
     </button>
-    <button mat-icon-button (click)="forward()" [disabled]="loading">
+    <button mat-icon-button (click)="forward()" [disabled]="loading || !nextCursor">
       <mat-icon>keyboard_arrow_right</mat-icon>
     </button>
   </div>
