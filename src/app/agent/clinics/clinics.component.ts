@@ -17,9 +17,9 @@ export class ClinicsComponent extends Base implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['clinicName', 'address', 'phoneNumber'];
   clinics = [];
   pageSize = 20;
-  nextCursor = '';
+  cursorNext = '';
   cursor = '';
-  previousCursor = '';
+  cursorPrevious = '';
   loading = false;
   private triggerPageChange = new Subject<void>();
 
@@ -46,12 +46,12 @@ export class ClinicsComponent extends Base implements OnInit, AfterViewInit {
   }
 
   back(): void {
-    this.cursor = this.previousCursor;
+    this.cursor = this.cursorPrevious;
     this.triggerPageChange.next();
   }
 
   forward(): void {
-    this.cursor = this.nextCursor;
+    this.cursor = this.cursorNext;
     this.triggerPageChange.next();
   }
 
@@ -65,8 +65,8 @@ export class ClinicsComponent extends Base implements OnInit, AfterViewInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       this.clinics = r.clinics;
-      this.nextCursor = r.nextCursor;
-      this.previousCursor = r.previousCursor;
+      this.cursorNext = r.cursorNext;
+      this.cursorPrevious = r.cursorPrevious;
     });
   }
 }

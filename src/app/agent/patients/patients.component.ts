@@ -23,8 +23,8 @@ export class PatientsComponent extends Base implements OnInit {
   dentalKeys = ['primaryDental', 'secondaryDental', 'tertiaryDental'];
   medicalKeys = ['primaryMedical', 'secondaryMedical', 'tertiaryMedical'];
   cursor = '';
-  previousCursor = '';
-  nextCursor = '';
+  cursorPrevious = '';
+  cursorNext = '';
   loading = false;
   private patients = [];
   private clinicId = '';
@@ -73,12 +73,12 @@ export class PatientsComponent extends Base implements OnInit {
   }
 
   back(): void {
-    this.cursor = this.previousCursor;
+    this.cursor = this.cursorPrevious;
     this.patientTrigger.next(this.clinicId);
   }
 
   forward(): void {
-    this.cursor = this.nextCursor;
+    this.cursor = this.cursorNext;
     this.patientTrigger.next(this.clinicId);
   }
 
@@ -113,8 +113,8 @@ export class PatientsComponent extends Base implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(res => {
       this.patients = res.patients;
-      this.nextCursor = res.nextCursor;
-      this.previousCursor = res.nextCursor;
+      this.cursorNext = res.cursorNext;
+      this.cursorPrevious = res.cursorNext;
       const patients = [];
       this.patients.forEach(patient => {
         if (patient.dentalInsurance) {

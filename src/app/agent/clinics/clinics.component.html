@@ -31,10 +31,10 @@
       </mat-select>
     </mat-form-field>
     <span class="m-right2"></span>
-    <button mat-icon-button (click)="back()" [disabled]="loading || !previousCursor">
+    <button mat-icon-button (click)="back()" [disabled]="loading || !cursorPrevious">
       <mat-icon>keyboard_arrow_left</mat-icon>
     </button>
-    <button mat-icon-button (click)="forward()" [disabled]="loading || !nextCursor">
+    <button mat-icon-button (click)="forward()" [disabled]="loading || !cursorNext">
       <mat-icon>keyboard_arrow_right</mat-icon>
     </button>
   </div>
