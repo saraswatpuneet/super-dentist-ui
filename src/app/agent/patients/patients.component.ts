@@ -5,7 +5,7 @@ import { switchMap, takeUntil, map } from 'rxjs/operators';
 
 import { Base } from 'src/app/shared/base/base-component';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
-import { months } from 'src/app/shared/services/insurance';
+import { months, patientStatus } from 'src/app/shared/services/insurance';
 import { PatientService } from 'src/app/shared/services/patient.service';
 
 @Component({
@@ -28,6 +28,7 @@ export class PatientsComponent extends Base implements OnInit {
   cursorPrev = '';
   cursorNext = '';
   loading = false;
+  status = patientStatus();
   private patients = [];
   private clinicId = '';
   private patientTrigger = new Subject<string>();
