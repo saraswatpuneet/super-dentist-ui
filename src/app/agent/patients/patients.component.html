@@ -38,6 +38,25 @@
   <mat-card class="patient-list mat-elevation-z8">
     <div class="p-table">
       <table mat-table [dataSource]="filteredPatients" class="mat-elevation-z8">
+        <ng-container matColumnDef="actions">
+          <th style="width:90px" class="action-header" mat-header-cell *matHeaderCellDef>
+            <mat-icon *ngIf="!assigning" (click)="startAssignment()">edit</mat-icon>
+            <ng-container *ngIf="assigning">
+              <mat-icon (click)="cancelAssignment()">close</mat-icon>
+              <mat-icon [matMenuTriggerFor]="agentMenu">done</mat-icon>
+            </ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-checkbox *ngIf="assigning"></mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="assignedTo">
+          <th mat-header-cell *matHeaderCellDef> Assigned To </th>
+          <td mat-cell *matCellDef="let element">
+            <div>{{element.assignedTo}}</div>
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="appointment">
           <th mat-header-cell *matHeaderCellDef> Appointment </th>
           <td mat-cell *matCellDef="let element">
@@ -138,3 +157,10 @@
     </div>
   </mat-card>
 </div>
+
+<mat-menu #agentMenu="matMenu">
+  <ng-template matMenuContent>
+    <app-agent-menu (click)="$event.stopPropagation()" [agents]="agents" (selectedAgent)="saveAssignment($event)">
+    </app-agent-menu>
+  </ng-template>
+</mat-menu>

@@ -1,0 +1,9 @@
+<mat-card class="c-card agent-menu">
+  <mat-form-field>
+    <mat-label>Filter agents</mat-label>
+    <input matInput [(ngModel)]="searchFilter" (keyup)="filterByAgent()" type="text">
+  </mat-form-field>
+</mat-card>
+<button mat-menu-item *ngFor="let agent of filteredAgents" (click)="selectedAgent.emit(agent)">
+  {{agent}}
+</button>

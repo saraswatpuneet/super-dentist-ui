@@ -99,7 +99,6 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
             this.incompleteEl.nativeElement.parentElement.childNodes[2].focus();
           } catch (e) { }
         }, 800);
-
       }, 100);
     }
   }

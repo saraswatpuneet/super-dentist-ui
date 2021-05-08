@@ -14,12 +14,14 @@ import { PatientService } from 'src/app/shared/services/patient.service';
   styleUrls: ['./patients.component.scss']
 })
 export class PatientsComponent extends Base implements OnInit {
+  agents = ['asdf', 'qwer', 'qwe5', '1234', 'zxcv'];
   filteredPatients = [];
+  assigning = false;
   patientFilter = '';
   clinic: any = {};
   pageSize = 20;
   months = months();
-  patientColumns: string[] = ['appointment', 'patient', 'subscriber', 'memberInfo', 'insurance', 'status'];
+  patientColumns: string[] = ['actions', 'assignedTo', 'appointment', 'patient', 'subscriber', 'memberInfo', 'insurance', 'status'];
   dentalKeys = ['primaryDental', 'secondaryDental', 'tertiaryDental'];
   medicalKeys = ['primaryMedical', 'secondaryMedical', 'tertiaryMedical'];
   cursor = '';
@@ -42,6 +44,19 @@ export class PatientsComponent extends Base implements OnInit {
     this.watchPatients();
     this.watchClinics();
     this.checkRoute();
+  }
+
+  startAssignment(): void {
+    this.assigning = true;
+  }
+
+  cancelAssignment(): void {
+    this.assigning = false;
+  }
+
+  saveAssignment(agent: any): void {
+    this.assigning = false;
+    console.log(agent);
   }
 
   goToClinics(): void {

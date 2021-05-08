@@ -5,6 +5,26 @@
     overflow: auto;
     box-sizing: border-box;
 
+    .action-header {
+      mat-icon {
+        padding: 8px 8px 0 0;
+        font-size: 20px;
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+
+        &:hover::before {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          height: 3px;
+          background: var(--ac-blue);
+          width: calc(100% - 8px);
+        }
+      }
+    }
+
     table {
       width: 100%;
     }

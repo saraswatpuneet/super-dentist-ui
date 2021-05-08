@@ -8,28 +8,38 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material/input';
 
 import { PatientsRoutingModule } from './patients-routing.module';
 import { PatientsComponent } from './patients.component';
 import { PatientStatusPillModule } from 'src/app/shared/patient-status-pill/patient-status-pill.module';
-import { MatSelectModule } from '@angular/material/select';
+import { AgentMenuComponent } from './agent-menu/agent-menu.component';
 
 @NgModule({
   declarations: [
-    PatientsComponent
+    PatientsComponent,
+    AgentMenuComponent
   ],
   imports: [
     CommonModule,
-    MatButtonModule,
     FlexLayoutModule,
     FormsModule,
-    PatientStatusPillModule,
+    MatButtonModule,
     MatCardModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
     MatIconModule,
-    MatSelectModule,
+    MatMenuModule,
+    MatInputModule,
     MatPaginatorModule,
+    MatSelectModule,
     MatTableModule,
     MatTabsModule,
+    PatientStatusPillModule,
     PatientsRoutingModule
   ]
 })
