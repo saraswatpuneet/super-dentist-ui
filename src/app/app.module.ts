@@ -49,17 +49,17 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
       useClass: AuthInterceptor,
       multi: true
     },
-    {
-      provide: MAT_DATE_FORMATS,
-      useValue: {
-        display: {
-          dateInput: 'MMM DD, YYYY',
-          monthYearLabel: 'YYYY',
-          dateA11yLabel: 'LL',
-          monthYearA11yLabel: 'YYYY',
-        },
-      },
-    },
+    // {
+    //   provide: MAT_DATE_FORMATS,
+    //   useValue: {
+    //     display: {
+    //       dateInput: 'MMM DD, YYYY',
+    //       monthYearLabel: 'YYYY',
+    //       dateA11yLabel: 'LL',
+    //       monthYearA11yLabel: 'YYYY',
+    //     },
+    //   },
+    // },
   ],
   bootstrap: [AppComponent]
 })

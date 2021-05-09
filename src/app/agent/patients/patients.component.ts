@@ -7,6 +7,7 @@ import { Base } from 'src/app/shared/base/base-component';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { months, patientStatus } from 'src/app/shared/services/insurance';
 import { PatientService } from 'src/app/shared/services/patient.service';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-patients',
@@ -14,12 +15,16 @@ import { PatientService } from 'src/app/shared/services/patient.service';
   styleUrls: ['./patients.component.scss']
 })
 export class PatientsComponent extends Base implements OnInit {
-  agents = ['asdf', 'qwer', 'qwe5', '1234', 'zxcv'];
+  agents = ['asdf', 'qwer', 'qwe5', '1234', 'zxcv', '1pw', '23pd', '34ds', '4pdsf', 'asdcx', 'vfr', 'bgt', 'nhyt', 'mjy'];
   filteredPatients = [];
   assigning = false;
   patientFilter = '';
   clinic: any = {};
   pageSize = 20;
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl()
+  });
   months = months();
   patientColumns: string[] = ['actions', 'assignedTo', 'appointment', 'patient', 'subscriber', 'memberInfo', 'insurance', 'status'];
   dentalKeys = ['primaryDental', 'secondaryDental', 'tertiaryDental'];
@@ -29,6 +34,7 @@ export class PatientsComponent extends Base implements OnInit {
   cursorNext = '';
   loading = false;
   status = patientStatus();
+  selectedStatus = '';
   private patients = [];
   private clinicId = '';
   private patientTrigger = new Subject<string>();
@@ -45,6 +51,10 @@ export class PatientsComponent extends Base implements OnInit {
     this.watchPatients();
     this.watchClinics();
     this.checkRoute();
+  }
+
+  filterByStatus(statusValue: string): void {
+    console.log(statusValue);
   }
 
   startAssignment(): void {
