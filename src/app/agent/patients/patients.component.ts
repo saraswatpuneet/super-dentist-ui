@@ -16,7 +16,9 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class PatientsComponent extends Base implements OnInit {
   agents = ['asdf', 'qwer', 'qwe5', '1234', 'zxcv', '1pw', '23pd', '34ds', '4pdsf', 'asdcx', 'vfr', 'bgt', 'nhyt', 'mjy'];
+  insuranceCompaniesForFilter = ['Cygna', 'Delta Dental', 'United Health One'];
   filteredPatients = [];
+  selectedInsuranceCompanies = [];
   assigning = false;
   patientFilter = '';
   clinic: any = {};
@@ -55,6 +57,10 @@ export class PatientsComponent extends Base implements OnInit {
 
   filterByStatus(statusValue: string): void {
     console.log(statusValue);
+  }
+
+  insuranceChange(): void {
+
   }
 
   startAssignment(): void {

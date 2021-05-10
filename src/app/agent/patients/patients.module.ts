@@ -18,11 +18,13 @@ import { PatientsRoutingModule } from './patients-routing.module';
 import { PatientsComponent } from './patients.component';
 import { PatientStatusPillModule } from 'src/app/shared/patient-status-pill/patient-status-pill.module';
 import { AgentMenuComponent } from './agent-menu/agent-menu.component';
+import { InsuranceFilterComponent } from './insurance-filter/insurance-filter.component';
 
 @NgModule({
   declarations: [
     PatientsComponent,
-    AgentMenuComponent
+    AgentMenuComponent,
+    InsuranceFilterComponent
   ],
   imports: [
     CommonModule,
