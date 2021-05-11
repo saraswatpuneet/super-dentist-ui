@@ -13,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { PatientsRoutingModule } from './patients-routing.module';
 import { PatientsComponent } from './patients.component';
@@ -34,6 +35,7 @@ import { InsuranceFilterComponent } from './insurance-filter/insurance-filter.co
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,
+    MatTooltipModule,
     MatDatepickerModule,
     MatIconModule,
     MatMenuModule,
