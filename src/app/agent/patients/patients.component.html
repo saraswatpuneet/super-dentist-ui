@@ -48,7 +48,7 @@
           <th [ngClass]="{'expanded': assigning}" class="action-header" mat-header-cell *matHeaderCellDef>
             <mat-icon *ngIf="!assigning" (click)="startAssignment()">edit</mat-icon>
             <ng-container *ngIf="assigning">
-              <mat-checkbox class="shift-up" [(ngModel)]="allSelectedPatients"
+              <mat-checkbox color="primary" class="shift-up" [(ngModel)]="allSelectedPatients"
                 (change)="selectAllPatients($event.checked)">
               </mat-checkbox>
               <mat-icon matTooltip="Cancel selection" matTooltipShowDelay="500" (click)="cancelAssignment()">close
@@ -59,7 +59,8 @@
           </th>
           <td mat-cell *matCellDef="let element; let i = index" style="cursor: default"
             (click)="$event.stopPropagation()">
-            <mat-checkbox *ngIf="assigning" (change)="assignPatient()" [(ngModel)]="selectedPatients[i]"></mat-checkbox>
+            <mat-checkbox color="primary" *ngIf="assigning" (change)="assignPatient()"
+              [(ngModel)]="selectedPatients[i]"></mat-checkbox>
           </td>
         </ng-container>
         <ng-container matColumnDef="assignedTo">
