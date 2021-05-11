@@ -1,17 +1,17 @@
+<mat-menu #clinicMenu="matMenu" [overlapTrigger]="true">
+  <ng-template matMenuContent>
+    <app-clinic-menu [clinics]="clinics"></app-clinic-menu>
+  </ng-template>
+</mat-menu>
+
 <mat-menu #menu="matMenu">
   <button mat-menu-item [matMenuTriggerFor]="patientMenu">Patient name</button>
-  <!-- <button mat-menu-item [matMenuTriggerFor]="statusMenu">Status</button> -->
 </mat-menu>
+
 <mat-menu #patientMenu="matMenu">
   <button mat-menu-item (click)="sortBy('patient', 'az')">A -> Z</button>
   <button mat-menu-item (click)="sortBy('patient', 'za')">Z -> A</button>
 </mat-menu>
-<!-- <mat-menu #statusMenu="matMenu">
-  <button mat-menu-item (click)="sortBy('status', 'pending')">Pending</button>
-  <button mat-menu-item (click)="sortBy('status', 'active')">Active</button>
-  <button mat-menu-item (click)="sortBy('status', 'incomplete')">Incomplete</button>
-  <button mat-menu-item (click)="sortBy('status', 'termed')">Termed</button>
-</mat-menu> -->
 <div class="eligibility-benefits" fxLayout="column">
   <div class="search-bar">
     <mat-card class="c-card" fxLayout="row">
@@ -20,33 +20,48 @@
           placeholder="Search for patient">
       </div>
       <span fxFlex></span>
-      <button mat-button [matMenuTriggerFor]="menu">
+      <!-- <button mat-button [matMenuTriggerFor]="menu">
         <mat-icon>sort</mat-icon> Sort by
-      </button>
+      </button> -->
       <button fxFlex="150px" mat-stroked-button (click)="showInsurance = true">Insurance check</button>
     </mat-card>
   </div>
 
-  <div fxLayout="row" fxLayoutGap="24px" class="overflow">
-    <mat-card class="c-card patients">
-      <div class="fix" *ngIf="showInsurance">
-        <app-insurance-registration [dentalCompanies]="dentalCompanies" (cancelRegistration)="onCancelRegistration()"
-          [clinics]="clinics" [canCancel]="true">
-        </app-insurance-registration>
-      </div>
-      <div *ngFor="let clinic of clinics; let i = index">
-        <div class="padd-bot" fxLayout="column">
-          <h3 class="no-m">{{clinic.name}}</h3>
-          <div class="lighter">{{clinic.address}}</div>
-        </div>
-        <!-- <table mat-table [dataSource]="filteredPatients[i]" class="mat-elevation-z8">
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> Patient </th>
+  <mat-card class="c-card">
+    <div class="selected-clinic" [matMenuTriggerFor]="clinicMenu">
+      <header class="no-m">{{selectedClinic?.name}}</header>
+      <div class="lighter">{{selectedClinic?.address}}</div>
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </div>
+  </mat-card>
+
+  <mat-card class="c-card patients">
+    <div class="fix" *ngIf="showInsurance">
+      <app-insurance-registration [dentalCompanies]="dentalCompanies" (cancelRegistration)="onCancelRegistration()"
+        [clinics]="clinics" [canCancel]="true">
+      </app-insurance-registration>
+    </div>
+    <mat-card class="clinic-list mat-elevation-z8">
+      <div class="p-table">
+        <table mat-table [dataSource]="filteredPatients" class="mat-elevation-z8">
+          <ng-container matColumnDef="appointment">
+            <th mat-header-cell *matHeaderCellDef> Appointment </th>
+            <td mat-cell *matCellDef="let element">
+              <div>
+
+                <div>{{element.dueDate | date:"h:mm a"}}</div>
+                <div class="lighter">{{element.dueDate | date:"MMM dd, YYYY"}}</div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="patient">
+            <th mat-header-cell *matHeaderCellDef> Patient / Date of Birth </th>
             <td mat-cell *matCellDef="let element">
               <div>
                 <div>{{element?.firstName}} {{element?.lastName}} </div>
                 <div class="lighter">
-                  DoB - {{months[element.dob.month].label}} {{element.dob.day}}, {{element.dob.year}}
+                  {{months[element.dob.month].label}} {{element.dob.day}}, {{element.dob.year}}
                 </div>
               </div>
             </td>
@@ -91,17 +106,27 @@
 
           <tr mat-header-row *matHeaderRowDef="patientColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: patientColumns;"></tr>
-        </table> -->
-
-        <div [ngClass]="{'active': selectedPatient?.patientId === patient.patientId}"
-          (click)="selectPatient(patient, clinic.addressId)" class="patient-items"
-          *ngFor="let patient of filteredPatients[i]" fxLayout="column">
-          <app-patient-list-item [patient]="patient"></app-patient-list-item>
-        </div>
+        </table>
+      </div>
+      <div class="pager" fxLayout="row" fxLayoutAlign="end center">
+        <span class="lighter m-right">Patients per page</span>
+        <mat-form-field class="count">
+          <mat-select [(ngModel)]="pageSize" (selectionChange)="changePageSize()">
+            <mat-option *ngFor="let a of [5, 10, 20, 50, 100]" [value]="a">{{a}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <span class="m-right2"></span>
+        <button mat-icon-button (click)="back()" [disabled]="loading || !cursorPrev">
+          <mat-icon>keyboard_arrow_left</mat-icon>
+        </button>
+        <button mat-icon-button (click)="forward()" [disabled]="loading || !cursorNext">
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
       </div>
     </mat-card>
+  </mat-card>
 
-    <!-- <mat-card class="c-card patient-details" fxFlex *ngIf="selectedPatient" fxLayout="column">
+  <!-- <mat-card class="c-card patient-details" fxFlex *ngIf="selectedPatient" fxLayout="column">
       <app-patient-details [months]="months" [patient]="selectedPatient" [patientCoverage]="notes.patientCoverage">
       </app-patient-details>
 
@@ -119,5 +144,4 @@
 
       <div style="min-height:10px"></div>
     </mat-card> -->
-  </div>
 </div>

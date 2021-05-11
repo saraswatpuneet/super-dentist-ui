@@ -234,7 +234,15 @@ textarea {
   }
 }
 
+.mat-header-cell {
+  color: rgba(255, 255, 255);
+}
+
 .light {
+  .mat-header-cell {
+    color: rgba(0, 0, 0);
+  }
+
   .sd-input {
     color: rgba(black, 0.7);
     border-radius: 4px;
@@ -388,6 +396,10 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.mat-menu-panel {
+  max-width: 100% !important;
 }
 
 // ::-webkit-scrollbar {

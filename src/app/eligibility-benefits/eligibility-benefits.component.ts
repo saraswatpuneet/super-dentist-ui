@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { take, map, switchMap, takeUntil, catchError, tap } from 'rxjs/operators';
+import { take, map, switchMap, takeUntil, catchError, tap, filter } from 'rxjs/operators';
 import { Subject, forkJoin, of } from 'rxjs';
 
 import { ClinicService } from '../shared/services/clinic.service';
@@ -15,21 +15,29 @@ import { DentalBreakDowns, months } from '../shared/services/insurance';
 })
 export class EligibilityBenefitsComponent extends Base implements OnInit {
   showInsurance = false;
+  pageSize = 20;
   notes = {};
   clinics: any[];
   addressId = '';
   patientFilter = '';
   filteredPatients = [];
-  patientColumns: string[] = ['name', 'dentalInsurance', 'medicalInsurance', 'status'];
+  selectedClinic: any = {};
+  patientColumns: string[] = ['appointment', 'patient', 'dentalInsurance', 'medicalInsurance', 'status'];
   codeHistory: {};
   selectedPatient = undefined;
   savedCodes: DentalBreakDowns = this.newSavedCodes();
   allCodes: DentalBreakDowns;
   dentalCompanies = [];
   months = months();
+  cursor = '';
+  cursorPrev = '';
+  cursorNext = '';
+  clinicId = '';
+  loading = false;
   private triggerPatients = new Subject();
   private triggerGetPatientCodes = new Subject();
   private patients = [];
+  private triggerPageChange = new Subject();
 
   constructor(
     private clinicService: ClinicService,
@@ -48,6 +56,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     this.watchPatients();
     this.getClinicCodes();
     this.watchTriggerPatientGet();
+    this.watchClinics();
     this.triggerPatients.next();
   }
 
@@ -63,11 +72,9 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   }
 
   filterPatientList(): void {
-    this.patients.forEach((group, index) => {
-      this.filteredPatients[index] = group.filter(patient =>
-        `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(this.patientFilter.toLowerCase())
-      );
-    });
+    this.filteredPatients = this.patients.filter(patient =>
+      `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(this.patientFilter.toLowerCase())
+    );
   }
 
   sortBy(group: string, order: string): void {
@@ -76,6 +83,21 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     } else if (group === 'status') {
       this.sortPatientStatus(order);
     }
+  }
+
+  changePageSize(): void {
+    this.cursor = undefined;
+    this.triggerPageChange.next();
+  }
+
+  back(): void {
+    this.cursor = this.cursorPrev;
+    this.triggerPageChange.next();
+  }
+
+  forward(): void {
+    this.cursor = this.cursorNext;
+    this.triggerPageChange.next();
   }
 
   private sortPatientStatus(order: string): void {
@@ -124,6 +146,23 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     }
   }
 
+  private watchClinics(): void {
+    this.triggerPageChange.pipe(
+      tap(() => this.loading = true),
+      switchMap(() => this.clinicService.getAllClinics(this.pageSize, this.cursor)),
+      tap(() => this.loading = false),
+      filter(r => !!r),
+      map(r => r.data),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      this.clinics = r.clinics;
+      console.log(this.clinics);
+      this.selectedClinic = this.clinics[0];
+      this.cursorNext = r.cursorNext;
+      this.cursorPrev = r.cursorPrev;
+    });
+  }
+
   private watchTriggerPatientGet(): void {
     this.triggerGetPatientCodes.pipe(
       switchMap(() => {
@@ -147,13 +186,13 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
       map(res => res.data.clinicDetails),
       switchMap(clinics => {
         this.clinics = clinics;
-        return forkJoin(this.clinics.map(clinic =>
-          this.patientService.getAllPatientsForClinic(clinic.addressId).pipe(map(p => p.data), take(1)),
-        ));
+        this.selectedClinic = this.clinics[0];
+        return this.patientService.getAllPatientsForClinic(this.selectedClinic.addressId);
       }),
+      map(p => p.data),
       tap(res => {
         this.patients = res;
-        this.patients.forEach(group => group.sort((a, b) => b.createdOn - a.createdOn));
+        this.patients.sort((a, b) => b.createdOn - a.createdOn);
         this.filterPatientList();
       }),
       switchMap(() => this.insuranceService.getPracticeCodes()),

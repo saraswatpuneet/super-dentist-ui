@@ -4,12 +4,67 @@
 }
 
 .eligibility-benefits {
-  padding: 20px 0 0 10px;
+  padding: 20px 20px 20px 10px;
   box-sizing: border-box;
   position: relative;
   display: block;
   height: 100%;
   overflow: hidden;
+
+  .clinic-list {
+    height: 100%;
+    padding: 0;
+    position: relative;
+  }
+
+  .m-right {
+    margin-right: 8px;
+  }
+
+  .m-right2 {
+    margin-right: 20px;
+  }
+  
+  .count {
+    width: 50px;
+  }
+
+  .mat-row {
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(grey, 0.2) !important;
+    }
+  }
+
+  .p-table {
+    height: calc(100% - 56px);
+    overflow: auto;
+  }
+
+  mat-paginator {
+    box-shadow: inset 0 1px 0 rgba(grey, 0.2);
+  }
+
+  .selected-clinic {
+    height: 57px;
+    cursor: pointer;
+    position: relative;
+    padding-right: 40px;
+    display: inline-block;
+
+    mat-icon {
+      position: absolute;
+      right: 0;
+      top: 8px;
+    }
+
+    header {
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
 
   .right {
     opacity: 0.4;
@@ -31,8 +86,6 @@
   }
 
   .search-bar {
-    height: 62px;
-    padding-right: 20px;
     padding-bottom: 20px;
   }
 
@@ -59,7 +112,8 @@
 
   .patients {
     width: 100%;
-    
+    height: 100%;
+
     table {
       width: 100%;
     }
@@ -72,7 +126,6 @@
       padding-bottom: 12px
     }
   }
-
 
   .patient-items {
     min-height: 50px;
