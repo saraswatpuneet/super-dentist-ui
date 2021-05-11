@@ -48,14 +48,16 @@
           <th [ngClass]="{'expanded': assigning}" class="action-header" mat-header-cell *matHeaderCellDef>
             <mat-icon *ngIf="!assigning" (click)="startAssignment()">edit</mat-icon>
             <ng-container *ngIf="assigning">
-              <mat-checkbox class="shift-up" (click)="selectAllPatients()"></mat-checkbox>
+              <mat-checkbox class="shift-up" [(ngModel)]="allSelectedPatients"
+                (change)="selectAllPatients($event.checked)">
+              </mat-checkbox>
               <mat-icon (click)="cancelAssignment()">close</mat-icon>
               <mat-icon [matMenuTriggerFor]="agentMenu">done</mat-icon>
             </ng-container>
           </th>
           <td mat-cell *matCellDef="let element; let i = index" style="cursor: default"
             (click)="$event.stopPropagation()">
-            <mat-checkbox *ngIf="assigning" [(ngModel)]="selectedPatients[i]"></mat-checkbox>
+            <mat-checkbox *ngIf="assigning" (change)="assignPatient()" [(ngModel)]="selectedPatients[i]"></mat-checkbox>
           </td>
         </ng-container>
         <ng-container matColumnDef="assignedTo">

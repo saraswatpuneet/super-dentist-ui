@@ -19,6 +19,7 @@ export class PatientsComponent extends Base implements OnInit {
   insuranceCompaniesForFilter = ['Cygna', 'Delta Dental', 'United Health One'];
   filteredPatients = [];
   selectedPatients = [];
+  allSelectedPatients = false;
   selectedInsuranceCompanies = [];
   assigning = false;
   patientFilter = '';
@@ -58,15 +59,21 @@ export class PatientsComponent extends Base implements OnInit {
   }
 
   filterByStatus(statusValue: string): void {
-    console.log(statusValue);
   }
 
   insuranceChange(): void {
   }
 
-  selectAllPatients(): void {
-    console.log();
+  selectAllPatients(selected: boolean): void {
+    this.selectedPatients = Array(this.filteredPatients.length).fill(selected);
+  }
 
+  assignPatient(): void {
+    if (this.selectedPatients.some(r => r === false)) {
+      this.allSelectedPatients = false;
+    } else {
+      this.allSelectedPatients = true;
+    }
   }
 
   startAssignment(): void {
