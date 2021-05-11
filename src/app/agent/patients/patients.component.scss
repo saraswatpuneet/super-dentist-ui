@@ -5,6 +5,11 @@
     overflow: auto;
     box-sizing: border-box;
 
+    .shift-up {
+      transform: translateY(-6px);
+      margin-right: 10px
+    }
+
     .action-header {
       transition: 0.15s;
       width: 40px;

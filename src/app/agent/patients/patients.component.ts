@@ -18,6 +18,7 @@ export class PatientsComponent extends Base implements OnInit {
   agents = ['asdf', 'qwer', 'qwe5', '1234', 'zxcv', '1pw', '23pd', '34ds', '4pdsf', 'asdcx', 'vfr', 'bgt', 'nhyt', 'mjy'];
   insuranceCompaniesForFilter = ['Cygna', 'Delta Dental', 'United Health One'];
   filteredPatients = [];
+  selectedPatients = [];
   selectedInsuranceCompanies = [];
   assigning = false;
   patientFilter = '';
@@ -37,6 +38,7 @@ export class PatientsComponent extends Base implements OnInit {
   loading = false;
   status = patientStatus();
   selectedStatus = '';
+
   private patients = [];
   private clinicId = '';
   private patientTrigger = new Subject<string>();
@@ -60,6 +62,10 @@ export class PatientsComponent extends Base implements OnInit {
   }
 
   insuranceChange(): void {
+  }
+
+  selectAllPatients(): void {
+    console.log();
 
   }
 
@@ -73,7 +79,7 @@ export class PatientsComponent extends Base implements OnInit {
 
   saveAssignment(agent: any): void {
     this.assigning = false;
-    console.log(agent);
+    console.log(agent, this);
   }
 
   goToClinics(): void {
@@ -84,6 +90,7 @@ export class PatientsComponent extends Base implements OnInit {
     this.filteredPatients = this.patients.filter(patient =>
       `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(this.patientFilter.toLowerCase())
     );
+    this.selectedPatients = Array(this.filteredPatients.length).fill(false);
   }
 
   selectPatient(patient): void {

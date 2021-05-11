@@ -1,37 +1,40 @@
 <mat-card *ngIf="patient" fxLayout="column" class="patient-details">
-  <div fxLayout="row" fxLayoutGap="24px">
-    <h2> {{patient.firstName}} {{patient.lastName}} </h2>
-  </div>
+  <h2> {{patient.firstName}} {{patient.lastName}} </h2>
 
-  <header fxLayout="row">
-    <div fxLayout="column" fxLayoutGap="12px">
-      <div *ngIf="patient.dob">
-        <div class="lighter">Birthday</div>
-        <div>{{months[patient.dob.month].label}} {{patient.dob.day}}, {{patient.dob.year}}</div>
-      </div>
-      <div *ngIf="patient.createdOn">
-        <div cla5s="lighter">Registered</div>
-        <div>{{patient.createdOn | date:"MMM dd, yyyy"}}</div>
-      </div>
+  <div fxLayout="row">
+    <div fxFlex *ngIf="patient.dob">
+      <div class="lighter">Birthday</div>
+      <div>{{months[patient.dob.month].label}} {{patient.dob.day}}, {{patient.dob.year}}</div>
     </div>
-    <div fxFlex="33" *ngIf="patient.dentalInsurance">
-      <div class="insurance">
-        <div>{{insurance.company}}</div>
-        <div class="lighter" *ngIf="insurance.memberId">Member ID: {{insurance.memberId}}</div>
 
-        <div fxLayout="column" *ngIf="insurance.subscriber && insurance.subscriber.firstName">
-          <div class="lighter">
-            Subscriber Name: {{insurance.subscriber.firstName}} {{insurance.subscriber.lastName}}
-          </div>
-          <div class="lighter">
-            Subscriber birthday: {{months[insurance.subscriber.dob.month]?.label}}
-            {{insurance.subscriber.dob.day}},
-            {{insurance.subscriber.dob.year}}
-          </div>
+    <div fxFlex *ngIf="patient.createdOn">
+      <div class="lighter">Registered</div>
+      <div>{{patient.createdOn | date:"MMM dd, yyyy"}}</div>
+    </div>
+
+    <div fxFlex>
+      <div class="lighter">Insurance</div>
+      <div>{{insurance.company}}</div>
+    </div>
+
+    <div fxFlex>
+      <div class="lighter">Member ID</div>
+      <div *ngIf="insurance.memberId">{{insurance.memberId}}</div>
+    </div>
+
+    <div fxFlex>
+      <div class="lighter">Subscriber</div>
+      <div *ngIf="insurance.subscriber && !insurance.subscriber.firstName">None</div>
+      <div fxLayout="column" *ngIf="insurance.subscriber && insurance.subscriber.firstName">
+        <div>
+          Name: {{insurance.subscriber.firstName}} {{insurance.subscriber.lastName}}
+        </div>
+        <div>
+          Date of Birth: {{months[insurance.subscriber.dob.month]?.label}}
+          {{insurance.subscriber.dob.day}},
+          {{insurance.subscriber.dob.year}}
         </div>
       </div>
-
     </div>
-  </header>
-
+  </div>
 </mat-card>
