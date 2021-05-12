@@ -5,7 +5,8 @@ import { EligibilityBenefitsComponent } from './eligibility-benefits.component';
 import { IsClinicGuard } from '../isClinic.guard';
 
 const routes: Routes = [
-  { path: '', component: EligibilityBenefitsComponent, canActivate: [IsClinicGuard] }
+  { path: '', component: EligibilityBenefitsComponent, canActivate: [IsClinicGuard] },
+  { path: '/patient/:patientId', loadChildren: () => import('./patient/patient.module').then(m => m.PatientModule) }
 ];
 
 @NgModule({

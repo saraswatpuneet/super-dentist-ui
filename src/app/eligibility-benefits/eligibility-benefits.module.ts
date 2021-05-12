@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
 import { NgModule } from '@angular/core';
 
 import { CodesComponent } from './shared/codes/codes.component';
@@ -18,6 +19,7 @@ import { PatientDetailsComponent } from './shared/patient-details/patient-detail
 import { PatientListItemModule } from '../shared/patient-list-item/patient-list-item.module';
 import { PatientStatusPillModule } from '../shared/patient-status-pill/patient-status-pill.module';
 import { RemarksComponent } from './shared/remarks/remarks.component';
+import { ClinicMenuComponent } from './shared/clinic-menu/clinic-menu.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { RemarksComponent } from './shared/remarks/remarks.component';
     CodesComponent,
     HistoryComponent,
     RemarksComponent,
-    PatientDetailsComponent
+    PatientDetailsComponent,
+    ClinicMenuComponent
   ],
   imports: [
     CommonModule,
@@ -38,6 +41,7 @@ import { RemarksComponent } from './shared/remarks/remarks.component';
     MatIconModule,
     MatProgressBarModule,
     MatTableModule,
+    MatSelectModule,
     PatientListItemModule,
     PatientStatusPillModule,
     EligibilityBenefitsRoutingModule

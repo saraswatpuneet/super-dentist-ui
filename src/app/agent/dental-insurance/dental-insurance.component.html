@@ -1,5 +1,5 @@
 <div class="dental-insurance">
-  <app-agent-input *ngIf="patient" (closePatient)="backToPatients()" [addressId]="addressId" [clinic]="clinic"
-    [patient]="patient">
+  <app-agent-input *ngIf="patient" [formType]="formType" (closePatient)="backToPatients()" [addressId]="addressId"
+    [clinic]="clinic" [patient]="patient">
   </app-agent-input>
 </div>

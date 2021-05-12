@@ -1,0 +1,9 @@
+<mat-card class="c-card clinic-menu">
+  <div>
+    <div (click)="changeClinic.emit(clinic)" *ngFor="let clinic of clinics; let l = last">
+      <header>{{clinic.name}}</header>
+      <div class="lighter">{{clinic.address}}</div>
+      <div class="divider" *ngIf="!l"></div>
+    </div>
+  </div>
+</mat-card>

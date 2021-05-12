@@ -14,9 +14,15 @@ import { InsuranceRegistrationComponent } from './insurance-registration.compone
 import { DobComponent } from './shared/dob/dob.component';
 import { DentalInsuranceComponent } from './shared/dental-insurance/dental-insurance.component';
 import { MedicalInsuranceComponent } from './shared/medical-insurance/medical-insurance.component';
+import { InsuranceSummaryComponent } from './shared/insurance-summary/insurance-summary.component';
 
 @NgModule({
-  declarations: [InsuranceRegistrationComponent, DobComponent, DentalInsuranceComponent, MedicalInsuranceComponent],
+  declarations: [
+    InsuranceRegistrationComponent,
+    DobComponent, DentalInsuranceComponent,
+    MedicalInsuranceComponent,
+    InsuranceSummaryComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,

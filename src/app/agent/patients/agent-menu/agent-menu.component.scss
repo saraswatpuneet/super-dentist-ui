@@ -1,0 +1,9 @@
+.agent-menu {
+  max-height: 400px;
+  overflow: auto;
+
+  mat-form-field {
+    padding: 0 8px;
+    user-select: none;
+  }
+}

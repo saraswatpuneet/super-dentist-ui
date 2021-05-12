@@ -7,33 +7,30 @@
       <th style="width:100px">Max</th>
     </tr>
 
-    <ng-container class="breakdowns" [formGroup]="groups.at(i)"
-      *ngFor="let breakDownKey of codes?.breakDownKeys; let i = index">
-      <ng-container [formGroupName]="breakDownKey">
-        <tr>
-          <td>
-            <p>{{breakDownKey}} {{codes.breakDowns[breakDownKey]?.label?.toLowerCase()}}</p>
-          </td>
+    <ng-container class="breakdowns" *ngFor="let breakDownKey of codes?.breakDownKeys; let i = index">
+      <tr>
+        <td>
+          <p>{{breakDownKey}} {{codes.breakDowns[breakDownKey]?.label?.toLowerCase()}}</p>
+        </td>
 
-          <td>
-            <select formControlName="fixed" (change)="changeFixed(i, breakDownKey)">
-              <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
-            </select>
-          </td>
+        <td>
+          <select [(ngModel)]="groupModel[i][breakDownKey].fixed" (change)="changeFixed(i, breakDownKey)">
+            <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
+          </select>
+        </td>
 
-          <td>
-            <select formControlName="min" (change)="changeRange(i, breakDownKey)">
-              <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
-            </select>
-          </td>
+        <td>
+          <select [(ngModel)]="groupModel[i][breakDownKey].min" (change)="changeRange(i, breakDownKey)">
+            <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
+          </select>
+        </td>
 
-          <td>
-            <select formControlName="max" (change)="changeRange(i, breakDownKey)">
-              <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
-            </select>
-          </td>
-        </tr>
-      </ng-container>
+        <td>
+          <select [(ngModel)]="groupModel[i][breakDownKey].max" (change)="changeRange(i, breakDownKey)">
+            <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
+          </select>
+        </td>
+      </tr>
     </ng-container>
 
   </table>

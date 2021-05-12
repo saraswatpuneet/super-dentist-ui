@@ -21,16 +21,22 @@
               <div *ngIf="clinic.groupNpi">{{clinic.groupNpi}}</div>
             </div>
           </div>
+          <span fxFlex></span>
+          <mat-form-field appearance="fill">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input matStartDate style="font-size:14px" placeholder="Start date">
+              <input matEndDate style="font-size:14px" placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
         </div>
         <!-- <div class="sd-input ">
           <input type="text" placeholder="Search for a patient" [(ngModel)]="patientFilter"
             (keyup)="filterPatientList()">
         </div> -->
       </div>
-      <mat-tab-group animationDuration="150ms">
-        <mat-tab label="Upcoming"> </mat-tab>
-        <mat-tab label="Today"> </mat-tab>
-      </mat-tab-group>
     </div>
 
   </mat-card>
@@ -38,6 +44,32 @@
   <mat-card class="patient-list mat-elevation-z8">
     <div class="p-table">
       <table mat-table [dataSource]="filteredPatients" class="mat-elevation-z8">
+        <ng-container matColumnDef="actions">
+          <th [ngClass]="{'expanded': assigning}" class="action-header" mat-header-cell *matHeaderCellDef>
+            <mat-icon *ngIf="!assigning" (click)="startAssignment()">edit</mat-icon>
+            <ng-container *ngIf="assigning">
+              <mat-checkbox color="primary" class="shift-up" [(ngModel)]="allSelectedPatients"
+                (change)="selectAllPatients($event.checked)">
+              </mat-checkbox>
+              <mat-icon matTooltip="Cancel selection" matTooltipShowDelay="500" (click)="cancelAssignment()">close
+              </mat-icon>
+              <mat-icon matTooltip="Assign to agent" matTooltipShowDelay="500" [matMenuTriggerFor]="agentMenu">done
+              </mat-icon>
+            </ng-container>
+          </th>
+          <td mat-cell *matCellDef="let element; let i = index" style="cursor: default"
+            (click)="$event.stopPropagation()">
+            <mat-checkbox color="primary" *ngIf="assigning" (change)="assignPatient()"
+              [(ngModel)]="selectedPatients[i]"></mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="assignedTo">
+          <th mat-header-cell *matHeaderCellDef> Assigned To </th>
+          <td mat-cell *matCellDef="let element">
+            <div>{{element.assignedTo}}</div>
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="appointment">
           <th mat-header-cell *matHeaderCellDef> Appointment </th>
           <td mat-cell *matCellDef="let element">
@@ -50,7 +82,7 @@
           <th mat-header-cell *matHeaderCellDef> Patient / Date of Birth </th>
           <td mat-cell *matCellDef="let element">
             <div>{{element?.firstName}} {{element?.lastName}} </div>
-            <div class="lighter"> {{months[element.dob.month].label}} {{element.dob.day}}, {{element.dob.year}}
+            <div class="lighter"> {{months[element.dob.month]?.label}} {{element.dob.day}}, {{element.dob.year}}
             </div>
           </td>
         </ng-container>
@@ -91,7 +123,9 @@
         </ng-container>
 
         <ng-container matColumnDef="insurance">
-          <th mat-header-cell *matHeaderCellDef> Insurance / Type & Phone </th>
+          <th style="cursor: pointer" mat-header-cell *matHeaderCellDef [matMenuTriggerFor]="insuranceFilterMenu">
+            Insurance / Type & Phone
+          </th>
           <td mat-cell *matCellDef="let element">
             <ng-container *ngIf="element.dentalInsurance">
               <div> {{element.dentalInsurance.company}} </div>
@@ -105,10 +139,15 @@
         </ng-container>
 
         <ng-container matColumnDef="status">
-          <th style="width:175px" mat-header-cell *matHeaderCellDef> Status </th>
+          <th style="width:175px; cursor: pointer" mat-header-cell *matHeaderCellDef [matMenuTriggerFor]="statusMenu">
+            Status </th>
           <td mat-cell *matCellDef="let element">
 
-            <app-patient-status-pill [label]="element?.status?.label" [value]="element?.status?.value">
+            <app-patient-status-pill *ngIf="element.dentalInsurance" [label]="element?.dentalInsurance?.status?.label"
+              [value]="element?.dentalInsurance?.status?.value">
+            </app-patient-status-pill>
+            <app-patient-status-pill *ngIf="element.medicalInsurance" [label]="element?.medicalInsurance?.status?.label"
+              [value]="element?.medicalInsurance?.status?.value">
             </app-patient-status-pill>
           </td>
         </ng-container>
@@ -117,6 +156,41 @@
         <tr mat-row (click)="selectPatient(row)" *matRowDef="let row; columns: patientColumns;"></tr>
       </table>
     </div>
-    <mat-paginator [(pageSize)]="pageSize" #patientPaginator [pageSizeOptions]="[5, 20, 50, 100]"></mat-paginator>
+    <div class="pager" fxLayout="row" fxLayoutAlign="end center">
+      <span class="lighter m-right">Patients per page</span>
+      <mat-form-field class="count">
+        <mat-select [(ngModel)]="pageSize" (selectionChange)="changePageSize()">
+          <mat-option *ngFor="let a of [5, 10, 20, 50, 100]" [value]="a">{{a}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span class="m-right2"></span>
+      <button mat-icon-button (click)="back()" [disabled]="loading || !cursorPrev">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <button mat-icon-button (click)="forward()" [disabled]="loading || !cursorNext">
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
   </mat-card>
 </div>
+
+<mat-menu #statusMenu="matMenu">
+  <ng-template matMenuContent>
+    <button mat-menu-item *ngFor="let stat of status" (click)="filterByStatus(stat.value)">
+      <mat-icon *ngIf="stat.value === selectedStatus">done</mat-icon>{{stat.label}}
+    </button>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #insuranceFilterMenu="matMenu">
+  <ng-template matMenuContent>
+    <app-insurance-filter [insuranceCompaniesForFilter]="insuranceCompaniesForFilter"></app-insurance-filter>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #agentMenu="matMenu">
+  <ng-template matMenuContent>
+    <app-agent-menu (click)="$event.stopPropagation()" [agents]="agents" (selectedAgent)="saveAssignment($event)">
+    </app-agent-menu>
+  </ng-template>
+</mat-menu>

@@ -26,11 +26,13 @@ import * as moment from 'moment';
 })
 export class AgentInputComponent extends Base implements OnChanges, OnInit {
   @Input() patient: any;
+  @Input() formType = '';
   @Input() backButtonText = 'Patients';
   @Input() addressId = '';
   @Input() clinic: any;
   @Output() closePatient = new EventEmitter();
   @ViewChild('incompleteNotesEl') incompleteEl: ElementRef;
+  groupModel = [];
   showMissingToothClause = false;
   loading = false;
   processing = false;
@@ -48,13 +50,18 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   increments = ['', 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
   codeList = [];
   allCodes = this.newSavedCodes();
+  dentalIndex = {
+    primaryDental: 0,
+    secondaryDental: 1,
+    tertiaryDental: 2
+  };
   private triggerPatient = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
     private clinicService: ClinicService,
     private insuranceService: InsuranceService,
-    private patientService: PatientService
+    private patientService: PatientService,
   ) { super(); }
 
   ngOnChanges(sc: SimpleChanges): void {
@@ -62,14 +69,13 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       this.triggerPatient.next();
     }
 
-    if (sc.patient) {
-      if (this.patient.status && this.patient.status.value) {
-        this.selectedStatusValue = this.patient.status.value;
+    if (this.formType) {
+      if (this.patient && this.patient.status && this.patient.status.value) {
+        this.selectedStatusValue = this.patient.dentalInsurance[this.dentalIndex[this.formType]].status.value;
       } else {
         this.selectedStatusValue = this.status[0].value;
       }
     }
-    console.log(this);
   }
 
   ngOnInit(): void {
@@ -80,7 +86,8 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
 
   updateStatus(): void {
     const status = this.status.find((s) => s.value === this.selectedStatusValue);
-    this.patientService.updateStatus(this.patient.patientId, status).pipe(take(1)).subscribe();
+    const insurance = this.patient.dentalInsurance[this.dentalIndex[this.formType]];
+    this.patientService.updateStatus(this.patient.patientId, status, insurance.memberId).pipe(take(1)).subscribe();
     this.patient.status = status;
     if (status.value === 'incomplete') {
       setTimeout(() => {
@@ -92,7 +99,6 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
             this.incompleteEl.nativeElement.parentElement.childNodes[2].focus();
           } catch (e) { }
         }, 800);
-
       }, 100);
     }
   }
@@ -100,8 +106,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   onSave(): void {
     const value = {
       ...this.agentForm.value,
-      ...{ codes: (this.agentForm.controls.codes as FormArray).controls.map(c => c.value) },
-      ...{ medicalCodes: (this.agentForm.controls.medicalCodes as FormArray).controls.map(c => c.value) }
+      ...{ codes: this.groupModel },
     };
 
     Object.keys(value.history).forEach(key => {
@@ -124,7 +129,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       value.remarks.verifiedDate = moment(value.remarks.verifiedDate, 'MM/DD/YYYY').valueOf();
     }
     this.processing = true;
-    this.patientService.setPatientNotes(this.patient.patientId, value)
+    this.patientService.setPatientNotes(this.patient.patientId, value, this.formType)
       .pipe(take(1))
       .subscribe(res => this.processing = false);
   }
@@ -163,7 +168,8 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
           this.insuranceService.getPracticeCodes().pipe(take(1), tap(allCodes => this.allCodes = allCodes)),
           this.clinicService.getSelectedPracticeCodes(this.addressId).pipe(map(r => r.data), take(1)),
           this.clinicService.getSelectedPracticeCodesHistory(this.addressId).pipe(map(r => r.data), take(1)),
-          this.patientService.getPatientNotes(this.patient.patientId).pipe(map(r => r.data), catchError(() => of(undefined)), take(1))
+          this.patientService.getPatientNotes(this.patient.patientId, this.formType)
+            .pipe(map(r => r.data), catchError(() => of(undefined)), take(1))
         ]);
       }),
       map(([codes, savedCodes, savedCodesHistory, savedRecords]) =>
@@ -177,8 +183,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       this.agentForm.reset();
       this.initForm();
 
-      this.setCodes('codes', codes);
-      this.setCodes('medicalCodes', codes);
+      this.setCodes(codes);
 
       const historyGroup: FormGroup = this.agentForm.get('history') as FormGroup;
       codesHistory.breakDownKeys.forEach(k => {
@@ -195,6 +200,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       }
 
       if (value) {
+        this.groupModel = value.codes;
         if (value.patientCoverage.termDate) {
           value.patientCoverage.termDate = moment(value.patientCoverage.termDate).format('MM/DD/YYYY');
         }
@@ -223,39 +229,36 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     });
   }
 
-  private setCodes(groupName: string, codes: DentalBreakDowns): void {
-    const codeForms: FormArray = this.agentForm.get(groupName) as FormArray;
+  private setCodes(codes: DentalBreakDowns): void {
     let codeList = [];
+    this.groupModel = [];
     codes.breakDownKeys.forEach(k => codeList = [...codeList, ...codes.breakDowns[k].breakDownKeys]);
     this.codeList = codeList;
     const group = {
-      percent: [0],
-      frequency: this.fb.group({
-        numerator: [''],
-        denominator: [''],
-        unit: ['year'],
-      }),
-      ageRange: this.fb.group({
-        min: [''],
-        max: ['']
-      }),
-      medicalNecessity: ['no'],
+      percent: 0,
+      frequency: {
+        numerator: null,
+        denominator: null,
+        unit: null,
+      },
+      ageRange: {
+        min: null,
+        max: null
+      },
+      medicalNecessity: 'no',
       sharedCodes: [],
-      notes: ['']
+      notes: ''
     };
-    if (groupName === 'codes') {
-      delete group.medicalNecessity;
-    }
-    codes.breakDownKeys.forEach(k => {
-      const codeInputs = this.fb.group({});
-      codes.breakDowns[k].breakDownKeys.forEach(sk => {
-        codeInputs.addControl(sk, this.fb.group({ ...group }));
-      });
 
-      codeForms.controls.push(this.fb.group({
-        [k]: this.fb.group({ fixed: [], min: [], max: [] }),
+    codes.breakDownKeys.forEach(k => {
+      const codeInputs = {};
+      codes.breakDowns[k].breakDownKeys.forEach(sk => {
+        codeInputs[sk] = JSON.parse(JSON.stringify(group));
+      });
+      this.groupModel.push({
+        [k]: { fixed: null, min: null, max: null },
         codes: codeInputs
-      }));
+      });
     });
   }
 
@@ -363,8 +366,6 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         generalNotes: [],
         termDate: []
       }),
-      codes: this.fb.array([]),
-      medicalCodes: this.fb.array([]),
       history: this.fb.group({}),
       remarks: this.fb.group({
         insuranceRepresentativeName: [],

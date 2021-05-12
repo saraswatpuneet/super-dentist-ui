@@ -1,7 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { take } from 'rxjs/operators';
+import { Component, OnInit, Input } from '@angular/core';
 
-import { PatientService } from 'src/app/shared/services/patient.service';
 import { patientStatus } from 'src/app/shared/services/insurance';
 
 @Component({
@@ -11,15 +9,13 @@ import { patientStatus } from 'src/app/shared/services/insurance';
 })
 export class PatientDetails2Component implements OnInit {
   @Input() patient: any;
+  @Input() insurance: any;
   @Input() months: any = [];
   @Input() processing = false;
-  @Output() statusChange = new EventEmitter<any>();
-  @Output() closePatient = new EventEmitter();
-  @Output() save = new EventEmitter();
   status = patientStatus();
   selectedStatusValue: string;
 
-  constructor(private patientService: PatientService) { }
+  constructor() { }
 
   ngOnInit(): void {
     if (this.patient.status && this.patient.status.value) {
@@ -27,11 +23,5 @@ export class PatientDetails2Component implements OnInit {
     } else {
       this.selectedStatusValue = this.status[0].value;
     }
-  }
-
-  updateStatus(): void {
-    const status = this.status.find((s) => s.value === this.selectedStatusValue);
-    this.patientService.updateStatus(this.patient.patientId, status).pipe(take(1)).subscribe();
-    this.patient.status = status;
   }
 }

@@ -16,6 +16,7 @@ export class CodeInputsComponent implements OnInit {
   @Input() codes: DentalBreakDowns;
   @Input() codeList = [];
   @Input() allCodes: DentalBreakDowns;
+  @Input() groupModel = [];
 
   constructor() { }
 
@@ -25,15 +26,13 @@ export class CodeInputsComponent implements OnInit {
   checkOtherOptions($event, selectThatChanged: string): void {
     // removes key from all codes
     this.codeList.forEach(key => {
-      this.groups.controls.forEach((group: FormGroup) => {
-        const control = group.controls.codes.get(key);
-        if (control) {
-          const cas = control.get('sharedCodes');
-          if (cas.value) {
-            const index = cas.value.indexOf(selectThatChanged);
+      this.groupModel.forEach((group) => {
+        if (group.codes[key]) {
+          if (group.codes[key].sharedCodes) {
+            const index = group.codes[key].sharedCodes.indexOf(selectThatChanged);
             if (index > -1) {
-              cas.value.splice(index, 1);
-              cas.setValue([...cas.value]);
+              group.codes[key].sharedCodes.splice(index, 1);
+              group.codes[key].sharedCodes = [...group.codes[key].sharedCodes];
             }
           }
         }
@@ -42,14 +41,12 @@ export class CodeInputsComponent implements OnInit {
 
     //  Adds the key to other codes that were selected
     $event.value.forEach(key => {
-      this.groups.controls.forEach((group: FormGroup) => {
-        const control = group.controls.codes.get(key);
-        if (control) {
-          const cas = control.get('sharedCodes');
-          if (cas.value) {
-            cas.setValue([selectThatChanged, ...cas.value]);
+      this.groupModel.forEach((group) => {
+        if (group.codes[key]) {
+          if (group.codes[key].sharedCodes) {
+            group.codes[key].sharedCodes = [selectThatChanged, ...group.codes[key].sharedCodes];
           } else {
-            cas.setValue([selectThatChanged]);
+            group.codes[key].sharedCodes = [selectThatChanged];
           }
         }
       });

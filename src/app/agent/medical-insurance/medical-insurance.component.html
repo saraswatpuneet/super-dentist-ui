@@ -1,1 +1,85 @@
-<div class="medical-insurance"></div>
+<div class="medical-insurance" fxLayout="column" fxLayoutGap="20px">
+
+  <mat-card *ngIf="clinic" class="c-card">
+    <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+      <button class="back" mat-stroked-button (click)="toPatients()">
+        <mat-icon>keyboard_arrow_left</mat-icon> Patients
+      </button>
+
+      <div fxLayout="column">
+        <div>{{clinic?.name}} <span class="lighter">{{clinic?.phoneNumber}}</span></div>
+        <div class="lighter">{{clinic?.address}}</div>
+      </div>
+      <div fxLayout="column">
+        <div *ngIf="clinic.groupNpi"><span class="lighter">Npi: </span>{{clinic.groupNpi}}</div>
+        <div *ngIf="clinic.taxId"><span class="lighter">Tax ID: </span>{{clinic.taxId}}</div>
+      </div>
+
+      <span fxFlex></span>
+
+      <button fxFlex="0 0 auto" mat-stroked-button [disabled]="!patient || processing" color="primary"
+        (click)="onSave()">
+        <span fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
+          <mat-progress-spinner *ngIf="processing" mode="indeterminate" diameter="24"></mat-progress-spinner>
+          <span>{{processing ? 'Saving' : 'Save form'}}</span>
+        </span>
+      </button>
+      <div class="sd-input" style="width:150px">
+        <select [(ngModel)]="selectedStatusValue" (change)="updateStatus()">
+          <option *ngFor="let stat of status; let i = index" [value]="stat.value">{{stat.label}}
+          </option>
+        </select>
+      </div>
+      <form *ngIf="selectedStatusValue === 'termed'" [formGroup]="agentForm" style="width:150px">
+        <div class="sd-input" formGroupName="patientCoverage">
+          <input type="text" formControlName="termDate" mask='00/00/0000' [showMaskTyped]="true">
+        </div>
+      </form>
+    </div>
+  </mat-card>
+
+  <div fxLayout="row" fxLayoutGap="20px">
+    <app-patient-details2 fxFlex="50" *ngIf="patient && patient.medicalInsurance"
+      [insurance]="patient.medicalInsurance[medicalIndex[formType]]" [processing]="processing" [months]="months"
+      [patient]="patient">
+    </app-patient-details2>
+
+    <mat-card fxLayout="column" fxFlex="50" fxLayoutGap="32px">
+      <ng-container [formGroup]="agentForm">
+        <ng-container formGroupName="remarks">
+          <h3>Remarks</h3>
+
+          <div class="sd-input">
+            <label>Insurance representative name</label>
+            <input type="text" formControlName="insuranceRepresentativeName">
+          </div>
+
+          <div class="sd-input">
+            <label>Call ref #</label>
+            <input type="text" formControlName="callRefNumber">
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="12px">
+            <div class="sd-input" fxFlex>
+              <label>Verified by</label>
+              <input type="text" formControlName="verifiedBy">
+            </div>
+            <div class="sd-input" fxFlex>
+              <label>Verified date (MM/DD/YYYY)</label>
+              <input type="text" formControlName="verifiedDate" mask='00/00/0000' [showMaskTyped]="true">
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </mat-card>
+  </div>
+
+  <mat-card>
+    <h3>Code Specific</h3>
+    <div class="flower">
+      <app-code-inputs [hasMedicalNecessity]="true" [allCodes]="allCodes" [codes]="savedCodes" [groupModel]="groupModel"
+        [increments]="increments" [codeList]="codeList" [unitOptions]="unitOptions" [radioOptions]="radioOptions">
+      </app-code-inputs>
+    </div>
+  </mat-card>
+</div>

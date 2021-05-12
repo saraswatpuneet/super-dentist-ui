@@ -1,0 +1,29 @@
+.clinic-menu {
+
+  .divider {
+    background: rgba(grey, 0.2);
+    height: 1px;
+    margin: 8px 0
+  }
+
+  > div {
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: 0.3s;
+    background: transparent;
+
+    &:hover {
+      background: rgba(grey, 0.2);
+    }
+  }
+
+  header {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .lighter {
+    opacity: 0.5;
+    font-size: 12px;
+  }
+}

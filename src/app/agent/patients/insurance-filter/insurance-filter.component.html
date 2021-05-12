@@ -1,0 +1,10 @@
+<mat-card class="c-card">
+  <div class="insurance-filter" fxLayout="column" (click)="$event.stopPropagation()">
+    <mat-form-field>
+      <mat-label>Filter Insurance Company</mat-label>
+      <input matInput type="text" [(ngModel)]="searchFilter" (keyup)="filterInsurances()">
+    </mat-form-field>
+    <mat-checkbox>Select All</mat-checkbox>
+    <mat-checkbox *ngFor="let company of filteredInsurances">{{company}}</mat-checkbox>
+  </div>
+</mat-card>

@@ -14,17 +14,19 @@ import { NgxMaskModule } from 'ngx-mask';
 
 import { AgentInputComponent } from './agent-input.component';
 import { CodeCategoryComponent } from '../code-category/code-category.component';
-import { PatientDetails2Component } from '../patient-details/patient-details.component';
-import { ToothHistoryComponent } from '../tooth-history/tooth-history.component';
 import { PatientStatusPillModule } from 'src/app/shared/patient-status-pill/patient-status-pill.module';
+import { ToothHistoryComponent } from '../tooth-history/tooth-history.component';
+import { CodeInputsModule } from '../code-inputs/code-inputs.module';
+import { PatientDetailsModule } from '../patient-details/patient-details.module';
 
 @NgModule({
-  declarations: [AgentInputComponent, CodeCategoryComponent, PatientDetails2Component, ToothHistoryComponent],
+  declarations: [AgentInputComponent, CodeCategoryComponent, ToothHistoryComponent],
   imports: [
+    CommonModule,
+    CodeInputsModule,
+    FlexLayoutModule,
     FormsModule,
     MatButtonModule,
-    PatientStatusPillModule,
-    FlexLayoutModule,
     MatCardModule,
     MatDatepickerModule,
     MatIconModule,
@@ -33,8 +35,9 @@ import { PatientStatusPillModule } from 'src/app/shared/patient-status-pill/pati
     MatSelectModule,
     MatTabsModule,
     NgxMaskModule,
+    PatientDetailsModule,
+    PatientStatusPillModule,
     ReactiveFormsModule,
-    CommonModule
   ],
   exports: [AgentInputComponent]
 })

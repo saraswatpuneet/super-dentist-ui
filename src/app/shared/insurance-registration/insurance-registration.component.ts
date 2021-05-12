@@ -32,7 +32,10 @@ export class InsuranceRegistrationComponent extends Base implements OnInit {
   moreMedical = false;
   state = PatientStates.Form;
   patientStates = PatientStates;
-  insurances = [];
+  dentalLabels = ['Primary Dental', 'Secondary Dental', 'Tertiary Dental'];
+  medicalLabels = ['Primary Medical', 'Secondary Medical', 'Tertiary Medical'];
+  medicalInsurances = [];
+  dentalInsurances = [];
   selectedDental = false;
   selectedMedical = false;
   displayMonths = {
@@ -68,12 +71,21 @@ export class InsuranceRegistrationComponent extends Base implements OnInit {
     this.selectedMedical = false;
   }
 
-  removeInsurance(index: number): void {
-    this.insurances.splice(index, 1);
+  removeDentalInsurance(index: number): void {
+    this.dentalInsurances.splice(index, 1);
   }
 
-  onAddInsurance(insurance: any): void {
-    this.insurances.push(insurance);
+  removeMedicalInsurance(index: number): void {
+    this.medicalInsurances.splice(index, 1);
+  }
+
+  onAddDentalInsurance(insurance: any): void {
+    this.dentalInsurances.push(insurance);
+    this.onCancel();
+  }
+
+  onAddMedicalInsurance(insurance: any): void {
+    this.medicalInsurances.push(insurance);
     this.onCancel();
   }
 
@@ -81,24 +93,14 @@ export class InsuranceRegistrationComponent extends Base implements OnInit {
     const url = `${environment.baseUrl}/patient/registration`;
     const formData = new FormData();
     const p = this.insuranceForm.value;
-    const dentalInsurance = [];
-    const medicalInsurance = [];
-    this.insurances.forEach(insurance => {
-      if (insurance.ssn || insurance.medId) {
-        if (insurance.medId) {
-          insurance.memberId = insurance.medId;
-          delete insurance.medId;
-        }
-        medicalInsurance.push(insurance);
-      } else {
-        dentalInsurance.push(insurance);
-      }
-    });
-    if (dentalInsurance.length > 0) {
-      formData.append('dentalInsurance', JSON.stringify(dentalInsurance));
+
+    if (this.dentalInsurances.length > 0) {
+      this.dentalInsurances.forEach(d => d.status = { value: 'pending', label: 'Pending' });
+      formData.append('dentalInsurance', JSON.stringify(this.dentalInsurances));
     }
-    if (medicalInsurance.length > 0) {
-      formData.append('medicalInsurance', JSON.stringify(medicalInsurance));
+    if (this.medicalInsurances.length > 0) {
+      this.medicalInsurances.forEach(d => d.status = { value: 'pending', label: 'Pending' });
+      formData.append('medicalInsurance', JSON.stringify(this.medicalInsurances));
     }
 
     if (this.referralId) {
