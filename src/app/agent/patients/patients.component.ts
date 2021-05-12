@@ -160,7 +160,7 @@ export class PatientsComponent extends Base implements OnInit {
     ).subscribe(res => {
       this.patients = res.patients;
       this.cursorNext = res.cursorNext;
-      this.cursorPrev = res.cursorNext;
+      this.cursorPrev = res.cursorPrev;
       const patients = [];
       this.patients.forEach(patient => {
         if (patient.dentalInsurance) {

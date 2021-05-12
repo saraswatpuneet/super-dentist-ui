@@ -1,6 +1,6 @@
 <mat-menu #clinicMenu="matMenu" [overlapTrigger]="true">
   <ng-template matMenuContent>
-    <app-clinic-menu [clinics]="clinics"></app-clinic-menu>
+    <app-clinic-menu (changeClinic)="onChangeClinic($event)" [clinics]="clinics"></app-clinic-menu>
   </ng-template>
 </mat-menu>
 
@@ -23,7 +23,7 @@
       <!-- <button mat-button [matMenuTriggerFor]="menu">
         <mat-icon>sort</mat-icon> Sort by
       </button> -->
-      <button fxFlex="150px" mat-stroked-button (click)="showInsurance = true">Insurance check</button>
+      <button fxFlex="150px" mat-raised-button (click)="showInsurance = true">Insurance check</button>
     </mat-card>
   </div>
 
@@ -43,12 +43,11 @@
     </div>
     <mat-card class="clinic-list mat-elevation-z8">
       <div class="p-table">
-        <table mat-table [dataSource]="filteredPatients" class="mat-elevation-z8">
+        <table mat-table [dataSource]="filteredPatients">
           <ng-container matColumnDef="appointment">
             <th mat-header-cell *matHeaderCellDef> Appointment </th>
             <td mat-cell *matCellDef="let element">
               <div>
-
                 <div>{{element.dueDate | date:"h:mm a"}}</div>
                 <div class="lighter">{{element.dueDate | date:"MMM dd, YYYY"}}</div>
               </div>
@@ -67,44 +66,50 @@
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="dentalInsurance">
-            <th mat-header-cell *matHeaderCellDef> Primary insurance</th>
+          <ng-container matColumnDef="primaryInsurance">
+            <th mat-header-cell *matHeaderCellDef> Primary Insurance</th>
             <td mat-cell *matCellDef="let element">
               <div fxLayout="row" fxLayoutGap="8px" *ngIf="element.dentalInsurance && element.dentalInsurance[0]">
-                <div class="right" fxFlex="50px">Dental</div>
+                <div class="right" fxFlex="13px">D</div>
                 <div>{{element?.dentalInsurance[0]?.company}}</div>
+                <div>{{element?.dentalInsurance[0]?.status.value}}</div>
               </div>
               <div fxLayout="row" fxLayoutGap="8px" *ngIf="element.medicalInsurance && element.medicalInsurance[0]">
-                <div class="right" fxFlex="50px">Medical</div>
+                <div class="right" fxFlex="13px">M</div>
                 <div>{{element?.medicalInsurance[0]?.company}}</div>
               </div>
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="medicalInsurance">
-            <th mat-header-cell *matHeaderCellDef> Secondary insurance</th>
+          <ng-container matColumnDef="secondaryInsurance">
+            <th mat-header-cell *matHeaderCellDef> Secondary Insurance</th>
             <td mat-cell *matCellDef="let element">
               <div fxLayout="row" fxLayoutGap="8px" *ngIf="element.dentalInsurance && element.dentalInsurance[1]">
-                <div class="right" fxFlex="50px">Dental</div>
+                <div class="right" fxFlex="13px">D</div>
                 <div>{{element?.dentalInsurance[1]?.company}}</div>
               </div>
               <div fxLayout="row" fxLayoutGap="8px" *ngIf="element.medicalInsurance && element.medicalInsurance[1]">
-                <div class="right" fxFlex="50px">Medical</div>
+                <div class="right" fxFlex="13px">M</div>
                 <div>{{element?.medicalInsurance[1]?.company}}</div>
               </div>
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="status">
-            <th style="width:100px" mat-header-cell *matHeaderCellDef> Status </th>
+          <ng-container matColumnDef="tertiaryInsurance">
+            <th style="width:100px" mat-header-cell *matHeaderCellDef> Tertiary Insurance </th>
             <td mat-cell *matCellDef="let element">
-
-              <app-patient-status-pill [label]="element?.status?.label" [value]="element?.status?.value">
-              </app-patient-status-pill>
+              <div fxLayout="row" fxLayoutGap="8px" *ngIf="element.dentalInsurance && element.dentalInsurance[2]">
+                <div class="right" fxFlex="13px">D</div>
+                <div>{{element?.dentalInsurance[2]?.company}}</div>
+              </div>
+              <div fxLayout="row" fxLayoutGap="8px" *ngIf="element.medicalInsurance && element.medicalInsurance[2]">
+                <div class="right" fxFlex="13px">M</div>
+                <div>{{element?.medicalInsurance[2]?.company}}</div>
+              </div>
             </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="patientColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="patientColumns; sticky: true"></tr>
           <tr mat-row *matRowDef="let row; columns: patientColumns;"></tr>
         </table>
       </div>

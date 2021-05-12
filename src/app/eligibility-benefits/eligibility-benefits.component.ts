@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { take, map, switchMap, takeUntil, catchError, tap, filter } from 'rxjs/operators';
-import { Subject, forkJoin, of } from 'rxjs';
+import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 import { ClinicService } from '../shared/services/clinic.service';
 import { PatientService } from '../shared/services/patient.service';
@@ -22,7 +22,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   patientFilter = '';
   filteredPatients = [];
   selectedClinic: any = {};
-  patientColumns: string[] = ['appointment', 'patient', 'dentalInsurance', 'medicalInsurance', 'status'];
+  patientColumns: string[] = ['appointment', 'patient', 'primaryInsurance', 'secondaryInsurance', 'tertiaryInsurance'];
   codeHistory: {};
   selectedPatient = undefined;
   savedCodes: DentalBreakDowns = this.newSavedCodes();
@@ -35,9 +35,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   clinicId = '';
   loading = false;
   private triggerPatients = new Subject();
-  private triggerGetPatientCodes = new Subject();
   private patients = [];
-  private triggerPageChange = new Subject();
 
   constructor(
     private clinicService: ClinicService,
@@ -49,15 +47,20 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     this.insuranceService.getDentalInsurance().pipe(
       map(r => r.data),
       takeUntil(this.unsubscribe$)
-    )
-      .subscribe(r => {
-        this.dentalCompanies = r;
-      });
+    ).subscribe(r => {
+      this.dentalCompanies = r;
+    });
+
     this.watchPatients();
-    this.getClinicCodes();
-    this.watchTriggerPatientGet();
-    this.watchClinics();
-    this.triggerPatients.next();
+
+    this.clinicService.getClinics().pipe(
+      map(r => r.data.clinicDetails),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(clinics => {
+      this.clinics = clinics;
+      this.selectedClinic = this.clinics[0];
+      this.triggerPatients.next();
+    });
   }
 
   onCancelRegistration(): void {
@@ -68,7 +71,6 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   selectPatient(patient: any, addressId: string): void {
     this.selectedPatient = patient;
     this.addressId = addressId;
-    this.triggerGetPatientCodes.next();
   }
 
   filterPatientList(): void {
@@ -85,19 +87,23 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     }
   }
 
+  onChangeClinic(clinic: any): void {
+    this.selectedClinic = clinic;
+  }
+
   changePageSize(): void {
     this.cursor = undefined;
-    this.triggerPageChange.next();
+    this.triggerPatients.next();
   }
 
   back(): void {
     this.cursor = this.cursorPrev;
-    this.triggerPageChange.next();
+    this.triggerPatients.next();
   }
 
   forward(): void {
     this.cursor = this.cursorNext;
-    this.triggerPageChange.next();
+    this.triggerPatients.next();
   }
 
   private sortPatientStatus(order: string): void {
@@ -146,78 +152,55 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     }
   }
 
-  private watchClinics(): void {
-    this.triggerPageChange.pipe(
-      tap(() => this.loading = true),
-      switchMap(() => this.clinicService.getAllClinics(this.pageSize, this.cursor)),
-      tap(() => this.loading = false),
-      filter(r => !!r),
-      map(r => r.data),
-      takeUntil(this.unsubscribe$)
-    ).subscribe(r => {
-      this.clinics = r.clinics;
-      console.log(this.clinics);
-      this.selectedClinic = this.clinics[0];
-      this.cursorNext = r.cursorNext;
-      this.cursorPrev = r.cursorPrev;
-    });
-  }
-
-  private watchTriggerPatientGet(): void {
-    this.triggerGetPatientCodes.pipe(
-      switchMap(() => {
-        return forkJoin([this.patientService.getPatientNotes(this.selectedPatient.patientId).pipe(
-          map(r => JSON.parse(r.data)),
-          catchError(() => of({}))
-        ),
-        this.clinicService.getSelectedPracticeCodesHistory(this.addressId).pipe(map(r => r.data), take(1))
-        ]);
-      }),
-      takeUntil(this.unsubscribe$)
-    ).subscribe(([res, history]) => {
-      this.notes = res;
-      this.codeHistory = history;
-    });
-  }
+  // private watchTriggerPatientGet(): void {
+  //   this.triggerGetPatientCodes.pipe(
+  //     switchMap(() => {
+  //       return forkJoin([this.patientService.getPatientNotes(this.selectedPatient.patientId).pipe(
+  //         map(r => JSON.parse(r.data)),
+  //         catchError(() => of({}))
+  //       ),
+  //       this.clinicService.getSelectedPracticeCodesHistory(this.addressId).pipe(map(r => r.data), take(1))
+  //       ]);
+  //     }),
+  //     takeUntil(this.unsubscribe$)
+  //   ).subscribe(([res, history]) => {
+  //     this.notes = res;
+  //     this.codeHistory = history;
+  //   });
+  // }
 
   private watchPatients(): void {
     this.triggerPatients.pipe(
-      switchMap(() => this.clinicService.getClinics()),
-      map(res => res.data.clinicDetails),
-      switchMap(clinics => {
-        this.clinics = clinics;
-        this.selectedClinic = this.clinics[0];
-        return this.patientService.getAllPatientsForClinic(this.selectedClinic.addressId);
+      switchMap(() => {
+        return this.patientService.getAllPatientsForClinic2(this.selectedClinic.addressId, this.pageSize, this.cursor);
       }),
       map(p => p.data),
-      tap(res => {
-        this.patients = res;
-        this.patients.sort((a, b) => b.createdOn - a.createdOn);
-        this.filterPatientList();
-      }),
-      switchMap(() => this.insuranceService.getPracticeCodes()),
       takeUntil(this.unsubscribe$)
     ).subscribe((res) => {
-      this.allCodes = res;
+      this.patients = res.patients;
+      this.cursorNext = res.cursorNext;
+      this.cursorPrev = res.cursorPrev;
+      this.patients.sort((a, b) => b.createdOn - a.createdOn);
+      this.filterPatientList();
     });
   }
 
-  private getClinicCodes(): void {
-    this.clinicService.getClinics()
-      .pipe(
-        map(res => res.data.clinicDetails),
-        switchMap(clinics => {
+  // private getClinicCodes(): void {
+  //   this.clinicService.getClinics()
+  //     .pipe(
+  //       map(res => res.data.clinicDetails),
+  //       switchMap(clinics => {
 
-          return forkJoin([
-            this.clinicService.getSelectedPracticeCodes(clinics[0].addressId).pipe(map(r => r.data), take(1)),
-            this.insuranceService.getPracticeCodes().pipe(take(1))
-          ]);
-        }),
-        map(res => this.mapToCodes(res)),
-        takeUntil(this.unsubscribe$)
-      )
-      .subscribe(codes => this.savedCodes = codes);
-  }
+  //         return forkJoin([
+  //           this.clinicService.getSelectedPracticeCodes(clinics[0].addressId).pipe(map(r => r.data), take(1)),
+  //           this.insuranceService.getPracticeCodes().pipe(take(1))
+  //         ]);
+  //       }),
+  //       map(res => this.mapToCodes(res)),
+  //       takeUntil(this.unsubscribe$)
+  //     )
+  //     .subscribe(codes => this.savedCodes = codes);
+  // }
 
   private mapToCodes([clinicCodes, insuranceCodes]): any {
     const savedCodes = this.newSavedCodes();

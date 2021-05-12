@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-clinic-menu',
@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ClinicMenuComponent implements OnInit {
   @Input() clinics = [];
+  @Output() changeClinic = new EventEmitter<any>();
 
   constructor() { }
 
