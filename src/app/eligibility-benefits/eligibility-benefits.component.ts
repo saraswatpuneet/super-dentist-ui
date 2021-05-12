@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { ClinicService } from '../shared/services/clinic.service';
@@ -89,6 +89,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
 
   onChangeClinic(clinic: any): void {
     this.selectedClinic = clinic;
+    this.triggerPatients.next();
   }
 
   changePageSize(): void {
@@ -171,12 +172,14 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
 
   private watchPatients(): void {
     this.triggerPatients.pipe(
+      tap(() => this.loading = true),
       switchMap(() => {
         return this.patientService.getAllPatientsForClinic2(this.selectedClinic.addressId, this.pageSize, this.cursor);
       }),
       map(p => p.data),
       takeUntil(this.unsubscribe$)
     ).subscribe((res) => {
+      this.loading = false;
       this.patients = res.patients;
       this.cursorNext = res.cursorNext;
       this.cursorPrev = res.cursorPrev;

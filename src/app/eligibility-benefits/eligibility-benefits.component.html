@@ -12,6 +12,7 @@
   <button mat-menu-item (click)="sortBy('patient', 'az')">A -> Z</button>
   <button mat-menu-item (click)="sortBy('patient', 'za')">Z -> A</button>
 </mat-menu>
+
 <div class="eligibility-benefits" fxLayout="column">
   <div class="search-bar">
     <mat-card class="c-card" fxLayout="row">
@@ -42,6 +43,7 @@
       </app-insurance-registration>
     </div>
     <mat-card class="clinic-list mat-elevation-z8">
+      <mat-progress-bar *ngIf="loading" mode="indeterminate" class="abs"></mat-progress-bar>
       <div class="p-table">
         <table mat-table [dataSource]="filteredPatients">
           <ng-container matColumnDef="appointment">
