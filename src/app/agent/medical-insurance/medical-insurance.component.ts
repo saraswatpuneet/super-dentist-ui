@@ -55,7 +55,6 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
     this.initForm();
     this.getClinicCodes();
     this.checkRoute();
-    console.log(this);
   }
 
   ngOnChanges(sc: SimpleChanges): void {

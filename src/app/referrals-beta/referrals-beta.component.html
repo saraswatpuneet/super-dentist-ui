@@ -1,6 +1,6 @@
 <div class="referrals" fxLayout="row">
 
-  <div class="scr" fxFlex="515px">
+  <mat-card class="scr" fxFlex="520px">
     <mat-tab-group *ngIf="clinicType === 'dentist'" [(selectedIndex)]="tabIndex">
       <mat-tab>
         <ng-template mat-tab-label>
@@ -14,36 +14,34 @@
       </mat-tab>
     </mat-tab-group>
 
-    <mat-tab-group *ngIf="clinicType === 'specialist'" [(selectedIndex)]="tabIndex">
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="example-tab-icon">pending_actions</mat-icon>
+    <div>
+      <div *ngIf="clinicType === 'specialist'" fxLayout="row" fxFlex="0 0 auto" class="channel-tab"
+        [ngClass]="{'c1': tabIndex === 1, 'c2': tabIndex === 2, 'c3': tabIndex === 3}">
+        <div (click)="tabIndex = 0" [ngClass]="{'active': tabIndex === 0}">
+          <!-- <mat-icon class="example-tab-icon">pending_actions</mat-icon> -->
           <span [matBadge]="tabCounts[0]" matBadgeOverlap="false">Referred</span>
-        </ng-template>
-      </mat-tab>
-
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="example-tab-icon">schedule</mat-icon>
-          <span [matBadge]="tabCounts[1]" matBadgeOverlap="false">Scheduled</span>
-        </ng-template>
-      </mat-tab>
-
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="example-tab-icon">done</mat-icon>
-          <span [matBadge]="tabCounts[2]" matBadgeOverlap="false">Completed</span>
-
-        </ng-template>
-      </mat-tab>
-    </mat-tab-group>
+        </div>
+        <div (click)="tabIndex = 1" [ngClass]="{'active': tabIndex === 1}">
+          <!-- <mat-icon class="example-tab-icon">hourglass_top</mat-icon> -->
+          <span [matBadge]="tabCounts[1]" matBadgeOverlap="false">Pending</span>
+        </div>
+        <div (click)="tabIndex = 2" [ngClass]="{'active': tabIndex === 2}">
+          <!-- <mat-icon class="example-tab-icon">schedule</mat-icon> -->
+          <span [matBadge]="tabCounts[2]" matBadgeOverlap="false">Scheduled</span>
+        </div>
+        <div (click)="tabIndex = 3" [ngClass]="{'active': tabIndex === 3}">
+          <!-- <mat-icon class="example-tab-icon">done</mat-icon> -->
+          <span [matBadge]="tabCounts[3]" matBadgeOverlap="false">Completed</span>
+        </div>
+      </div>
+    </div>
 
     <div class="cs">
       <div *ngFor="let c of clinicReferrals; let clinicIndex = index">
         <mat-card *ngIf="c.referrals[tabIndex] && c.referrals[tabIndex] && c.referrals[tabIndex].length !== 0"
           class="c-card clinic-title" fxLayout="row" fxLayoutAlign=" center">
           <div fxFlex>
-            <h2>{{c.clinicName}}</h2>
+            <h3>{{c.clinicName}}</h3>
             <span>{{c.clinicCity}}</span>
           </div>
           <!-- <button mat-icon-button>
@@ -89,7 +87,7 @@
       </div>
       <div style="height:20px"></div>
     </div>
-  </div>
+  </mat-card>
 
   <div fxFlex class="c-chat">
     <app-referral-summary *ngIf="showSummary"></app-referral-summary>
@@ -110,9 +108,19 @@
       <mat-icon>get_app</mat-icon> Download Patient Documents
     </button>
 
-    <button mat-menu-item *ngIf="clinicType === 'specialist' && tabIndex < 2"
-      (click)="updateStatus2(selectedClinicIndex, selectedRefIndex, tabIndex, specialistTabs[tabIndex].value)">
-      <mat-icon>{{tabIndex === 0 ? 'schedule' : 'done'}}</mat-icon> {{specialistTabs[tabIndex].label}}
+    <button mat-menu-item [matMenuTriggerFor]="statusMenu"
+      [matMenuTriggerData]="{selectedRefIndex: selectedRefIndex, selectedClinicIndex: selectedClinicIndex}"
+      *ngIf="clinicType === 'specialist'">
+      Update Status
+    </button>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #statusMenu="matMenu">
+  <ng-template matMenuContent let-selectedClinicIndex="selectedClinicIndex" let-selectedRefIndex="selectedRefIndex">
+    <button mat-menu-item *ngFor="let tab of specialistTabs; let i = index"
+      (click)="updateStatus2(selectedClinicIndex, selectedRefIndex, i, tab.value)">
+      {{tab.label}}
     </button>
   </ng-template>
 </mat-menu>

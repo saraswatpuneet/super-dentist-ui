@@ -4,6 +4,46 @@
   box-sizing: border-box;
   overflow: hidden;
 
+  .channel-tab {
+    position: relative;
+    border-bottom: 1px solid rgba(grey, 0.2);
+  
+    &::before {
+      content: "";
+      position: absolute;
+      background: var(--blue);
+      height: 2px;
+      width: 130px;
+      bottom: 0;
+      left: 0px;
+      transition: 0.3s;
+    }
+
+    &.c1::before {
+      left: 130px;
+    }
+    &.c2::before {
+      left: 260px;
+    }
+    &.c3::before {
+      left: 390px;
+    }
+    
+    > div {
+      text-align: center;
+      cursor: pointer;
+      width: 130px;
+      box-sizing: border-box;
+      padding: 14px 16px;
+      opacity: 0.5;
+      transition: 0.3s;
+      
+      &.active {
+        opacity: 1;
+      }
+    }
+  }
+
   .divider {
     height: 1px;
     background: rgba(grey, 0.2);
@@ -64,12 +104,13 @@
   .clinic-title {
     margin-bottom: 12px;
 
-    h2 {
-      margin-top: 24px;
-      margin-bottom: 0px;
+    h3 {
+      margin: 20px 8px 0 12px;
+      line-height: normal;
     }
 
     span {
+      margin-left: 12px;
       font-size: 12px;
       opacity: 0.5;
     }
@@ -109,9 +150,10 @@
   }
 
   .scr {
-    height: 100%;
+    height: calc(100% - 40px);
     position: relative;
-    padding: 20px 12px 0 12px;
+    padding: 0;
+    margin: 20px 10px;
 
     mat-tab-group {
       position: sticky;

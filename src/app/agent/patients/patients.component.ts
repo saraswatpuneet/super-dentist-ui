@@ -86,7 +86,6 @@ export class PatientsComponent extends Base implements OnInit {
 
   saveAssignment(agent: any): void {
     this.assigning = false;
-    console.log(agent, this);
   }
 
   goToClinics(): void {
