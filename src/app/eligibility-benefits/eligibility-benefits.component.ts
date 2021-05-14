@@ -22,7 +22,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   patientFilter = '';
   filteredPatients = [];
   selectedClinic: any = {};
-  patientColumns: string[] = ['appointment', 'patient', 'primaryInsurance', 'secondaryInsurance', 'tertiaryInsurance'];
+  patientColumns: string[] = ['appointment', 'patient', 'primaryInsurance', 'secondaryInsurance'];
   codeHistory: {};
   selectedPatient = undefined;
   savedCodes: DentalBreakDowns = this.newSavedCodes();
