@@ -99,7 +99,9 @@
                   {{element.medicalInsurance && element.medicalInsurance[0].subscriber.lastName}} - DOB
                   {{months[element.medicalInsurance && element.medicalInsurance[0].subscriber.dob.month]?.label}}
                   {{element.medicalInsurance && element.medicalInsurance[0].subscriber.dob.day}},
-                  {{element.medicalInsurance && element.medicalInsurance[0].subscriber.dob.year}}
+                  {{element.medicalInsurance && element.medicalInsurance[0].subscriber.dob.year}}<ng-container
+                    *ngIf="element.medicalInsurance && element.medicalInsurance[0].memberId"> - Member
+                    ID{{element.medicalInsurance && element.medicalInsurance[0].memberId}}</ng-container>
                 </div>
               </ng-container>
             </td>
@@ -135,7 +137,9 @@
                   {{element.medicalInsurance && element.medicalInsurance[1].subscriber.lastName}} - DOB
                   {{months[element.medicalInsurance && element.medicalInsurance[1].subscriber.dob.month]?.label}}
                   {{element.medicalInsurance && element.medicalInsurance[1].subscriber.dob.day}},
-                  {{element.medicalInsurance && element.medicalInsurance[1].subscriber.dob.year}}
+                  {{element.medicalInsurance && element.medicalInsurance[1].subscriber.dob.year}} <ng-container
+                    *ngIf="element.medicalInsurance && element.medicalInsurance[1].memberId"> - Member
+                    ID{{element.medicalInsurance && element.medicalInsurance[1].memberId}}</ng-container>
                 </div>
               </ng-container>
             </td>
