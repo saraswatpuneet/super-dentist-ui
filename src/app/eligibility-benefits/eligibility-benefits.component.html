@@ -76,6 +76,10 @@
                 <div fxLayout="row" fxLayoutGap="8px">
                   <div class="right" fxFlex="13px">D</div>
                   <div>{{element?.dentalInsurance[0]?.company}}</div>
+                  <ng-container *ngIf="element.dentalInsurance[0].memberId">
+                    <div> - Member
+                      ID {{element.dentalInsurance[0].memberId}}</div>
+                  </ng-container>
                   <div>({{element?.dentalInsurance[0]?.status.label}})</div>
                 </div>
                 <div class="subscr lighter"
@@ -91,6 +95,10 @@
                 <div fxLayout="row" fxLayoutGap="8px" *ngIf="element.medicalInsurance && element.medicalInsurance[0]">
                   <div class="right" fxFlex="13px">M</div>
                   <div>{{element?.medicalInsurance[0]?.company}}</div>
+                  <ng-container *ngIf="element.medicalInsurance[0].memberId">
+                    <div> - Member
+                      ID {{element.medicalInsurance[0].memberId}}</div>
+                  </ng-container>
                   <div>({{element?.medicalInsurance[0]?.status.label}})</div>
                 </div>
                 <div class="subscr lighter"
@@ -114,6 +122,10 @@
                 <div fxLayout="row" fxLayoutGap="8px">
                   <div class="right" fxFlex="13px">D</div>
                   <div>{{element?.dentalInsurance[1]?.company}}</div>
+                  <ng-container *ngIf="element.dentalInsurance[1].memberId">
+                    <div> - Member
+                      ID {{element.dentalInsurance[1].memberId}}</div>
+                  </ng-container>
                   <div>({{element?.dentalInsurance[1]?.status.label}})</div>
                 </div>
                 <div class="subscr lighter"
@@ -129,6 +141,10 @@
                 <div fxLayout="row" fxLayoutGap="8px" *ngIf="element.medicalInsurance && element.medicalInsurance[1]">
                   <div class="right" fxFlex="13px">M</div>
                   <div>{{element?.medicalInsurance[1]?.company}}</div>
+                  <ng-container *ngIf="element.medicalInsurance[1].memberId">
+                    <div> - Member
+                      ID {{element.medicalInsurance[1].memberId}}</div>
+                  </ng-container>
                   <div>({{element?.medicalInsurance[1]?.status.label}})</div>
                 </div>
                 <div class="subscr lighter"
@@ -137,9 +153,7 @@
                   {{element.medicalInsurance && element.medicalInsurance[1].subscriber.lastName}} - DOB
                   {{months[element.medicalInsurance && element.medicalInsurance[1].subscriber.dob.month]?.label}}
                   {{element.medicalInsurance && element.medicalInsurance[1].subscriber.dob.day}},
-                  {{element.medicalInsurance && element.medicalInsurance[1].subscriber.dob.year}} <ng-container
-                    *ngIf="element.medicalInsurance && element.medicalInsurance[1].memberId"> - Member
-                    ID{{element.medicalInsurance && element.medicalInsurance[1].memberId}}</ng-container>
+                  {{element.medicalInsurance && element.medicalInsurance[1].subscriber.dob.year}}
                 </div>
               </ng-container>
             </td>
