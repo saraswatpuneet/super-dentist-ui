@@ -159,7 +159,6 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     if (ref.status.gdStatus === status) {
       return;
     }
-    console.log(this.clinicReferrals);
 
     ref = this.clinicReferrals[clinicIndex].referrals[this.tabIndex].splice(referralIndex, 1)[0];
 
@@ -228,7 +227,6 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     this.triggerSpecialistReferrals.pipe(
       switchMap(() => {
         const reqs = [];
-        console.log(this.myClinics);
         this.myClinics.forEach(clinic => {
           reqs.push(this.referralService.getSpecialistReferrals(clinic.addressId).pipe(catchError(() => of([])), take(1)));
         });
@@ -237,7 +235,6 @@ export class ReferralsBetaComponent extends Base implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(res => {
       this.clinicReferrals = [];
-      console.log(this.myClinics);
       for (let x = 0, l = this.myClinics.length; x < l; x++) {
         const referrals = [
           this.getFilteredSpecialistReferrals(res[x] as Referral[], 0),
@@ -245,7 +242,6 @@ export class ReferralsBetaComponent extends Base implements OnInit {
           this.getFilteredSpecialistReferrals(res[x] as Referral[], 2),
           this.getFilteredSpecialistReferrals(res[x] as Referral[], 3)
         ];
-        console.log(x);
         this.clinicReferrals.push({
           clinicName: this.myClinics[x].name,
           clinicCity: this.myClinics[x].address.split(','),
