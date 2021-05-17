@@ -51,7 +51,7 @@ export interface ReferralStatus {
 }
 
 // OperationCompleted and Canceled are interchangable on the steps it's one or the other resulting in 4 steps to be selected
-export type ClinicStatus = 'referred' | 'scheduled' | 'completed' | 'cancelled' | 'closed';
+export type ClinicStatus = 'referred' | 'scheduled' | 'completed' | 'cancelled' | 'closed' | 'pending';
 
 export interface Conversation {
   cursor?: string; // The location id of the paginator. Should be handled by the backend to load the most recent 20 messages
@@ -77,6 +77,7 @@ export type Channel = 'c2c' | 'c2p';
 export function referredStatus(): { [key: string]: ReferredStatusMapping } {
   return {
     referred: { label: 'Referred', percentRemaining: 75 },
+    pending: { label: 'Pending', percentRemaining: 75 },
     scheduled: { label: 'Scheduled', percentRemaining: 50 },
     completed: { label: 'Completed', percentRemaining: 25 },
     cancelled: { label: 'Cancelled', percentRemaining: 25 },
@@ -85,5 +86,5 @@ export function referredStatus(): { [key: string]: ReferredStatusMapping } {
 }
 
 export function sortReferredStatus(): string[] {
-  return ['referred', 'scheduled', 'completed', 'cancelled', 'closed'];
+  return ['referred', 'pending', 'scheduled', 'completed', 'cancelled', 'closed'];
 }
