@@ -84,15 +84,15 @@ export class ReferralsBetaComponent extends Base implements OnInit {
       saveAs(new Blob([res]), 'patientDocuments.zip'));
   }
 
-  getFilteredReferrals(referrals: Referral[], tabIndex: number): any {
-    let validStates = [];
-    if (tabIndex === 0) {
-      validStates = [this.sortedStatuses[0]];
-    } else if (tabIndex === 1) {
-      validStates = [this.sortedStatuses[1]];
-    } else {
-      validStates = [this.sortedStatuses[2], this.sortedStatuses[4]];
-    }
+  getFilteredSpecialistReferrals(referrals: Referral[], tabIndex: number): any {
+    let validStates = [this.sortedStatuses[tabIndex]];
+    // if (tabIndex === 0) {
+    //   validStates = [this.sortedStatuses[0]];
+    // } else if (tabIndex === 1) {
+    //   validStates = [this.sortedStatuses[1]];
+    // } else {
+    //   validStates = [this.sortedStatuses[2], this.sortedStatuses[4]];
+    // }
 
     return referrals.filter(r => {
       if (!r.status) {
@@ -159,6 +159,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     if (ref.status.gdStatus === status) {
       return;
     }
+    console.log(this.clinicReferrals);
 
     ref = this.clinicReferrals[clinicIndex].referrals[this.tabIndex].splice(referralIndex, 1)[0];
 
@@ -227,6 +228,7 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     this.triggerSpecialistReferrals.pipe(
       switchMap(() => {
         const reqs = [];
+        console.log(this.myClinics);
         this.myClinics.forEach(clinic => {
           reqs.push(this.referralService.getSpecialistReferrals(clinic.addressId).pipe(catchError(() => of([])), take(1)));
         });
@@ -235,20 +237,22 @@ export class ReferralsBetaComponent extends Base implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(res => {
       this.clinicReferrals = [];
+      console.log(this.myClinics);
       for (let x = 0, l = this.myClinics.length; x < l; x++) {
         const referrals = [
-          this.getFilteredReferrals(res[x] as Referral[], 0),
-          this.getFilteredReferrals(res[x] as Referral[], 1),
-          this.getFilteredReferrals(res[x] as Referral[], 2),
-          this.getFilteredReferrals(res[x] as Referral[], 3)
+          this.getFilteredSpecialistReferrals(res[x] as Referral[], 0),
+          this.getFilteredSpecialistReferrals(res[x] as Referral[], 1),
+          this.getFilteredSpecialistReferrals(res[x] as Referral[], 2),
+          this.getFilteredSpecialistReferrals(res[x] as Referral[], 3)
         ];
+        console.log(x);
         this.clinicReferrals.push({
           clinicName: this.myClinics[x].name,
           clinicCity: this.myClinics[x].address.split(','),
           referrals
         });
-        this.calcTabCounts(4);
       }
+      this.calcTabCounts(4);
     });
   }
 

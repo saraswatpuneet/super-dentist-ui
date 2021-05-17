@@ -4,6 +4,10 @@
   box-sizing: border-box;
   overflow: hidden;
 
+  .clinic-icon {
+    padding: 28px 2px 0 12px;
+  }
+
   .channel-tab {
     position: relative;
     border-bottom: 1px solid rgba(grey, 0.2);
