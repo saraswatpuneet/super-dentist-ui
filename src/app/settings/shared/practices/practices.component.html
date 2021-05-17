@@ -7,8 +7,8 @@
     <mat-card-title>Practices</mat-card-title>
   </mat-card-header>
 
-  <button class="top-right" [disabled]="loadingPractices" *ngIf="!selectedClinic && !addingClinic"
-    (click)="addingClinic = true" mat-button>Add Clinic</button>
+  <!-- <button class="top-right" [disabled]="loadingPractices" *ngIf="!selectedClinic && !addingClinic"
+    (click)="addingClinic = true" mat-button>Add Clinic</button> -->
 
   <div class="my-clinics" [ngClass]="{'hide': selectedClinic || addingClinic}" fxLayout="column"
     *ngFor="let a of myClinics">
