@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-import { switchMap, takeUntil, map } from 'rxjs/operators';
+import { switchMap, takeUntil, map, tap } from 'rxjs/operators';
 
 import { Base } from 'src/app/shared/base/base-component';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { months, patientStatus } from 'src/app/shared/services/insurance';
 import { PatientService } from 'src/app/shared/services/patient.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-patients',
@@ -15,7 +15,8 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./patients.component.scss']
 })
 export class PatientsComponent extends Base implements OnInit {
-  agents = ['asdf', 'qwer', 'qwe5', '1234', 'zxcv', '1pw', '23pd', '34ds', '4pdsf', 'asdcx', 'vfr', 'bgt', 'nhyt', 'mjy'];
+  @ViewChild('picker') picker: any;
+  agents = ['YI/WRS', 'JB/WRS', 'AS/WRS', 'MG/WRS', 'HG/WRS', 'AC/WRS', 'PB/WRS', 'BG/WRS'];
   insuranceCompaniesForFilter = ['Cygna', 'Delta Dental', 'United Health One'];
   filteredPatients = [];
   selectedPatients = [];
@@ -25,10 +26,8 @@ export class PatientsComponent extends Base implements OnInit {
   patientFilter = '';
   clinic: any = {};
   pageSize = 20;
-  range = new FormGroup({
-    start: new FormControl(),
-    end: new FormControl()
-  });
+  startDate = moment();
+  endDate = moment();
   months = months();
   patientColumns: string[] = ['actions', 'assignedTo', 'appointment', 'patient', 'subscriber', 'memberInfo', 'insurance', 'status'];
   dentalKeys = ['primaryDental', 'secondaryDental', 'tertiaryDental'];
@@ -53,6 +52,7 @@ export class PatientsComponent extends Base implements OnInit {
   ) { super(); }
 
   ngOnInit(): void {
+    this.startDate.subtract(14, 'days');
     this.watchPatients();
     this.watchClinics();
     this.checkRoute();
@@ -62,6 +62,12 @@ export class PatientsComponent extends Base implements OnInit {
   }
 
   insuranceChange(): void {
+  }
+
+  closeDate(): void {
+    if (this.startDate && this.endDate) {
+      this.patientTrigger.next(this.clinicId);
+    }
   }
 
   selectAllPatients(selected: boolean): void {
@@ -153,7 +159,9 @@ export class PatientsComponent extends Base implements OnInit {
 
   private watchPatients(): void {
     this.patientTrigger.pipe(
-      switchMap(addressId => this.patientService.getAllPatientsForClinic2(addressId, this.pageSize, this.cursor)),
+      tap(() => this.loading = true),
+      switchMap(addressId => this.patientService.getAllPatientsForClinic2(addressId, this.pageSize, this.cursor,
+        this.startDate.valueOf(), this.endDate.valueOf())),
       map(r => r.data),
       takeUntil(this.unsubscribe$)
     ).subscribe(res => {
@@ -184,6 +192,7 @@ export class PatientsComponent extends Base implements OnInit {
       this.patients = patients;
       this.patients.sort((a, b) => a.createdOn - b.createdOn);
       this.filterPatientList();
+      this.loading = false;
     });
   }
 }

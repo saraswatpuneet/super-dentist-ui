@@ -17,10 +17,14 @@ export class PatientService {
     return this.http.get(`${this.baseUrl}/list/${addressId}`);
   }
 
-  getAllPatientsForClinic2(addressId: string, pageSize: number, cursor: string): Observable<any> {
+  getAllPatientsForClinic2(addressId: string, pageSize: number, cursor: string, startDate?: number, endDate?: number): Observable<any> {
     let url = `${this.baseUrl}/list/${addressId}?pageSize=${pageSize}`;
     if (cursor) {
       url += `&cursor=${cursor}`;
+    }
+
+    if (startDate && endDate) {
+      url += `&startTime=${startDate}&endTime=${endDate}`;
     }
 
     return this.http.get(url);

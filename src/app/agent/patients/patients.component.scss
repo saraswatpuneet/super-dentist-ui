@@ -5,6 +5,13 @@
     overflow: auto;
     box-sizing: border-box;
 
+    .abs {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 101;
+    }
+
     .shift-up {
       transform: translateY(-6px);
       margin-right: 10px
