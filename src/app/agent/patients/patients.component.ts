@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-import { switchMap, takeUntil, map, tap } from 'rxjs/operators';
+import { switchMap, takeUntil, map, tap, take } from 'rxjs/operators';
 
 import { Base } from 'src/app/shared/base/base-component';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
@@ -88,10 +88,38 @@ export class PatientsComponent extends Base implements OnInit {
 
   cancelAssignment(): void {
     this.assigning = false;
+    this.resetSelectedPatients();
   }
 
-  saveAssignment(agent: any): void {
+  saveAssignment(agentId: string): void {
     this.assigning = false;
+    const patientIds = [];
+
+    this.selectedPatients.forEach((selected: boolean, i) => {
+      if (selected) {
+        let insuranceId = '';
+        if (this.filteredPatients[i].dentalInsurance) {
+          insuranceId = this.filteredPatients[i].dentalInsurance.id;
+          this.filteredPatients[i].dentalInsurance.agentId = agentId;
+        } else {
+          insuranceId = this.filteredPatients[i].medicalInsurance.id;
+          this.filteredPatients[i].medicalInsurance.agentId = agentId;
+        }
+        patientIds.push({ agentId, insuranceId });
+      }
+    });
+
+    if (patientIds.length > 0) {
+      this.loading = true;
+      this.patientService.addAgents(patientIds).pipe(
+        take(1)
+      ).subscribe(r => {
+        this.loading = false;
+      });
+    }
+
+    this.selectedPatients = [];
+    this.resetSelectedPatients();
   }
 
   goToClinics(): void {
@@ -102,6 +130,10 @@ export class PatientsComponent extends Base implements OnInit {
     this.filteredPatients = this.patients.filter(patient =>
       `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(this.patientFilter.toLowerCase())
     );
+    this.resetSelectedPatients();
+  }
+
+  resetSelectedPatients(): void {
     this.selectedPatients = Array(this.filteredPatients.length).fill(false);
   }
 
