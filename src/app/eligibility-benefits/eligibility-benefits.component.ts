@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
 import { ClinicService } from '../shared/services/clinic.service';
@@ -41,6 +42,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     private clinicService: ClinicService,
     private patientService: PatientService,
     private insuranceService: InsuranceService,
+    private router: Router
   ) { super(); }
 
   ngOnInit(): void {
@@ -68,9 +70,8 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     this.triggerPatients.next();
   }
 
-  selectPatient(patient: any, addressId: string): void {
-    this.selectedPatient = patient;
-    this.addressId = addressId;
+  selectPatient(patient: any): void {
+    this.router.navigate([`/eligibility-benefits/${this.selectedClinic.addressId}/patients/${patient.patientId}`]);
   }
 
   filterPatientList(): void {
