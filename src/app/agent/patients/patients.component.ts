@@ -52,7 +52,7 @@ export class PatientsComponent extends Base implements OnInit {
   ) { super(); }
 
   ngOnInit(): void {
-    this.startDate.subtract(14, 'days');
+    this.endDate.add(2, 'days');
     this.watchPatients();
     this.watchClinics();
     this.checkRoute();
