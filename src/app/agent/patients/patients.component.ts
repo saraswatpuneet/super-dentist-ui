@@ -39,7 +39,6 @@ export class PatientsComponent extends Base implements OnInit {
   selectedAgentFilter = '';
   status = patientStatus();
   selectedStatus = '';
-
   private patients = [];
   private clinicId = '';
   private patientTrigger = new Subject<string>();
@@ -71,6 +70,11 @@ export class PatientsComponent extends Base implements OnInit {
     }
   }
 
+  clearAgentFilter(): void {
+    this.selectedAgentFilter = '';
+    this.patientTrigger.next(this.clinicId);
+  }
+
   selectAllPatients(selected: boolean): void {
     this.selectedPatients = Array(this.filteredPatients.length).fill(selected);
   }
@@ -93,7 +97,6 @@ export class PatientsComponent extends Base implements OnInit {
   }
 
   filterByAgent(agentId: string): void {
-    console.log(agentId);
     this.selectedAgentFilter = agentId;
     this.patientTrigger.next(this.clinicId);
   }
