@@ -21,7 +21,14 @@ export class PatientService {
     return this.http.post(`${this.baseUrl}/addAgents`, agentsToAssign);
   }
 
-  getAllPatientsForClinic2(addressId: string, pageSize: number, cursor: string, startDate?: number, endDate?: number): Observable<any> {
+  getAllPatientsForClinic2(
+    addressId: string,
+    pageSize: number,
+    cursor: string,
+    startDate?: number,
+    endDate?: number,
+    agentId?: string
+  ): Observable<any> {
     let url = `${this.baseUrl}/list/${addressId}?pageSize=${pageSize}`;
     if (cursor) {
       url += `&cursor=${cursor}`;
@@ -29,6 +36,10 @@ export class PatientService {
 
     if (startDate && endDate) {
       url += `&startTime=${startDate}&endTime=${endDate}`;
+    }
+
+    if (agentId) {
+      url += `&agentId=${agentId}`;
     }
 
     return this.http.get(url);

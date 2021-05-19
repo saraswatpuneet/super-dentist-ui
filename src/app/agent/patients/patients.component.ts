@@ -36,6 +36,7 @@ export class PatientsComponent extends Base implements OnInit {
   cursorPrev = '';
   cursorNext = '';
   loading = false;
+  selectedAgentFilter = '';
   status = patientStatus();
   selectedStatus = '';
 
@@ -89,6 +90,12 @@ export class PatientsComponent extends Base implements OnInit {
   cancelAssignment(): void {
     this.assigning = false;
     this.resetSelectedPatients();
+  }
+
+  filterByAgent(agentId: string): void {
+    console.log(agentId);
+    this.selectedAgentFilter = agentId;
+    this.patientTrigger.next(this.clinicId);
   }
 
   saveAssignment(agentId: string): void {
@@ -192,8 +199,14 @@ export class PatientsComponent extends Base implements OnInit {
   private watchPatients(): void {
     this.patientTrigger.pipe(
       tap(() => this.loading = true),
-      switchMap(addressId => this.patientService.getAllPatientsForClinic2(addressId, this.pageSize, this.cursor,
-        this.startDate.valueOf(), this.endDate.valueOf())),
+      switchMap(addressId => this.patientService.getAllPatientsForClinic2(
+        addressId,
+        this.pageSize,
+        this.cursor,
+        this.startDate.valueOf(),
+        this.endDate.valueOf(),
+        this.selectedAgentFilter
+      )),
       map(r => r.data),
       takeUntil(this.unsubscribe$)
     ).subscribe(res => {
