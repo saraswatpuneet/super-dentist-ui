@@ -129,6 +129,7 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
           this.selectedStatusValue = this.status[0].value;
         }
       }
+      console.log(this);
       this.triggerPatient.next();
     });
   }

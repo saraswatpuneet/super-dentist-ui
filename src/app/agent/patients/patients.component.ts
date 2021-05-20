@@ -173,7 +173,7 @@ export class PatientsComponent extends Base implements OnInit {
 
     this.router.navigate([`agent/clinics/${this.clinicId}/patients/${patient.patientId}/${insurancePath}`], {
       queryParams: { formType },
-      queryParamsHandling: 'preserve',
+      queryParamsHandling: 'merge',
     });
   }
 
