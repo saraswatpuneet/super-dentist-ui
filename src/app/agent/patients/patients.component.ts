@@ -52,7 +52,6 @@ export class PatientsComponent extends Base implements OnInit {
   ) { super(); }
 
   ngOnInit(): void {
-    this.endDate.add(2, 'days');
     this.watchPatients();
     this.watchClinics();
     this.checkRoute();
@@ -66,13 +65,23 @@ export class PatientsComponent extends Base implements OnInit {
 
   closeDate(): void {
     if (this.startDate && this.endDate) {
-      this.patientTrigger.next(this.clinicId);
-    }
-  }
+      const queryParams: any = {};
+      if (this.startDate) {
+        queryParams.startTime = this.startDate.valueOf();
+      }
 
-  clearAgentFilter(): void {
-    this.selectedAgentFilter = '';
-    this.patientTrigger.next(this.clinicId);
+      if (this.endDate) {
+        queryParams.endTime = this.endDate.valueOf();
+      }
+
+      this.router.navigate(
+        [],
+        {
+          relativeTo: this.route,
+          queryParams,
+          queryParamsHandling: 'merge', // remove to replace all query params by provided
+        });
+    }
   }
 
   selectAllPatients(selected: boolean): void {
@@ -97,8 +106,13 @@ export class PatientsComponent extends Base implements OnInit {
   }
 
   filterByAgent(agentId: string): void {
-    this.selectedAgentFilter = agentId;
-    this.patientTrigger.next(this.clinicId);
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams: { agentId: agentId ? agentId : null },
+        queryParamsHandling: 'merge', // remove to replace all query params by provided
+      });
   }
 
   saveAssignment(agentId: string): void {
@@ -157,7 +171,10 @@ export class PatientsComponent extends Base implements OnInit {
       formType = this.dentalKeys[patient.dentalInsurance.index];
     }
 
-    this.router.navigate([`agent/clinics/${this.clinicId}/patients/${patient.patientId}/${insurancePath}`], { queryParams: { formType } });
+    this.router.navigate([`agent/clinics/${this.clinicId}/patients/${patient.patientId}/${insurancePath}`], {
+      queryParams: { formType },
+      queryParamsHandling: 'preserve',
+    });
   }
 
   changePageSize(): void {
@@ -187,6 +204,28 @@ export class PatientsComponent extends Base implements OnInit {
         this.goToClinics();
       }
     });
+
+    this.route.queryParams.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(p => {
+      this.selectedAgentFilter = p.agentId;
+      if (!p.startTime) {
+        this.startDate = moment();
+      } else {
+        this.startDate = moment(parseInt(p.startTime, 10));
+      }
+
+      if (!p.endTime) {
+        const m = moment();
+        m.add(2, 'days');
+        this.endDate = m;
+      } else {
+        this.endDate = moment(parseInt(p.endTime, 10));
+      }
+
+      this.patientTrigger.next(this.clinicId);
+    });
+
   }
 
   private watchClinics(): void {

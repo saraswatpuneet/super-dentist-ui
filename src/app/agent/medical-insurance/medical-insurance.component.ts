@@ -98,7 +98,9 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
   }
 
   toPatients(): void {
-    this.router.navigate([`agent/clinics/${this.addressId}/patients`]);
+    this.router.navigate([`agent/clinics/${this.addressId}/patients`], {
+      queryParamsHandling: 'preserve',
+    });
   }
 
   private checkRoute(): void {

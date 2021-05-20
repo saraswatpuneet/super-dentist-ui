@@ -63,5 +63,16 @@
     padding: 0;
     margin: 0;
     border: none;
+    background: transparent;
+  }
+}
+
+::ng-deep {
+  .dark {
+    .code-inputs {
+      input, select {
+        color: white;
+      }
+    }
   }
 }

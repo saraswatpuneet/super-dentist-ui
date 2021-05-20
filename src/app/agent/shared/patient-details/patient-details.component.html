@@ -14,18 +14,18 @@
 
     <div fxFlex>
       <div class="lighter">Insurance</div>
-      <div>{{insurance.company}}</div>
+      <div>{{insurance?.company}}</div>
     </div>
 
     <div fxFlex>
       <div class="lighter">Member ID</div>
-      <div *ngIf="insurance.memberId">{{insurance.memberId}}</div>
+      <div *ngIf="insurance?.memberId">{{insurance.memberId}}</div>
     </div>
 
     <div fxFlex>
       <div class="lighter">Subscriber</div>
-      <div *ngIf="insurance.subscriber && !insurance.subscriber.firstName">None</div>
-      <div fxLayout="column" *ngIf="insurance.subscriber && insurance.subscriber.firstName">
+      <div *ngIf="insurance?.subscriber && !insurance?.subscriber.firstName">None</div>
+      <div fxLayout="column" *ngIf="insurance?.subscriber && insurance?.subscriber.firstName">
         <div>
           Name: {{insurance.subscriber.firstName}} {{insurance.subscriber.lastName}}
         </div>

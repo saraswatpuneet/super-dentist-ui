@@ -52,7 +52,9 @@ export class DentalInsuranceComponent extends Base implements OnInit {
   }
 
   backToPatients(): void {
-    this.router.navigate([`agent/clinics/${this.addressId}/patients`]);
+    this.router.navigate([`agent/clinics/${this.addressId}/patients`], {
+      queryParamsHandling: 'preserve',
+    });
   }
 
   private getClinicCodes(): void {

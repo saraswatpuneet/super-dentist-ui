@@ -16,6 +16,7 @@
               <div class="lighter">Tax ID</div>
               <div class="lighter">NPI</div>
             </div>
+
             <div fxLayout="column">
               <div *ngIf="clinic.taxId">{{clinic.taxId}}</div>
               <div *ngIf="clinic.groupNpi">{{clinic.groupNpi}}</div>
@@ -44,7 +45,7 @@
     <div class="abs2" fxLayout="row" fxLayoutGap="12px">
       <div class="filter-chip" fxLayout="row" fxLayoutAlign=" center" *ngIf="selectedAgentFilter">
         <span>{{selectedAgentFilter}}</span>
-        <mat-icon (click)="clearAgentFilter()">close</mat-icon>
+        <mat-icon (click)="filterByAgent('')">close</mat-icon>
       </div>
     </div>
   </mat-card>
