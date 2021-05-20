@@ -70,11 +70,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     }
 
     if (this.formType) {
-      if (this.patient && this.patient.status && this.patient.status.value) {
-        this.selectedStatusValue = this.patient.dentalInsurance[this.dentalIndex[this.formType]].status.value;
-      } else {
-        this.selectedStatusValue = this.status[0].value;
-      }
+      this.selectedStatusValue = this.patient.dentalInsurance[this.dentalIndex[this.formType]].status.value;
     }
   }
 
