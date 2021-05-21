@@ -217,35 +217,6 @@
                 </td>
               </tr>
             </table>
-            <div fxLayout="row" fxLayoutGap="12px">
-              <div class="sd-input" fxFlex>
-                <label>Reason</label>
-                <select formControlName="reason">
-                  <option *ngFor="let reason of missingToothClauses" [value]="reason.value">{{reason.label}}</option>
-                </select>
-              </div>
-
-              <div class="sd-input" fxFlex>
-                <label>Numerator</label>
-                <input type="text" formControlName="numerator">
-              </div>
-              <div class="sd-input" fxFlex>
-                <label>Denominator</label>
-                <input type="text" formControlName="denominator">
-              </div>
-              <div class="sd-input" fxFlex>
-                <label>Unit</label>
-                <select formControlName="unit">
-                  <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>
-                </select>
-              </div>
-
-              <div class="sd-input radio" fxFlex>
-                <label>Notes</label>
-                <input type="text" formControlName="notes">
-              </div>
-            </div>
-
 
           </ng-container>
         </mat-card>

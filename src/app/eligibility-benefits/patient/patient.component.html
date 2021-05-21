@@ -1,1 +1,38 @@
-<p>patient works!</p>
+<mat-card *ngIf="patient">
+  <table>
+    <tr>
+      <td>Patient Name</td>
+      <td>{{patient.firstName}} {{patient.lastName}}</td>
+    </tr>
+    <tr>
+      <td>Patient Date of Birth</td>
+      <td>{{months[patient?.dob?.month]?.label}} {{patient.dob?.day}}, {{patient.dob?.year}}</td>
+    </tr>
+    <tr>
+      <td>Clinic Name</td>
+      <td>{{patient.clinicName}}</td>
+    </tr>
+    <tr>
+      <td>Created</td>
+      <td>{{patient.createdOn | date}}</td>
+    </tr>
+    <tr>
+      <td>Phone</td>
+      <td>{{patient.phone}}</td>
+    </tr>
+    <tr>
+      <td>Status</td>
+      <td>{{patient.status?.label}}</td>
+    </tr>
+  </table>
+</mat-card>
+<mat-card *ngFor="let insurance of patient?.dentalInsurance; let i = index">
+
+  <!-- {{}} -->
+</mat-card>
+
+<!-- <mat-card class="c-card">
+  <div class="patient">
+
+  </div>
+</mat-card> -->

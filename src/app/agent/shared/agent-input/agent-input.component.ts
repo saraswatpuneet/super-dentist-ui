@@ -335,11 +335,6 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         preventitiveDeductedFromMaximum: ['yes'],
         feeSchedule: [],
         toothReplacementClause: this.fb.group({
-          reason: [],
-          numerator: [],
-          denominator: [],
-          unit: ['year'],
-          notes: [],
           callouts: this.fb.group({
             crowns: this.fb.group({
               unit: [],
