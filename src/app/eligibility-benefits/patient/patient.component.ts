@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { Subject, forkJoin, of, Observable } from 'rxjs';
 import * as moment from 'moment';
 import { switchMap, map, catchError, take, tap, takeUntil, filter } from 'rxjs/operators';
@@ -16,6 +16,8 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./patient.component.scss']
 })
 export class PatientComponent extends Base implements OnInit {
+  @ViewChildren('dInsEls') dInsEls: QueryList<any>;
+  @ViewChildren('mInsEls') mInsEls: QueryList<any>;
   savedRecords: any = [];
   dentalRecords: any = [];
   medicalRecords: any = [];
@@ -56,6 +58,20 @@ export class PatientComponent extends Base implements OnInit {
 
   patientList(): void {
     this.router.navigate(['eligibility-bemnefits']);
+  }
+
+  clickDentalIns(index: number): void {
+    const item = this.dInsEls.toArray()[index];
+    item.nativeElement.scrollIntoView({
+      behavior: 'smooth'
+    });
+  }
+
+  clickMedicalIns(index: number): void {
+    const item = this.mInsEls.toArray()[index];
+    item.nativeElement.scrollIntoView({
+      behavior: 'smooth'
+    });
   }
 
   private checkRoute(): void {
