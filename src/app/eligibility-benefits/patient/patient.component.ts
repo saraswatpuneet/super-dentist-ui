@@ -28,6 +28,7 @@ export class PatientComponent extends Base implements OnInit {
   codesHistory: any;
   months = months();
   allCodes = this.newSavedCodes();
+  savedHistoryCodes = [];
   dentalIndicies = {
     0: 'primaryDental',
     1: 'secondaryDental',
@@ -86,6 +87,7 @@ export class PatientComponent extends Base implements OnInit {
       }),
       map(([codes, savedCodes, savedCodesHistory, ...savedRecords]) => {
         this.allCodes = codes;
+        this.savedHistoryCodes = savedCodesHistory;
         return [this.mapToCodes([codes, savedCodes]), this.mapToCodes([codes, savedCodesHistory]), savedRecords];
       }),
       takeUntil(this.unsubscribe$)
