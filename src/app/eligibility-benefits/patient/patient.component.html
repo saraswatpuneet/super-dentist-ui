@@ -1,4 +1,4 @@
-<div class="patients" fxLayout="column" fxLayoutGap="20px">
+<div class="patient" fxLayout="column" fxLayoutGap="20px">
   <mat-card *ngIf="patient">
     <table>
       <tr>
@@ -67,6 +67,45 @@
     <mat-card>
       <app-history [allCodes]="allCodes" [savedHistory]="savedHistoryCodes" [history]="dentalRecords[i]?.history">
       </app-history>
+    </mat-card>
+  </div>
+
+  <div fxLayout="column" fxLayoutGap="20px" *ngFor="let insurance of patient?.medicalInsurance; let i = index">
+    <mat-card>
+      <table>
+        <tr>
+          <td>Company</td>
+          <td>{{insurance.company}}</td>
+        </tr>
+        <tr>
+          <td>Due Date</td>
+          <td>{{insurance.dueDate | date}}</td>
+        </tr>
+        <tr>
+          <td>Member ID</td>
+          <td>{{insurance.memberId}}</td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td>{{insurance.status?.label}}</td>
+        </tr>
+        <tr>
+          <td>Subscriber Name</td>
+          <td>{{insurance.subscriber?.firstName}} {{insurance.subscriber?.lastName}}</td>
+        </tr>
+        <tr>
+          <td>Subscriber DoB</td>
+          <td>{{months[insurance.subscriber?.dob?.month]?.label}} {{insurance.subscriber.dob?.day}},
+            {{insurance.subscriber.dob?.year}}</td>
+        </tr>
+      </table>
+    </mat-card>
+    <mat-card>
+      <app-remarks [remarks]="medicalRecords[i]?.remarks"></app-remarks>
+    </mat-card>
+
+    <mat-card>
+      <app-codes [savedCodes]="medicalRecords[i]?.codes" [codes]="codes"></app-codes>
     </mat-card>
   </div>
 </div>

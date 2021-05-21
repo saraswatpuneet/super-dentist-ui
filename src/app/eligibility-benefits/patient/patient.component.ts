@@ -95,18 +95,17 @@ export class PatientComponent extends Base implements OnInit {
       let counter = 0;
       this.medicalRecords = [];
       this.dentalRecords = [];
-      this.patient.dentalInsurance.forEach((_, i) => {
-        this.dentalRecords.push(savedRecords[i]);
+      this.patient.dentalInsurance.forEach(() => {
+        this.dentalRecords.push(savedRecords[counter]);
         counter++;
       });
-      this.patient.medicalInsurance.forEach((_, i) => {
-        this.medicalRecords.push(savedRecords[i]);
+      this.patient.medicalInsurance.forEach(() => {
+        this.medicalRecords.push(savedRecords[counter]);
         counter++;
       });
       this.codes = codes;
       this.codesHistory = codesHistory;
       this.loading = false;
-      console.log(codes, codesHistory, this.dentalRecords, this.medicalRecords, this.patient);
     });
   }
 
