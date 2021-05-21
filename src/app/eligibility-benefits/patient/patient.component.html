@@ -1,38 +1,72 @@
-<mat-card *ngIf="patient">
-  <table>
-    <tr>
-      <td>Patient Name</td>
-      <td>{{patient.firstName}} {{patient.lastName}}</td>
-    </tr>
-    <tr>
-      <td>Patient Date of Birth</td>
-      <td>{{months[patient?.dob?.month]?.label}} {{patient.dob?.day}}, {{patient.dob?.year}}</td>
-    </tr>
-    <tr>
-      <td>Clinic Name</td>
-      <td>{{patient.clinicName}}</td>
-    </tr>
-    <tr>
-      <td>Created</td>
-      <td>{{patient.createdOn | date}}</td>
-    </tr>
-    <tr>
-      <td>Phone</td>
-      <td>{{patient.phone}}</td>
-    </tr>
-    <tr>
-      <td>Status</td>
-      <td>{{patient.status?.label}}</td>
-    </tr>
-  </table>
-</mat-card>
-<mat-card *ngFor="let insurance of patient?.dentalInsurance; let i = index">
+<div class="patients" fxLayout="column" fxLayoutGap="20px">
+  <mat-card *ngIf="patient">
+    <table>
+      <tr>
+        <td>Patient Name</td>
+        <td>{{patient.firstName}} {{patient.lastName}}</td>
+      </tr>
+      <tr>
+        <td>Patient Date of Birth</td>
+        <td>{{months[patient?.dob?.month]?.label}} {{patient.dob?.day}}, {{patient.dob?.year}}</td>
+      </tr>
+      <tr>
+        <td>Clinic Name</td>
+        <td>{{patient.clinicName}}</td>
+      </tr>
+      <tr>
+        <td>Created</td>
+        <td>{{patient.createdOn | date}}</td>
+      </tr>
+      <tr>
+        <td>Phone</td>
+        <td>{{patient.phone}}</td>
+      </tr>
+    </table>
+  </mat-card>
 
-  <!-- {{}} -->
-</mat-card>
+  <div fxLayout="column" fxLayoutGap="20px" *ngFor="let insurance of patient?.dentalInsurance; let i = index">
+    <mat-card>
+      <table>
+        <tr>
+          <td>Company</td>
+          <td>{{insurance.company}}</td>
+        </tr>
+        <tr>
+          <td>Due Date</td>
+          <td>{{insurance.dueDate | date}}</td>
+        </tr>
+        <tr>
+          <td>Member ID</td>
+          <td>{{insurance.memberId}}</td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td>{{insurance.status?.label}}</td>
+        </tr>
+        <tr>
+          <td>Subscriber Name</td>
+          <td>{{insurance.subscriber?.firstName}} {{insurance.subscriber?.lastName}}</td>
+        </tr>
+        <tr>
+          <td>Subscriber DoB</td>
+          <td>{{months[insurance.subscriber?.dob?.month]?.label}} {{insurance.subscriber.dob?.day}},
+            {{insurance.subscriber.dob?.year}}</td>
+        </tr>
+      </table>
+    </mat-card>
 
-<!-- <mat-card class="c-card">
-  <div class="patient">
+    <app-patient-details [months]="months" [patient]="patient" [patientCoverage]="dentalRecords[i]?.patientCoverage">
+    </app-patient-details>
+    <mat-card>
+      <app-codes [savedCodes]="dentalRecords[i]?.codes" [codes]="codes"></app-codes>
+    </mat-card>
+    <mat-card>
+      <app-remarks [remarks]="dentalRecords[i]?.remarks"></app-remarks>
+    </mat-card>
 
+    <mat-card>
+      <app-history [allCodes]="allCodes" [savedHistory]="codesHistory" [history]="dentalRecords[i]?.history">
+      </app-history>
+    </mat-card>
   </div>
-</mat-card> -->
+</div>

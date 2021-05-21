@@ -159,20 +159,6 @@
             </td>
           </ng-container>
 
-          <!-- <ng-container matColumnDef="tertiaryInsurance">
-            <th style="width:100px" mat-header-cell *matHeaderCellDef> Tertiary Insurance </th>
-            <td mat-cell *matCellDef="let element">
-              <div fxLayout="row" fxLayoutGap="8px" *ngIf="element.dentalInsurance && element.dentalInsurance[2]">
-                <div class="right" fxFlex="13px">D</div>
-                <div>{{element?.dentalInsurance[2]?.company}}</div>
-              </div>
-              <div fxLayout="row" fxLayoutGap="8px" *ngIf="element.medicalInsurance && element.medicalInsurance[2]">
-                <div class="right" fxFlex="13px">M</div>
-                <div>{{element?.medicalInsurance[2]?.company}}</div>
-              </div>
-            </td>
-          </ng-container> -->
-
           <tr mat-header-row *matHeaderRowDef="patientColumns; sticky: true"></tr>
           <tr mat-row (click)="selectPatient(row)" *matRowDef="let row; columns: patientColumns;"></tr>
         </table>
@@ -194,23 +180,4 @@
       </div>
     </mat-card>
   </mat-card>
-
-  <!-- <mat-card class="c-card patient-details" fxFlex *ngIf="selectedPatient" fxLayout="column">
-      <app-patient-details [months]="months" [patient]="selectedPatient" [patientCoverage]="notes.patientCoverage">
-      </app-patient-details>
-
-      <mat-card style="margin-top:20px">
-        <app-codes [savedCodes]="notes.codes" [codes]="savedCodes"></app-codes>
-      </mat-card>
-
-      <mat-card>
-        <app-history [allCodes]="allCodes" [savedHistory]="codeHistory" [history]="notes.history"></app-history>
-      </mat-card>
-
-      <mat-card>
-        <app-remarks [remarks]="notes.remarks"></app-remarks>
-      </mat-card>
-
-      <div style="min-height:10px"></div>
-    </mat-card> -->
 </div>

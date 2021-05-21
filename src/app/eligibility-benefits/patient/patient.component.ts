@@ -17,6 +17,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class PatientComponent extends Base implements OnInit {
   savedRecords: any = [];
+  dentalRecords: any = [];
+  medicalRecords: any = [];
   loading = false;
   patient: any = {};
   addressId = '';
@@ -67,7 +69,6 @@ export class PatientComponent extends Base implements OnInit {
       this.clinic = clinic;
       this.patient = patient;
       this.triggerPatient.next();
-      console.log('Did this fire multiple times', this.patient);
     });
   }
 
@@ -83,16 +84,27 @@ export class PatientComponent extends Base implements OnInit {
         ];
         return forkJoin(reqs);
       }),
-      map(([codes, savedCodes, savedCodesHistory, ...savedRecords]) =>
-        [this.mapToCodes([codes, savedCodes]), this.mapToCodes([codes, savedCodesHistory]), savedRecords]
-      ),
+      map(([codes, savedCodes, savedCodesHistory, ...savedRecords]) => {
+        this.allCodes = codes;
+        return [this.mapToCodes([codes, savedCodes]), this.mapToCodes([codes, savedCodesHistory]), savedRecords];
+      }),
       takeUntil(this.unsubscribe$)
     ).subscribe(([codes, codesHistory, savedRecords]) => {
-      console.log(codes, codesHistory, savedRecords, this.patient);
-      this.savedRecords = savedRecords;
+      let counter = 0;
+      this.medicalRecords = [];
+      this.dentalRecords = [];
+      this.patient.dentalInsurance.forEach((_, i) => {
+        this.dentalRecords.push(savedRecords[i]);
+        counter++;
+      });
+      this.patient.medicalInsurance.forEach((_, i) => {
+        this.medicalRecords.push(savedRecords[i]);
+        counter++;
+      });
       this.codes = codes;
       this.codesHistory = codesHistory;
       this.loading = false;
+      console.log(codes, codesHistory, this.dentalRecords, this.medicalRecords, this.patient);
     });
   }
 

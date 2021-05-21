@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { DentalBreakDowns } from 'src/app/shared/services/insurance';
 
@@ -7,17 +7,8 @@ import { DentalBreakDowns } from 'src/app/shared/services/insurance';
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.scss']
 })
-export class HistoryComponent implements OnChanges, OnInit {
+export class HistoryComponent {
   @Input() history = {};
   @Input() savedHistory = [];
   @Input() allCodes: DentalBreakDowns;
-
-  constructor() { }
-
-  ngOnChanges(): void {
-  }
-
-  ngOnInit(): void {
-  }
-
 }
