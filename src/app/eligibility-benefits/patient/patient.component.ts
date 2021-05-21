@@ -54,6 +54,10 @@ export class PatientComponent extends Base implements OnInit {
     this.checkRoute();
   }
 
+  patientList(): void {
+    this.router.navigate(['eligibility-bemnefits']);
+  }
+
   private checkRoute(): void {
     this.route.parent.params.pipe(
       filter(p => !!p),

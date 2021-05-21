@@ -8,6 +8,16 @@
   box-sizing: border-box;
   height: 100%;
 
+  .back {
+    cursor: pointer;
+    border-radius: 16px;
+    transition: 0.3s;
+
+    &:hover {
+      background: rgba(grey, 0.2);
+    }
+  }
+
   .patient-details {
     width: 375px;
     height: 100%;

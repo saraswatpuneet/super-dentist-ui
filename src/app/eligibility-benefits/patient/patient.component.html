@@ -1,7 +1,10 @@
 <div class="patient" fxLayout="row" fxLayoutGap="20px">
   <div fxLayout="column" class="patient-details" fxLayoutGap="20px">
     <mat-card *ngIf="patient">
-      <h3>{{patient.firstName}} {{patient.lastName}}</h3>
+      <div fxLayout="row">
+        <mat-icon (click)="patient-list" class="back">chevron_left</mat-icon>
+        <h3>{{patient.firstName}} {{patient.lastName}}</h3>
+      </div>
       <div fxLayout="row">
         <div fxFlex="50">
           <div class="lighter">Date of Birth</div>

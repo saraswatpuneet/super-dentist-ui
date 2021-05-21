@@ -11,6 +11,8 @@ import { CodesComponent } from './shared/codes/codes.component';
 import { HistoryComponent } from './shared/history/history.component';
 import { PatientDetailsComponent } from './shared/patient-details/patient-details.component';
 import { PatientStatusPillModule } from 'src/app/shared/patient-status-pill/patient-status-pill.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { PatientStatusPillModule } from 'src/app/shared/patient-status-pill/pati
   imports: [
     CommonModule,
     MatCardModule,
+    MatButtonModule,
+    MatIconModule,
     PatientStatusPillModule,
     FlexLayoutModule,
     MatProgressBarModule,
