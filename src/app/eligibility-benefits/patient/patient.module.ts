@@ -10,6 +10,7 @@ import { RemarksComponent } from './shared/remarks/remarks.component';
 import { CodesComponent } from './shared/codes/codes.component';
 import { HistoryComponent } from './shared/history/history.component';
 import { PatientDetailsComponent } from './shared/patient-details/patient-details.component';
+import { PatientStatusPillModule } from 'src/app/shared/patient-status-pill/patient-status-pill.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { PatientDetailsComponent } from './shared/patient-details/patient-detail
   imports: [
     CommonModule,
     MatCardModule,
+    PatientStatusPillModule,
     FlexLayoutModule,
     MatProgressBarModule,
     PatientRoutingModule
