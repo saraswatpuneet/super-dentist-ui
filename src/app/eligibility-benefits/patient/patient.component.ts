@@ -41,6 +41,7 @@ export class PatientComponent extends Base implements OnInit {
     1: 'secondaryMedical',
     2: 'tertiaryMedical'
   };
+  insuranceInView = 'd0';
   private triggerPatient = new Subject<void>();
 
   constructor(
@@ -61,6 +62,7 @@ export class PatientComponent extends Base implements OnInit {
   }
 
   clickDentalIns(index: number): void {
+    this.insuranceInView = `d${index}`;
     const item = this.dInsEls.toArray()[index];
     item.nativeElement.scrollIntoView({
       behavior: 'smooth'
@@ -68,6 +70,7 @@ export class PatientComponent extends Base implements OnInit {
   }
 
   clickMedicalIns(index: number): void {
+    this.insuranceInView = `m${index}`;
     const item = this.mInsEls.toArray()[index];
     item.nativeElement.scrollIntoView({
       behavior: 'smooth'

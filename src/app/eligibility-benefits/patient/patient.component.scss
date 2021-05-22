@@ -8,6 +8,20 @@
   box-sizing: border-box;
   height: 100%;
 
+  .active {
+    position: relative;
+    &::before {
+      content: "";
+      position: absolute;
+      height: 100%;
+      background: var(--ac-blue);
+      width: 4px;
+      left: 0;
+      top: 0;
+
+    }
+  }
+
   .back {
     cursor: pointer;
     border-radius: 16px;
@@ -19,13 +33,13 @@
   }
 
   .patient-details {
-    width: 375px;
+    width: 400px;
     height: 100%;
     overflow: auto;
   }
 
   .breakdowns {
-    width: calc(100% - 375px);
+    width: calc(100% - 400px);
     height: 100%;
     padding: 0 20px 20px 0;
     overflow: auto;
