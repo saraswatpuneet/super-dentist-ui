@@ -1,9 +1,9 @@
 <div class="patient" fxLayout="row" fxLayoutGap="20px">
   <div fxLayout="column" class="patient-details" fxLayoutGap="20px">
     <mat-card *ngIf="patient">
-      <div fxLayout="row">
+      <div fxLayout="row" fxLayoutAlign=" center">
         <mat-icon (click)="patient-list" class="back">chevron_left</mat-icon>
-        <h3>{{patient.firstName}} {{patient.lastName}}</h3>
+        <h3 class="no-m">{{patient.firstName}} {{patient.lastName}}</h3>
       </div>
       <div fxLayout="row">
         <div fxFlex="50">
@@ -72,6 +72,8 @@
       </div>
     </mat-card>
   </div>
+
+  <div class="divider-h"></div>
 
   <div class="breakdowns" fxLayout="column" fxLayoutGap="20px">
     <div #dInsEls fxLayout="column" fxLayoutGap="20px"
