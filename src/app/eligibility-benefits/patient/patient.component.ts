@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { Subject, forkJoin, of, Observable } from 'rxjs';
-import * as moment from 'moment';
 import { switchMap, map, catchError, take, tap, takeUntil, filter } from 'rxjs/operators';
 
 import { ClinicService } from 'src/app/shared/services/clinic.service';

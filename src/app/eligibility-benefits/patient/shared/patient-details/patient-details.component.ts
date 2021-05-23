@@ -18,6 +18,7 @@ export class PatientDetailsComponent implements OnChanges, OnInit {
   constructor() { }
 
   ngOnChanges(): void {
+    console.log(this.patientCoverage);
   }
 
   ngOnInit(): void {

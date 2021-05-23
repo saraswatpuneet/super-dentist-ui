@@ -21,7 +21,7 @@
 
     <mat-card class="insurance-card">
       <h3>Dental Insurance</h3>
-      <div (click)="clickDentalIns(i)" class="insurance-item" [ngClass]="{'active': insuranceInView === 'd' + i}"
+      <div (click)="clickDentalIns(i)" class="insurance-item"
         *ngFor="let insurance of patient?.dentalInsurance; let i = index">
         <div class="insurance-title" fxLayout="row" fxLayoutGap="12px" fxLayoutAlign=" start">
           <div fxFlex>{{insurance.company}} ({{insurance?.status?.label}})</div>
@@ -47,7 +47,7 @@
 
     <mat-card class="insurance-card">
       <h3>Medical Insurance</h3>
-      <div (click)="clickMedicalIns(i)" class="insurance-item" [ngClass]="{'active': insuranceInView === 'm' + i}"
+      <div (click)="clickMedicalIns(i)" class="insurance-item"
         *ngFor="let insurance of patient?.medicalInsurance; let i = index">
         <div class="insurance-title" fxLayout="row" fxLayoutGap="12px" fxLayoutAlign=" start">
           <div fxFlex>{{insurance.company}} ({{insurance?.status?.label}})</div>
@@ -93,35 +93,6 @@
 
     <div #mInsEls fxLayout="column" fxLayoutGap="20px"
       *ngFor="let insurance of patient?.medicalInsurance; let i = index">
-      <mat-card>
-        <table>
-          <tr>
-            <td>Company</td>
-            <td>{{insurance.company}}</td>
-          </tr>
-          <tr>
-            <td>Due Date</td>
-            <td>{{insurance.dueDate | date}}</td>
-          </tr>
-          <tr>
-            <td>Member ID</td>
-            <td>{{insurance.memberId}}</td>
-          </tr>
-          <tr>
-            <td>Status</td>
-            <td>{{insurance.status?.label}}</td>
-          </tr>
-          <tr>
-            <td>Subscriber Name</td>
-            <td>{{insurance.subscriber?.firstName}} {{insurance.subscriber?.lastName}}</td>
-          </tr>
-          <tr>
-            <td>Subscriber DoB</td>
-            <td>{{months[insurance.subscriber?.dob?.month]?.label}} {{insurance.subscriber.dob?.day}},
-              {{insurance.subscriber.dob?.year}}</td>
-          </tr>
-        </table>
-      </mat-card>
       <mat-card>
         <app-remarks [remarks]="medicalRecords[i]?.remarks"></app-remarks>
       </mat-card>
