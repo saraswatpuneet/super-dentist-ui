@@ -56,8 +56,8 @@ export class PatientComponent extends Base implements OnInit {
     this.checkRoute();
   }
 
-  patientList(): void {
-    this.router.navigate(['eligibility-bemnefits']);
+  goToPatientList(): void {
+    this.router.navigate(['eligibility-benefits']);
   }
 
   clickDentalIns(index: number): void {
