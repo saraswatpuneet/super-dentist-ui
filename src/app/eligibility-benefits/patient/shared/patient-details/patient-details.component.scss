@@ -1,5 +1,13 @@
 .patient-details {
 
+  .h-divider {
+    height: 1px;
+    background: rgba(grey, 0.3);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+
   ::ng-deep {
     .mat-progress-bar-buffer {
       background-color: #d0d0d0;

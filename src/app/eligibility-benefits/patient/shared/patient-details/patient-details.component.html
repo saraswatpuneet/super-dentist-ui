@@ -43,7 +43,7 @@
     </div>
   </mat-card> -->
 
-  <mat-card fxLayout="column" fxLayoutGap="12px">
+  <div fxLayout="column" fxLayoutGap="12px">
     <h3>Coverage details</h3>
     <div fxLayout="row" fxLayoutGap="12px">
       <div fxFlex="33" fxLayout="column" fxLayoutGap="12px">
@@ -119,39 +119,45 @@
       </div>
     </div>
 
-  </mat-card>
+  </div>
 
-  <div fxLayout="row" fxLayoutAlign=" start" fxLayoutGap="20px">
-    <mat-card fxFlex fxLayout="column">
-      <div fxLayout="row">
-        <h3 fxFlex>Waiting periods</h3>
-        <p *ngIf="patientCoverage?.waitingPeriods?.enabled === 'no'">
-          {{radioOptions[patientCoverage?.waitingPeriods?.enabled]}}
-        </p>
-      </div>
-      <div fxLayout="row" *ngIf="patientCoverage?.waitingPeriods?.enabled === 'yes'" fxLayoutGap="20px">
-        <div fxFlex="50">
-          <div class="lighter">Basic Services</div>
-          <ng-container *ngIf="patientCoverage?.waitingPeriods?.basicService?.unit">
-            <div>{{patientCoverage?.waitingPeriods?.basicService?.frequency}} /
-              {{patientCoverage?.waitingPeriods?.basicService?.unit}}</div>
-          </ng-container>
-          <ng-container *ngIf="!patientCoverage?.waitingPeriods?.basicService?.unit">
-            N/A
-          </ng-container>
-        </div>
-        <div fxFlex="50">
-          <div class="lighter">Major Services</div>
-          <ng-container *ngIf="patientCoverage?.majorServices?.basicService?.unit">
-            <div>{{patientCoverage?.waitingPeriods?.majorServices?.frequency}} /
-              {{patientCoverage?.majorServices?.basicService?.unit}}</div>
-          </ng-container>
-          <ng-container *ngIf="!patientCoverage?.majorServices?.basicService?.unit">N/A</ng-container>
-        </div>
-      </div>
-    </mat-card>
+  <div class="h-divider"></div>
 
-    <mat-card fxFlex fxLayout="column">
+  <div fxLayout="row" fxLayoutGap="20px">
+    <div fxFlex>
+      <div fxLayout="column">
+        <div fxLayout="row">
+          <h3 fxFlex>Waiting periods</h3>
+          <p *ngIf="patientCoverage?.waitingPeriods?.enabled === 'no'">
+            {{radioOptions[patientCoverage?.waitingPeriods?.enabled]}}
+          </p>
+        </div>
+        <div fxLayout="row" *ngIf="patientCoverage?.waitingPeriods?.enabled === 'yes'" fxLayoutGap="20px">
+          <div fxFlex="50">
+            <div class="lighter">Basic Services</div>
+            <ng-container *ngIf="patientCoverage?.waitingPeriods?.basicService?.unit">
+              <div>{{patientCoverage?.waitingPeriods?.basicService?.frequency}} /
+                {{patientCoverage?.waitingPeriods?.basicService?.unit}}</div>
+            </ng-container>
+            <ng-container *ngIf="!patientCoverage?.waitingPeriods?.basicService?.unit">
+              N/A
+            </ng-container>
+          </div>
+          <div fxFlex="50">
+            <div class="lighter">Major Services</div>
+            <ng-container *ngIf="patientCoverage?.majorServices?.basicService?.unit">
+              <div>{{patientCoverage?.waitingPeriods?.majorServices?.frequency}} /
+                {{patientCoverage?.majorServices?.basicService?.unit}}</div>
+            </ng-container>
+            <ng-container *ngIf="!patientCoverage?.majorServices?.basicService?.unit">N/A</ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="v-divider"></div>
+
+    <div fxFlex fxLayout="column">
       <div fxLayout="row">
         <h3 fxFlex>Missing tooth clause</h3>
         <p *ngIf="patientCoverage?.missingToothClause === 'no'">{{radioOptions[patientCoverage?.missingToothClause]}}
@@ -210,7 +216,7 @@
           </div>
         </div>
       </ng-container>
-    </mat-card>
+    </div>
   </div>
 
 </div>

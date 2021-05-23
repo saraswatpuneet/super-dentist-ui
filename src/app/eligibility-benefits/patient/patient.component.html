@@ -77,9 +77,9 @@
   <div class="divider-h"></div>
 
   <div class="breakdowns" fxLayout="column" fxLayoutGap="20px">
-    <div #dInsEls fxLayout="column" fxLayoutGap="20px"
+    <mat-card #dInsEls fxLayout="column" fxLayoutGap="20px"
       *ngFor="let insurance of patient?.dentalInsurance; let i = index">
-      <mat-card>
+      <div>
         <div fxLayout="row">
           <h3 fxFlex>{{insurance.company}} </h3>
           <app-patient-status-pill *ngIf="insurance" [label]="insurance?.status?.label"
@@ -102,25 +102,29 @@
               {{insurance.subscriber.dob?.year}}</div>
           </div>
         </div>
-      </mat-card>
+      </div>
+      <div class="divider-w"></div>
       <app-patient-details [months]="months" [patient]="patient" [patientCoverage]="dentalRecords[i]?.patientCoverage">
       </app-patient-details>
-      <mat-card>
+      <div class="divider-w"></div>
+      <div>
         <app-codes [savedCodes]="dentalRecords[i]?.codes" [codes]="codes"></app-codes>
-      </mat-card>
-      <mat-card>
+      </div>
+      <div class="divider-w"></div>
+      <div>
         <app-remarks [remarks]="dentalRecords[i]?.remarks"></app-remarks>
-      </mat-card>
+      </div>
+      <div class="divider-w"></div>
 
-      <mat-card>
+      <div>
         <app-history [allCodes]="allCodes" [savedHistory]="savedHistoryCodes" [history]="dentalRecords[i]?.history">
         </app-history>
-      </mat-card>
-    </div>
+      </div>
+    </mat-card>
 
-    <div #mInsEls fxLayout="column" fxLayoutGap="20px"
+    <mat-card #mInsEls fxLayout="column" fxLayoutGap="20px"
       *ngFor="let insurance of patient?.medicalInsurance; let i = index">
-      <mat-card>
+      <div>
         <div fxLayout="row">
           <h3 fxFlex>{{insurance.company}} </h3>
 
@@ -145,15 +149,17 @@
               {{insurance.subscriber.dob?.year}}</div>
           </div>
         </div>
-      </mat-card>
-      <mat-card>
+      </div>
+      <div class="divider-w"></div>
+      <div>
         <app-remarks [remarks]="medicalRecords[i]?.remarks"></app-remarks>
-      </mat-card>
+      </div>
 
-      <mat-card>
+      <div class="divider-w"></div>
+      <div>
         <app-codes [savedCodes]="medicalRecords[i]?.codes" [codes]="codes"></app-codes>
-      </mat-card>
-    </div>
+      </div>
+    </mat-card>
   </div>
 
 </div>
