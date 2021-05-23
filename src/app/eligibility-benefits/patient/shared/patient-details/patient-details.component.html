@@ -96,22 +96,24 @@
 
       <div fxLayout="column" fxLayoutGap="12px">
         <div>
-          <div class="lighter">Annual Maximum & Used</div>
+          <div class="lighter">Annual Maximum / Used</div>
           <div>
-            {{patientCoverage?.annualUsedAmount | currency}} & {{patientCoverage?.annualMaximum | currency}}
+            {{patientCoverage?.annualUsedAmount | currency}} <span class="lighter">/</span>
+            {{patientCoverage?.annualMaximum | currency}}
           </div>
         </div>
         <div>
-          <div class="lighter">Deductible Amount & Met (Individual)</div>
+          <div class="lighter">Deductible Amount / Met (Individual)</div>
           <div>
-            {{patientCoverage?.deductibleMetAmountIndividual | currency}} &
+            {{patientCoverage?.deductibleMetAmountIndividual | currency}} <span class="lighter">/</span>
             {{patientCoverage?.deductibleIndividual | currency}}
           </div>
         </div>
         <div>
-          <div class="lighter">Deductible Amount & Met (Family)</div>
+          <div class="lighter">Deductible Amount / Met (Family)</div>
           <div>
-            {{patientCoverage?.deductibleMetAmountFamily | currency}} & {{patientCoverage?.deductibleFamily | currency}}
+            {{patientCoverage?.deductibleMetAmountFamily | currency}} <span class="lighter">/</span>
+            {{patientCoverage?.deductibleFamily | currency}}
           </div>
         </div>
       </div>
