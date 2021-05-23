@@ -79,6 +79,30 @@
   <div class="breakdowns" fxLayout="column" fxLayoutGap="20px">
     <div #dInsEls fxLayout="column" fxLayoutGap="20px"
       *ngFor="let insurance of patient?.dentalInsurance; let i = index">
+      <mat-card>
+        <div fxLayout="row">
+          <h3 fxFlex>{{insurance.company}} </h3>
+          <app-patient-status-pill *ngIf="insurance" [label]="insurance?.status?.label"
+            [value]="insurance?.status?.value">
+          </app-patient-status-pill>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="33">
+            <div class="lighter">Due</div>
+            <div>{{insurance.dueDate | date}}</div>
+          </div>
+          <div fxFlex="33">
+            <div class="lighter">Member ID</div>
+            <div>{{insurance.memberId}}</div>
+          </div>
+          <div fxFlex="33">
+            <div class="lighter">Subscriber & DOB</div>
+            <div>{{insurance.subscriber?.firstName}} {{insurance.subscriber?.lastName}}
+              {{months[insurance.subscriber?.dob?.month]?.label}} {{insurance.subscriber.dob?.day}},
+              {{insurance.subscriber.dob?.year}}</div>
+          </div>
+        </div>
+      </mat-card>
       <app-patient-details [months]="months" [patient]="patient" [patientCoverage]="dentalRecords[i]?.patientCoverage">
       </app-patient-details>
       <mat-card>
@@ -96,6 +120,32 @@
 
     <div #mInsEls fxLayout="column" fxLayoutGap="20px"
       *ngFor="let insurance of patient?.medicalInsurance; let i = index">
+      <mat-card>
+        <div fxLayout="row">
+          <h3 fxFlex>{{insurance.company}} </h3>
+
+          <app-patient-status-pill *ngIf="insurance" [label]="insurance?.status?.label"
+            [value]="insurance?.status?.value">
+          </app-patient-status-pill>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="33">
+            <div class="lighter">Due</div>
+            <div>{{insurance.dueDate | date}}</div>
+          </div>
+          <div fxFlex="33">
+            <div class="lighter">Member ID</div>
+            <div>{{insurance.memberId}}</div>
+          </div>
+
+          <div fxFlex="33">
+            <div class="lighter">Subscriber & DOB</div>
+            <div>{{insurance.subscriber?.firstName}} {{insurance.subscriber?.lastName}}
+              {{months[insurance.subscriber?.dob?.month]?.label}} {{insurance.subscriber.dob?.day}},
+              {{insurance.subscriber.dob?.year}}</div>
+          </div>
+        </div>
+      </mat-card>
       <mat-card>
         <app-remarks [remarks]="medicalRecords[i]?.remarks"></app-remarks>
       </mat-card>
