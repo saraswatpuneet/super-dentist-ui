@@ -117,14 +117,18 @@ export class PatientComponent extends Base implements OnInit {
       let counter = 0;
       this.medicalRecords = [];
       this.dentalRecords = [];
-      this.patient.dentalInsurance.forEach(() => {
-        this.dentalRecords.push(savedRecords[counter]);
-        counter++;
-      });
-      this.patient.medicalInsurance.forEach(() => {
-        this.medicalRecords.push(savedRecords[counter]);
-        counter++;
-      });
+      if (this.patient.dentalInsurance) {
+        this.patient.dentalInsurance.forEach(() => {
+          this.dentalRecords.push(savedRecords[counter]);
+          counter++;
+        });
+      }
+      if (this.patient.medicalInsurance) {
+        this.patient.medicalInsurance.forEach(() => {
+          this.medicalRecords.push(savedRecords[counter]);
+          counter++;
+        });
+      }
       this.codes = codes;
       this.codesHistory = codesHistory;
       this.loading = false;
@@ -133,23 +137,27 @@ export class PatientComponent extends Base implements OnInit {
 
   private mapPatientNotes(): Observable<any>[] {
     const reqs = [];
-    this.patient.dentalInsurance.forEach((_, i) => {
-      reqs.push(this.patientService.getPatientNotes(this.patient.patientId, this.dentalIndicies[i]).pipe(
-        map(r => r.data),
-        catchError(() => of(undefined)),
-        map(r => JSON.parse(r)),
-        take(1))
-      );
-    });
+    if (this.patient.dentalInsurance) {
+      this.patient.dentalInsurance.forEach((_, i) => {
+        reqs.push(this.patientService.getPatientNotes(this.patient.patientId, this.dentalIndicies[i]).pipe(
+          map(r => r.data),
+          map(r => JSON.parse(r)),
+          catchError(() => of(undefined)),
+          take(1))
+        );
+      });
+    }
 
-    this.patient.medicalInsurance.forEach((_, i) => {
-      reqs.push(this.patientService.getPatientNotes(this.patient.patientId, this.medicalIndicies[i]).pipe(
-        map(r => r.data),
-        catchError(() => of(undefined)),
-        map(r => JSON.parse(r)),
-        take(1))
-      );
-    });
+    if (this.patient.medicalInsurance) {
+      this.patient.medicalInsurance.forEach((_, i) => {
+        reqs.push(this.patientService.getPatientNotes(this.patient.patientId, this.medicalIndicies[i]).pipe(
+          map(r => r.data),
+          catchError(() => of(undefined)),
+          map(r => JSON.parse(r)),
+          take(1))
+        );
+      });
+    }
 
     return reqs;
   }
