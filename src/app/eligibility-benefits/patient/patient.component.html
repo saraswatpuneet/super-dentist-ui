@@ -114,8 +114,8 @@
 
         <div class="divider-w"></div>
 
-        <div>
-          <app-history [allCodes]="allCodes" [savedHistory]="savedHistoryCodes" [history]="dentalRecords[i]?.history">
+        <div *ngIf="dentalRecords[i]">
+          <app-history [allCodes]="allCodes" [savedHistory]="savedHistoryCodes" [history]="dentalRecords[i].history">
           </app-history>
         </div>
       </mat-card>
