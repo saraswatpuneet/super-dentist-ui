@@ -132,7 +132,6 @@ export class PatientComponent extends Base implements OnInit {
       this.codes = codes;
       this.codesHistory = codesHistory;
       this.loading = false;
-      console.log(this);
     });
   }
 

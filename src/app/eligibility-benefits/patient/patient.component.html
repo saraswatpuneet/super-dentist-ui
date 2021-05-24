@@ -28,15 +28,11 @@
           <div fxFlex>{{insurance.company}} ({{insurance?.status?.label}})</div>
         </div>
         <div fxLayout="row">
-          <div fxFlex="33">
-            <div class="lighter">Due</div>
-            <div>{{insurance.dueDate | date}}</div>
-          </div>
-          <div fxFlex="33">
+          <div fxFlex="50">
             <div class="lighter">Member ID</div>
             <div>{{insurance.memberId}}</div>
           </div>
-          <div fxFlex="33">
+          <div fxFlex="50">
             <div class="lighter">Subscriber & DOB</div>
             <div>{{insurance.subscriber?.firstName}} {{insurance.subscriber?.lastName}}
               {{months[insurance.subscriber?.dob?.month]?.label}} {{insurance.subscriber.dob?.day}},
@@ -132,16 +128,13 @@
             </app-patient-status-pill>
           </div>
           <div fxLayout="row">
-            <div fxFlex="33">
-              <div class="lighter">Due</div>
-              <div>{{insurance.dueDate | date}}</div>
-            </div>
-            <div fxFlex="33">
+
+            <div fxFlex="50">
               <div class="lighter">Member ID</div>
               <div>{{insurance.memberId}}</div>
             </div>
 
-            <div fxFlex="33">
+            <div fxFlex="50">
               <div class="lighter">Subscriber & DOB</div>
               <div>{{insurance.subscriber?.firstName}} {{insurance.subscriber?.lastName}}
                 {{months[insurance.subscriber?.dob?.month]?.label}} {{insurance.subscriber.dob?.day}},
