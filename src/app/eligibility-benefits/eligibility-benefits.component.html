@@ -28,25 +28,27 @@
       <!-- <button mat-button [matMenuTriggerFor]="menu">
         <mat-icon>sort</mat-icon> Sort by
       </button> -->
-      <mat-form-field appearance="fill">
-        <mat-label>Patient date range filter</mat-label>
-        <mat-date-range-input [rangePicker]="picker">
-          <input matStartDate (dateChange)="closeDate()" [(ngModel)]="startDate" style="font-size:14px"
-            placeholder="Start date">
-          <input matEndDate (dateChange)="closeDate()" [(ngModel)]="endDate" style="font-size:14px"
-            placeholder="End date">
-        </mat-date-range-input>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
-      </mat-form-field>
+
       <button fxFlex="150px" mat-raised-button (click)="showInsurance = true">Insurance check</button>
     </mat-card>
   </div>
-
-  <div class="sd-input search" style="width: 300px">
-    <input type="text" [(ngModel)]="patientFilter" (ngModelChange)="filterPatientList()"
-      placeholder="Search for patient">
-  </div>
+  <mat-card class="c-card" fxLayout="row" fxLayoutAlign=" end" fxLayoutGap="20px">
+    <mat-form-field appearance="fill">
+      <mat-label>Patient date range filter</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate (dateChange)="closeDate()" [(ngModel)]="startDate" style="font-size:14px"
+          placeholder="Start date">
+        <input matEndDate (dateChange)="closeDate()" [(ngModel)]="endDate" style="font-size:14px"
+          placeholder="End date">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+    <div class="sd-input search" style="width: 300px">
+      <input type="text" [(ngModel)]="patientFilter" (ngModelChange)="filterPatientList()"
+        placeholder="Search for patient">
+    </div>
+  </mat-card>
 
   <mat-card class="c-card patients">
     <div class="fix" *ngIf="showInsurance">
