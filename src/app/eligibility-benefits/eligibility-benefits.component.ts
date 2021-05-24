@@ -22,7 +22,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   patientFilter = '';
   filteredPatients = [];
   selectedClinic: any = {};
-  patientColumns: string[] = ['appointment', 'patient', 'primaryInsurance', 'secondaryInsurance'];
+  patientColumns: string[] = ['patient', 'appointment', 'insurance', 'status'];
   selectedPatient = undefined;
   dentalCompanies = [];
   months = months();

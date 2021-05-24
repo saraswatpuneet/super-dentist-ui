@@ -49,12 +49,7 @@
         <table mat-table [dataSource]="filteredPatients">
           <ng-container matColumnDef="appointment">
             <th mat-header-cell *matHeaderCellDef> Appointment </th>
-            <td mat-cell *matCellDef="let element">
-              <div>
-                <div>{{element.dueDate | date:"h:mm a"}}</div>
-                <div class="lighter">{{element.dueDate | date:"MMM dd, YYYY"}}</div>
-              </div>
-            </td>
+            <td mat-cell *matCellDef="let element"> {{element.dueDate | date:"MMM dd, YYYY"}} </td>
           </ng-container>
 
           <ng-container matColumnDef="patient">
@@ -69,93 +64,39 @@
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="primaryInsurance">
-            <th mat-header-cell *matHeaderCellDef> Primary Insurance</th>
+          <ng-container matColumnDef="insurance">
+            <th mat-header-cell *matHeaderCellDef> Insurance</th>
             <td mat-cell *matCellDef="let element">
-              <ng-container *ngIf="element.dentalInsurance && element.dentalInsurance[0]">
+              <div *ngFor="let insurance of element.dentalInsurance">
                 <div fxLayout="row" fxLayoutGap="8px">
                   <div class="right" fxFlex="13px">D</div>
-                  <div>{{element?.dentalInsurance[0]?.company}}</div>
-                  <ng-container *ngIf="element.dentalInsurance[0].memberId">
-                    <div> - Member
-                      ID {{element.dentalInsurance[0].memberId}}</div>
-                  </ng-container>
-                  <div>({{element?.dentalInsurance[0]?.status.label}})</div>
+                  <div>{{insurance?.company}}</div>
                 </div>
-                <div class="subscr lighter"
-                  *ngIf="element.dentalInsurance && element.dentalInsurance[0].subscriber.firstName">
-                  Subscriber: {{element.dentalInsurance && element.dentalInsurance[0].subscriber.firstName}}
-                  {{element.dentalInsurance && element.dentalInsurance[0].subscriber.lastName}} - DOB
-                  {{months[element.dentalInsurance && element.dentalInsurance[0].subscriber.dob.month]?.label}}
-                  {{element.dentalInsurance && element.dentalInsurance[0].subscriber.dob.day}},
-                  {{element.dentalInsurance && element.dentalInsurance[0].subscriber.dob.year}}
-                </div>
-              </ng-container>
-              <ng-container *ngIf="element.medicalInsurance && element.medicalInsurance[0]">
-                <div fxLayout="row" fxLayoutGap="8px" *ngIf="element.medicalInsurance && element.medicalInsurance[0]">
+              </div>
+              <div *ngFor="let insurance of element.medicalInsurance">
+                <div fxLayout="row" fxLayoutGap="8px">
                   <div class="right" fxFlex="13px">M</div>
-                  <div>{{element?.medicalInsurance[0]?.company}}</div>
-                  <ng-container *ngIf="element.medicalInsurance[0].memberId">
-                    <div> - Member
-                      ID {{element.medicalInsurance[0].memberId}}</div>
-                  </ng-container>
-                  <div>({{element?.medicalInsurance[0]?.status.label}})</div>
+                  <div>{{insurance?.company}}</div>
                 </div>
-                <div class="subscr lighter"
-                  *ngIf="element.medicalInsurance && element.medicalInsurance[0].subscriber.firstName">
-                  Subscriber: {{element.medicalInsurance && element.medicalInsurance[0].subscriber.firstName}}
-                  {{element.medicalInsurance && element.medicalInsurance[0].subscriber.lastName}} - DOB
-                  {{months[element.medicalInsurance && element.medicalInsurance[0].subscriber.dob.month]?.label}}
-                  {{element.medicalInsurance && element.medicalInsurance[0].subscriber.dob.day}},
-                  {{element.medicalInsurance && element.medicalInsurance[0].subscriber.dob.year}}<ng-container
-                    *ngIf="element.medicalInsurance && element.medicalInsurance[0].memberId"> - Member
-                    ID{{element.medicalInsurance && element.medicalInsurance[0].memberId}}</ng-container>
-                </div>
-              </ng-container>
+              </div>
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="secondaryInsurance">
-            <th mat-header-cell *matHeaderCellDef> Secondary Insurance</th>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
             <td mat-cell *matCellDef="let element">
-              <ng-container *ngIf="element.dentalInsurance && element.dentalInsurance[1]">
+              <div *ngFor="let insurance of element.dentalInsurance">
                 <div fxLayout="row" fxLayoutGap="8px">
                   <div class="right" fxFlex="13px">D</div>
-                  <div>{{element?.dentalInsurance[1]?.company}}</div>
-                  <ng-container *ngIf="element.dentalInsurance[1].memberId">
-                    <div> - Member
-                      ID {{element.dentalInsurance[1].memberId}}</div>
-                  </ng-container>
-                  <div>({{element?.dentalInsurance[1]?.status.label}})</div>
+                  <div>{{insurance?.status.label}}</div>
                 </div>
-                <div class="subscr lighter"
-                  *ngIf="element.dentalInsurance && element.dentalInsurance[1].subscriber.firstName">
-                  Subscriber: {{element.dentalInsurance && element.dentalInsurance[1].subscriber.firstName}}
-                  {{element.dentalInsurance && element.dentalInsurance[1].subscriber.lastName}} - DOB
-                  {{months[element.dentalInsurance && element.dentalInsurance[1].subscriber.dob.month]?.label}}
-                  {{element.dentalInsurance && element.dentalInsurance[1].subscriber.dob.day}},
-                  {{element.dentalInsurance && element.dentalInsurance[1].subscriber.dob.year}}
-                </div>
-              </ng-container>
-              <ng-container *ngIf="element.medicalInsurance && element.medicalInsurance[1]">
-                <div fxLayout="row" fxLayoutGap="8px" *ngIf="element.medicalInsurance && element.medicalInsurance[1]">
+              </div>
+              <div *ngFor="let insurance of element.medicalInsurance">
+                <div fxLayout="row" fxLayoutGap="8px">
                   <div class="right" fxFlex="13px">M</div>
-                  <div>{{element?.medicalInsurance[1]?.company}}</div>
-                  <ng-container *ngIf="element.medicalInsurance[1].memberId">
-                    <div> - Member
-                      ID {{element.medicalInsurance[1].memberId}}</div>
-                  </ng-container>
-                  <div>({{element?.medicalInsurance[1]?.status.label}})</div>
+                  <div>{{insurance?.status.label}}</div>
                 </div>
-                <div class="subscr lighter"
-                  *ngIf="element.medicalInsurance && element.medicalInsurance[1].subscriber.firstName">
-                  Subscriber: {{element.medicalInsurance && element.medicalInsurance[1].subscriber.firstName}}
-                  {{element.medicalInsurance && element.medicalInsurance[1].subscriber.lastName}} - DOB
-                  {{months[element.medicalInsurance && element.medicalInsurance[1].subscriber.dob.month]?.label}}
-                  {{element.medicalInsurance && element.medicalInsurance[1].subscriber.dob.day}},
-                  {{element.medicalInsurance && element.medicalInsurance[1].subscriber.dob.year}}
-                </div>
-              </ng-container>
+              </div>
             </td>
           </ng-container>
 
