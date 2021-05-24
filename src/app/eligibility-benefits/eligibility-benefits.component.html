@@ -28,6 +28,17 @@
       <!-- <button mat-button [matMenuTriggerFor]="menu">
         <mat-icon>sort</mat-icon> Sort by
       </button> -->
+      <mat-form-field appearance="fill">
+        <mat-label>Patient date range filter</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate (dateChange)="closeDate()" [(ngModel)]="startDate" style="font-size:14px"
+            placeholder="Start date">
+          <input matEndDate (dateChange)="closeDate()" [(ngModel)]="endDate" style="font-size:14px"
+            placeholder="End date">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
       <button fxFlex="150px" mat-raised-button (click)="showInsurance = true">Insurance check</button>
     </mat-card>
   </div>

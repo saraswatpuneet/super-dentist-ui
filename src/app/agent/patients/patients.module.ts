@@ -36,16 +36,16 @@ import { InsuranceFilterComponent } from './insurance-filter/insurance-filter.co
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,
-    MatTooltipModule,
     MatDatepickerModule,
     MatIconModule,
-    MatMenuModule,
     MatInputModule,
+    MatMenuModule,
     MatPaginatorModule,
     MatProgressBarModule,
     MatSelectModule,
     MatTableModule,
     MatTabsModule,
+    MatTooltipModule,
     PatientStatusPillModule,
     PatientsRoutingModule
   ]

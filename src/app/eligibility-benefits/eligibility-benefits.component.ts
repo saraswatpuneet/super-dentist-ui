@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { map, switchMap, takeUntil, tap, filter } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 
 import { ClinicService } from '../shared/services/clinic.service';
@@ -8,6 +8,7 @@ import { PatientService } from '../shared/services/patient.service';
 import { Base } from '../shared/base/base-component';
 import { InsuranceService } from '../shared/services/insurance.service';
 import { months } from '../shared/services/insurance';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-eligibility-benefits',
@@ -25,6 +26,8 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   patientColumns: string[] = ['patient', 'appointment', 'insurance', 'status'];
   selectedPatient = undefined;
   dentalCompanies = [];
+  startDate = moment();
+  endDate = moment();
   months = months();
   cursor = '';
   cursorPrev = '';
@@ -38,10 +41,14 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     private clinicService: ClinicService,
     private patientService: PatientService,
     private insuranceService: InsuranceService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
   ) { super(); }
 
   ngOnInit(): void {
+    this.checkRoute();
+    this.closeDate();
+
     this.insuranceService.getDentalInsurance().pipe(
       map(r => r.data),
       takeUntil(this.unsubscribe$)
@@ -66,8 +73,31 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     this.triggerPatients.next();
   }
 
+  closeDate(): void {
+    if (this.startDate && this.endDate) {
+      const queryParams: any = {};
+      if (this.startDate) {
+        queryParams.startTime = this.startDate.valueOf();
+      }
+
+      if (this.endDate) {
+        queryParams.endTime = this.endDate.valueOf();
+      }
+
+      this.router.navigate(
+        [],
+        {
+          relativeTo: this.route,
+          queryParams,
+          queryParamsHandling: 'merge', // remove to replace all query params by provided
+        });
+    }
+  }
+
   selectPatient(patient: any): void {
-    this.router.navigate([`/eligibility-benefits/${this.selectedClinic.addressId}/patients/${patient.patientId}`]);
+    this.router.navigate([`/eligibility-benefits/${this.selectedClinic.addressId}/patients/${patient.patientId}`], {
+      queryParamsHandling: 'preserve'
+    });
   }
 
   filterPatientList(): void {
@@ -102,6 +132,29 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   forward(): void {
     this.cursor = this.cursorNext;
     this.triggerPatients.next();
+  }
+
+  private checkRoute(): void {
+    this.route.queryParams.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(p => {
+      if (!p.startTime) {
+        this.startDate = moment();
+      } else {
+        this.startDate = moment(parseInt(p.startTime, 10));
+      }
+
+      if (!p.endTime) {
+        const m = moment();
+        m.add(2, 'days');
+        this.endDate = m;
+      } else {
+        this.endDate = moment(parseInt(p.endTime, 10));
+      }
+
+      this.triggerPatients.next();
+    });
+
   }
 
   private sortPatientStatus(order: string): void {
@@ -152,9 +205,16 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
 
   private watchPatients(): void {
     this.triggerPatients.pipe(
+      filter(() => !!this.selectedClinic),
       tap(() => this.loading = true),
       switchMap(() => {
-        return this.patientService.getAllPatientsForClinic2(this.selectedClinic.addressId, this.pageSize, this.cursor);
+        return this.patientService.getAllPatientsForClinic2(
+          this.selectedClinic.addressId,
+          this.pageSize,
+          this.cursor,
+          this.startDate.valueOf(),
+          this.endDate.valueOf()
+        );
       }),
       map(p => p.data),
       takeUntil(this.unsubscribe$)

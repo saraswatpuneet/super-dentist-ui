@@ -57,7 +57,7 @@ export class PatientComponent extends Base implements OnInit {
   }
 
   goToPatientList(): void {
-    this.router.navigate(['eligibility-benefits']);
+    this.router.navigate(['eligibility-benefits'], { queryParamsHandling: 'preserve' });
   }
 
   clickDentalIns(index: number): void {
@@ -152,8 +152,8 @@ export class PatientComponent extends Base implements OnInit {
       this.patient.medicalInsurance.forEach((_, i) => {
         reqs.push(this.patientService.getPatientNotes(this.patient.patientId, this.medicalIndicies[i]).pipe(
           map(r => r.data),
-          catchError(() => of(undefined)),
           map(r => JSON.parse(r)),
+          catchError(() => of(undefined)),
           take(1))
         );
       });
