@@ -37,6 +37,6 @@ export class InsuranceService {
   }
 
   getDentalInsurance(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/insurance/dentalInsurance`);
+    return this.http.get(`${this.baseUrl}/patient/listInsurance`);
   }
 }
