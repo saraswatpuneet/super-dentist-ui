@@ -7,7 +7,7 @@ import { ClinicService } from '../shared/services/clinic.service';
 import { PatientService } from '../shared/services/patient.service';
 import { Base } from '../shared/base/base-component';
 import { InsuranceService } from '../shared/services/insurance.service';
-import { months } from '../shared/services/insurance';
+import { months, monthsHash } from '../shared/services/insurance';
 import * as moment from 'moment';
 
 @Component({
@@ -28,7 +28,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   dentalCompanies = [];
   startDate = moment();
   endDate = moment();
-  months = months();
+  months = monthsHash();
   cursor = '';
   cursorPrev = '';
   cursorNext = '';
@@ -209,11 +209,11 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
       tap(() => this.loading = true),
       switchMap(() => {
         return this.patientService.getAllPatientsForClinic2(
-          this.selectedClinic.addressId,
+          `ffd54320-43cb-11eb-a5ff-76b7c284b3db`,
           this.pageSize,
           this.cursor,
           this.startDate.valueOf(),
-          this.endDate.valueOf()
+          this.endDate ? this.endDate.valueOf() : this.startDate.valueOf()
         );
       }),
       map(p => p.data),
