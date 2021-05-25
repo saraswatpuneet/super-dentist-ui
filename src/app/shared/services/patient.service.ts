@@ -9,7 +9,7 @@ import { PatientStatus } from './patient';
   providedIn: 'root'
 })
 export class PatientService {
-  private baseUrl = `https://superdentist.io/api/sd/v1/patient`;
+  private baseUrl = `${environment.baseUrl}/patient`;
 
   constructor(private http: HttpClient) { }
 

@@ -5,7 +5,7 @@ import { switchMap, map, catchError, take, tap, takeUntil, filter } from 'rxjs/o
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { InsuranceService } from 'src/app/shared/services/insurance.service';
 import { PatientService } from 'src/app/shared/services/patient.service';
-import { DentalBreakDowns, months } from 'src/app/shared/services/insurance';
+import { DentalBreakDowns, months, monthsHash } from 'src/app/shared/services/insurance';
 import { Base } from 'src/app/shared/base/base-component';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -28,6 +28,7 @@ export class PatientComponent extends Base implements OnInit {
   codes: any;
   codesHistory: any;
   months = months();
+  monthsHash = monthsHash();
   allCodes = this.newSavedCodes();
   savedHistoryCodes = [];
   dentalIndicies = {

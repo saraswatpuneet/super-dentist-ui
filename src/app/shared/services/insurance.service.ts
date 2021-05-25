@@ -10,7 +10,7 @@ import { DentalBreakDowns } from './insurance';
   providedIn: 'root'
 })
 export class InsuranceService {
-  private baseUrl = `https://superdentist.io/api/sd/v1`;
+  private baseUrl = environment.baseUrl;
   private cache: any = {};
   private insuranceList = 'insruanceList';
 

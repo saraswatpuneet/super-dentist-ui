@@ -4,7 +4,7 @@
   <div fxLayout="row">
     <div fxFlex *ngIf="patient.dob">
       <div class="lighter">Birthday</div>
-      <div>{{months[patient.dob.month].label}} {{patient.dob.day}}, {{patient.dob.year}}</div>
+      <div>{{monthsHash[patient.dob.month]}} {{patient.dob.day}}, {{patient.dob.year}}</div>
     </div>
 
     <div fxFlex *ngIf="patient.createdOn">
@@ -30,7 +30,7 @@
           Name: {{insurance.subscriber.firstName}} {{insurance.subscriber.lastName}}
         </div>
         <div>
-          Date of Birth: {{months[insurance.subscriber.dob.month]?.label}}
+          Date of Birth: {{monthsHash[insurance.subscriber.dob.month]}}
           {{insurance.subscriber.dob.day}},
           {{insurance.subscriber.dob.year}}
         </div>

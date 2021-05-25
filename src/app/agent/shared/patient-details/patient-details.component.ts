@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { patientStatus } from 'src/app/shared/services/insurance';
+import { patientStatus, monthsHash } from 'src/app/shared/services/insurance';
 
 @Component({
   selector: 'app-patient-details2',
@@ -13,6 +13,7 @@ export class PatientDetails2Component implements OnInit {
   @Input() months: any = [];
   @Input() processing = false;
   status = patientStatus();
+  monthsHash = monthsHash();
   selectedStatusValue: string;
 
   constructor() { }

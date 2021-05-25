@@ -10,12 +10,8 @@
         <div fxFlex="50">
           <div class="lighter">Date of Birth</div>
           <div>
-            {{months[patient?.dob?.month]?.label}} {{patient.dob?.day}}, {{patient.dob?.year}}
+            {{monthsHash[patient?.dob?.month]}} {{patient.dob?.day}}, {{patient.dob?.year}}
           </div>
-        </div>
-        <div fxFlex="50">
-          <div class="lighter">Phone</div>
-          <div>{{patient.phone}}</div>
         </div>
       </div>
     </mat-card>
@@ -35,7 +31,7 @@
           <div fxFlex="50">
             <div class="lighter">Subscriber & DOB</div>
             <div>{{insurance.subscriber?.firstName}} {{insurance.subscriber?.lastName}}
-              {{months[insurance.subscriber?.dob?.month]?.label}} {{insurance.subscriber.dob?.day}},
+              {{monthsHash[insurance.subscriber?.dob?.month]}} {{insurance.subscriber.dob?.day}},
               {{insurance.subscriber.dob?.year}}</div>
           </div>
         </div>
@@ -50,19 +46,15 @@
           <div fxFlex>{{insurance.company}} ({{insurance?.status?.label}})</div>
         </div>
         <div fxLayout="row">
-          <div fxFlex="33">
-            <div class="lighter">Due</div>
-            <div>{{insurance.dueDate | date}}</div>
-          </div>
-          <div fxFlex="33">
+          <div fxFlex="50">
             <div class="lighter">Member ID</div>
             <div>{{insurance.memberId}}</div>
           </div>
 
-          <div fxFlex="33">
+          <div fxFlex="50">
             <div class="lighter">Subscriber & DOB</div>
             <div>{{insurance.subscriber?.firstName}} {{insurance.subscriber?.lastName}}
-              {{months[insurance.subscriber?.dob?.month]?.label}} {{insurance.subscriber.dob?.day}},
+              {{monthsHash[insurance.subscriber?.dob?.month]}} {{insurance.subscriber.dob?.day}},
               {{insurance.subscriber.dob?.year}}</div>
           </div>
         </div>
@@ -83,24 +75,20 @@
             </app-patient-status-pill>
           </div>
           <div fxLayout="row">
-            <div fxFlex="33">
-              <div class="lighter">Due</div>
-              <div>{{insurance.dueDate | date}}</div>
-            </div>
-            <div fxFlex="33">
+            <div fxFlex="50">
               <div class="lighter">Member ID</div>
               <div>{{insurance.memberId}}</div>
             </div>
-            <div fxFlex="33">
+            <div fxFlex="50">
               <div class="lighter">Subscriber & DOB</div>
               <div>{{insurance.subscriber?.firstName}} {{insurance.subscriber?.lastName}}
-                {{months[insurance.subscriber?.dob?.month]?.label}} {{insurance.subscriber.dob?.day}},
+                {{monthsHash[insurance.subscriber?.dob?.month]}} {{insurance.subscriber.dob?.day}},
                 {{insurance.subscriber.dob?.year}}</div>
             </div>
           </div>
         </div>
         <div class="divider-w"></div>
-        <app-patient-details [months]="months" [patient]="patient"
+        <app-patient-details [months]="monthsHash" [patient]="patient"
           [patientCoverage]="dentalRecords[i]?.patientCoverage">
         </app-patient-details>
         <div class="divider-w"></div>
@@ -137,7 +125,7 @@
             <div fxFlex="50">
               <div class="lighter">Subscriber & DOB</div>
               <div>{{insurance.subscriber?.firstName}} {{insurance.subscriber?.lastName}}
-                {{months[insurance.subscriber?.dob?.month]?.label}} {{insurance.subscriber.dob?.day}},
+                {{monthsHash[insurance.subscriber?.dob?.month]}} {{insurance.subscriber.dob?.day}},
                 {{insurance.subscriber.dob?.year}}</div>
             </div>
           </div>
