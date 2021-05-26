@@ -31,6 +31,7 @@ export class PatientComponent extends Base implements OnInit {
   monthsHash = monthsHash();
   allCodes = this.newSavedCodes();
   savedHistoryCodes = [];
+  codeList = [];
   dentalIndicies = {
     0: 'primaryDental',
     1: 'secondaryDental',
@@ -108,32 +109,135 @@ export class PatientComponent extends Base implements OnInit {
         ];
         return forkJoin(reqs);
       }),
-      map(([codes, savedCodes, savedCodesHistory, ...savedRecords]) => {
-        this.allCodes = codes;
-        this.savedHistoryCodes = savedCodesHistory;
-        return [this.mapToCodes([codes, savedCodes]), this.mapToCodes([codes, savedCodesHistory]), savedRecords];
+      map(([allCodes, selectedCodeSpecific, selectedCodesHistory, ...savedRecords]) => {
+        this.allCodes = allCodes;
+        this.savedHistoryCodes = selectedCodesHistory;
+        return [this.mapToCodes([allCodes, selectedCodeSpecific]), this.mapToCodes([allCodes, selectedCodesHistory]), savedRecords];
       }),
       takeUntil(this.unsubscribe$)
-    ).subscribe(([codes, codesHistory, savedRecords]) => {
+    ).subscribe(([selectedCodes, selectedCodesHistory, savedRecords]) => {
       let counter = 0;
       this.medicalRecords = [];
       this.dentalRecords = [];
       if (this.patient.dentalInsurance) {
         this.patient.dentalInsurance.forEach(() => {
+          if (!savedRecords[counter]) {
+            counter++;
+            return;
+          }
+          const groupModel = this.setCodes(selectedCodes as any);
+          const mapy: any = {};
+          savedRecords[counter].codes.forEach((cGroup, i) => {
+            const tmp = Object.keys(cGroup).filter(c => c !== 'codes')[0];
+            mapy[tmp] = {
+              index: i,
+              key: tmp
+            };
+          });
+
+          for (let x = 0, l = groupModel.length; x < l; x++) {
+            const group = groupModel[x];
+            const tmp = Object.keys(group).filter(c => c !== 'codes')[0];
+            if (mapy[tmp]) {
+              const val = savedRecords[counter].codes[mapy[tmp].index];
+              const gKeys = Object.keys(group.codes);
+              const codes = {};
+              for (let y = 0, l2 = gKeys.length; y < l2; y++) {
+                codes[gKeys[y]] = group.codes[gKeys[y]];
+                if (val.codes[gKeys[y]]) {
+                  codes[gKeys[y]] = val.codes[gKeys[y]];
+                }
+              }
+              groupModel[x] = {
+                [tmp]: val[tmp],
+                codes
+              };
+            }
+          }
+          savedRecords[counter].codes = groupModel;
           this.dentalRecords.push(savedRecords[counter]);
           counter++;
         });
       }
       if (this.patient.medicalInsurance) {
         this.patient.medicalInsurance.forEach(() => {
+          if (!savedRecords[counter]) {
+            counter++;
+            return;
+          }
+          const groupModel = this.setCodes(selectedCodes as any);
+          const mapy: any = {};
+          savedRecords[counter].codes.forEach((cGroup, i) => {
+            const tmp = Object.keys(cGroup).filter(c => c !== 'codes')[0];
+            mapy[tmp] = {
+              index: i,
+              key: tmp
+            };
+          });
+
+          for (let x = 0, l = groupModel.length; x < l; x++) {
+            const group = groupModel[x];
+            const tmp = Object.keys(group).filter(c => c !== 'codes')[0];
+            if (mapy[tmp]) {
+              const val = savedRecords[counter].codes[mapy[tmp].index];
+              const gKeys = Object.keys(group.codes);
+              const codes = {};
+              for (let y = 0, l2 = gKeys.length; y < l2; y++) {
+                codes[gKeys[y]] = group.codes[gKeys[y]];
+                if (val.codes[gKeys[y]]) {
+                  codes[gKeys[y]] = val.codes[gKeys[y]];
+                }
+              }
+              groupModel[x] = {
+                [tmp]: val[tmp],
+                codes
+              };
+            }
+          }
+          savedRecords[counter].codes = groupModel;
           this.medicalRecords.push(savedRecords[counter]);
           counter++;
         });
       }
-      this.codes = codes;
-      this.codesHistory = codesHistory;
+      this.codes = selectedCodes;
+      this.codesHistory = selectedCodesHistory;
       this.loading = false;
     });
+  }
+
+  private setCodes(codes: DentalBreakDowns): any[] {
+    let codeList = [];
+    const groupModel = [];
+    codes.breakDownKeys.forEach(k => codeList = [...codeList, ...codes.breakDowns[k].breakDownKeys]);
+    this.codeList = codeList;
+    const group = {
+      percent: 0,
+      frequency: {
+        numerator: null,
+        denominator: null,
+        unit: null,
+      },
+      ageRange: {
+        min: null,
+        max: null
+      },
+      medicalNecessity: 'no',
+      sharedCodes: [],
+      notes: ''
+    };
+
+    codes.breakDownKeys.forEach(k => {
+      const codeInputs = {};
+      codes.breakDowns[k].breakDownKeys.forEach(sk => {
+        codeInputs[sk] = JSON.parse(JSON.stringify(group));
+      });
+      groupModel.push({
+        [k]: { fixed: null, min: null, max: null },
+        codes: codeInputs
+      });
+    });
+
+    return groupModel;
   }
 
   private mapPatientNotes(): Observable<any>[] {

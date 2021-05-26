@@ -169,13 +169,11 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         ]);
       }),
       map(([allCodes, selectedCodeSpecific, selectedCodesHistory, savedRecords]) => {
-        console.log(selectedCodesHistory, savedRecords);
         return [this.mapToCodes([allCodes, selectedCodeSpecific]), this.mapToCodes([allCodes, selectedCodesHistory]), savedRecords];
       }
       ),
       takeUntil(this.unsubscribe$)
     ).subscribe(([selectedCodes, selectedCodesHistory, savedRecords]) => {
-      console.log(selectedCodes);
       this.savedCodes = selectedCodes;
       this.loading = false;
       this.codesHistory = selectedCodesHistory;
@@ -199,7 +197,6 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       }
 
       if (value) {
-        // this.groupModel = value.codes;
         const mapper: any = {};
         value.codes.forEach((cGroup, i) => {
           const tmp = Object.keys(cGroup).filter(c => c !== 'codes')[0];

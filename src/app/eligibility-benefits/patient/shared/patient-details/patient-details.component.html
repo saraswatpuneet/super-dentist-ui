@@ -64,7 +64,7 @@
           <div class="lighter">Eligibility year</div>
           <div>{{eligibilityOptions[patientCoverage?.eligibilityYear?.value]}}<ng-container
               *ngIf="patientCoverage?.eligibilityYear?.value === 'benefit'">,
-              {{months[patientCoverage?.eligibilityYear?.month].label}}
+              {{months[patientCoverage?.eligibilityYear?.month]}}
             </ng-container>
           </div>
         </div>
