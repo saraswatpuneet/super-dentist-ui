@@ -1,6 +1,6 @@
 <div class="agent-menu">
   <mat-card class="c-card">
-    <mat-form-field>
+    <mat-form-field (click)="$event.stopPropagation()">
       <mat-label>Filter agents</mat-label>
       <input matInput [(ngModel)]="searchFilter" (keyup)="filterByAgent()" type="text">
     </mat-form-field>

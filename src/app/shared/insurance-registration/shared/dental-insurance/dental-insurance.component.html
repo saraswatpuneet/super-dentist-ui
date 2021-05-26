@@ -13,7 +13,7 @@
     <input type="text" formControlName="company">
     <div class="autocomplete">
       <div class="options" (click)="selectCompany(company)" *ngFor="let company of filteredCompanies">
-        <p class="label">{{company?.name}}</p>
+        <p class="label">{{company}}</p>
       </div>
     </div>
   </div>

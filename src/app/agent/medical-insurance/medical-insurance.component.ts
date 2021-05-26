@@ -59,11 +59,7 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
 
   ngOnChanges(sc: SimpleChanges): void {
     if (this.formType) {
-      if (this.patient && this.patient.status && this.patient.status.value) {
-        this.selectedStatusValue = this.patient.medicalInsurance[this.medicalIndex[this.formType]].status.value;
-      } else {
-        this.selectedStatusValue = this.status[0].value;
-      }
+      this.selectedStatusValue = this.patient.medicalInsurance[this.medicalIndex[this.formType]].status.value;
     }
   }
 
@@ -85,20 +81,15 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
   updateStatus(): void {
     const status = this.status.find((s) => s.value === this.selectedStatusValue);
     const insurance = this.patient.medicalInsurance[this.medicalIndex[this.formType]];
-    let id = '';
-    if (insurance.memberId) {
-      id = insurance.memberId;
-    } else if (insurance.groupId) {
-      id = insurance.groupId;
-    } else if (insurance.ssn) {
-      id = insurance.ssn;
-    }
-    this.patientService.updateStatus(this.patient.patientId, status, id).pipe(take(1)).subscribe();
+
+    this.patientService.updateStatus(this.patient.patientId, status, insurance.id).pipe(take(1)).subscribe();
     this.patient.status = status;
   }
 
   toPatients(): void {
-    this.router.navigate([`agent/clinics/${this.addressId}/patients`]);
+    this.router.navigate([`agent/clinics/${this.addressId}/patients`], {
+      queryParamsHandling: 'preserve',
+    });
   }
 
   private checkRoute(): void {
@@ -121,11 +112,7 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
       this.clinic = clinic;
       this.patient = patient;
       if (this.formType) {
-        if (this.patient && this.patient.status && this.patient.status.value) {
-          this.selectedStatusValue = this.patient.medicalInsurance[this.medicalIndex[this.formType]].status.value;
-        } else {
-          this.selectedStatusValue = this.status[0].value;
-        }
+        this.selectedStatusValue = this.patient.medicalInsurance[this.medicalIndex[this.formType]].status.value;
       }
       this.triggerPatient.next();
     });

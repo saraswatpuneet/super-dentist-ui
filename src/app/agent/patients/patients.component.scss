@@ -1,105 +1,133 @@
+.patients {
+  height: 100%;
+  padding: 20px 20px 20px 10px;
+  overflow: auto;
+  box-sizing: border-box;
 
-  .patients {
-    height: 100%;
-    padding: 20px 20px 20px 10px;
-    overflow: auto;
-    box-sizing: border-box;
+  .abs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 101;
+  }
 
-    .shift-up {
-      transform: translateY(-6px);
-      margin-right: 10px
-    }
+  .abs2 {
+    position: absolute;
+    top: 58px;
+    left: 0;
+  }
 
-    .action-header {
-      transition: 0.15s;
-      width: 40px;
-      white-space: nowrap;
+  .filter-chip {
+    border-radius: 16px;
+    padding: 4px 12px;
+    background: rgba(grey, 0.1);
+    border: 1px solid rgba(grey, 0.2);
+    font-size: 12px;
 
-      &.expanded {
-        width: 90px;
-      }
-
-      mat-icon {
-        padding: 8px 8px 0 0;
-        font-size: 20px;
-        cursor: pointer;
-        user-select: none;
-        position: relative;
-
-        &:hover::before {
-          content: "";
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          height: 3px;
-          background: var(--ac-blue);
-          width: calc(100% - 8px);
-        }
-      }
-    }
-
-    table {
-      width: 100%;
-    }
-
-    .m-right {
-      margin-right: 8px;
-    }
-  
-    .m-right2 {
-      margin-right: 20px;
-    }
-  
-    .count {
-      width: 50px;
-    }
-
-    mat-tab-group {
-      margin-bottom: 16px;
-    }
-
-    .selected-clinic {
-      padding-bottom: 24px;
-  
-      h3 {
-        margin-bottom: 0;
-      }
-  
-      .sub {
-        opacity: 0.5;
-      }
-  
-      .sd-input {
-        margin-top: 12px;
-      }
-    }
-    
-    .mat-row {
-      transition: 0.3s;
+    mat-icon {
       cursor: pointer;
-
-      &:hover {
-        background: rgba(grey, 0.2) !important;
-      }
-    }
-
-    .lighter {
-      opacity: 0.5;
-      font-size: 13px;
-    }
-    
-    .patient-list {
-      height: calc(100% - 97px);
-      padding: 0;
-      position: relative;
-    }
-  
-    .p-table {
-      height: calc(100% - 56px);
-      overflow: auto;
-    }
-
-    mat-paginator {
-      box-shadow: inset 0 1px 0 rgba(grey, 0.2);
+      padding: 4px;
+      font-size: 14px;
+      height: 14px;
+      width: 14px;
     }
   }
+
+  .shift-up {
+    transform: translateY(-6px);
+    margin-right: 10px
+  }
+
+  .action-header {
+    transition: 0.15s;
+    width: 40px;
+    white-space: nowrap;
+
+    &.expanded {
+      width: 90px;
+    }
+
+    mat-icon {
+      padding: 8px 8px 0 0;
+      font-size: 20px;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+
+      &:hover::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 3px;
+        background: var(--ac-blue);
+        width: calc(100% - 8px);
+      }
+    }
+  }
+
+  table {
+    width: 100%;
+  }
+
+  .m-right {
+    margin-right: 8px;
+  }
+
+  .m-right2 {
+    margin-right: 20px;
+  }
+
+  .count {
+    width: 50px;
+  }
+
+  mat-tab-group {
+    margin-bottom: 16px;
+  }
+
+  .selected-clinic {
+    padding-bottom: 24px;
+
+    h3 {
+      margin-bottom: 0;
+    }
+
+    .sub {
+      opacity: 0.5;
+    }
+
+    .sd-input {
+      margin-top: 12px;
+    }
+  }
+  
+  .mat-row {
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(grey, 0.2) !important;
+    }
+  }
+
+  .lighter {
+    opacity: 0.5;
+    font-size: 13px;
+  }
+  
+  .patient-list {
+    height: calc(100% - 97px);
+    padding: 0;
+    position: relative;
+  }
+
+  .p-table {
+    height: calc(100% - 56px);
+    overflow: auto;
+  }
+
+  mat-paginator {
+    box-shadow: inset 0 1px 0 rgba(grey, 0.2);
+  }
+}

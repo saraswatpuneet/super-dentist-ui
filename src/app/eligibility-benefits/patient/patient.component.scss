@@ -1,0 +1,103 @@
+:host {
+  height: 100%;
+}
+
+.patient {
+  padding: 20px 0 0 10px;
+  position: relative;
+  box-sizing: border-box;
+  height: 100%;
+
+  .abs {
+    position: absolute;
+    top: 10px;
+    left: 0;
+  }
+
+  .active {
+    position: relative;
+    &::before {
+      content: "";
+      position: absolute;
+      height: 100%;
+      background: var(--ac-blue);
+      width: 4px;
+      left: 0;
+      top: 0;
+
+    }
+  }
+
+  .divider-w {
+    width: 100%;
+    height: 1px;
+    background: rgba(grey, 0.2);
+    box-sizing: border-box;
+  }
+
+  .divider-h {
+    width: 1px;
+    background: rgba(grey, 0.2);
+    height: calc(100% - 20px);
+    box-sizing: border-box;
+  }
+
+  .back {
+    cursor: pointer;
+    border-radius: 16px;
+    transition: 0.3s;
+    padding: 4px;
+
+    &:hover {
+      background: rgba(grey, 0.2);
+    }
+  }
+
+  .patient-details {
+    width: 400px;
+    height: 100%;
+    overflow: auto;
+  }
+
+  .breakdowns {
+    width: calc(100% - 400px);
+    height: 100%;
+    padding: 0 20px 20px 0;
+    overflow: auto;
+  }
+
+  .lighter {
+    font-size: 12px;
+    opacity: 0.5;
+    text-transform: capitalize;
+  }
+
+  .no-m {
+    margin: 0;
+  }
+  
+
+  h3 {
+    margin-bottom: 8px;
+  }
+
+  .insurance-item {
+    transition: 0.3s;
+    padding: 8px 0;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(grey, 0.2);
+    }
+  }
+
+  .insurance-card {
+    padding: 16px 0;
+
+    h3, .insurance-item {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+
+}

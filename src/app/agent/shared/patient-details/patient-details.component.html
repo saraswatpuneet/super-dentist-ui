@@ -4,7 +4,7 @@
   <div fxLayout="row">
     <div fxFlex *ngIf="patient.dob">
       <div class="lighter">Birthday</div>
-      <div>{{months[patient.dob.month].label}} {{patient.dob.day}}, {{patient.dob.year}}</div>
+      <div>{{monthsHash[patient.dob.month]}} {{patient.dob.day}}, {{patient.dob.year}}</div>
     </div>
 
     <div fxFlex *ngIf="patient.createdOn">
@@ -14,23 +14,23 @@
 
     <div fxFlex>
       <div class="lighter">Insurance</div>
-      <div>{{insurance.company}}</div>
+      <div>{{insurance?.company}}</div>
     </div>
 
     <div fxFlex>
       <div class="lighter">Member ID</div>
-      <div *ngIf="insurance.memberId">{{insurance.memberId}}</div>
+      <div *ngIf="insurance?.memberId">{{insurance.memberId}}</div>
     </div>
 
     <div fxFlex>
       <div class="lighter">Subscriber</div>
-      <div *ngIf="insurance.subscriber && !insurance.subscriber.firstName">None</div>
-      <div fxLayout="column" *ngIf="insurance.subscriber && insurance.subscriber.firstName">
+      <div *ngIf="insurance?.subscriber && !insurance?.subscriber.firstName">None</div>
+      <div fxLayout="column" *ngIf="insurance?.subscriber && insurance?.subscriber.firstName">
         <div>
           Name: {{insurance.subscriber.firstName}} {{insurance.subscriber.lastName}}
         </div>
         <div>
-          Date of Birth: {{months[insurance.subscriber.dob.month]?.label}}
+          Date of Birth: {{monthsHash[insurance.subscriber.dob.month]}}
           {{insurance.subscriber.dob.day}},
           {{insurance.subscriber.dob.year}}
         </div>

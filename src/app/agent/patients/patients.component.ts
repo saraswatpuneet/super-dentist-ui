@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-import { switchMap, takeUntil, map } from 'rxjs/operators';
+import { switchMap, takeUntil, map, tap, take } from 'rxjs/operators';
 
 import { Base } from 'src/app/shared/base/base-component';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { months, patientStatus } from 'src/app/shared/services/insurance';
 import { PatientService } from 'src/app/shared/services/patient.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-patients',
@@ -15,7 +15,8 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./patients.component.scss']
 })
 export class PatientsComponent extends Base implements OnInit {
-  agents = ['asdf', 'qwer', 'qwe5', '1234', 'zxcv', '1pw', '23pd', '34ds', '4pdsf', 'asdcx', 'vfr', 'bgt', 'nhyt', 'mjy'];
+  @ViewChild('picker') picker: any;
+  agents = ['YI/WRS', 'JB/WRS', 'AS/WRS', 'MG/WRS', 'HG/WRS', 'AC/WRS', 'PB/WRS', 'BG/WRS'];
   insuranceCompaniesForFilter = ['Cygna', 'Delta Dental', 'United Health One'];
   filteredPatients = [];
   selectedPatients = [];
@@ -25,10 +26,8 @@ export class PatientsComponent extends Base implements OnInit {
   patientFilter = '';
   clinic: any = {};
   pageSize = 20;
-  range = new FormGroup({
-    start: new FormControl(),
-    end: new FormControl()
-  });
+  startDate = moment();
+  endDate = moment();
   months = months();
   patientColumns: string[] = ['actions', 'assignedTo', 'appointment', 'patient', 'subscriber', 'memberInfo', 'insurance', 'status'];
   dentalKeys = ['primaryDental', 'secondaryDental', 'tertiaryDental'];
@@ -37,9 +36,9 @@ export class PatientsComponent extends Base implements OnInit {
   cursorPrev = '';
   cursorNext = '';
   loading = false;
+  selectedAgentFilter = '';
   status = patientStatus();
   selectedStatus = '';
-
   private patients = [];
   private clinicId = '';
   private patientTrigger = new Subject<string>();
@@ -64,6 +63,27 @@ export class PatientsComponent extends Base implements OnInit {
   insuranceChange(): void {
   }
 
+  closeDate(): void {
+    if (this.startDate && this.endDate) {
+      const queryParams: any = {};
+      if (this.startDate) {
+        queryParams.startTime = this.startDate.valueOf();
+      }
+
+      if (this.endDate) {
+        queryParams.endTime = this.endDate.valueOf();
+      }
+
+      this.router.navigate(
+        [],
+        {
+          relativeTo: this.route,
+          queryParams,
+          queryParamsHandling: 'merge', // remove to replace all query params by provided
+        });
+    }
+  }
+
   selectAllPatients(selected: boolean): void {
     this.selectedPatients = Array(this.filteredPatients.length).fill(selected);
   }
@@ -82,10 +102,48 @@ export class PatientsComponent extends Base implements OnInit {
 
   cancelAssignment(): void {
     this.assigning = false;
+    this.resetSelectedPatients();
   }
 
-  saveAssignment(agent: any): void {
+  filterByAgent(agentId: string): void {
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams: { agentId: agentId ? agentId : null },
+        queryParamsHandling: 'merge', // remove to replace all query params by provided
+      });
+  }
+
+  saveAssignment(agentId: string): void {
     this.assigning = false;
+    const patientIds = [];
+
+    this.selectedPatients.forEach((selected: boolean, i) => {
+      if (selected) {
+        let insuranceId = '';
+        if (this.filteredPatients[i].dentalInsurance) {
+          insuranceId = this.filteredPatients[i].dentalInsurance.id;
+          this.filteredPatients[i].dentalInsurance.agentId = agentId;
+        } else {
+          insuranceId = this.filteredPatients[i].medicalInsurance.id;
+          this.filteredPatients[i].medicalInsurance.agentId = agentId;
+        }
+        patientIds.push({ agentId, insuranceId });
+      }
+    });
+
+    if (patientIds.length > 0) {
+      this.loading = true;
+      this.patientService.addAgents(patientIds).pipe(
+        take(1)
+      ).subscribe(r => {
+        this.loading = false;
+      });
+    }
+
+    this.selectedPatients = [];
+    this.resetSelectedPatients();
   }
 
   goToClinics(): void {
@@ -96,6 +154,10 @@ export class PatientsComponent extends Base implements OnInit {
     this.filteredPatients = this.patients.filter(patient =>
       `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(this.patientFilter.toLowerCase())
     );
+    this.resetSelectedPatients();
+  }
+
+  resetSelectedPatients(): void {
     this.selectedPatients = Array(this.filteredPatients.length).fill(false);
   }
 
@@ -109,7 +171,10 @@ export class PatientsComponent extends Base implements OnInit {
       formType = this.dentalKeys[patient.dentalInsurance.index];
     }
 
-    this.router.navigate([`agent/clinics/${this.clinicId}/patients/${patient.patientId}/${insurancePath}`], { queryParams: { formType } });
+    this.router.navigate([`agent/clinics/${this.clinicId}/patients/${patient.patientId}/${insurancePath}`], {
+      queryParams: { formType },
+      queryParamsHandling: 'merge',
+    });
   }
 
   changePageSize(): void {
@@ -139,6 +204,28 @@ export class PatientsComponent extends Base implements OnInit {
         this.goToClinics();
       }
     });
+
+    this.route.queryParams.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(p => {
+      this.selectedAgentFilter = p.agentId;
+      if (!p.startTime) {
+        this.startDate = moment();
+      } else {
+        this.startDate = moment(parseInt(p.startTime, 10));
+      }
+
+      if (!p.endTime) {
+        const m = moment();
+        m.add(2, 'days');
+        this.endDate = m;
+      } else {
+        this.endDate = moment(parseInt(p.endTime, 10));
+      }
+
+      this.patientTrigger.next(this.clinicId);
+    });
+
   }
 
   private watchClinics(): void {
@@ -153,7 +240,15 @@ export class PatientsComponent extends Base implements OnInit {
 
   private watchPatients(): void {
     this.patientTrigger.pipe(
-      switchMap(addressId => this.patientService.getAllPatientsForClinic2(addressId, this.pageSize, this.cursor)),
+      tap(() => this.loading = true),
+      switchMap(addressId => this.patientService.getAllPatientsForClinic2(
+        addressId,
+        this.pageSize,
+        this.cursor,
+        this.startDate.valueOf(),
+        this.endDate.valueOf(),
+        this.selectedAgentFilter
+      )),
       map(r => r.data),
       takeUntil(this.unsubscribe$)
     ).subscribe(res => {
@@ -184,6 +279,7 @@ export class PatientsComponent extends Base implements OnInit {
       this.patients = patients;
       this.patients.sort((a, b) => a.createdOn - b.createdOn);
       this.filterPatientList();
+      this.loading = false;
     });
   }
 }

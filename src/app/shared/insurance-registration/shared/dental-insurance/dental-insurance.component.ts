@@ -42,7 +42,7 @@ export class DentalInsuranceComponent extends Base implements OnInit {
       if (!value) {
         this.filteredCompanies = [];
       } else {
-        this.filteredCompanies = this.companies.filter(c => c.name.toLowerCase().includes(value.toLowerCase()));
+        this.filteredCompanies = this.companies.filter(c => c.toLowerCase().includes(value.toLowerCase()));
       }
     });
   }
@@ -59,7 +59,7 @@ export class DentalInsuranceComponent extends Base implements OnInit {
   selectCompany(company: any): void {
     this.usedAutoComplete = true;
     this.fromSelect = true;
-    this.dentalForm.patchValue({ company: company.name, companyId: company.id });
+    this.dentalForm.patchValue({ company });
     this.filteredCompanies = [];
   }
 

@@ -1,0 +1,222 @@
+<div *ngIf="patient" fxLayout="column" class="patient-details" fxLayoutGap="24px">
+  <!-- <mat-card fxLayout="column" fxLayoutGap="20px">
+    <h3>Coverage amounts</h3>
+    <div fxLayout="row" fxLayoutGap="12px">
+      <div class="chart-border" fxFlex="33" fxLayout="column">
+        <div>Annual</div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <div class="lighter">Maximum</div>
+          <div class="lighter">Used</div>
+        </div>
+        <mat-progress-bar mode="determinate"
+          [color]="patientCoverage?.annualMaximum - patientCoverage?.annualUsedAmount <= 0 ? 'warn' : 'primary'"
+          [value]="patientCoverage?.annualMaximum - patientCoverage?.annualUsedAmount <= 0 ? 100 : (1 - ((patientCoverage?.annualMaximum - patientCoverage?.annualUsedAmount)/patientCoverage?.annualMaximum)) * 100 ">
+        </mat-progress-bar>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <div>{{patientCoverage?.annualUsedAmount | currency}}</div>
+          <div>{{patientCoverage?.annualMaximum | currency}}</div>
+        </div>
+      </div>
+      <div class="chart-border" fxFlex="33" fxLayout="column">
+        <div>Deductible (Individual)</div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <div class="lighter">Amount</div>
+          <div class="lighter">Amount met</div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <div>{{patientCoverage?.deductibleMetAmountIndividual | currency}}</div>
+          <div>{{patientCoverage?.deductibleIndividual | currency}}</div>
+        </div>
+      </div>
+
+      <div class="chart-border" fxFlex="33" fxLayout="column">
+        <div>Deductible (Family)</div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <div class="lighter">Amount</div>
+          <div class="lighter">Amount met</div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <div>{{patientCoverage?.deductibleMetAmountFamily | currency}}</div>
+          <div>{{patientCoverage?.deductibleFamily | currency}}</div>
+        </div>
+      </div>
+    </div>
+  </mat-card> -->
+
+  <div fxLayout="column" fxLayoutGap="12px">
+    <h3>Coverage details</h3>
+    <div fxLayout="row" fxLayoutGap="12px">
+      <div fxFlex="33" fxLayout="column" fxLayoutGap="12px">
+        <div>
+          <div class="lighter">Group name, Group number</div>
+          <div>{{patientCoverage?.groupName}}, {{patientCoverage?.groupNumber}}</div>
+        </div>
+        <div>
+          <div class="lighter">Payer ID</div>
+          <div>{{patientCoverage?.payerId}}</div>
+        </div>
+        <div>
+          <div class="lighter">Eligibility start date</div>
+          <div>{{patientCoverage?.eligibilityStartDate | date:"MMM dd, YYYY"}}</div>
+        </div>
+
+        <div>
+          <div class="lighter">Eligibility year</div>
+          <div>{{eligibilityOptions[patientCoverage?.eligibilityYear?.value]}}<ng-container
+              *ngIf="patientCoverage?.eligibilityYear?.value === 'benefit'">,
+              {{months[patientCoverage?.eligibilityYear?.month]}}
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div fxFlex="33" fxLayout="column" fxLayoutGap="12px">
+        <div>
+          <div class="lighter">Coordination of benefits</div>
+          <div>
+            {{patientCoverage?.coordinationOfBenefits?.category === 'other' ? patientCoverage?.coordinationOfBenefits?.other : coordinationOfBenefits[patientCoverage?.coordinationOfBenefits?.category]}}
+          </div>
+        </div>
+
+        <div>
+          <div class="lighter">In network</div>
+          <div>{{radioOptions[patientCoverage?.inNetwork]}}</div>
+        </div>
+        <div>
+          <div class="lighter">Preventive deducted from maximum</div>
+          <div>{{radioOptions[patientCoverage?.preventitiveDeductedFromMaximum]}}</div>
+        </div>
+        <div>
+          <div class="lighter">Fee schedule</div>
+          <div>{{patientCoverage?.feeSchedule}}<div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div fxLayout="column" fxLayoutGap="12px">
+        <div>
+          <div class="lighter">Annual Maximum / Used</div>
+          <div>
+            {{patientCoverage?.annualUsedAmount | currency}} <span class="lighter">/</span>
+            {{patientCoverage?.annualMaximum | currency}}
+          </div>
+        </div>
+        <div>
+          <div class="lighter">Deductible Amount / Met (Individual)</div>
+          <div>
+            {{patientCoverage?.deductibleMetAmountIndividual | currency}} <span class="lighter">/</span>
+            {{patientCoverage?.deductibleIndividual | currency}}
+          </div>
+        </div>
+        <div>
+          <div class="lighter">Deductible Amount / Met (Family)</div>
+          <div>
+            {{patientCoverage?.deductibleMetAmountFamily | currency}} <span class="lighter">/</span>
+            {{patientCoverage?.deductibleFamily | currency}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="h-divider"></div>
+
+  <div fxLayout="row" fxLayoutGap="20px">
+    <div fxFlex>
+      <div fxLayout="column">
+        <div fxLayout="row">
+          <h3 fxFlex>Waiting periods</h3>
+          <p *ngIf="patientCoverage?.waitingPeriods?.enabled === 'no'">
+            {{radioOptions[patientCoverage?.waitingPeriods?.enabled]}}
+          </p>
+        </div>
+        <div fxLayout="row" *ngIf="patientCoverage?.waitingPeriods?.enabled === 'yes'" fxLayoutGap="20px">
+          <div fxFlex="50">
+            <div class="lighter">Basic Services</div>
+            <ng-container *ngIf="patientCoverage?.waitingPeriods?.basicService?.unit">
+              <div>{{patientCoverage?.waitingPeriods?.basicService?.frequency}} /
+                {{patientCoverage?.waitingPeriods?.basicService?.unit}}</div>
+            </ng-container>
+            <ng-container *ngIf="!patientCoverage?.waitingPeriods?.basicService?.unit">
+              N/A
+            </ng-container>
+          </div>
+          <div fxFlex="50">
+            <div class="lighter">Major Services</div>
+            <ng-container *ngIf="patientCoverage?.majorServices?.basicService?.unit">
+              <div>{{patientCoverage?.waitingPeriods?.majorServices?.frequency}} /
+                {{patientCoverage?.majorServices?.basicService?.unit}}</div>
+            </ng-container>
+            <ng-container *ngIf="!patientCoverage?.majorServices?.basicService?.unit">N/A</ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="v-divider"></div>
+
+    <div fxFlex fxLayout="column">
+      <div fxLayout="row">
+        <h3 fxFlex>Missing tooth clause</h3>
+        <p *ngIf="patientCoverage?.missingToothClause === 'no'">{{radioOptions[patientCoverage?.missingToothClause]}}
+        </p>
+      </div>
+
+      <ng-container *ngIf="patientCoverage?.missingToothClause === 'yes'">
+        <div fxLayout="row" fxLayoutGap="20px">
+          <div fxLayout="column" fxLayoutGap="12px" fxFlex="50">
+            <div>
+              <div class="lighter">Bridges</div>
+              <div>
+                <ng-container *ngIf="!patientCoverage?.toothReplacementClause?.callouts.bridges.frequency">N/A
+                </ng-container>
+                <ng-container *ngIf="patientCoverage?.toothReplacementClause?.callouts.bridges.frequency">
+                  {{patientCoverage?.toothReplacementClause?.callouts.bridges.frequency}} /
+                  {{patientCoverage?.toothReplacementClause?.callouts.bridges.unit}}
+                </ng-container>
+              </div>
+            </div>
+            <div>
+              <div class="lighter">Crowns</div>
+              <div>
+                <ng-container *ngIf="!patientCoverage?.toothReplacementClause?.callouts.crowns.frequency">N/A
+                </ng-container>
+                <ng-container *ngIf="patientCoverage?.toothReplacementClause?.callouts.crowns.frequency">
+                  {{patientCoverage?.toothReplacementClause?.callouts.crowns.frequency}} /
+                  {{patientCoverage?.toothReplacementClause?.callouts.crowns.unit}}
+                </ng-container>
+              </div>
+            </div>
+          </div>
+          <div fxLayout="50" fxLayout="column" fxLayoutGap="12px">
+            <div>
+              <div class="lighter">Dentures</div>
+              <div>
+                <ng-container *ngIf="!patientCoverage?.toothReplacementClause?.callouts.dentures.frequency">N/A
+                </ng-container>
+                <ng-container *ngIf="patientCoverage?.toothReplacementClause?.callouts.dentures.frequency">
+                  {{patientCoverage?.toothReplacementClause?.callouts.dentures.frequency}} /
+                  {{patientCoverage?.toothReplacementClause?.callouts.dentures.unit}}
+                </ng-container>
+              </div>
+            </div>
+            <div>
+              <div class="lighter">Implants</div>
+              <div>
+                <ng-container *ngIf="!patientCoverage?.toothReplacementClause?.callouts.implants.frequency">N/A
+                </ng-container>
+                <ng-container *ngIf="patientCoverage?.toothReplacementClause?.callouts.implants.frequency">
+                  {{patientCoverage?.toothReplacementClause?.callouts.implants.frequency}} /
+                  {{patientCoverage?.toothReplacementClause?.callouts.implants.unit}}
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+</div>

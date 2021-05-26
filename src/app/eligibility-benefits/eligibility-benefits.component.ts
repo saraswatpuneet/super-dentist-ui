@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { map, switchMap, takeUntil, tap, filter } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 
 import { ClinicService } from '../shared/services/clinic.service';
 import { PatientService } from '../shared/services/patient.service';
 import { Base } from '../shared/base/base-component';
 import { InsuranceService } from '../shared/services/insurance.service';
-import { DentalBreakDowns, months } from '../shared/services/insurance';
+import { months, monthsHash } from '../shared/services/insurance';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-eligibility-benefits',
@@ -16,19 +18,17 @@ import { DentalBreakDowns, months } from '../shared/services/insurance';
 export class EligibilityBenefitsComponent extends Base implements OnInit {
   showInsurance = false;
   pageSize = 20;
-  notes = {};
   clinics: any[];
   addressId = '';
   patientFilter = '';
   filteredPatients = [];
   selectedClinic: any = {};
-  patientColumns: string[] = ['appointment', 'patient', 'primaryInsurance', 'secondaryInsurance'];
-  codeHistory: {};
+  patientColumns: string[] = ['patient', 'appointment', 'insurance', 'status'];
   selectedPatient = undefined;
-  savedCodes: DentalBreakDowns = this.newSavedCodes();
-  allCodes: DentalBreakDowns;
   dentalCompanies = [];
-  months = months();
+  startDate = moment();
+  endDate = moment();
+  months = monthsHash();
   cursor = '';
   cursorPrev = '';
   cursorNext = '';
@@ -41,9 +41,14 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     private clinicService: ClinicService,
     private patientService: PatientService,
     private insuranceService: InsuranceService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) { super(); }
 
   ngOnInit(): void {
+    this.checkRoute();
+    this.closeDate();
+
     this.insuranceService.getDentalInsurance().pipe(
       map(r => r.data),
       takeUntil(this.unsubscribe$)
@@ -68,9 +73,31 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     this.triggerPatients.next();
   }
 
-  selectPatient(patient: any, addressId: string): void {
-    this.selectedPatient = patient;
-    this.addressId = addressId;
+  closeDate(): void {
+    if (this.startDate && this.endDate) {
+      const queryParams: any = {};
+      if (this.startDate) {
+        queryParams.startTime = this.startDate.valueOf();
+      }
+
+      if (this.endDate) {
+        queryParams.endTime = this.endDate.valueOf();
+      }
+
+      this.router.navigate(
+        [],
+        {
+          relativeTo: this.route,
+          queryParams,
+          queryParamsHandling: 'merge', // remove to replace all query params by provided
+        });
+    }
+  }
+
+  selectPatient(patient: any): void {
+    this.router.navigate([`/eligibility-benefits/${this.selectedClinic.addressId}/patients/${patient.patientId}`], {
+      queryParamsHandling: 'preserve'
+    });
   }
 
   filterPatientList(): void {
@@ -105,6 +132,29 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   forward(): void {
     this.cursor = this.cursorNext;
     this.triggerPatients.next();
+  }
+
+  private checkRoute(): void {
+    this.route.queryParams.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(p => {
+      if (!p.startTime) {
+        this.startDate = moment();
+      } else {
+        this.startDate = moment(parseInt(p.startTime, 10));
+      }
+
+      if (!p.endTime) {
+        const m = moment();
+        m.add(2, 'days');
+        this.endDate = m;
+      } else {
+        this.endDate = moment(parseInt(p.endTime, 10));
+      }
+
+      this.triggerPatients.next();
+    });
+
   }
 
   private sortPatientStatus(order: string): void {
@@ -153,28 +203,18 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     }
   }
 
-  // private watchTriggerPatientGet(): void {
-  //   this.triggerGetPatientCodes.pipe(
-  //     switchMap(() => {
-  //       return forkJoin([this.patientService.getPatientNotes(this.selectedPatient.patientId).pipe(
-  //         map(r => JSON.parse(r.data)),
-  //         catchError(() => of({}))
-  //       ),
-  //       this.clinicService.getSelectedPracticeCodesHistory(this.addressId).pipe(map(r => r.data), take(1))
-  //       ]);
-  //     }),
-  //     takeUntil(this.unsubscribe$)
-  //   ).subscribe(([res, history]) => {
-  //     this.notes = res;
-  //     this.codeHistory = history;
-  //   });
-  // }
-
   private watchPatients(): void {
     this.triggerPatients.pipe(
+      filter(() => !!this.selectedClinic),
       tap(() => this.loading = true),
       switchMap(() => {
-        return this.patientService.getAllPatientsForClinic2(this.selectedClinic.addressId, this.pageSize, this.cursor);
+        return this.patientService.getAllPatientsForClinic2(
+          this.selectedClinic.addressId,
+          this.pageSize,
+          this.cursor,
+          this.startDate.valueOf(),
+          this.endDate ? this.endDate.valueOf() : this.startDate.valueOf()
+        );
       }),
       map(p => p.data),
       takeUntil(this.unsubscribe$)
@@ -186,52 +226,5 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
       this.patients.sort((a, b) => b.createdOn - a.createdOn);
       this.filterPatientList();
     });
-  }
-
-  // private getClinicCodes(): void {
-  //   this.clinicService.getClinics()
-  //     .pipe(
-  //       map(res => res.data.clinicDetails),
-  //       switchMap(clinics => {
-
-  //         return forkJoin([
-  //           this.clinicService.getSelectedPracticeCodes(clinics[0].addressId).pipe(map(r => r.data), take(1)),
-  //           this.insuranceService.getPracticeCodes().pipe(take(1))
-  //         ]);
-  //       }),
-  //       map(res => this.mapToCodes(res)),
-  //       takeUntil(this.unsubscribe$)
-  //     )
-  //     .subscribe(codes => this.savedCodes = codes);
-  // }
-
-  private mapToCodes([clinicCodes, insuranceCodes]): any {
-    const savedCodes = this.newSavedCodes();
-    savedCodes.label = 'Categories';
-    savedCodes.key = 'categories';
-    savedCodes.breakDownKeys = [];
-    clinicCodes.forEach(group => {
-      const groupId = group.groupId;
-      savedCodes.breakDownKeys.push(groupId);
-      const breakDowns = {};
-      group.codeIds.forEach(id => breakDowns[id] = insuranceCodes.breakDowns[groupId].breakDowns[id]);
-      savedCodes.breakDowns[groupId] = {
-        key: groupId,
-        label: insuranceCodes.breakDowns[groupId].label,
-        breakDownKeys: group.codeIds,
-        breakDowns,
-      };
-    });
-
-    return savedCodes;
-  }
-
-  private newSavedCodes(): DentalBreakDowns {
-    return {
-      key: '',
-      label: '',
-      breakDownKeys: [],
-      breakDowns: {}
-    };
   }
 }

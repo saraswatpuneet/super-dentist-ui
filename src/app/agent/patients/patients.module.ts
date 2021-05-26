@@ -14,6 +14,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { PatientsRoutingModule } from './patients-routing.module';
 import { PatientsComponent } from './patients.component';
@@ -35,15 +36,16 @@ import { InsuranceFilterComponent } from './insurance-filter/insurance-filter.co
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,
-    MatTooltipModule,
     MatDatepickerModule,
     MatIconModule,
-    MatMenuModule,
     MatInputModule,
+    MatMenuModule,
     MatPaginatorModule,
+    MatProgressBarModule,
     MatSelectModule,
     MatTableModule,
     MatTabsModule,
+    MatTooltipModule,
     PatientStatusPillModule,
     PatientsRoutingModule
   ]

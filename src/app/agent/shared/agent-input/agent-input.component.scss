@@ -15,6 +15,12 @@
     width: 100%;
   }
 
+  .missing-tooth {
+    input, select {
+      background: transparent;
+    }
+  }
+
   .lighter {
     opacity: 0.5;
     font-size: 13px;
@@ -89,4 +95,14 @@
     }
   }
   
+}
+
+::ng-deep {
+  .dark {
+    .missing-tooth {
+      input, select {
+        color: white;
+      }
+    }
+  }
 }

@@ -1,1 +1,142 @@
-<p>patient works!</p>
+<div class="patient" fxLayout="row" fxLayoutGap="20px">
+  <mat-progress-bar *ngIf="loading" mode="indeterminate" class="abs"></mat-progress-bar>
+  <div fxLayout="column" class="patient-details" fxLayoutGap="20px">
+    <mat-card *ngIf="patient">
+      <div fxLayout="row" fxLayoutAlign=" center">
+        <mat-icon (click)="goToPatientList()" class="back">chevron_left</mat-icon>
+        <h3 class="no-m">{{patient.firstName}} {{patient.lastName}}</h3>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex="50">
+          <div class="lighter">Date of Birth</div>
+          <div>
+            {{monthsHash[patient?.dob?.month]}} {{patient.dob?.day}}, {{patient.dob?.year}}
+          </div>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card class="insurance-card">
+      <h3>Dental Insurance</h3>
+      <div (click)="clickDentalIns(i)" class="insurance-item"
+        *ngFor="let insurance of patient?.dentalInsurance; let i = index">
+        <div class="insurance-title" fxLayout="row" fxLayoutGap="12px" fxLayoutAlign=" start">
+          <div fxFlex>{{insurance.company}} ({{insurance?.status?.label}})</div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="50">
+            <div class="lighter">Member ID</div>
+            <div>{{insurance.memberId}}</div>
+          </div>
+          <div fxFlex="50">
+            <div class="lighter">Subscriber & DOB</div>
+            <div>{{insurance.subscriber?.firstName}} {{insurance.subscriber?.lastName}}
+              {{monthsHash[insurance.subscriber?.dob?.month]}} {{insurance.subscriber.dob?.day}},
+              {{insurance.subscriber.dob?.year}}</div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card class="insurance-card">
+      <h3>Medical Insurance</h3>
+      <div (click)="clickMedicalIns(i)" class="insurance-item"
+        *ngFor="let insurance of patient?.medicalInsurance; let i = index">
+        <div class="insurance-title" fxLayout="row" fxLayoutGap="12px" fxLayoutAlign=" start">
+          <div fxFlex>{{insurance.company}} ({{insurance?.status?.label}})</div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="50">
+            <div class="lighter">Member ID</div>
+            <div>{{insurance.memberId}}</div>
+          </div>
+
+          <div fxFlex="50">
+            <div class="lighter">Subscriber & DOB</div>
+            <div>{{insurance.subscriber?.firstName}} {{insurance.subscriber?.lastName}}
+              {{monthsHash[insurance.subscriber?.dob?.month]}} {{insurance.subscriber.dob?.day}},
+              {{insurance.subscriber.dob?.year}}</div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="divider-h"></div>
+
+  <div class="breakdowns" fxLayout="column" fxLayoutGap="20px">
+    <div #dInsEls *ngFor="let insurance of patient?.dentalInsurance; let i = index">
+      <mat-card fxLayout="column" fxLayoutGap="20px">
+        <div>
+          <div fxLayout="row">
+            <h3 fxFlex>{{insurance.company}} </h3>
+            <app-patient-status-pill *ngIf="insurance" [label]="insurance?.status?.label"
+              [value]="insurance?.status?.value">
+            </app-patient-status-pill>
+          </div>
+          <div fxLayout="row">
+            <div fxFlex="50">
+              <div class="lighter">Member ID</div>
+              <div>{{insurance.memberId}}</div>
+            </div>
+            <div fxFlex="50">
+              <div class="lighter">Subscriber & DOB</div>
+              <div>{{insurance.subscriber?.firstName}} {{insurance.subscriber?.lastName}}
+                {{monthsHash[insurance.subscriber?.dob?.month]}} {{insurance.subscriber.dob?.day}},
+                {{insurance.subscriber.dob?.year}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="divider-w"></div>
+        <app-patient-details [months]="monthsHash" [patient]="patient"
+          [patientCoverage]="dentalRecords[i]?.patientCoverage">
+        </app-patient-details>
+        <div class="divider-w"></div>
+        <div>
+          <app-codes [savedCodes]="dentalRecords[i]?.codes" [codes]="codes"></app-codes>
+        </div>
+
+        <div class="divider-w"></div>
+
+        <div *ngIf="dentalRecords[i]">
+          <app-history [allCodes]="allCodes" [savedHistory]="savedHistoryCodes" [history]="dentalRecords[i].history">
+          </app-history>
+        </div>
+      </mat-card>
+    </div>
+
+    <div #mInsEls *ngFor="let insurance of patient?.medicalInsurance; let i = index">
+      <mat-card fxLayout="column" fxLayoutGap="20px">
+        <div>
+          <div fxLayout="row">
+            <h3 fxFlex>{{insurance.company}} </h3>
+
+            <app-patient-status-pill *ngIf="insurance" [label]="insurance?.status?.label"
+              [value]="insurance?.status?.value">
+            </app-patient-status-pill>
+          </div>
+          <div fxLayout="row">
+
+            <div fxFlex="50">
+              <div class="lighter">Member ID</div>
+              <div>{{insurance.memberId}}</div>
+            </div>
+
+            <div fxFlex="50">
+              <div class="lighter">Subscriber & DOB</div>
+              <div>{{insurance.subscriber?.firstName}} {{insurance.subscriber?.lastName}}
+                {{monthsHash[insurance.subscriber?.dob?.month]}} {{insurance.subscriber.dob?.day}},
+                {{insurance.subscriber.dob?.year}}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider-w"></div>
+        <div>
+          <app-codes [savedCodes]="medicalRecords[i]?.codes" [codes]="codes"></app-codes>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+</div>

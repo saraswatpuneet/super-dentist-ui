@@ -70,11 +70,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     }
 
     if (this.formType) {
-      if (this.patient && this.patient.status && this.patient.status.value) {
-        this.selectedStatusValue = this.patient.dentalInsurance[this.dentalIndex[this.formType]].status.value;
-      } else {
-        this.selectedStatusValue = this.status[0].value;
-      }
+      this.selectedStatusValue = this.patient.dentalInsurance[this.dentalIndex[this.formType]].status.value;
     }
   }
 
@@ -172,22 +168,23 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
             .pipe(map(r => r.data), catchError(() => of(undefined)), take(1))
         ]);
       }),
-      map(([codes, savedCodes, savedCodesHistory, savedRecords]) =>
-        [this.mapToCodes([codes, savedCodes]), this.mapToCodes([codes, savedCodesHistory]), savedRecords]
+      map(([allCodes, selectedCodeSpecific, selectedCodesHistory, savedRecords]) => {
+        return [this.mapToCodes([allCodes, selectedCodeSpecific]), this.mapToCodes([allCodes, selectedCodesHistory]), savedRecords];
+      }
       ),
       takeUntil(this.unsubscribe$)
-    ).subscribe(([codes, codesHistory, savedRecords]) => {
-      this.savedCodes = codes;
+    ).subscribe(([selectedCodes, selectedCodesHistory, savedRecords]) => {
+      this.savedCodes = selectedCodes;
       this.loading = false;
-      this.codesHistory = codesHistory;
+      this.codesHistory = selectedCodesHistory;
       this.agentForm.reset();
       this.initForm();
 
-      this.setCodes(codes);
+      this.setCodes(selectedCodes);
 
       const historyGroup: FormGroup = this.agentForm.get('history') as FormGroup;
-      codesHistory.breakDownKeys.forEach(k => {
-        codesHistory.breakDowns[k].breakDownKeys.forEach(sk => {
+      selectedCodesHistory.breakDownKeys.forEach(k => {
+        selectedCodesHistory.breakDowns[k].breakDownKeys.forEach(sk => {
           historyGroup.addControl(sk, this.fb.array([]));
         });
       });
@@ -200,7 +197,35 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       }
 
       if (value) {
-        this.groupModel = value.codes;
+        const mapper: any = {};
+        value.codes.forEach((cGroup, i) => {
+          const tmp = Object.keys(cGroup).filter(c => c !== 'codes')[0];
+          mapper[tmp] = {
+            index: i,
+            key: tmp
+          };
+        });
+
+        for (let x = 0, l = this.groupModel.length; x < l; x++) {
+          const group = this.groupModel[x];
+          const tmp = Object.keys(group).filter(c => c !== 'codes')[0];
+          if (mapper[tmp]) {
+            const val = value.codes[mapper[tmp].index];
+            const gKeys = Object.keys(group.codes);
+            const codes = {};
+            for (let y = 0, l2 = gKeys.length; y < l2; y++) {
+              codes[gKeys[y]] = group.codes[gKeys[y]];
+              if (val.codes[gKeys[y]]) {
+                codes[gKeys[y]] = val.codes[gKeys[y]];
+              }
+            }
+            this.groupModel[x] = {
+              [tmp]: val[tmp],
+              codes
+            };
+          }
+        }
+
         if (value.patientCoverage.termDate) {
           value.patientCoverage.termDate = moment(value.patientCoverage.termDate).format('MM/DD/YYYY');
         }
@@ -211,6 +236,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         if (value.remarks.verifiedDate) {
           value.remarks.verifiedDate = moment(value.remarks.verifiedDate).format('MM/DD/YYYY');
         }
+
         Object.keys(value.history).forEach(key => {
           value.history[key].forEach((history, index) => {
             if (history.date) {
@@ -339,11 +365,6 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         preventitiveDeductedFromMaximum: ['yes'],
         feeSchedule: [],
         toothReplacementClause: this.fb.group({
-          reason: [],
-          numerator: [],
-          denominator: [],
-          unit: ['year'],
-          notes: [],
           callouts: this.fb.group({
             crowns: this.fb.group({
               unit: [],

@@ -90,20 +90,38 @@ export function coordinationOfBenefitsKeyValue(): any {
 
 export function months(): ValueLabel[] {
   return [
-    { label: 'Jan', value: '0', },
-    { label: 'Feb', value: '1', },
-    { label: 'Mar', value: '2', },
-    { label: 'Apr', value: '3', },
-    { label: 'May', value: '4', },
-    { label: 'June', value: '5', },
-    { label: 'July', value: '6', },
-    { label: 'Aug', value: '7', },
-    { label: 'Sept', value: '8', },
-    { label: 'Oct', value: '9', },
-    { label: 'Nov', value: '10', },
-    { label: 'Dec', value: '11', },
+    { label: 'Jan', value: '01', },
+    { label: 'Feb', value: '02', },
+    { label: 'Mar', value: '03', },
+    { label: 'Apr', value: '04', },
+    { label: 'May', value: '05', },
+    { label: 'June', value: '06', },
+    { label: 'July', value: '07', },
+    { label: 'Aug', value: '08', },
+    { label: 'Sept', value: '09', },
+    { label: 'Oct', value: '10', },
+    { label: 'Nov', value: '11', },
+    { label: 'Dec', value: '12', },
   ];
 }
+
+export function monthsHash(): any {
+  return {
+    '01': 'Jan',
+    '02': 'Feb',
+    '03': 'Mar',
+    '04': 'Apr',
+    '05': 'May',
+    '06': 'June',
+    '07': 'July',
+    '08': 'Aug',
+    '09': 'Sept',
+    '10': 'Oct',
+    '11': 'Nov',
+    '12': 'Dec'
+  };
+}
+
 
 export function patientStatus(): ValueLabel[] {
   return [
