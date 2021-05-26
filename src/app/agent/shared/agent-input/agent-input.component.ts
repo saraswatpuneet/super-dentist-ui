@@ -168,22 +168,25 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
             .pipe(map(r => r.data), catchError(() => of(undefined)), take(1))
         ]);
       }),
-      map(([codes, savedCodes, savedCodesHistory, savedRecords]) =>
-        [this.mapToCodes([codes, savedCodes]), this.mapToCodes([codes, savedCodesHistory]), savedRecords]
+      map(([allCodes, selectedCodeSpecific, selectedCodesHistory, savedRecords]) => {
+        console.log(selectedCodesHistory, savedRecords);
+        return [this.mapToCodes([allCodes, selectedCodeSpecific]), this.mapToCodes([allCodes, selectedCodesHistory]), savedRecords];
+      }
       ),
       takeUntil(this.unsubscribe$)
-    ).subscribe(([codes, codesHistory, savedRecords]) => {
-      this.savedCodes = codes;
+    ).subscribe(([selectedCodes, selectedCodesHistory, savedRecords]) => {
+      console.log(selectedCodes);
+      this.savedCodes = selectedCodes;
       this.loading = false;
-      this.codesHistory = codesHistory;
+      this.codesHistory = selectedCodesHistory;
       this.agentForm.reset();
       this.initForm();
 
-      this.setCodes(codes);
+      this.setCodes(selectedCodes);
 
       const historyGroup: FormGroup = this.agentForm.get('history') as FormGroup;
-      codesHistory.breakDownKeys.forEach(k => {
-        codesHistory.breakDowns[k].breakDownKeys.forEach(sk => {
+      selectedCodesHistory.breakDownKeys.forEach(k => {
+        selectedCodesHistory.breakDowns[k].breakDownKeys.forEach(sk => {
           historyGroup.addControl(sk, this.fb.array([]));
         });
       });
@@ -196,7 +199,21 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       }
 
       if (value) {
-        this.groupModel = value.codes;
+        // this.groupModel = value.codes;
+        const mapper: any = {};
+        value.codes.forEach((cGroup, i) => {
+          const tmp = Object.keys(cGroup).filter(c => c !== 'codes')[0];
+          mapper[tmp] = i;
+        });
+
+        for (let x = 0, l = this.groupModel.length; x < l; x++) {
+          const group = this.groupModel[x];
+          const tmp = Object.keys(group).filter(c => c !== 'codes')[0];
+          if (mapper[tmp] === 0 || mapper[tmp]) {
+            this.groupModel[x] = value.codes[mapper[tmp]];
+          }
+        }
+
         if (value.patientCoverage.termDate) {
           value.patientCoverage.termDate = moment(value.patientCoverage.termDate).format('MM/DD/YYYY');
         }
@@ -207,6 +224,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         if (value.remarks.verifiedDate) {
           value.remarks.verifiedDate = moment(value.remarks.verifiedDate).format('MM/DD/YYYY');
         }
+
         Object.keys(value.history).forEach(key => {
           value.history[key].forEach((history, index) => {
             if (history.date) {
