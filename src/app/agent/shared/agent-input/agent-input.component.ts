@@ -203,14 +203,29 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         const mapper: any = {};
         value.codes.forEach((cGroup, i) => {
           const tmp = Object.keys(cGroup).filter(c => c !== 'codes')[0];
-          mapper[tmp] = i;
+          mapper[tmp] = {
+            index: i,
+            key: tmp
+          };
         });
 
         for (let x = 0, l = this.groupModel.length; x < l; x++) {
           const group = this.groupModel[x];
           const tmp = Object.keys(group).filter(c => c !== 'codes')[0];
-          if (mapper[tmp] === 0 || mapper[tmp]) {
-            this.groupModel[x] = value.codes[mapper[tmp]];
+          if (mapper[tmp]) {
+            const val = value.codes[mapper[tmp].index];
+            const gKeys = Object.keys(group.codes);
+            const codes = {};
+            for (let y = 0, l2 = gKeys.length; y < l2; y++) {
+              codes[gKeys[y]] = group.codes[gKeys[y]];
+              if (val.codes[gKeys[y]]) {
+                codes[gKeys[y]] = val.codes[gKeys[y]];
+              }
+            }
+            this.groupModel[x] = {
+              [tmp]: val[tmp],
+              codes
+            };
           }
         }
 
