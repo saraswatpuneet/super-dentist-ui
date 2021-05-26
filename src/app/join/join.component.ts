@@ -164,9 +164,9 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
       } else if (params.favorites) {
         this.favorites = JSON.parse(atob(params.favorites));
       }
-      else if (params.conference) {
-        this.conference = true;
-      }
+      // else if (params.conference) {
+      //   this.conference = true;
+      // }
     });
   }
 
