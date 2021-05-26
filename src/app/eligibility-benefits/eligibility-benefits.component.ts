@@ -209,7 +209,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
       tap(() => this.loading = true),
       switchMap(() => {
         return this.patientService.getAllPatientsForClinic2(
-          `ffd54320-43cb-11eb-a5ff-76b7c284b3db`,
+          this.selectedClinic.addressId,
           this.pageSize,
           this.cursor,
           this.startDate.valueOf(),
