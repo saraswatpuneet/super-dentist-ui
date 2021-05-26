@@ -5,7 +5,8 @@
   overflow: hidden;
 
   .code-inputs {
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
   }
 
   .abs-bottom {
