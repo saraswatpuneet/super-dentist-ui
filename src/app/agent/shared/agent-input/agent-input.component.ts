@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitte
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { forkJoin, Subject, of } from 'rxjs';
 import { take, map, switchMap, takeUntil, catchError, tap } from 'rxjs/operators';
+import * as moment from 'moment';
 
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { Base } from 'src/app/shared/base/base-component';
@@ -17,7 +18,6 @@ import {
   patientStatus
 } from 'src/app/shared/services/insurance';
 import { PatientService } from 'src/app/shared/services/patient.service';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-agent-input',
@@ -237,6 +237,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
           value.remarks.verifiedDate = moment(value.remarks.verifiedDate).format('MM/DD/YYYY');
         }
 
+        console.log(value);
         Object.keys(value.history).forEach(key => {
           value.history[key].forEach((history, index) => {
             if (history.date) {

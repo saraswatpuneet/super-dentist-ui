@@ -5,6 +5,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { saveAs } from 'file-saver';
+import { Title } from '@angular/platform-browser';
 
 import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
@@ -51,10 +52,12 @@ export class ReferralsBetaComponent extends Base implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private clinicService: ClinicService,
-    private referralService: ReferralService
+    private referralService: ReferralService,
+    private title: Title
   ) { super(); }
 
   ngOnInit(): void {
+    this.title.setTitle('SuperDentist - Referrals');
     this.auth.currentUser.then(user => this.user = user);
     this.watchDentistReferrals();
     this.watchSpecialistReferrals();

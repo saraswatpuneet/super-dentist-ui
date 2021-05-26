@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { takeUntil, switchMap, filter, take, map } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { PatientService } from 'src/app/shared/services/patient.service';
@@ -27,10 +28,12 @@ export class DentalInsuranceComponent extends Base implements OnInit {
     private route: ActivatedRoute,
     private clinicService: ClinicService,
     private patientService: PatientService,
-    private insuranceService: InsuranceService
+    private insuranceService: InsuranceService,
+    private title: Title
   ) { super(); }
 
   ngOnInit(): void {
+    this.title.setTitle('SuperDentist - Dental Insurance');
     this.route.queryParams.pipe(take(1)).subscribe(p => {
       this.formType = p.formType;
     });

@@ -2,12 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { switchMap, takeUntil, map, tap, take } from 'rxjs/operators';
+import { Title } from '@angular/platform-browser';
+import * as moment from 'moment';
 
 import { Base } from 'src/app/shared/base/base-component';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { months, patientStatus } from 'src/app/shared/services/insurance';
 import { PatientService } from 'src/app/shared/services/patient.service';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-patients',
@@ -48,13 +49,15 @@ export class PatientsComponent extends Base implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private clinicService: ClinicService,
-    private patientService: PatientService
+    private patientService: PatientService,
+    private title: Title
   ) { super(); }
 
   ngOnInit(): void {
     this.watchPatients();
     this.watchClinics();
     this.checkRoute();
+    this.title.setTitle('SuperDentist - Patients');
   }
 
   filterByStatus(statusValue: string): void {

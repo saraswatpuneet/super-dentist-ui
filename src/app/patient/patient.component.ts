@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { of } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 import { environment } from 'src/environments/environment';
 import { patientAnimations } from './patient.animations';
@@ -55,10 +56,12 @@ export class PatientComponent implements OnInit, AfterViewInit, OnDestroy {
     private ngZone: NgZone,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private http: HttpClient
+    private http: HttpClient,
+    private title: Title
   ) { }
 
   ngOnInit(): void {
+    this.title.setTitle('SuperDentist - Patient');
     this.setQrParams();
 
     if (!this.qrInfo || !this.qrInfo.secureKey) {

@@ -2,11 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { take, map, takeUntil } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { insuranceAnimations } from './insurance.animations';
 import { InsuranceService } from 'src/app/shared/services/insurance.service';
 import { Base } from 'src/app/shared/base/base-component';
-
 
 @Component({
   selector: 'app-insurance',
@@ -23,9 +23,11 @@ export class InsuranceComponent extends Base implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private auth: AngularFireAuth,
     private insuranceService: InsuranceService,
+    private title: Title
   ) { super(); }
 
   ngOnInit(): void {
+    this.title.setTitle('SuperDentist - Insurance');
     this.route.queryParams.pipe(take(1)).subscribe(params => {
       if (!params.referral) {
         this.router.navigate(['404']);

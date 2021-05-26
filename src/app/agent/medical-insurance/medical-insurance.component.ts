@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { takeUntil, map, switchMap, take, tap, catchError, filter } from 'rxjs/operators';
 import { forkJoin, of, Subject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { Base } from 'src/app/shared/base/base-component';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
@@ -48,13 +49,15 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
     private fb: FormBuilder,
     private clinicService: ClinicService,
     private insuranceService: InsuranceService,
-    private patientService: PatientService
+    private patientService: PatientService,
+    private title: Title
   ) { super(); }
 
   ngOnInit(): void {
     this.initForm();
     this.getClinicCodes();
     this.checkRoute();
+    this.title.setTitle('SuperDentist - Medical Insurance');
   }
 
   ngOnChanges(sc: SimpleChanges): void {

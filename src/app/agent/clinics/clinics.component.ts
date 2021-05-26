@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { filter, map, takeUntil, switchMap, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { Base } from 'src/app/shared/base/base-component';
@@ -25,12 +26,14 @@ export class ClinicsComponent extends Base implements OnInit, AfterViewInit {
 
   constructor(
     private router: Router,
-    private clinicService: ClinicService
+    private clinicService: ClinicService,
+    private title: Title
   ) { super(); }
 
   ngOnInit(): void {
     this.watchClinics();
     this.changePageSize();
+    this.title.setTitle('SuperDentist - Clinics');
   }
 
   ngAfterViewInit(): void {

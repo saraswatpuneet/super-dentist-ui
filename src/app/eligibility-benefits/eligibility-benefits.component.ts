@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { map, switchMap, takeUntil, tap, filter } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
+import * as moment from 'moment';
+import { Title } from '@angular/platform-browser';
 
 import { ClinicService } from '../shared/services/clinic.service';
 import { PatientService } from '../shared/services/patient.service';
 import { Base } from '../shared/base/base-component';
 import { InsuranceService } from '../shared/services/insurance.service';
-import { months, monthsHash } from '../shared/services/insurance';
-import * as moment from 'moment';
+import { monthsHash } from '../shared/services/insurance';
 
 @Component({
   selector: 'app-eligibility-benefits',
@@ -43,9 +44,11 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     private insuranceService: InsuranceService,
     private router: Router,
     private route: ActivatedRoute,
+    private title: Title
   ) { super(); }
 
   ngOnInit(): void {
+    this.title.setTitle('SuperDentist - Eligibility & Benefits');
     this.checkRoute();
     this.closeDate();
 

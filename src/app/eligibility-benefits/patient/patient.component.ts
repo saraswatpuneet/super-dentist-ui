@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { Subject, forkJoin, of, Observable } from 'rxjs';
 import { switchMap, map, catchError, take, tap, takeUntil, filter } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { InsuranceService } from 'src/app/shared/services/insurance.service';
 import { PatientService } from 'src/app/shared/services/patient.service';
 import { DentalBreakDowns, months, monthsHash } from 'src/app/shared/services/insurance';
 import { Base } from 'src/app/shared/base/base-component';
-import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-patient',
@@ -51,11 +52,13 @@ export class PatientComponent extends Base implements OnInit {
     private clinicService: ClinicService,
     private insuranceService: InsuranceService,
     private patientService: PatientService,
+    private title: Title
   ) { super(); }
 
   ngOnInit(): void {
     this.getClinicCodes();
     this.checkRoute();
+    this.title.setTitle('SuperDentist - Patients');
   }
 
   goToPatientList(): void {
