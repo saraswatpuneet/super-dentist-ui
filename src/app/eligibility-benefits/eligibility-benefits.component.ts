@@ -30,9 +30,8 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   startDate = moment();
   endDate = moment();
   months = monthsHash();
-  cursor = '';
-  cursorPrev = '';
-  cursorNext = '';
+  cursors = [undefined];
+  cursorAddress = 0;
   clinicId = '';
   loading = false;
   private triggerPatients = new Subject();
@@ -123,17 +122,20 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   }
 
   changePageSize(): void {
-    this.cursor = undefined;
+    this.cursorAddress = 0;
+    this.cursors = [undefined];
     this.triggerPatients.next();
   }
 
   back(): void {
-    this.cursor = this.cursorPrev;
-    this.triggerPatients.next();
+    if (this.cursorAddress > 0) {
+      this.cursorAddress--;
+      this.triggerPatients.next();
+    }
   }
 
   forward(): void {
-    this.cursor = this.cursorNext;
+    this.cursorAddress++;
     this.triggerPatients.next();
   }
 
@@ -214,7 +216,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
         return this.patientService.getAllPatientsForClinic2(
           this.selectedClinic.addressId,
           this.pageSize,
-          this.cursor,
+          this.cursors[this.cursorAddress],
           this.startDate.valueOf(),
           this.endDate ? this.endDate.valueOf() : this.startDate.valueOf()
         );
@@ -222,10 +224,12 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
       map(p => p.data),
       takeUntil(this.unsubscribe$)
     ).subscribe((res) => {
+      if (this.cursorAddress === this.cursors.length - 1) {
+        this.cursors.push(res.cursorNext);
+      }
+
       this.loading = false;
       this.patients = res.patients;
-      this.cursorNext = res.cursorNext;
-      this.cursorPrev = res.cursorPrev;
       this.patients.sort((a, b) => b.createdOn - a.createdOn);
       this.filterPatientList();
     });

@@ -237,14 +237,15 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
           value.remarks.verifiedDate = moment(value.remarks.verifiedDate).format('MM/DD/YYYY');
         }
 
-        console.log(value);
-        Object.keys(value.history).forEach(key => {
-          value.history[key].forEach((history, index) => {
-            if (history.date) {
-              value.history[key][index].date = moment(history.date).format('MM/DD/YYYY');
-            }
-            (this.agentForm.get('history').get(key) as FormArray).push(this.fb.group(history));
-          });
+        Object.keys(historyGroup.value).forEach(key => {
+          if (value.history[key]) {
+            value.history[key].forEach((history, index) => {
+              if (history.date) {
+                value.history[key][index].date = moment(history.date).format('MM/DD/YYYY');
+              }
+              (this.agentForm.get('history').get(key) as FormArray).push(this.fb.group(history));
+            });
+          }
         });
 
         this.agentForm.patchValue(value);

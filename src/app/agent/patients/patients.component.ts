@@ -33,13 +33,12 @@ export class PatientsComponent extends Base implements OnInit {
   patientColumns: string[] = ['actions', 'assignedTo', 'appointment', 'patient', 'subscriber', 'memberInfo', 'insurance', 'status'];
   dentalKeys = ['primaryDental', 'secondaryDental', 'tertiaryDental'];
   medicalKeys = ['primaryMedical', 'secondaryMedical', 'tertiaryMedical'];
-  cursor = '';
-  cursorPrev = '';
-  cursorNext = '';
   loading = false;
   selectedAgentFilter = '';
   status = patientStatus();
   selectedStatus = '';
+  cursors = [undefined]; // The first cursor is undefined and serves as the starting point.
+  cursorAddress = 0;
   private patients = [];
   private clinicId = '';
   private patientTrigger = new Subject<string>();
@@ -181,17 +180,20 @@ export class PatientsComponent extends Base implements OnInit {
   }
 
   changePageSize(): void {
-    this.cursor = undefined;
+    this.cursorAddress = 0;
+    this.cursors = [undefined];
     this.patientTrigger.next(this.clinicId);
   }
 
   back(): void {
-    this.cursor = this.cursorPrev;
-    this.patientTrigger.next(this.clinicId);
+    if (this.cursorAddress > 0) {
+      this.cursorAddress--;
+      this.patientTrigger.next(this.clinicId);
+    }
   }
 
   forward(): void {
-    this.cursor = this.cursorNext;
+    this.cursorAddress++;
     this.patientTrigger.next(this.clinicId);
   }
 
@@ -247,7 +249,7 @@ export class PatientsComponent extends Base implements OnInit {
       switchMap(addressId => this.patientService.getAllPatientsForClinic2(
         addressId,
         this.pageSize,
-        this.cursor,
+        this.cursors[this.cursorAddress],
         this.startDate.valueOf(),
         this.endDate.valueOf(),
         this.selectedAgentFilter
@@ -256,8 +258,9 @@ export class PatientsComponent extends Base implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(res => {
       this.patients = res.patients;
-      this.cursorNext = res.cursorNext;
-      this.cursorPrev = res.cursorPrev;
+      if (this.cursorAddress === this.cursors.length - 1) {
+        this.cursors.push(res.cursorNext);
+      }
       const patients = [];
       this.patients.forEach(patient => {
         if (patient.dentalInsurance) {

@@ -115,7 +115,11 @@ export class PatientComponent extends Base implements OnInit {
       map(([allCodes, selectedCodeSpecific, selectedCodesHistory, ...savedRecords]) => {
         this.allCodes = allCodes;
         this.savedHistoryCodes = selectedCodesHistory;
-        return [this.mapToCodes([allCodes, selectedCodeSpecific]), this.mapToCodes([allCodes, selectedCodesHistory]), savedRecords];
+        return [
+          this.mapToCodes([allCodes, selectedCodeSpecific]),
+          this.mapToCodes([allCodes, selectedCodesHistory]) as DentalBreakDowns,
+          savedRecords
+        ];
       }),
       takeUntil(this.unsubscribe$)
     ).subscribe(([selectedCodes, selectedCodesHistory, savedRecords]) => {
@@ -158,6 +162,18 @@ export class PatientComponent extends Base implements OnInit {
             }
           }
           savedRecords[counter].codes = groupModel;
+
+          // Adjust history
+          const historyGroup: any = {};
+          (selectedCodesHistory as DentalBreakDowns).breakDownKeys.forEach(k => {
+            (selectedCodesHistory as DentalBreakDowns).breakDowns[k].breakDownKeys.forEach(sk => {
+              historyGroup[sk] = [];
+              if (savedRecords[counter].history[sk]) {
+                historyGroup[sk] = savedRecords[counter].history[sk];
+              }
+            });
+          });
+          savedRecords[counter].history = historyGroup;
           this.dentalRecords.push(savedRecords[counter]);
           counter++;
         });
@@ -198,6 +214,7 @@ export class PatientComponent extends Base implements OnInit {
             }
           }
           savedRecords[counter].codes = groupModel;
+
           this.medicalRecords.push(savedRecords[counter]);
           counter++;
         });
