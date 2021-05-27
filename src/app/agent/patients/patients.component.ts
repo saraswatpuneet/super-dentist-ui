@@ -76,6 +76,9 @@ export class PatientsComponent extends Base implements OnInit {
         queryParams.endTime = this.endDate.valueOf();
       }
 
+      this.cursorAddress = 0;
+      this.cursors = [undefined];
+
       this.router.navigate(
         [],
         {
