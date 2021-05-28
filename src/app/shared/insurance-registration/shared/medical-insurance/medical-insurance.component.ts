@@ -7,7 +7,7 @@ function atLeastOne(c: AbstractControl): { [key: string]: any } | null {
     return { forbidden: { value: 'missing company' } }
   }
 
-  if (!value.ssn && !value.medId) {
+  if (!value.ssn && !value.memberId) {
     return { forbidden: { value: 'Need ssn' } };
   }
 
