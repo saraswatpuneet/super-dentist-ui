@@ -177,10 +177,10 @@
         </mat-select>
       </mat-form-field>
       <span class="m-right2"></span>
-      <button mat-icon-button (click)="back()" [disabled]="loading || !cursorPrev">
+      <button mat-icon-button (click)="back()" [disabled]="loading || cursorAddress === 0">
         <mat-icon>keyboard_arrow_left</mat-icon>
       </button>
-      <button mat-icon-button (click)="forward()" [disabled]="loading || !cursorNext">
+      <button mat-icon-button (click)="forward()" [disabled]="loading">
         <mat-icon>keyboard_arrow_right</mat-icon>
       </button>
     </div>

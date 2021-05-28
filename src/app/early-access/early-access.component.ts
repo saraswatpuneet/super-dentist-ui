@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ReferralService } from '../shared/services/referral.service';
 import { take } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Title } from '@angular/platform-browser';
+
+import { ReferralService } from '../shared/services/referral.service';
 
 @Component({
   selector: 'app-early-access',
@@ -18,12 +20,14 @@ export class EarlyAccessComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private auth: AngularFireAuth,
-    private referralService: ReferralService
+    private referralService: ReferralService,
+    private title: Title
   ) { }
 
   ngOnInit(): void {
     this.signIn();
     this.initForm();
+    this.title.setTitle('SuperDentist - Early Access');
   }
 
   ngOnDestroy(): void {

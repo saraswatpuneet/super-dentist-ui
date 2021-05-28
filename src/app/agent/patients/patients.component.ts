@@ -2,12 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { switchMap, takeUntil, map, tap, take } from 'rxjs/operators';
+import { Title } from '@angular/platform-browser';
+import * as moment from 'moment';
 
 import { Base } from 'src/app/shared/base/base-component';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { months, patientStatus } from 'src/app/shared/services/insurance';
 import { PatientService } from 'src/app/shared/services/patient.service';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-patients',
@@ -32,13 +33,12 @@ export class PatientsComponent extends Base implements OnInit {
   patientColumns: string[] = ['actions', 'assignedTo', 'appointment', 'patient', 'subscriber', 'memberInfo', 'insurance', 'status'];
   dentalKeys = ['primaryDental', 'secondaryDental', 'tertiaryDental'];
   medicalKeys = ['primaryMedical', 'secondaryMedical', 'tertiaryMedical'];
-  cursor = '';
-  cursorPrev = '';
-  cursorNext = '';
   loading = false;
   selectedAgentFilter = '';
   status = patientStatus();
   selectedStatus = '';
+  cursors = [undefined]; // The first cursor is undefined and serves as the starting point.
+  cursorAddress = 0;
   private patients = [];
   private clinicId = '';
   private patientTrigger = new Subject<string>();
@@ -48,13 +48,15 @@ export class PatientsComponent extends Base implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private clinicService: ClinicService,
-    private patientService: PatientService
+    private patientService: PatientService,
+    private title: Title
   ) { super(); }
 
   ngOnInit(): void {
     this.watchPatients();
     this.watchClinics();
     this.checkRoute();
+    this.title.setTitle('SuperDentist - Patients');
   }
 
   filterByStatus(statusValue: string): void {
@@ -73,6 +75,9 @@ export class PatientsComponent extends Base implements OnInit {
       if (this.endDate) {
         queryParams.endTime = this.endDate.valueOf();
       }
+
+      this.cursorAddress = 0;
+      this.cursors = [undefined];
 
       this.router.navigate(
         [],
@@ -178,17 +183,20 @@ export class PatientsComponent extends Base implements OnInit {
   }
 
   changePageSize(): void {
-    this.cursor = undefined;
+    this.cursorAddress = 0;
+    this.cursors = [undefined];
     this.patientTrigger.next(this.clinicId);
   }
 
   back(): void {
-    this.cursor = this.cursorPrev;
-    this.patientTrigger.next(this.clinicId);
+    if (this.cursorAddress > 0) {
+      this.cursorAddress--;
+      this.patientTrigger.next(this.clinicId);
+    }
   }
 
   forward(): void {
-    this.cursor = this.cursorNext;
+    this.cursorAddress++;
     this.patientTrigger.next(this.clinicId);
   }
 
@@ -244,7 +252,7 @@ export class PatientsComponent extends Base implements OnInit {
       switchMap(addressId => this.patientService.getAllPatientsForClinic2(
         addressId,
         this.pageSize,
-        this.cursor,
+        this.cursors[this.cursorAddress],
         this.startDate.valueOf(),
         this.endDate.valueOf(),
         this.selectedAgentFilter
@@ -253,8 +261,9 @@ export class PatientsComponent extends Base implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(res => {
       this.patients = res.patients;
-      this.cursorNext = res.cursorNext;
-      this.cursorPrev = res.cursorPrev;
+      if (this.cursorAddress === this.cursors.length - 1) {
+        this.cursors.push(res.cursorNext);
+      }
       const patients = [];
       this.patients.forEach(patient => {
         if (patient.dentalInsurance) {

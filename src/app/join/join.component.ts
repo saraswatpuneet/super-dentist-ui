@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { catchError, debounceTime, delay, switchMap, take, takeUntil, mergeMap, map, tap } from 'rxjs/operators';
 import { from, of } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 import { joinAnimations } from './join.animations';
 import { ClinicService } from '../shared/services/clinic.service';
@@ -59,10 +60,12 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
     private router: Router,
     private route: ActivatedRoute,
     private ngZone: NgZone,
-    private http: HttpClient
+    private http: HttpClient,
+    private title: Title
   ) { super(); }
 
   ngOnInit(): void {
+    this.title.setTitle('SuperDentist - Join');
     this.setJoinParams();
     if (this.joinInfo && this.joinInfo.secureKey) {
       this.initForm();
@@ -164,9 +167,9 @@ export class JoinComponent extends Base implements OnInit, AfterViewInit {
       } else if (params.favorites) {
         this.favorites = JSON.parse(atob(params.favorites));
       }
-      else if (params.conference) {
-        this.conference = true;
-      }
+      // else if (params.conference) {
+      //   this.conference = true;
+      // }
     });
   }
 

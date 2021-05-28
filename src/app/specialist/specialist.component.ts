@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { map, switchMap, take, takeUntil } from 'rxjs/operators';
+import { Title } from '@angular/platform-browser';
 import { Subject, forkJoin } from 'rxjs';
 import * as L from 'leaflet';
 
@@ -41,9 +42,11 @@ export class SpecialistComponent extends Base implements OnInit, AfterViewInit, 
   constructor(
     private clinicService: ClinicService,
     private dialogService: DialogService,
+    private title: Title
   ) { super(); }
 
   ngOnInit(): void {
+    this.title.setTitle('SuperDentist - Network');
     this.loading = true;
     // this.watchNetwork();
     this.watchTriggerFavorites();

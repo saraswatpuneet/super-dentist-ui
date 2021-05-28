@@ -36,9 +36,7 @@
               <p>{{subKey}} - {{codes?.breakDowns[breakDownKey]?.breakDowns[subKey]?.label}}</p>
             </td>
             <td>
-              <select [(ngModel)]="groupModel[i].codes[subKey].percent">
-                <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
-              </select>
+              <input type="number" [(ngModel)]="groupModel[i].codes[subKey].percent">
             </td>
             <ng-container>
               <td> <input [(ngModel)]="groupModel[i].codes[subKey].frequency.numerator" type="number"> </td>

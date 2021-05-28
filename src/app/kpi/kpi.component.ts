@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { map, takeUntil, switchMap, take, catchError } from 'rxjs/operators';
 import { forkJoin, of } from 'rxjs';
 import * as Highcharts from 'highcharts';
+import { Title } from '@angular/platform-browser';
 
 import { ClinicService } from '../shared/services/clinic.service';
 import { ReferralService } from '../shared/services/referral.service';
@@ -44,10 +45,12 @@ export class KpiComponent extends Base implements OnInit {
   constructor(
     private clinicService: ClinicService,
     private referralService: ReferralService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private title: Title
   ) { super(); }
 
   ngOnInit(): void {
+    this.title.setTitle('SuperDentist - KPI');
     this.settingsService.getTheme()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(theme => {

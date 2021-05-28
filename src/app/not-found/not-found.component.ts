@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-not-found',
@@ -8,9 +9,10 @@ import { Router } from '@angular/router';
 })
 export class NotFoundComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private title: Title) { }
 
   ngOnInit(): void {
+    this.title.setTitle('SuperDentist - 404');
   }
 
   goHome(): void {
