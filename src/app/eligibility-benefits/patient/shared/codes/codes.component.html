@@ -17,10 +17,15 @@
         *ngFor="let subKey of codes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
         <p fxFlex>{{subKey}} - {{codes?.breakDowns[breakDownKey]?.breakDowns[subKey]?.label}}</p>
         <p *ngIf="savedCodes && savedCodes[i] && savedCodes[i].codes">
-          {{savedCodes[i].codes[subKey].percent}}% <span class="spacer"></span>
+          {{savedCodes[i].codes[subKey].percent}}% <span
+            *ngIf="(savedCodes[i].codes[subKey].frequency.denominator || savedCodes[i].codes[subKey].frequency.numerator) && savedCodes[i].codes[subKey].frequency.unit"
+            class="spacer"></span>
           {{savedCodes[i].codes[subKey].frequency.numerator}} <ng-container
             *ngIf="savedCodes[i].codes[subKey].frequency.denominator && savedCodes[i].codes[subKey].frequency.denominator !== 1">
-            / {{savedCodes[i].codes[subKey].frequency.denominator}}</ng-container> per
+            / {{savedCodes[i].codes[subKey].frequency.denominator}}</ng-container>
+          <ng-container
+            *ngIf="(savedCodes[i].codes[subKey].frequency.denominator || savedCodes[i].codes[subKey].frequency.numerator) && savedCodes[i].codes[subKey].frequency.unit">
+            per </ng-container>
           {{savedCodes[i].codes[subKey].frequency.unit}}
           <ng-container
             *ngIf="savedCodes[i].codes[subKey].ageRange.min || savedCodes[i].codes[subKey].ageRange.min === 0">
