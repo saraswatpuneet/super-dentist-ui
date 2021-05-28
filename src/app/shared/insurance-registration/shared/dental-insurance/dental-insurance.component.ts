@@ -15,7 +15,6 @@ export class DentalInsuranceComponent extends Base implements OnInit {
   filteredCompanies = [];
   dentalForm: FormGroup;
   subscriber = true;
-  usedAutoComplete = false;
   private fromSelect = false;
 
   constructor(private fb: FormBuilder) { super(); }
@@ -38,7 +37,6 @@ export class DentalInsuranceComponent extends Base implements OnInit {
       }),
       takeUntil(this.unsubscribe$)
     ).subscribe(value => {
-      this.usedAutoComplete = false;
       if (!value) {
         this.filteredCompanies = [];
       } else {
@@ -57,7 +55,6 @@ export class DentalInsuranceComponent extends Base implements OnInit {
   }
 
   selectCompany(company: any): void {
-    this.usedAutoComplete = true;
     this.fromSelect = true;
     this.dentalForm.patchValue({ company });
     this.filteredCompanies = [];
