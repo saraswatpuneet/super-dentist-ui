@@ -108,21 +108,25 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     Object.keys(value.history).forEach(key => {
       value.history[key].forEach((history, index) => {
         if (history.date) {
-          value.history[key][index].date = moment(history.date, 'MM/DD/YYYY').valueOf();
+          value.history[key][index].date = moment(history.date, 'MMDDYYYY').valueOf();
+        } else {
+          value.history[key][index] = {
+            date: null, tooth: value.history[key][index].tooth
+          };
         }
       });
     });
 
     if (value.patientCoverage.eligibilityStartDate) {
-      value.patientCoverage.eligibilityStartDate = moment(value.patientCoverage.eligibilityStartDate, 'MM/DD/YYYY').valueOf();
+      value.patientCoverage.eligibilityStartDate = moment(value.patientCoverage.eligibilityStartDate, 'MMDDYYYY').valueOf();
     }
 
     if (value.patientCoverage.termDate) {
-      value.patientCoverage.termDate = moment(value.patientCoverage.termDate, 'MM/DD/YYYY').valueOf();
+      value.patientCoverage.termDate = moment(value.patientCoverage.termDate, 'MMDDYYYY').valueOf();
     }
 
     if (value.remarks.verifiedDate) {
-      value.remarks.verifiedDate = moment(value.remarks.verifiedDate, 'MM/DD/YYYY').valueOf();
+      value.remarks.verifiedDate = moment(value.remarks.verifiedDate, 'MMDDYYYY').valueOf();
     }
     this.processing = true;
     this.patientService.setPatientNotes(this.patient.patientId, value, this.formType)
@@ -227,21 +231,21 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         }
 
         if (value.patientCoverage.termDate) {
-          value.patientCoverage.termDate = moment(value.patientCoverage.termDate).format('MM/DD/YYYY');
+          value.patientCoverage.termDate = moment(value.patientCoverage.termDate).format('MMDDYYYY');
         }
         if (value.patientCoverage.eligibilityStartDate) {
-          value.patientCoverage.eligibilityStartDate = moment(value.patientCoverage.eligibilityStartDate).format('MM/DD/YYYY');
+          value.patientCoverage.eligibilityStartDate = moment(value.patientCoverage.eligibilityStartDate).format('MMDDYYYY');
         }
 
         if (value.remarks.verifiedDate) {
-          value.remarks.verifiedDate = moment(value.remarks.verifiedDate).format('MM/DD/YYYY');
+          value.remarks.verifiedDate = moment(value.remarks.verifiedDate).format('MMDDYYYY');
         }
 
         Object.keys(historyGroup.value).forEach(key => {
           if (value.history[key]) {
             value.history[key].forEach((history, index) => {
               if (history.date) {
-                value.history[key][index].date = moment(history.date).format('MM/DD/YYYY');
+                value.history[key][index].date = moment(history.date).format('MMDDYYYY');
               }
               (this.agentForm.get('history').get(key) as FormArray).push(this.fb.group(history));
             });
