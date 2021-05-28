@@ -22,11 +22,12 @@
           {{savedCodes[i].codes[subKey].frequency.unit}}
           <ng-container
             *ngIf="savedCodes[i].codes[subKey].ageRange.min || savedCodes[i].codes[subKey].ageRange.min === 0">
-            <div class="spacer"></div>Min Age {{savedCodes[i].codes[subKey].ageRange.min}} <div class="spacer"></div>
+            <span class="spacer"></span>Min Age {{savedCodes[i].codes[subKey].ageRange.min}} <span
+              class="spacer"></span>
           </ng-container>
 
           <ng-container *ngIf="savedCodes[i].codes[subKey].ageRange.max">
-            Max Age {{savedCodes[i].codes[subKey].ageRange.max}} <div class="spacer"></div>
+            Max Age {{savedCodes[i].codes[subKey].ageRange.max}} <span class="spacer"></span>
           </ng-container>
 
           <ng-container *ngIf="savedCodes[i].codes[subKey].notes">
