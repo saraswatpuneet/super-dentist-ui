@@ -17,16 +17,17 @@
         *ngFor="let subKey of codes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
         <p fxFlex>{{subKey}} - {{codes?.breakDowns[breakDownKey]?.breakDowns[subKey]?.label}}</p>
         <p *ngIf="savedCodes && savedCodes[i] && savedCodes[i].codes">
-          {{savedCodes[i].codes[subKey].percent}}%
+          {{savedCodes[i].codes[subKey].percent}}% <span class="spacer"></span>
           {{savedCodes[i].codes[subKey].frequency.numerator}} / {{savedCodes[i].codes[subKey].frequency.denominator}}
           {{savedCodes[i].codes[subKey].frequency.unit}}
           <ng-container
             *ngIf="savedCodes[i].codes[subKey].ageRange.min || savedCodes[i].codes[subKey].ageRange.min === 0">
-            <div class="spacer"></div>Min Age {{savedCodes[i].codes[subKey].ageRange.min}} <div class="spacer"></div>
+            <span class="spacer"></span>Min Age {{savedCodes[i].codes[subKey].ageRange.min}} <span
+              class="spacer"></span>
           </ng-container>
 
           <ng-container *ngIf="savedCodes[i].codes[subKey].ageRange.max">
-            Max Age {{savedCodes[i].codes[subKey].ageRange.max}} <div class="spacer"></div>
+            Max Age {{savedCodes[i].codes[subKey].ageRange.max}} <span class="spacer"></span>
           </ng-container>
 
           <ng-container *ngIf="savedCodes[i].codes[subKey].notes">
