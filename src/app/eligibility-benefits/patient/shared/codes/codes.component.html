@@ -22,23 +22,33 @@
             class="spacer"></span>
           {{savedCodes[i].codes[subKey].frequency.numerator}} <ng-container
             *ngIf="savedCodes[i].codes[subKey].frequency.denominator && savedCodes[i].codes[subKey].frequency.denominator !== 1">
-            / {{savedCodes[i].codes[subKey].frequency.denominator}}</ng-container>
-          <ng-container
-            *ngIf="(savedCodes[i].codes[subKey].frequency.denominator || savedCodes[i].codes[subKey].frequency.numerator) && savedCodes[i].codes[subKey].frequency.unit">
-            per </ng-container>
-          {{savedCodes[i].codes[subKey].frequency.unit}}
-          <ng-container
-            *ngIf="savedCodes[i].codes[subKey].ageRange.min || savedCodes[i].codes[subKey].ageRange.min === 0">
-            <span class="spacer"></span>Min Age {{savedCodes[i].codes[subKey].ageRange.min}} <span
-              class="spacer"></span>
+            / {{savedCodes[i].codes[subKey].frequency.denominator}}
           </ng-container>
+          {{savedCodes[i].codes[subKey].frequency.unit}}
 
-          <ng-container *ngIf="savedCodes[i].codes[subKey].ageRange.max">
-            Max Age {{savedCodes[i].codes[subKey].ageRange.max}} <span class="spacer"></span>
+          <ng-container *ngIf="savedCodes[i].codes[subKey].ageRange.min || savedCodes[i].codes[subKey].ageRange.max">
+            <span class="spacer"></span>Age
+            <ng-container
+              *ngIf="savedCodes[i].codes[subKey].ageRange.min || savedCodes[i].codes[subKey].ageRange.min === 0">
+              {{savedCodes[i].codes[subKey].ageRange.min}}
+            </ng-container>
+            <ng-container
+              *ngIf="!savedCodes[i].codes[subKey].ageRange.min && savedCodes[i].codes[subKey].ageRange.min !== 0">
+              0
+            </ng-container>
+            -
+            <ng-container
+              *ngIf="savedCodes[i].codes[subKey].ageRange.max || savedCodes[i].codes[subKey].ageRange.max === 0">
+              {{savedCodes[i].codes[subKey].ageRange.max}}
+            </ng-container>
+            <ng-container
+              *ngIf="!savedCodes[i].codes[subKey].ageRange.max && savedCodes[i].codes[subKey].ageRange.max !== 0">
+              99
+            </ng-container>
           </ng-container>
 
           <ng-container *ngIf="savedCodes[i].codes[subKey].notes">
-            {{savedCodes[i].codes[subKey].notes}}
+            <span class="spacer"></span>{{savedCodes[i].codes[subKey].notes}}
           </ng-container>
         </p>
       </div>
