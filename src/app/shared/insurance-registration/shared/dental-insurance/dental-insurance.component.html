@@ -44,8 +44,7 @@
 
   <div class="actions" fxLayout="row" fxLayoutGap="8px">
     <button mat-button (click)="cancel.emit()">Cancel</button>
-    <button mat-raised-button color="primary" (click)="sendInsurance()"
-      [disabled]="!dentalForm.valid || !usedAutoComplete">Add Dental
+    <button mat-raised-button color="primary" (click)="sendInsurance()" [disabled]="!dentalForm.valid">Add Dental
       Insurance</button>
   </div>
 </div>
