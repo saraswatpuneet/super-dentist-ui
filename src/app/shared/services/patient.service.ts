@@ -21,6 +21,10 @@ export class PatientService {
     return this.http.post(`${this.baseUrl}/addAgents`, agentsToAssign);
   }
 
+  searchByPatientName(addressId: string, patientName: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/search/${addressId}?searchString=${patientName}`);
+  }
+
   getAllPatientsForClinic2(
     addressId: string,
     pageSize: number,

@@ -34,6 +34,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   cursorAddress = 0;
   clinicId = '';
   loading = false;
+  private triggerSearchPatientName = new Subject();
   private triggerPatients = new Subject();
   private patients = [];
 
@@ -59,6 +60,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     });
 
     this.watchPatients();
+    this.watchSearch();
 
     this.clinicService.getClinics().pipe(
       map(r => r.data.clinicDetails),
@@ -236,5 +238,11 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
       this.patients.sort((a, b) => b.createdOn - a.createdOn);
       this.filterPatientList();
     });
+  }
+
+  private watchSearch(): void {
+    this.triggerSearchPatientName.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe();
   }
 }
