@@ -127,9 +127,9 @@ export function patientStatus(): ValueLabel[] {
   return [
     { value: 'pending', label: 'Pending' },
     { value: 'active', label: 'Active' },
-    { value: 'inactive', label: 'Inactive' },
+    { value: 'feeSchedulePlan', label: 'Fee Schedule Plan' },
     { value: 'termed', label: 'Termed' },
-    { value: 'incomplete', label: 'Incomplete Info' },
+    { value: 'needAssistance', label: 'Needs Assistance' },
     { value: 'discount-plan', label: 'Discount plan' },
     { value: 'medicare-plan', label: 'Medicare plan' }
   ];

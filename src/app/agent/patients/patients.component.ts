@@ -9,6 +9,7 @@ import { Base } from 'src/app/shared/base/base-component';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { months, patientStatus } from 'src/app/shared/services/insurance';
 import { PatientService } from 'src/app/shared/services/patient.service';
+import { InsuranceService } from 'src/app/shared/services/insurance.service';
 
 @Component({
   selector: 'app-patients',
@@ -17,8 +18,8 @@ import { PatientService } from 'src/app/shared/services/patient.service';
 })
 export class PatientsComponent extends Base implements OnInit {
   @ViewChild('picker') picker: any;
-  agents = ['YI/WRS', 'JB/WRS', 'AS/WRS', 'MG/WRS', 'HG/WRS', 'AC/WRS', 'PB/WRS', 'BG/WRS'];
-  insuranceCompaniesForFilter = ['Cygna', 'Delta Dental', 'United Health One'];
+  agents = ['YI/WRS', 'VR/WRS', 'KP/WRS', 'JB/WRS', 'AS/WRS', 'MG/WRS', 'HG/WRS', 'AC/WRS', 'PB/WRS', 'BG/WRS'];
+  insuranceCompaniesForFilter = [];
   filteredPatients = [];
   selectedPatients = [];
   allSelectedPatients = false;
@@ -39,6 +40,7 @@ export class PatientsComponent extends Base implements OnInit {
   selectedStatus = '';
   cursors = [undefined]; // The first cursor is undefined and serves as the starting point.
   cursorAddress = 0;
+  providers = [];
   private patients = [];
   private clinicId = '';
   private patientTrigger = new Subject<string>();
@@ -49,20 +51,36 @@ export class PatientsComponent extends Base implements OnInit {
     private route: ActivatedRoute,
     private clinicService: ClinicService,
     private patientService: PatientService,
+    private insuranceService: InsuranceService,
     private title: Title
   ) { super(); }
 
   ngOnInit(): void {
+    this.getInsurance();
     this.watchPatients();
     this.watchClinics();
     this.checkRoute();
     this.title.setTitle('SuperDentist - Patients');
+    console.log(this);
   }
 
   filterByStatus(statusValue: string): void {
   }
 
   insuranceChange(): void {
+  }
+
+  onApplyInsurance(selectedCompanies: any): void {
+    const queryParams: any = {};
+    console.log(selectedCompanies);
+    queryParams.providers = JSON.stringify(selectedCompanies);
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams,
+        queryParamsHandling: 'merge', // remove to replace all query params by provided
+      });
   }
 
   closeDate(): void {
@@ -217,6 +235,12 @@ export class PatientsComponent extends Base implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(p => {
       this.selectedAgentFilter = p.agentId;
+
+      if (p.providers) {
+        this.providers = JSON.parse(p.providers);
+      } else {
+        this.providers = [];
+      }
       if (!p.startTime) {
         this.startDate = moment();
       } else {
@@ -255,7 +279,8 @@ export class PatientsComponent extends Base implements OnInit {
         this.cursors[this.cursorAddress],
         this.startDate.valueOf(),
         this.endDate.valueOf(),
-        this.selectedAgentFilter
+        this.selectedAgentFilter,
+        this.providers
       )),
       map(r => r.data),
       takeUntil(this.unsubscribe$)
@@ -290,5 +315,12 @@ export class PatientsComponent extends Base implements OnInit {
       this.filterPatientList();
       this.loading = false;
     });
+  }
+
+  private getInsurance(): void {
+    this.insuranceService.getDentalInsurance().pipe(
+      map(d => d.data),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(res => this.insuranceCompaniesForFilter = res);
   }
 }

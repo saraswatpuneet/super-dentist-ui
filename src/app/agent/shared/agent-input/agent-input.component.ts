@@ -85,7 +85,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     const insurance = this.patient.dentalInsurance[this.dentalIndex[this.formType]];
     this.patientService.updateStatus(this.patient.patientId, status, insurance.memberId).pipe(take(1)).subscribe();
     this.patient.status = status;
-    if (status.value === 'incomplete') {
+    if (status.value === 'incomplete' || status.value === 'needAssistance') {
       setTimeout(() => {
         this.incompleteEl.nativeElement.scrollIntoView({
           behavior: 'smooth'
@@ -333,6 +333,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   private initForm(): void {
     this.agentForm = this.fb.group({
       patientCoverage: this.fb.group({
+        needAssistance: [''],
         groupName: [],
         groupNumber: [],
         payerId: [],

@@ -21,13 +21,18 @@ export class PatientService {
     return this.http.post(`${this.baseUrl}/addAgents`, agentsToAssign);
   }
 
+  searchByPatientName(addressId: string, patientName: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/search/${addressId}?searchString=${patientName}`);
+  }
+
   getAllPatientsForClinic2(
     addressId: string,
     pageSize: number,
     cursor: string,
     startDate?: number,
     endDate?: number,
-    agentId?: string
+    agentId?: string,
+    providers?: string[]
   ): Observable<any> {
     let url = `${this.baseUrl}/list/${addressId}?pageSize=${pageSize}`;
     if (cursor) {
@@ -40,6 +45,10 @@ export class PatientService {
 
     if (agentId) {
       url += `&agentId=${agentId}`;
+    }
+
+    if (providers && providers.length && providers.length > 0) {
+      url += `&providers=${JSON.stringify(providers)}`;
     }
 
     return this.http.get(url);
