@@ -8,10 +8,7 @@
         <div>Coverage</div>
       </th>
       <th style="min-width:70px; width: 70p;">
-        <div>Numerator</div>
-      </th>
-      <th style="min-width:70px; width: 70p;">
-        <div>Denominator</div>
+        <div>Frequency</div>
       </th>
       <th style="min-width:70px; width: 70p;">
         <div>Unit</div>
@@ -40,7 +37,6 @@
             </td>
             <ng-container>
               <td> <input [(ngModel)]="groupModel[i].codes[subKey].frequency.numerator" type="number"> </td>
-              <td> <input [(ngModel)]="groupModel[i].codes[subKey].frequency.denominator" type="number"> </td>
               <td>
                 <select [(ngModel)]="groupModel[i].codes[subKey].frequency.unit">
                   <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>

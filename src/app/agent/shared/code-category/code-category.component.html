@@ -2,9 +2,9 @@
   <table>
     <tr>
       <th></th>
-      <th style="width:100px">Fixed</th>
-      <th style="width:100px">Min</th>
-      <th style="width:100px">Max</th>
+      <th style="width:100px">Fixed %</th>
+      <th style="width:100px">Min %</th>
+      <th style="width:100px">Max %</th>
     </tr>
 
     <ng-container class="breakdowns" *ngFor="let breakDownKey of codes?.breakDownKeys; let i = index">
@@ -14,21 +14,18 @@
         </td>
 
         <td>
-          <select [(ngModel)]="groupModel[i][breakDownKey].fixed" (change)="changeFixed(i, breakDownKey)">
-            <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
-          </select>
+          <input [(ngModel)]="groupModel[i][breakDownKey].fixed" (ngModelChange)="changeFixed(i, breakDownKey)"
+            type="number">
         </td>
 
         <td>
-          <select [(ngModel)]="groupModel[i][breakDownKey].min" (change)="changeRange(i, breakDownKey)">
-            <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
-          </select>
+          <input [(ngModel)]="groupModel[i][breakDownKey].min" type="number"
+            (ngModelChange)="changeRange(i, breakDownKey)">
         </td>
 
         <td>
-          <select [(ngModel)]="groupModel[i][breakDownKey].max" (change)="changeRange(i, breakDownKey)">
-            <option *ngFor="let clause of increments" [value]="clause">{{clause}}%</option>
-          </select>
+          <input [(ngModel)]="groupModel[i][breakDownKey].max" (ngModelChange)="changeRange(i, breakDownKey)"
+            type="number">
         </td>
       </tr>
     </ng-container>
