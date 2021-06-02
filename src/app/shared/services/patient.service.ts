@@ -31,7 +31,8 @@ export class PatientService {
     cursor: string,
     startDate?: number,
     endDate?: number,
-    agentId?: string
+    agentId?: string,
+    providers?: string[]
   ): Observable<any> {
     let url = `${this.baseUrl}/list/${addressId}?pageSize=${pageSize}`;
     if (cursor) {
@@ -44,6 +45,10 @@ export class PatientService {
 
     if (agentId) {
       url += `&agentId=${agentId}`;
+    }
+
+    if (providers && providers.length && providers.length > 0) {
+      url += `&providers=${JSON.stringify(providers)}`;
     }
 
     return this.http.get(url);

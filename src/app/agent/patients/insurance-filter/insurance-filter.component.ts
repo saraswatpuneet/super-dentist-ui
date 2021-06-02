@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-insurance-filter',
@@ -7,6 +7,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class InsuranceFilterComponent implements OnInit {
   @Input() insuranceCompaniesForFilter = [];
+  @Output() apply = new EventEmitter<any>();
+  @Output() cancel = new EventEmitter();
+  selectedCompanies: any = {};
   filteredInsurances = [];
   searchFilter = '';
 
@@ -16,7 +19,21 @@ export class InsuranceFilterComponent implements OnInit {
     this.filteredInsurances = [...this.insuranceCompaniesForFilter];
   }
 
+  updateSelection($event: any, company: string): void {
+    if ($event.checked) {
+      this.selectedCompanies[company] = true;
+    } else {
+      delete this.selectedCompanies[company];
+    }
+  }
+
   filterInsurances(): void {
     this.filteredInsurances = this.insuranceCompaniesForFilter.filter(company => company.toLowerCase().includes(this.searchFilter));
+  }
+
+  sendApply(): void {
+    const companies = Object.keys(this.selectedCompanies);
+    console.log(companies);
+    this.apply.emit(companies);
   }
 }

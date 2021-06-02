@@ -5,6 +5,13 @@
       <input matInput type="text" [(ngModel)]="searchFilter" (keyup)="filterInsurances()">
     </mat-form-field>
     <mat-checkbox>Select All</mat-checkbox>
-    <mat-checkbox *ngFor="let company of filteredInsurances">{{company}}</mat-checkbox>
+    <mat-checkbox *ngFor="let company of filteredInsurances;" (change)="updateSelection($event, company)"
+      [checked]="selectedCompanies[company]">
+      {{company}}
+    </mat-checkbox>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <button mat-button (click)="sendApply()">Apply</button>
+    <button mat-button (click)="cancel.emit()">Cancel</button>
   </div>
 </mat-card>

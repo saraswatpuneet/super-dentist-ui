@@ -137,16 +137,16 @@
 
         <ng-container matColumnDef="insurance">
           <th style="cursor: pointer" mat-header-cell *matHeaderCellDef [matMenuTriggerFor]="insuranceFilterMenu">
-            Insurance / Type & Phone
+            Insurance / Type
           </th>
           <td mat-cell *matCellDef="let element">
             <ng-container *ngIf="element.dentalInsurance">
               <div> {{element.dentalInsurance.company}} </div>
-              <div class="lighter">Dental (281) 432-1253</div>
+              <div class="lighter">Dental</div>
             </ng-container>
             <ng-container *ngIf="element.medicalInsurance">
               <div> {{element.medicalInsurance.company}} </div>
-              <div class="lighter">Medical (281) 432-1253</div>
+              <div class="lighter">Medical</div>
             </ng-container>
           </td>
         </ng-container>
@@ -197,7 +197,8 @@
 
 <mat-menu #insuranceFilterMenu="matMenu">
   <ng-template matMenuContent>
-    <app-insurance-filter [insuranceCompaniesForFilter]="insuranceCompaniesForFilter"></app-insurance-filter>
+    <app-insurance-filter (apply)="onApplyInsurance($event)"
+      [insuranceCompaniesForFilter]="insuranceCompaniesForFilter"></app-insurance-filter>
   </ng-template>
 </mat-menu>
 
