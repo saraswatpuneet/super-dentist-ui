@@ -17,7 +17,7 @@ import { PatientService } from 'src/app/shared/services/patient.service';
 })
 export class PatientsComponent extends Base implements OnInit {
   @ViewChild('picker') picker: any;
-  agents = ['YI/WRS', 'JB/WRS', 'AS/WRS', 'MG/WRS', 'HG/WRS', 'AC/WRS', 'PB/WRS', 'BG/WRS'];
+  agents = ['YI/WRS', 'VR/WRS', 'KP/WRS', 'JB/WRS', 'AS/WRS', 'MG/WRS', 'HG/WRS', 'AC/WRS', 'PB/WRS', 'BG/WRS'];
   insuranceCompaniesForFilter = ['Cygna', 'Delta Dental', 'United Health One'];
   filteredPatients = [];
   selectedPatients = [];
