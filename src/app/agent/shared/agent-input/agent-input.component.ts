@@ -33,7 +33,6 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   @Output() closePatient = new EventEmitter();
   @ViewChild('incompleteNotesEl') incompleteEl: ElementRef;
   groupModel = [];
-  showMissingToothClause = false;
   loading = false;
   processing = false;
   agentForm: FormGroup;
@@ -132,15 +131,6 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     this.patientService.setPatientNotes(this.patient.patientId, value, this.formType)
       .pipe(take(1))
       .subscribe(res => this.processing = false);
-  }
-
-  toggleClause(yes: string): void {
-    if (yes === 'yes') {
-      this.showMissingToothClause = true;
-    } else {
-      this.showMissingToothClause = false;
-      this.agentForm.get('patientCoverage').get('toothReplacementClause').reset();
-    }
   }
 
   resetEligibilityYear(): void {
@@ -253,10 +243,6 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         });
 
         this.agentForm.patchValue(value);
-      }
-
-      if (this.agentForm.get('patientCoverage').get('missingToothClause').value === 'yes') {
-        this.showMissingToothClause = true;
       }
     });
   }

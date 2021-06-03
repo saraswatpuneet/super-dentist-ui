@@ -33,7 +33,6 @@ export class InsuranceFilterComponent implements OnInit {
 
   sendApply(): void {
     const companies = Object.keys(this.selectedCompanies);
-    console.log(companies);
     this.apply.emit(companies);
   }
 }
