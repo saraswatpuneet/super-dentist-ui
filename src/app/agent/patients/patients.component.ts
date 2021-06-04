@@ -61,7 +61,6 @@ export class PatientsComponent extends Base implements OnInit {
     this.watchClinics();
     this.checkRoute();
     this.title.setTitle('SuperDentist - Patients');
-    console.log(this);
   }
 
   filterByStatus(statusValue: string): void {
@@ -70,9 +69,12 @@ export class PatientsComponent extends Base implements OnInit {
   insuranceChange(): void {
   }
 
+  removeProviders(): void {
+
+  }
+
   onApplyInsurance(selectedCompanies: any): void {
     const queryParams: any = {};
-    console.log(selectedCompanies);
     queryParams.providers = JSON.stringify(selectedCompanies);
     this.router.navigate(
       [],

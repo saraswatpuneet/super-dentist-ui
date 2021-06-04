@@ -193,14 +193,13 @@
           <h3>Missing tooth clause</h3>
           <div class="sd-input radio">
             <label>Has missing tooth clause?</label>
-            <mat-radio-group (change)="toggleClause($event.value)" color="primary" fxLayoutGap="20px"
-              formControlName="missingToothClause">
+            <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="missingToothClause">
               <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
                 {{clause.label}}
               </mat-radio-button>
             </mat-radio-group>
           </div>
-          <ng-container *ngIf="showMissingToothClause" formGroupName="toothReplacementClause">
+          <ng-container formGroupName="toothReplacementClause">
             <table class="waiting-table" formGroupName="callouts">
               <tr>
                 <th>Callout</th>

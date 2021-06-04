@@ -16,11 +16,6 @@
               <div class="lighter">Tax ID: {{clinic?.taxId ? clinic?.taxId: 'N/A'}}</div>
               <div class="lighter">NPI: {{clinic?.groupNpi ? clinic?.groupNpi : 'N/A'}}</div>
             </div>
-
-            <div fxLayout="column">
-              <div *ngIf="clinic.taxId">{{clinic.taxId}}</div>
-              <div *ngIf="clinic.groupNpi">{{clinic.groupNpi}}</div>
-            </div>
           </div>
           <span fxFlex></span>
           <mat-form-field appearance="fill">
@@ -46,6 +41,11 @@
       <div class="filter-chip" fxLayout="row" fxLayoutAlign=" center" *ngIf="selectedAgentFilter">
         <span>{{selectedAgentFilter}}</span>
         <mat-icon (click)="filterByAgent('')">close</mat-icon>
+      </div>
+
+      <div class="filter-chip" fxLayout="row" fxLayoutAlign=" center" *ngIf="providers && providers.length > 0">
+        <span>Insurance Filter ({{providers.length}})</span>
+        <mat-icon (click)="removeProviders()">close</mat-icon>
       </div>
     </div>
   </mat-card>
