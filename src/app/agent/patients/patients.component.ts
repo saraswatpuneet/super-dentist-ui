@@ -69,6 +69,10 @@ export class PatientsComponent extends Base implements OnInit {
   insuranceChange(): void {
   }
 
+  removeProviders(): void {
+
+  }
+
   onApplyInsurance(selectedCompanies: any): void {
     const queryParams: any = {};
     queryParams.providers = JSON.stringify(selectedCompanies);
