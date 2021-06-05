@@ -7,6 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class InsuranceFilterComponent implements OnInit {
   @Input() insuranceCompaniesForFilter = [];
+  @Input() selectedOptions = [];
   @Output() apply = new EventEmitter<any>();
   @Output() cancel = new EventEmitter();
   selectedCompanies: any = {};
@@ -17,6 +18,7 @@ export class InsuranceFilterComponent implements OnInit {
 
   ngOnInit(): void {
     this.filteredInsurances = [...this.insuranceCompaniesForFilter];
+    this.selectedOptions.forEach(selection => this.selectedCompanies[selection] = true);
   }
 
   updateSelection($event: any, company: string): void {
