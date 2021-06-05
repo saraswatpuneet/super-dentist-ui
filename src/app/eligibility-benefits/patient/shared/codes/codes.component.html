@@ -20,10 +20,9 @@
           {{savedCodes[i].codes[subKey].percent}}% <span
             *ngIf="savedCodes[i].codes[subKey].frequency.numerator && savedCodes[i].codes[subKey].frequency.unit"
             class="spacer"></span>
-          {{savedCodes[i].codes[subKey].frequency.numerator}} <ng-container
-            *ngIf="savedCodes[i].codes[subKey].frequency.numerator && savedCodes[i].codes[subKey].frequency.unit">
-            /
-          </ng-container>
+          {{savedCodes[i].codes[subKey].frequency.numerator}}
+          <ng-container *ngIf="savedCodes[i].codes[subKey].frequency.denominator">
+            / {{savedCodes[i].codes[subKey].frequency.denominator}}</ng-container>
           {{savedCodes[i].codes[subKey].frequency.unit}}
 
           <ng-container *ngIf="savedCodes[i].codes[subKey].ageRange.min || savedCodes[i].codes[subKey].ageRange.max">
