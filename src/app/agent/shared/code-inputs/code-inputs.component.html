@@ -1,16 +1,16 @@
 <div class="code-inputs">
-  <table>
+  <table style="width: calc(100% - 4px);">
     <tr>
       <th>
         <div>Code</div>
       </th>
-      <th style="min-width:70px; width: 70p;">
+      <th style="min-width:70px; width: 70px;">
         <div>Coverage</div>
       </th>
-      <th style="min-width:70px; width: 70p;">
+      <th style="min-width: 70px; width: 70px;">
         <div>Frequency</div>
       </th>
-      <th style="min-width:70px; width: 70p;">
+      <th style="min-width:70px; width: 70px;">
         <div>Unit</div>
       </th>
       <th style="min-width:68px; width: 68px;">
@@ -23,7 +23,7 @@
         <div>Shared codes</div>
       </th>
       <th *ngIf="hasMedicalNecessity" style="min-width:140px; width:140px">Medical necessity?</th>
-      <th style="min-width: 200px; width: 200px">Notes?</th>
+      <th>Notes?</th>
     </tr>
     <ng-container class="breakdowns" *ngFor="let breakDownKey of codes?.breakDownKeys; let i = index">
       <ng-container *ngFor="let subKey of codes?.breakDowns[breakDownKey].breakDownKeys; let j = index">
@@ -36,7 +36,15 @@
               <input type="number" [(ngModel)]="groupModel[i].codes[subKey].percent">
             </td>
             <ng-container>
-              <td> <input [(ngModel)]="groupModel[i].codes[subKey].frequency.numerator" type="number"> </td>
+              <td>
+                <div fxLayout="row" fxLayoutAlign=" center">
+                  <input class="underlined-input" [(ngModel)]="groupModel[i].codes[subKey].frequency.numerator"
+                    type="number">
+                  <span>/</span>
+                  <input class="underlined-input" [(ngModel)]="groupModel[i].codes[subKey].frequency.denominator"
+                    type="number">
+                </div>
+              </td>
               <td>
                 <select [(ngModel)]="groupModel[i].codes[subKey].frequency.unit">
                   <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>

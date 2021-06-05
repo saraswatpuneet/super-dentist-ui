@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { CodeInputsComponent } from './code-inputs.component';
 
@@ -11,6 +12,7 @@ import { CodeInputsComponent } from './code-inputs.component';
   imports: [
     CommonModule,
     FormsModule,
+    FlexLayoutModule,
     MatRadioModule,
     MatSelectModule,
   ],
