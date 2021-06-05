@@ -10,9 +10,17 @@
         <div>{{clinic?.name}} <span class="lighter">{{clinic?.phoneNumber}}</span></div>
         <div class="lighter">{{clinic?.address}}</div>
       </div>
-      <div fxLayout="column">
-        <div *ngIf="clinic.groupNpi"><span class="lighter">Npi: </span>{{clinic.groupNpi}}</div>
-        <div *ngIf="clinic.taxId"><span class="lighter">Tax ID: </span>{{clinic.taxId}}</div>
+
+      <div fxLayout="row" fxLayoutGap="20px">
+        <div fxLayout="column" fxLayoutAlign=" end">
+          <div class="lighter">Tax ID: {{clinic?.taxId ? clinic?.taxId: 'N/A'}}</div>
+          <div class="lighter">Group NPI: {{clinic?.groupNpi ? clinic?.groupNpi : 'N/A'}}</div>
+        </div>
+
+        <div>
+          <div class="lighter">Provider NPI: {{clinic?.providerNpi ? clinic?.providerNpi : 'N/A'}}</div>
+          <div class="lighter">Provider Name: {{clinic?.providerName ? clinic?. providerName : 'N/A'}}</div>
+        </div>
       </div>
     </div>
 
@@ -189,37 +197,43 @@
           </table>
         </mat-card>
 
-        <mat-card class="missing-tooth" style="width:calc(50% - 10px)" fxLayout="column" fxFlex="0 0 auto">
-          <h3>Missing tooth clause</h3>
-          <div class="sd-input radio">
-            <label>Has missing tooth clause?</label>
-            <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="missingToothClause">
-              <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
-                {{clause.label}}
-              </mat-radio-button>
-            </mat-radio-group>
-          </div>
-          <ng-container formGroupName="toothReplacementClause">
-            <table class="waiting-table" formGroupName="callouts">
-              <tr>
-                <th>Callout</th>
-                <th style="width:150px">Frequency</th>
-                <th style="width:100px">Unit</th>
-              </tr>
+        <div style="width:calc(50% - 10px)" fxLayout="column" fxLayoutGap="20px">
+          <mat-card class="missing-tooth" fxLayout="column" fxFlex="0 0 auto">
+            <h3>Missing tooth clause</h3>
+            <div class="sd-input radio">
+              <label>Has missing tooth clause?</label>
+              <mat-radio-group color="primary" fxLayoutGap="20px" formControlName="missingToothClause">
+                <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
+                  {{clause.label}}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </mat-card>
 
-              <tr *ngFor="let clause of missingToothClauses" [formGroupName]="clause.value">
-                <td>{{clause.label}}</td>
-                <td><input type="text" formControlName="frequency"></td>
-                <td>
-                  <select formControlName="unit">
-                    <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>
-                  </select>
-                </td>
-              </tr>
-            </table>
+          <mat-card>
+            <h3>Tooth replacement clase</h3>
+            <ng-container formGroupName="toothReplacementClause">
+              <table class="waiting-table" formGroupName="callouts">
+                <tr>
+                  <th>Callout</th>
+                  <th style="width:150px">Frequency</th>
+                  <th style="width:100px">Unit</th>
+                </tr>
 
-          </ng-container>
-        </mat-card>
+                <tr *ngFor="let clause of missingToothClauses" [formGroupName]="clause.value">
+                  <td>{{clause.label}}</td>
+                  <td><input type="text" formControlName="frequency"></td>
+                  <td>
+                    <select formControlName="unit">
+                      <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>
+                    </select>
+                  </td>
+                </tr>
+              </table>
+
+            </ng-container>
+          </mat-card>
+        </div>
       </div>
 
     </ng-container>

@@ -10,9 +10,17 @@
         <div>{{clinic?.name}} <span class="lighter">{{clinic?.phoneNumber}}</span></div>
         <div class="lighter">{{clinic?.address}}</div>
       </div>
-      <div fxLayout="column">
-        <div *ngIf="clinic.groupNpi"><span class="lighter">Npi: </span>{{clinic.groupNpi}}</div>
-        <div *ngIf="clinic.taxId"><span class="lighter">Tax ID: </span>{{clinic.taxId}}</div>
+
+      <div fxLayout="row" fxLayoutGap="20px">
+        <div fxLayout="column" fxLayoutAlign=" end">
+          <div class="lighter">Tax ID: {{clinic?.taxId ? clinic?.taxId: 'N/A'}}</div>
+          <div class="lighter">Group NPI: {{clinic?.groupNpi ? clinic?.groupNpi : 'N/A'}}</div>
+        </div>
+
+        <div>
+          <div class="lighter">Provider NPI: {{clinic?.providerNpi ? clinic?.providerNpi : 'N/A'}}</div>
+          <div class="lighter">Provider Name: {{clinic?.providerName ? clinic?. providerName : 'N/A'}}</div>
+        </div>
       </div>
 
       <span fxFlex></span>
