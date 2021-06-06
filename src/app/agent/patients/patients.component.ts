@@ -70,7 +70,12 @@ export class PatientsComponent extends Base implements OnInit {
   }
 
   removeProviders(): void {
-
+    const queryParams = { providers: undefined };
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams,
+      queryParamsHandling: 'merge'
+    });
   }
 
   onApplyInsurance(selectedCompanies: any): void {

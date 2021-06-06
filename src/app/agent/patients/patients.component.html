@@ -202,7 +202,7 @@
 
 <mat-menu #insuranceFilterMenu="matMenu">
   <ng-template matMenuContent>
-    <app-insurance-filter (apply)="onApplyInsurance($event)"
+    <app-insurance-filter (apply)="onApplyInsurance($event)" [selectedOptions]="providers"
       [insuranceCompaniesForFilter]="insuranceCompaniesForFilter"></app-insurance-filter>
   </ng-template>
 </mat-menu>
