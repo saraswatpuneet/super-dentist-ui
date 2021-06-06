@@ -67,10 +67,10 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
   }
 
   onSave(): void {
-    const value = {
+    const value = JSON.parse(JSON.stringify({
       ...this.agentForm.value,
       ...{ codes: this.groupModel },
-    };
+    }));
 
     if (value.remarks.verifiedDate) {
       value.remarks.verifiedDate = moment(value.remarks.verifiedDate, 'MM/DD/YYYY').valueOf();

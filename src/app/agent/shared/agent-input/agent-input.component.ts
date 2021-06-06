@@ -99,10 +99,10 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   }
 
   onSave(): void {
-    const value = {
+    const value = JSON.parse(JSON.stringify({
       ...this.agentForm.value,
       ...{ codes: this.groupModel },
-    };
+    }));
 
     Object.keys(value.history).forEach(key => {
       value.history[key].forEach((history, index) => {
