@@ -18,7 +18,7 @@ import { monthsHash } from '../shared/services/insurance';
 })
 export class EligibilityBenefitsComponent extends Base implements OnInit {
   showInsurance = false;
-  pageSize = 20;
+  pageSize = 50;
   clinics: any[];
   addressId = '';
   patientFilter = '';

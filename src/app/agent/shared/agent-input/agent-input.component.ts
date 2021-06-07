@@ -2,7 +2,6 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitte
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { forkJoin, Subject, of } from 'rxjs';
 import { take, map, switchMap, takeUntil, catchError, tap } from 'rxjs/operators';
-import * as moment from 'moment';
 
 import { ClinicService } from 'src/app/shared/services/clinic.service';
 import { Base } from 'src/app/shared/base/base-component';
@@ -104,29 +103,6 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       ...{ codes: this.groupModel },
     }));
 
-    Object.keys(value.history).forEach(key => {
-      value.history[key].forEach((history, index) => {
-        if (history.date) {
-          value.history[key][index].date = moment(history.date, 'MMDDYYYY').valueOf();
-        } else {
-          value.history[key][index] = {
-            date: null, tooth: value.history[key][index].tooth
-          };
-        }
-      });
-    });
-
-    if (value.patientCoverage.eligibilityStartDate) {
-      value.patientCoverage.eligibilityStartDate = moment(value.patientCoverage.eligibilityStartDate, 'MMDDYYYY').valueOf();
-    }
-
-    if (value.patientCoverage.termDate) {
-      value.patientCoverage.termDate = moment(value.patientCoverage.termDate, 'MMDDYYYY').valueOf();
-    }
-
-    if (value.remarks.verifiedDate) {
-      value.remarks.verifiedDate = moment(value.remarks.verifiedDate, 'MMDDYYYY').valueOf();
-    }
     this.processing = true;
     this.patientService.setPatientNotes(this.patient.patientId, value, this.formType)
       .pipe(take(1))
@@ -220,23 +196,9 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
           }
         }
 
-        if (value.patientCoverage.termDate) {
-          value.patientCoverage.termDate = moment(value.patientCoverage.termDate).format('MMDDYYYY');
-        }
-        if (value.patientCoverage.eligibilityStartDate) {
-          value.patientCoverage.eligibilityStartDate = moment(value.patientCoverage.eligibilityStartDate).format('MMDDYYYY');
-        }
-
-        if (value.remarks.verifiedDate) {
-          value.remarks.verifiedDate = moment(value.remarks.verifiedDate).format('MMDDYYYY');
-        }
-
         Object.keys(historyGroup.value).forEach(key => {
           if (value.history[key]) {
             value.history[key].forEach((history, index) => {
-              if (history.date) {
-                value.history[key][index].date = moment(history.date).format('MMDDYYYY');
-              }
               (this.agentForm.get('history').get(key) as FormArray).push(this.fb.group(history));
             });
           }

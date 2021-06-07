@@ -9,6 +9,7 @@ import { InsuranceService } from 'src/app/shared/services/insurance.service';
 import { PatientService } from 'src/app/shared/services/patient.service';
 import { DentalBreakDowns, months, monthsHash } from 'src/app/shared/services/insurance';
 import { Base } from 'src/app/shared/base/base-component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-patient',
@@ -161,6 +162,10 @@ export class PatientComponent extends Base implements OnInit {
               };
             }
           }
+          const eligibilityStartDate = savedRecords[counter].patientCoverage.eligibilityStartDate;
+          savedRecords[counter].patientCoverage.eligibilityStartDate =
+            eligibilityStartDate ? moment(eligibilityStartDate, 'MMDDYYYY').format('MMM DD, YYYY') : null;
+
           savedRecords[counter].codes = groupModel;
 
           // Adjust history
@@ -169,7 +174,11 @@ export class PatientComponent extends Base implements OnInit {
             (selectedCodesHistory as DentalBreakDowns).breakDowns[k].breakDownKeys.forEach(sk => {
               historyGroup[sk] = [];
               if (savedRecords[counter].history[sk]) {
-                historyGroup[sk] = savedRecords[counter].history[sk];
+                historyGroup[sk] = savedRecords[counter].history[sk].map(d => ({
+                  ...d, ...{
+                    date: d.date ? moment(d.date, 'MMDDYYYY').format('MMM DD, YYYY') : null
+                  }
+                }));
               }
             });
           });

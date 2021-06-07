@@ -9,7 +9,7 @@
     <div class="sub-breakdown" fxLayout="column" *ngFor="let subId of group.codeIds">
       <p fxFlex>{{subId}} - {{allCodes?.breakDowns[group.groupId].breakDowns[subId].label}}</p>
       <span *ngFor="let his of history[subId]">
-        <ng-container *ngIf="his.date">{{his.date | date:"MMM dd, YYYY"}}</ng-container>
+        <ng-container *ngIf="his.date">{{his.date}}</ng-container>
         <ng-container *ngIf="his.tooth"> - {{his.tooth}}</ng-container>
       </span>
       <span *ngIf="history[subId] && history[subId].length === 0">No history</span>
