@@ -27,7 +27,7 @@ export class PatientsComponent extends Base implements OnInit {
   assigning = false;
   patientFilter = '';
   clinic: any = {};
-  pageSize = 20;
+  pageSize = 50;
   startDate = moment();
   endDate = moment();
   months = months();
