@@ -206,7 +206,6 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
 
         this.agentForm.patchValue(value);
       }
-      console.log(this);
     });
   }
 
