@@ -15,6 +15,7 @@ export class InsuranceSummaryComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.monthsHash);
   }
 
 }

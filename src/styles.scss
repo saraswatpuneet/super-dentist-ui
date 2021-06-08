@@ -1,4 +1,4 @@
-@use '~@angular/material' as mat;
+@import '~@angular/material/theming';
 @import "~leaflet/dist/leaflet.css";
 
 :root {
@@ -45,9 +45,9 @@
     --ac-light-purple: #bdbacf;
 }
 
-@include mat.core();
+@include mat-core();
 
-mat.$dark-theme-background-palette: (
+$mat-dark-theme-background: (
   status-bar: #42464a,
   app-bar: #42464a,
   background: black,
@@ -65,11 +65,11 @@ mat.$dark-theme-background-palette: (
   tooltip: rgba(#2a2d30, 0.7),
 );
 
-$super-dentist-primary: mat.define-palette(mat.$light-blue-palette);
-$super-dentist-accent: mat.define-palette(mat.$green-palette);
-$super-dentist-warn: mat.define-palette(mat.$red-palette);
+$super-dentist-primary: mat-palette($mat-light-blue);
+$super-dentist-accent: mat-palette($mat-green);
+$super-dentist-warn: mat-palette($mat-red);
 
-$super-dentist-theme: mat.define-dark-theme((
+$super-dentist-theme: mat-dark-theme((
   color: (
     primary: $super-dentist-primary,
     accent: $super-dentist-accent,
@@ -77,7 +77,7 @@ $super-dentist-theme: mat.define-dark-theme((
   )
 ));
 
-$super-dentist-light-theme: mat.define-light-theme((
+$super-dentist-light-theme: mat-light-theme((
   color: (
     primary: $super-dentist-primary,
     accent: $super-dentist-accent,
@@ -85,10 +85,10 @@ $super-dentist-light-theme: mat.define-light-theme((
   )
 ));
 
-@include mat.all-component-themes($super-dentist-theme);
+@include angular-material-theme($super-dentist-theme);
 
 .light {
-  @include mat.all-component-colors($super-dentist-light-theme);
+  @include angular-material-color($super-dentist-light-theme);
 }
 
 html, body { height: 100%; }

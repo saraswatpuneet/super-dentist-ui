@@ -320,6 +320,7 @@ export class PatientsComponent extends Base implements OnInit {
           });
         }
       });
+      console.log(this);
       this.patients = patients;
       this.patients.sort((a, b) => a.createdOn - b.createdOn);
       this.filterPatientList();
