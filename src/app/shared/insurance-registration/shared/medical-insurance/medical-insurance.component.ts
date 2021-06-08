@@ -53,7 +53,7 @@ export class MedicalInsuranceComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       dob: this.fb.group({
-        month: ['1', Validators.required],
+        month: ['01', Validators.required],
         day: ['1', Validators.required],
         year: ['2000', Validators.required],
       }),

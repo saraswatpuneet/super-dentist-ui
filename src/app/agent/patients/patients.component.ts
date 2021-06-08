@@ -7,7 +7,7 @@ import * as moment from 'moment';
 
 import { Base } from 'src/app/shared/base/base-component';
 import { ClinicService } from 'src/app/shared/services/clinic.service';
-import { months, patientStatus } from 'src/app/shared/services/insurance';
+import { months, patientStatus, monthsHash } from 'src/app/shared/services/insurance';
 import { PatientService } from 'src/app/shared/services/patient.service';
 import { InsuranceService } from 'src/app/shared/services/insurance.service';
 
@@ -31,6 +31,7 @@ export class PatientsComponent extends Base implements OnInit {
   startDate = moment();
   endDate = moment();
   months = months();
+  monthsHash = monthsHash();
   patientColumns: string[] = ['actions', 'assignedTo', 'appointment', 'patient', 'subscriber', 'memberInfo', 'insurance', 'status'];
   dentalKeys = ['primaryDental', 'secondaryDental', 'tertiaryDental'];
   medicalKeys = ['primaryMedical', 'secondaryMedical', 'tertiaryMedical'];
@@ -194,6 +195,7 @@ export class PatientsComponent extends Base implements OnInit {
   selectPatient(patient): void {
     let formType = '';
     let insurancePath = 'dental-insurance';
+
     if (patient.medicalInsurance) {
       insurancePath = 'medical-insurance';
       formType = this.medicalKeys[patient.medicalInsurance.index];
@@ -307,6 +309,7 @@ export class PatientsComponent extends Base implements OnInit {
             patients.push({ dentalInsurance: p, ...tmpP });
           });
         }
+
         if (patient.medicalInsurance) {
           patient.medicalInsurance.forEach((p, i) => {
             const tmpP = JSON.parse(JSON.stringify(patient));
@@ -317,6 +320,7 @@ export class PatientsComponent extends Base implements OnInit {
           });
         }
       });
+      console.log(this);
       this.patients = patients;
       this.patients.sort((a, b) => a.createdOn - b.createdOn);
       this.filterPatientList();
