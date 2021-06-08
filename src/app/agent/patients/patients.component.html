@@ -100,7 +100,7 @@
           <th mat-header-cell *matHeaderCellDef> Patient / Date of Birth </th>
           <td mat-cell *matCellDef="let element">
             <div>{{element?.firstName}} {{element?.lastName}} </div>
-            <div class="lighter"> {{months[element.dob.month]?.label}} {{element.dob.day}}, {{element.dob.year}}
+            <div class="lighter"> {{monthsHash[element.dob.month]}} {{element.dob.day}}, {{element.dob.year}}
             </div>
           </td>
         </ng-container>
@@ -111,13 +111,13 @@
             <ng-container *ngIf="element.dentalInsurance">
               <div> {{element.dentalInsurance.subscriber.firstName}} {{element.dentalInsurance.subscriber.lastName}}
               </div>
-              <div class="lighter">{{months[element.dentalInsurance.subscriber.dob.month]?.label}}
+              <div class="lighter">{{monthsHash[element.dentalInsurance.subscriber.dob.month]}}
                 {{element.dentalInsurance.subscriber.dob.day}}, {{element.dentalInsurance.subscriber.dob.year}}</div>
             </ng-container>
             <ng-container *ngIf="element.medicalInsurance">
               <div> {{element.medicalInsurance.subscriber.firstName}} {{element.medicalInsurance.subscriber.lastName}}
               </div>
-              <div class="lighter">{{months[element.medicalInsurance.subscriber.dob.month]?.label}}
+              <div class="lighter">{{monthsHash[element.medicalInsurance.subscriber.dob.month]}}
                 {{element.medicalInsurance.subscriber.dob.day}}, {{element.medicalInsurance.subscriber.dob.year}}
               </div>
             </ng-container>
