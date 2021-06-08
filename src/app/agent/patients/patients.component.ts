@@ -194,6 +194,7 @@ export class PatientsComponent extends Base implements OnInit {
   selectPatient(patient): void {
     let formType = '';
     let insurancePath = 'dental-insurance';
+
     if (patient.medicalInsurance) {
       insurancePath = 'medical-insurance';
       formType = this.medicalKeys[patient.medicalInsurance.index];
@@ -307,6 +308,7 @@ export class PatientsComponent extends Base implements OnInit {
             patients.push({ dentalInsurance: p, ...tmpP });
           });
         }
+
         if (patient.medicalInsurance) {
           patient.medicalInsurance.forEach((p, i) => {
             const tmpP = JSON.parse(JSON.stringify(patient));
@@ -317,6 +319,7 @@ export class PatientsComponent extends Base implements OnInit {
           });
         }
       });
+      console.log(this);
       this.patients = patients;
       this.patients.sort((a, b) => a.createdOn - b.createdOn);
       this.filterPatientList();

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { monthsHash } from 'src/app/shared/services/insurance';
 
 @Component({
   selector: 'app-insurance-summary',
@@ -9,23 +10,12 @@ export class InsuranceSummaryComponent implements OnInit {
   @Input() header = '';
   @Input() insurance: any = {};
   @Output() removeInsurance = new EventEmitter();
-  displayMonths = {
-    1: 'January',
-    2: 'Febuary',
-    3: 'March',
-    4: 'April',
-    5: 'May',
-    6: 'June',
-    7: 'July',
-    8: 'August',
-    9: 'September',
-    10: 'October',
-    11: 'November',
-    12: 'December',
-  };
+  monthsHash = monthsHash();
+
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.monthsHash);
   }
 
 }

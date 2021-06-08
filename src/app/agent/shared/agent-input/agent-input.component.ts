@@ -206,6 +206,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
 
         this.agentForm.patchValue(value);
       }
+      console.log(this);
     });
   }
 
@@ -285,7 +286,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         groupName: [],
         groupNumber: [],
         payerId: [],
-        eligibilityStartDate: [],
+        eligibilityStartDate: [''],
         coordinationOfBenefits: this.fb.group({
           other: [],
           category: []
@@ -340,14 +341,14 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
           })
         }),
         generalNotes: [],
-        termDate: []
+        termDate: ['']
       }),
       history: this.fb.group({}),
       remarks: this.fb.group({
         insuranceRepresentativeName: [],
         callRefNumber: [],
         verifiedBy: [],
-        verifiedDate: [],
+        verifiedDate: [''],
       }),
     });
   }

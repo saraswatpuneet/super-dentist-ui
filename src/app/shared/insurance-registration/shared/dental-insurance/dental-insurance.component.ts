@@ -69,7 +69,7 @@ export class DentalInsuranceComponent extends Base implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       dob: this.fb.group({
-        month: ['1', Validators.required],
+        month: ['01', Validators.required],
         day: ['1', Validators.required],
         year: ['2000', Validators.required],
       }),

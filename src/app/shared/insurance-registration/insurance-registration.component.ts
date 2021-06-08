@@ -38,20 +38,6 @@ export class InsuranceRegistrationComponent extends Base implements OnInit {
   dentalInsurances = [];
   selectedDental = false;
   selectedMedical = false;
-  displayMonths = {
-    1: 'January',
-    2: 'Febuary',
-    3: 'March',
-    4: 'April',
-    5: 'May',
-    6: 'June',
-    7: 'July',
-    8: 'August',
-    9: 'September',
-    10: 'October',
-    11: 'November',
-    12: 'December',
-  };
 
   constructor(
     private fb: FormBuilder,
@@ -139,7 +125,7 @@ export class InsuranceRegistrationComponent extends Base implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       dob: this.fb.group({
-        month: ['1', Validators.required],
+        month: ['01', Validators.required],
         day: ['1', Validators.required],
         year: ['2000', Validators.required],
       }),
