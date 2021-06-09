@@ -167,15 +167,15 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       }
 
       if (value) {
-        if (value.patientCoverage.eligibilityStartDate) {
+        if (value.patientCoverage && value.patientCoverage.eligibilityStartDate) {
           value.patientCoverage.eligibilityStartDate = value.patientCoverage.eligibilityStartDate.toString();
         }
 
-        if (value.toothReplacementClause.termDate) {
+        if (value.toothReplacementClause && value.toothReplacementClause.termDate) {
           value.toothReplacementClause.termDate = value.toothReplacementClause.termDate.toString();
         }
 
-        if (value.remarks.verifiedDate) {
+        if (value.remarks && value.remarks.verifiedDate) {
           value.remarks.verifiedDate = value.remarks.verifiedDate.toString();
         }
         const mapper: any = {};
