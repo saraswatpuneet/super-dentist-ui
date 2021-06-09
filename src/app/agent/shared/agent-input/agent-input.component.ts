@@ -210,6 +210,9 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         Object.keys(historyGroup.value).forEach(key => {
           if (value.history[key]) {
             value.history[key].forEach((history, index) => {
+              if (history.date) {
+                history.date = history.date.toString();
+              }
               (this.agentForm.get('history').get(key) as FormArray).push(this.fb.group(history));
             });
           }
