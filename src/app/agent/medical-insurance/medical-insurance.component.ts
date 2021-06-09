@@ -72,10 +72,6 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
       ...{ codes: this.groupModel },
     }));
 
-    if (value.remarks.verifiedDate && !isNaN(value.remarks.verifiedDate)) {
-      value.remarks.verifiedDate = moment(value.remarks.verifiedDate, 'MM/DD/YYYY');
-    }
-
     this.processing = true;
     this.patientService.setPatientNotes(this.patient.patientId, value, this.formType)
       .pipe(take(1))
@@ -151,10 +147,13 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
       }
 
       if (value) {
-        this.groupModel = value.codes;
-        if (value.remarks.verifiedDate && !isNaN(value.remarks.verifiedDate)) {
-          value.remarks.verifiedDate = moment(value.remarks.verifiedDate).format('MM/DD/YYYY');
+
+        if (value.remarks && value.remarks.verifiedDate) {
+          value.remarks.verifiedDate = value.remarks.verifiedDate.toString()
         }
+
+        this.groupModel = value.codes;
+
         this.agentForm.patchValue(value);
       }
     });
