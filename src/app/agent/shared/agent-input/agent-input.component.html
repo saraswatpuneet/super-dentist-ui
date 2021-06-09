@@ -231,6 +231,7 @@
                   <td><input type="text" formControlName="frequency"></td>
                   <td>
                     <select formControlName="unit">
+                      <option value=""></option>
                       <option *ngFor="let clause of unitOptions" [value]="clause.value">{{clause.label}}</option>
                     </select>
                   </td>
