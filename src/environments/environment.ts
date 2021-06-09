@@ -9,8 +9,6 @@ export const environment = {
   },
   baseUrl: 'https://dev.superdentist.io/api/sd/v1',
   qrReferralUrl: 'https://dev.superdentist.io/api/sd/v1/qrReferral',
-  cloudFunctionUrl: 'https://us-central1-superdentist.cloudfunctions.net',
-  cloudFunctionQRReferralUrl: 'https://us-central1-superdentist.cloudfunctions.net/sd-qr-referral-dev',
 };
 
 /*
@@ -20,4 +18,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
