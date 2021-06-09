@@ -108,9 +108,10 @@
 
 ::ng-deep {
   .dark {
-    .missing-tooth {
+    .missing-tooth, .tooth-rep {
       input, select {
         color: white;
+        background: transparent;
       }
     }
   }
