@@ -103,6 +103,10 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
       ...{ codes: this.groupModel },
     }));
 
+    if (value.patientCoverage && value.patientCoverage.missingToothClause !== 'other') {
+      value.patientCoverage.missingToothClauseOther = '';
+    }
+
     this.processing = true;
     this.patientService.setPatientNotes(this.patient.patientId, value, this.formType)
       .pipe(take(1))
@@ -311,6 +315,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
         deductibleFamily: [''],
         deductibleMetAmountFamily: [''],
         missingToothClause: ['no'],
+        missingToothClauseOther: [''],
         waitingPeriods: this.fb.group({
           enabled: ['no'],
           category: [],
@@ -353,15 +358,16 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
             }),
           })
         }),
-        generalNotes: [],
+        generalNotes: [''],
         termDate: ['']
       }),
       history: this.fb.group({}),
       remarks: this.fb.group({
-        insuranceRepresentativeName: [],
-        callRefNumber: [],
-        verifiedBy: [],
+        insuranceRepresentativeName: [''],
+        callRefNumber: [''],
+        verifiedBy: [''],
         verifiedDate: [''],
+        comments: ['']
       }),
     });
   }
