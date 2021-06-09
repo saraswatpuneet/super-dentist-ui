@@ -206,7 +206,13 @@
                 <mat-radio-button *ngFor="let clause of radioOptions" [value]="clause.value">
                   {{clause.label}}
                 </mat-radio-button>
+                <mat-radio-button value="other">Other</mat-radio-button>
               </mat-radio-group>
+            </div>
+
+            <div class="sd-input" *ngIf="agentForm.get('patientCoverage').value.missingToothClause === 'other'">
+              <label>Other</label>
+              <input formControlName="missingToothClauseOther" type="text">
             </div>
           </mat-card>
 
@@ -338,6 +344,9 @@
               <input type="text" formControlName="verifiedDate" mask='00/00/0000' [showMaskTyped]="true">
             </div>
           </div>
+
+          <div class="lighter m-t3">Comments</div>
+          <textarea col="7" class="sd-input t-area" formControlName="comments"></textarea>
         </ng-container>
       </mat-card>
       <mat-card fxLayout="column" fxFlex="50">
