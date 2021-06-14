@@ -4,6 +4,12 @@
   position: relative;
   overflow: hidden;
 
+  .sd-input {
+    label {
+      font-size: 13px !important;
+    }
+  }
+
   select, input {
     font-size: 13px !important;
   }
