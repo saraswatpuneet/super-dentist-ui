@@ -1,6 +1,5 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import * as moment from 'moment';
 import { takeUntil, map, switchMap, take, tap, catchError, filter } from 'rxjs/operators';
 import { forkJoin, of, Subject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -18,6 +17,7 @@ import { PatientService } from 'src/app/shared/services/patient.service';
   styleUrls: ['./medical-insurance.component.scss']
 })
 export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit {
+  @ViewChild('incompleteNotesEl') incompleteEl: ElementRef;
   patient: any = {};
   clinic: any = {};
   medicalIndex = {
@@ -84,6 +84,19 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
 
     this.patientService.updateStatus(this.patient.patientId, status, insurance.id).pipe(take(1)).subscribe();
     this.patient.status = status;
+
+    if (status.value === 'incomplete' || status.value === 'needAssistance') {
+      setTimeout(() => {
+        this.incompleteEl.nativeElement.scrollIntoView({
+          behavior: 'smooth'
+        });
+        setTimeout(() => {
+          try {
+            this.incompleteEl.nativeElement.parentElement.childNodes[2].focus();
+          } catch (e) { }
+        }, 800);
+      }, 100);
+    }
   }
 
   toPatients(): void {
@@ -230,11 +243,22 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
 
   private initForm(): void {
     this.agentForm = this.fb.group({
+      patientCoverage: this.fb.group({
+        needAssistance: [''],
+        annualMaximum: [''],
+        annualUsedAmount: [''],
+        deductibleIndividual: [''],
+        deductibleMetAmountIndividual: [''],
+        deductibleFamily: [''],
+        deductibleMetAmountFamily: [''],
+        termDate: ['']
+      }),
       remarks: this.fb.group({
         insuranceRepresentativeName: [],
         callRefNumber: [],
         verifiedBy: [],
         verifiedDate: [],
+        comments: ['']
       }),
     });
   }

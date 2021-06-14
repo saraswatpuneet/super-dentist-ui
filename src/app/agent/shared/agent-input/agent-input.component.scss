@@ -4,6 +4,10 @@
   position: relative;
   overflow: hidden;
 
+  select, input {
+    font-size: 13px !important;
+  }
+
   .code-inputs {
     overflow-x: auto;
     overflow-y: hidden;
