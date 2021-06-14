@@ -46,13 +46,73 @@
     </div>
   </mat-card>
 
-  <div fxLayout="row" fxLayoutGap="20px">
-    <app-patient-details2 fxFlex="50" *ngIf="patient && patient.medicalInsurance"
-      [insurance]="patient.medicalInsurance[medicalIndex[formType]]" [processing]="processing" [months]="months"
-      [patient]="patient">
-    </app-patient-details2>
+  <div class="form-stuff" fxLayout="row" fxLayoutAlign=" start" fxLayoutGap="20px">
+    <div fxLayout="column" fxFlex="50" fxLayoutGap="20px">
+      <app-patient-details2 *ngIf="patient && patient.medicalInsurance"
+        [insurance]="patient.medicalInsurance[medicalIndex[formType]]" [processing]="processing" [months]="months"
+        [patient]="patient">
+      </app-patient-details2>
 
-    <mat-card fxLayout="column" fxFlex="50" fxLayoutGap="32px">
+      <ng-container [formGroup]="agentForm">
+
+        <ng-container formGroupName="patientCoverage">
+          <mat-card class="incomplete-notes" *ngIf="selectedStatusValue === 'needAssistance'">
+            <div #incompleteNotesEl> </div>
+            <h3>Need Assistance</h3>
+            <textarea class="sd-input" formControlName="needAssistance"></textarea>
+          </mat-card>
+
+          <mat-card>
+            <h3>Deductions</h3>
+            <div fxLayout="row" fxLayoutGap="20px">
+              <div fxLayout="column" fxFlex="50">
+                <div class="sd-input">
+                  <label>Annual maximum</label>
+                  <input type="text" prefix="$" mask="separator.2" thousandSeparator=","
+                    formControlName="annualMaximum">
+                </div>
+
+                <div class="sd-input">
+                  <label>Deductible (Individual)</label>
+                  <input type="text" prefix="$" mask="separator.2" thousandSeparator=","
+                    formControlName="deductibleIndividual">
+                </div>
+
+                <div class="sd-input">
+                  <label>Deductible (Family)</label>
+                  <input type="text" prefix="$" mask="separator.2" thousandSeparator=","
+                    formControlName="deductibleFamily">
+                </div>
+
+              </div>
+
+              <div fxLayout="column" fxFlex="50">
+                <div class="sd-input">
+                  <label>Annual used amount</label>
+                  <input type="text" prefix="$" mask="separator.2" thousandSeparator=","
+                    formControlName="annualUsedAmount">
+                </div>
+
+                <div class="sd-input">
+                  <label>Deductible met amount (Individual)</label>
+                  <input type="text" prefix="$" mask="separator.2" thousandSeparator=","
+                    formControlName="deductibleMetAmountIndividual">
+                </div>
+
+                <div class="sd-input">
+                  <label>Deductible met amount (Family)</label>
+                  <input type="text" prefix="$" mask="separator.2" thousandSeparator=","
+                    formControlName="deductibleMetAmountFamily">
+                </div>
+              </div>
+            </div>
+          </mat-card>
+
+        </ng-container>
+      </ng-container>
+    </div>
+
+    <mat-card fxLayout="column" fxFlex="50">
       <ng-container [formGroup]="agentForm">
         <ng-container formGroupName="remarks">
           <h3>Remarks</h3>
@@ -77,6 +137,9 @@
               <input type="text" formControlName="verifiedDate" mask='00/00/0000' [showMaskTyped]="true">
             </div>
           </div>
+
+          <div class="lighter m-t3">Comments</div>
+          <textarea col="7" class="sd-input t-area" formControlName="comments"></textarea>
         </ng-container>
       </ng-container>
     </mat-card>

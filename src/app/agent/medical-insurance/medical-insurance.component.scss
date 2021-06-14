@@ -5,6 +5,10 @@
   box-sizing: border-box;
   overflow: auto;
 
+  select, input {
+    font-size: 13px !important;
+  }
+
   .flower {
     width: 100%;
     box-sizing: border-box;
@@ -16,4 +20,17 @@
     opacity: 0.5;
     font-size: 13px;
   }
+
+  .form-stuff .sd-input {
+    margin-top: 32px;
+  }
+
+  .t-area {
+    margin-top: 0 !important;
+  }
+
+  .m-t3 {
+    margin-top: 12px;
+  }
+
 }

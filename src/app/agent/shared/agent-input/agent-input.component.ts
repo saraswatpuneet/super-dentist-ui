@@ -175,8 +175,8 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
           value.patientCoverage.eligibilityStartDate = value.patientCoverage.eligibilityStartDate.toString();
         }
 
-        if (value.toothReplacementClause && value.toothReplacementClause.termDate) {
-          value.toothReplacementClause.termDate = value.toothReplacementClause.termDate.toString();
+        if (value.patientCoverage && value.patientCoverage.termDate) {
+          value.patientCoverage.termDate = value.patientCoverage.termDate.toString();
         }
 
         if (value.remarks && value.remarks.verifiedDate) {
@@ -299,6 +299,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   private initForm(): void {
     this.agentForm = this.fb.group({
       patientCoverage: this.fb.group({
+        termDate: [''],
         needAssistance: [''],
         groupName: [],
         groupNumber: [],
@@ -359,7 +360,6 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
           })
         }),
         generalNotes: [''],
-        termDate: ['']
       }),
       history: this.fb.group({}),
       remarks: this.fb.group({
