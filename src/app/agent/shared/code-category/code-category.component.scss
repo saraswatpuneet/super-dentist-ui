@@ -28,6 +28,12 @@
     height: 100%;
   }
 
+  .sd-input {
+    label {
+      font-size: 13px !important;
+    }
+  }
+
   select, input {
     width: 100%;
     display:inline-block;
