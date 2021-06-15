@@ -49,7 +49,7 @@
   <div class="form-stuff" fxLayout="row" fxLayoutAlign=" start" fxLayoutGap="20px">
     <div fxLayout="column" fxFlex="50" fxLayoutGap="20px">
       <app-patient-details2 *ngIf="patient && patient.medicalInsurance"
-        [insurance]="patient.medicalInsurance[medicalIndex[formType]]" [processing]="processing" [months]="months"
+        [insurance]="patient.medicalInsurance[insuranceIndex]" [processing]="processing" [months]="months"
         [patient]="patient">
       </app-patient-details2>
 

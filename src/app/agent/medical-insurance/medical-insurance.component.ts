@@ -19,7 +19,8 @@ import { PatientService } from 'src/app/shared/services/patient.service';
 export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit {
   @ViewChild('incompleteNotesEl') incompleteEl: ElementRef;
   patient: any = {};
-  clinic: any = {};
+  clinic: any = {}
+  insuranceIndex = 0;;
   medicalIndex = {
     primaryMedical: 0,
     secondaryMedical: 1,
@@ -62,7 +63,7 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
 
   ngOnChanges(sc: SimpleChanges): void {
     if (this.formType) {
-      this.selectedStatusValue = this.patient.medicalInsurance[this.medicalIndex[this.formType]].status.value;
+      this.selectedStatusValue = this.patient.medicalInsurance[this.insuranceIndex].status.value;
     }
   }
 
@@ -80,7 +81,7 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
 
   updateStatus(): void {
     const status = this.status.find((s) => s.value === this.selectedStatusValue);
-    const insurance = this.patient.medicalInsurance[this.medicalIndex[this.formType]];
+    const insurance = this.patient.medicalInsurance[this.insuranceIndex];
 
     this.patientService.updateStatus(this.patient.patientId, status, insurance.id).pipe(take(1)).subscribe();
     this.patient.status = status;
@@ -124,8 +125,17 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
     ).subscribe(([clinic, patient]) => {
       this.clinic = clinic;
       this.patient = patient;
+      try {
+        for (let x = 0, l = patient.medicalInsurance.length; x < l; x++) {
+          if (patient.medicalInsurance[x].id === this.formType) {
+            this.insuranceIndex = x;
+            break;
+          }
+        }
+      } catch (e) {
+      }
       if (this.formType) {
-        this.selectedStatusValue = this.patient.medicalInsurance[this.medicalIndex[this.formType]].status.value;
+        this.selectedStatusValue = this.patient.medicalInsurance[this.insuranceIndex].status.value;
       }
       this.triggerPatient.next();
     });

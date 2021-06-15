@@ -18,6 +18,7 @@ import { InsuranceService } from 'src/app/shared/services/insurance.service';
 export class DentalInsuranceComponent extends Base implements OnInit {
   addressId = '';
   patientId = '';
+  insuranceIndex = 0;
   formType = '';
   clinic: any;
   patient: any;
@@ -51,6 +52,15 @@ export class DentalInsuranceComponent extends Base implements OnInit {
     ).subscribe(([clinic, patient]) => {
       this.clinic = clinic;
       this.patient = patient;
+      try {
+        for (let x = 0, l = patient.dentalInsurance.length; x < l; x++) {
+          if (patient.dentalInsurance[x].id === this.formType) {
+            this.insuranceIndex = x;
+            break;
+          }
+        }
+      } catch (e) {
+      }
     });
   }
 
@@ -70,7 +80,6 @@ export class DentalInsuranceComponent extends Base implements OnInit {
     )
       .subscribe(codes => {
         this.savedCodes = codes;
-
       });
   }
 
