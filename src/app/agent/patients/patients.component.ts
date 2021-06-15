@@ -195,12 +195,13 @@ export class PatientsComponent extends Base implements OnInit {
   selectPatient(patient): void {
     let formType = '';
     let insurancePath = 'dental-insurance';
-
     if (patient.medicalInsurance) {
       insurancePath = 'medical-insurance';
-      formType = this.medicalKeys[patient.medicalInsurance.index];
+      formType = patient.medicalInsurance.id;
+      // formType = this.medicalKeys[patient.medicalInsurance.index];
     } else {
-      formType = this.dentalKeys[patient.dentalInsurance.index];
+      formType = patient.dentalInsurance.id;
+      // formType = this.dentalKeys[patient.dentalInsurance.index];
     }
 
     this.router.navigate([`agent/clinics/${this.clinicId}/patients/${patient.patientId}/${insurancePath}`], {
@@ -303,7 +304,6 @@ export class PatientsComponent extends Base implements OnInit {
         if (patient.dentalInsurance) {
           patient.dentalInsurance.forEach((p, i) => {
             const tmpP = JSON.parse(JSON.stringify(patient));
-            p.index = i;
             delete tmpP.dentalInsurance;
             delete tmpP.medicalInsurance;
             patients.push({ dentalInsurance: p, ...tmpP });
@@ -313,7 +313,6 @@ export class PatientsComponent extends Base implements OnInit {
         if (patient.medicalInsurance) {
           patient.medicalInsurance.forEach((p, i) => {
             const tmpP = JSON.parse(JSON.stringify(patient));
-            p.index = i;
             delete tmpP.dentalInsurance;
             delete tmpP.medicalInsurance;
             patients.push({ medicalInsurance: p, ...tmpP });

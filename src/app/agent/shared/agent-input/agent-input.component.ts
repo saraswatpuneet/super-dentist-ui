@@ -26,6 +26,7 @@ import { PatientService } from 'src/app/shared/services/patient.service';
 export class AgentInputComponent extends Base implements OnChanges, OnInit {
   @Input() patient: any;
   @Input() formType = '';
+  @Input() insuranceIndex = 0;
   @Input() backButtonText = 'Patients';
   @Input() addressId = '';
   @Input() clinic: any;
@@ -68,7 +69,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
     }
 
     if (this.formType) {
-      this.selectedStatusValue = this.patient.dentalInsurance[this.dentalIndex[this.formType]].status.value;
+      this.selectedStatusValue = this.patient.dentalInsurance[this.insuranceIndex].status.value;
     }
   }
 
@@ -80,7 +81,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
 
   updateStatus(): void {
     const status = this.status.find((s) => s.value === this.selectedStatusValue);
-    const insurance = this.patient.dentalInsurance[this.dentalIndex[this.formType]];
+    const insurance = this.patient.dentalInsurance[this.insuranceIndex];
     this.patientService.updateStatus(this.patient.patientId, status, insurance.memberId).pipe(take(1)).subscribe();
     this.patient.status = status;
     if (status.value === 'incomplete' || status.value === 'needAssistance') {

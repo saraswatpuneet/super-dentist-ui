@@ -51,9 +51,8 @@
     <!-- <mat-card>
       <app-patient-list-item [patient]="patient"></app-patient-list-item>
     </mat-card> -->
-    <app-patient-details2 (closePatient)="closePatient.emit()"
-      [insurance]="patient.dentalInsurance[dentalIndex[formType]]" [processing]="processing" (save)="onSave()"
-      [months]="months" [patient]="patient">
+    <app-patient-details2 (closePatient)="closePatient.emit()" [insurance]="patient.dentalInsurance[insuranceIndex]"
+      [processing]="processing" (save)="onSave()" [months]="months" [patient]="patient">
     </app-patient-details2>
 
     <ng-container formGroupName="patientCoverage">
