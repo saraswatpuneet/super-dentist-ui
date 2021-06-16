@@ -18,7 +18,7 @@ import { InsuranceService } from 'src/app/shared/services/insurance.service';
 })
 export class PatientsComponent extends Base implements OnInit {
   @ViewChild('picker') picker: any;
-  agents = ['YI/WRS', 'VR/WRS', 'KP/WRS', 'JB/WRS', 'AS/WRS', 'MG/WRS', 'HG/WRS', 'AC/WRS', 'PB/WRS', 'BG/WRS'];
+  agents = ['', 'YI/WRS', 'VR/WRS', 'KP/WRS', 'JB/WRS', 'AS/WRS', 'MG/WRS', 'HG/WRS', 'AC/WRS', 'PB/WRS', 'BG/WRS'];
   insuranceCompaniesForFilter = [];
   filteredPatients = [];
   selectedPatients = [];
