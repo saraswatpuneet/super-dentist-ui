@@ -5,6 +5,7 @@
       <input matInput [(ngModel)]="searchFilter" (keyup)="filterByAgent()" type="text">
     </mat-form-field>
   </mat-card>
+  <button mat-menu-item (click)="selectedAgent.emit('unassigned')">Unassigned Agents</button>
   <button mat-menu-item *ngFor="let agent of filteredAgents" (click)="selectedAgent.emit(agent)">
     {{agent ? agent :  'Remove Assignment'}}
   </button>
