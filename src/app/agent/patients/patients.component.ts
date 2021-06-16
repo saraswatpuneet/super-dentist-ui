@@ -42,6 +42,7 @@ export class PatientsComponent extends Base implements OnInit {
   cursors = [undefined]; // The first cursor is undefined and serves as the starting point.
   cursorAddress = 0;
   providers = [];
+  statusFilter = '';
   private patients = [];
   private clinicId = '';
   private patientTrigger = new Subject<string>();
@@ -64,31 +65,26 @@ export class PatientsComponent extends Base implements OnInit {
     this.title.setTitle('SuperDentist - Patients');
   }
 
-  filterByStatus(statusValue: string): void {
+  filterByStatus(status: string): void {
+    console.log(status);
+    this.mergeRouteGoTo({ status });
   }
 
   insuranceChange(): void {
   }
 
   removeProviders(): void {
-    const queryParams = { providers: undefined };
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams,
-      queryParamsHandling: 'merge'
-    });
+    this.mergeRouteGoTo({ providers: undefined });
+  }
+
+  removeStatus(): void {
+    this.mergeRouteGoTo({ status: undefined });
   }
 
   onApplyInsurance(selectedCompanies: any): void {
     const queryParams: any = {};
     queryParams.providers = JSON.stringify(selectedCompanies);
-    this.router.navigate(
-      [],
-      {
-        relativeTo: this.route,
-        queryParams,
-        queryParamsHandling: 'merge', // remove to replace all query params by provided
-      });
+    this.mergeRouteGoTo(queryParams);
   }
 
   closeDate(): void {
@@ -105,13 +101,7 @@ export class PatientsComponent extends Base implements OnInit {
       this.cursorAddress = 0;
       this.cursors = [undefined];
 
-      this.router.navigate(
-        [],
-        {
-          relativeTo: this.route,
-          queryParams,
-          queryParamsHandling: 'merge', // remove to replace all query params by provided
-        });
+      this.mergeRouteGoTo(queryParams);
     }
   }
 
@@ -137,13 +127,7 @@ export class PatientsComponent extends Base implements OnInit {
   }
 
   filterByAgent(agentId: string): void {
-    this.router.navigate(
-      [],
-      {
-        relativeTo: this.route,
-        queryParams: { agentId: agentId ? agentId : null },
-        queryParamsHandling: 'merge', // remove to replace all query params by provided
-      });
+    this.mergeRouteGoTo({ agentId: agentId ? agentId : null });
   }
 
   saveAssignment(agentId: string): void {
@@ -228,6 +212,16 @@ export class PatientsComponent extends Base implements OnInit {
     this.patientTrigger.next(this.clinicId);
   }
 
+  private mergeRouteGoTo(queryParams: any): void {
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams,
+        queryParamsHandling: 'merge', // remove to replace all query params by provided
+      });
+  }
+
   private checkRoute(): void {
     this.route.parent.params.pipe(
       takeUntil(this.unsubscribe$)
@@ -256,6 +250,8 @@ export class PatientsComponent extends Base implements OnInit {
       } else {
         this.startDate = moment(parseInt(p.startTime, 10));
       }
+
+      this.statusFilter = p.status;
 
       if (!p.endTime) {
         const m = moment();
@@ -290,7 +286,8 @@ export class PatientsComponent extends Base implements OnInit {
         this.startDate.valueOf(),
         this.endDate.valueOf(),
         this.selectedAgentFilter,
-        this.providers
+        this.providers,
+        this.statusFilter,
       )),
       map(r => r.data),
       takeUntil(this.unsubscribe$)

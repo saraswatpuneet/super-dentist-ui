@@ -52,6 +52,11 @@
         <span>Insurance Filter ({{providers.length}})</span>
         <mat-icon (click)="removeProviders()">close</mat-icon>
       </div>
+
+      <div class="filter-chip" fxLayout="row" fxLayoutAlign=" center" *ngIf="statusFilter">
+        <span> {{statusFilter}}</span>
+        <mat-icon (click)="removeStatus()">close</mat-icon>
+      </div>
     </div>
   </mat-card>
 
