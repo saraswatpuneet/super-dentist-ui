@@ -21,7 +21,9 @@
       <div (click)="clickDentalIns(i)" class="insurance-item"
         *ngFor="let insurance of patient?.dentalInsurance; let i = index">
         <div class="insurance-title" fxLayout="row" fxLayoutGap="12px" fxLayoutAlign=" start">
-          <div fxFlex>{{insurance.company}} ({{insurance?.status?.label}})</div>
+          <div fxFlex>{{insurance.company}}
+            <span class="patient-status-pill" [ngClass]="insurance?.status.value">({{insurance?.status?.label}})</span>
+          </div>
         </div>
         <div fxLayout="row">
           <div fxFlex="50">
@@ -43,7 +45,9 @@
       <div (click)="clickMedicalIns(i)" class="insurance-item"
         *ngFor="let insurance of patient?.medicalInsurance; let i = index">
         <div class="insurance-title" fxLayout="row" fxLayoutGap="12px" fxLayoutAlign=" start">
-          <div fxFlex>{{insurance.company}} ({{insurance?.status?.label}})</div>
+          <div fxFlex>{{insurance.company}}
+            <span class="patient-status-pill" [ngClass]="insurance?.status.value">({{insurance?.status?.label}})</span>
+          </div>
         </div>
         <div fxLayout="row">
           <div fxFlex="50">

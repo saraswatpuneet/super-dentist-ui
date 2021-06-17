@@ -5,37 +5,30 @@
   text-align: center;
   
   &.pending {
-    color: var(--grey);
     border: 2px solid var(--grey);
   }
   
   &.active {
-    color: var(--blue-mild);
     border: 2px solid var(--blue-mild);
   }
 
   &.needAssistance {
-    color: var(--pink);
     border: 2px solid var(--pink);
   }
   
   &.termed {
-    color: var(--pink);
     border: 2px solid var(--pink);
   }
   
   &.incomplete {
-    color: var(--orange);
     border: 2px solid var(--orange);
   }
   
   &.discount-plan {
-    color: var(--green);
     border: 2px solid var(--green);
   }
   
   &.medicare-plan {
-    color: var(--pink);
     border: 2px solid var(--pink);
   }
 }
