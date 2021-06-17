@@ -220,7 +220,6 @@ export class PatientComponent extends Base implements OnInit {
       this.codes = selectedCodes;
       this.codesHistory = selectedCodesHistory;
       this.loading = false;
-      console.log(this.medicalRecords);
     });
   }
 
