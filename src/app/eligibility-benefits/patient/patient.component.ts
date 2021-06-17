@@ -34,16 +34,6 @@ export class PatientComponent extends Base implements OnInit {
   allCodes = this.newSavedCodes();
   savedHistoryCodes = [];
   codeList = [];
-  dentalIndicies = {
-    0: 'primaryDental',
-    1: 'secondaryDental',
-    2: 'tertiaryDental'
-  };
-  medicalIndicies = {
-    0: 'primaryMedical',
-    1: 'secondaryMedical',
-    2: 'tertiaryMedical'
-  };
   insuranceInView = 'd0';
   private triggerPatient = new Subject<void>();
 
@@ -223,7 +213,6 @@ export class PatientComponent extends Base implements OnInit {
             }
           }
           savedRecords[counter].codes = groupModel;
-
           this.medicalRecords.push(savedRecords[counter]);
           counter++;
         });
@@ -272,22 +261,31 @@ export class PatientComponent extends Base implements OnInit {
   private mapPatientNotes(): Observable<any>[] {
     const reqs = [];
     if (this.patient.dentalInsurance) {
-      this.patient.dentalInsurance.forEach((_, i) => {
-        reqs.push(this.patientService.getPatientNotes(this.patient.patientId, this.dentalIndicies[i]).pipe(
+      this.patient.dentalInsurance.forEach((insurance) => {
+        reqs.push(this.patientService.getPatientNotes(this.patient.patientId, insurance.id).pipe(
           map(r => r.data),
           map(r => JSON.parse(r)),
-          catchError(() => of(undefined)),
+          catchError(() => of({
+            patientCoverage: {},
+            history: {},
+            codes: [],
+            remarks: {},
+          })),
           take(1))
         );
       });
     }
 
     if (this.patient.medicalInsurance) {
-      this.patient.medicalInsurance.forEach((_, i) => {
-        reqs.push(this.patientService.getPatientNotes(this.patient.patientId, this.medicalIndicies[i]).pipe(
+      this.patient.medicalInsurance.forEach((insurance) => {
+        reqs.push(this.patientService.getPatientNotes(this.patient.patientId, insurance.id).pipe(
           map(r => r.data),
           map(r => JSON.parse(r)),
-          catchError(() => of(undefined)),
+          catchError(() => of({
+            patientCoverage: {},
+            remarks: {},
+            codes: []
+          })),
           take(1))
         );
       });

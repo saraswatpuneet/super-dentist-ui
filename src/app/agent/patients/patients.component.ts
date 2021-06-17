@@ -66,7 +66,6 @@ export class PatientsComponent extends Base implements OnInit {
   }
 
   filterByStatus(status: string): void {
-    console.log(status);
     this.mergeRouteGoTo({ status });
   }
 

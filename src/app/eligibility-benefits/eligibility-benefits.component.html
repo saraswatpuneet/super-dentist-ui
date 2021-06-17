@@ -101,13 +101,13 @@
               <div *ngFor="let insurance of element.dentalInsurance">
                 <div fxLayout="row" fxLayoutGap="8px">
                   <div class="right" fxFlex="13px">D</div>
-                  <div>{{insurance?.status.label}}</div>
+                  <div class="patient-status-pill" [ngClass]="insurance?.status.value">{{insurance?.status.label}}</div>
                 </div>
               </div>
               <div *ngFor="let insurance of element.medicalInsurance">
                 <div fxLayout="row" fxLayoutGap="8px">
                   <div class="right" fxFlex="13px">M</div>
-                  <div>{{insurance?.status.label}}</div>
+                  <div class="patient-status-pill" [ngClass]="insurance?.status.value">{{insurance?.status.label}}</div>
                 </div>
               </div>
             </td>
