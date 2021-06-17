@@ -212,6 +212,10 @@ export class PatientComponent extends Base implements OnInit {
               };
             }
           }
+          const eligibilityStartDate = savedRecords[counter].patientCoverage.eligibilityStartDate;
+          savedRecords[counter].patientCoverage.eligibilityStartDate =
+            eligibilityStartDate ? moment(eligibilityStartDate, 'MMDDYYYY').format('MMM DD, YYYY') : null;
+
           savedRecords[counter].codes = groupModel;
           this.medicalRecords.push(savedRecords[counter]);
           counter++;
