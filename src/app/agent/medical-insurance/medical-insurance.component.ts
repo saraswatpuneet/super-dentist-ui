@@ -261,7 +261,8 @@ export class MedicalInsuranceComponent extends Base implements OnChanges, OnInit
         deductibleMetAmountIndividual: [''],
         deductibleFamily: [''],
         deductibleMetAmountFamily: [''],
-        termDate: ['']
+        termDate: [''],
+        eligibilityStartDate: ['']
       }),
       remarks: this.fb.group({
         insuranceRepresentativeName: [],

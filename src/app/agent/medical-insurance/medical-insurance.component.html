@@ -112,37 +112,48 @@
       </ng-container>
     </div>
 
-    <mat-card fxLayout="column" fxFlex="50">
+    <div fxLayout="column" fxFlex="50" fxLayoutGap="20px">
       <ng-container [formGroup]="agentForm">
+        <ng-container formGroupName="patientCoverage">
+          <mat-card>
+            <h3>Details</h3>
+            <div class="sd-input">
+              <label>Eligibility start date (MM/DD/YYYY)</label>
+              <input type="text" formControlName="eligibilityStartDate" mask='00/00/0000' [showMaskTyped]="true">
+            </div>
+          </mat-card>
+        </ng-container>
         <ng-container formGroupName="remarks">
-          <h3>Remarks</h3>
+          <mat-card>
+            <h3>Remarks</h3>
 
-          <div class="sd-input">
-            <label>Insurance representative name</label>
-            <input type="text" formControlName="insuranceRepresentativeName">
-          </div>
-
-          <div class="sd-input">
-            <label>Call ref #</label>
-            <input type="text" formControlName="callRefNumber">
-          </div>
-
-          <div fxLayout="row" fxLayoutGap="12px">
-            <div class="sd-input" fxFlex>
-              <label>Verified by</label>
-              <input type="text" formControlName="verifiedBy">
+            <div class="sd-input">
+              <label>Insurance representative name</label>
+              <input type="text" formControlName="insuranceRepresentativeName">
             </div>
-            <div class="sd-input" fxFlex>
-              <label>Verified date (MM/DD/YYYY)</label>
-              <input type="text" formControlName="verifiedDate" mask='00/00/0000' [showMaskTyped]="true">
-            </div>
-          </div>
 
-          <div class="lighter m-t3">Comments</div>
-          <textarea col="7" class="sd-input t-area" formControlName="comments"></textarea>
+            <div class="sd-input">
+              <label>Call ref #</label>
+              <input type="text" formControlName="callRefNumber">
+            </div>
+
+            <div fxLayout="row" fxLayoutGap="12px">
+              <div class="sd-input" fxFlex>
+                <label>Verified by</label>
+                <input type="text" formControlName="verifiedBy">
+              </div>
+              <div class="sd-input" fxFlex>
+                <label>Verified date (MM/DD/YYYY)</label>
+                <input type="text" formControlName="verifiedDate" mask='00/00/0000' [showMaskTyped]="true">
+              </div>
+            </div>
+
+            <div class="lighter m-t3">Comments</div>
+            <textarea col="7" class="sd-input t-area" formControlName="comments"></textarea>
+          </mat-card>
         </ng-container>
       </ng-container>
-    </mat-card>
+    </div>
   </div>
 
   <mat-card>
