@@ -64,6 +64,50 @@
 
       <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign=" start">
         <mat-card fxFlex="50">
+          <h3>Details</h3>
+          <div fxLayout="row" fxLayoutGap="12px">
+            <div fxLayout="column" fxFlex="50">
+              <div class="sd-input">
+                <label>Group name</label>
+                <input type="text" formControlName="groupName">
+              </div>
+              <div class="sd-input">
+                <label>Group number</label>
+                <input type="text" formControlName="groupNumber">
+              </div>
+              <div class="sd-input">
+                <label>Payer ID</label>
+                <input type="text" formControlName="payerId">
+              </div>
+            </div>
+
+            <div fxLayout="column" fxFlex="50">
+              <div class="sd-input">
+                <label>Eligibility start date (MM/DD/YYYY)</label>
+                <input type="text" formControlName="eligibilityStartDate" mask='00/00/0000' [showMaskTyped]="true">
+              </div>
+
+              <div fxLayout="row" fxLayoutGap="12px" formGroupName="eligibilityYear">
+                <div class="sd-input" fxFlex>
+                  <label>Eligibility year</label>
+                  <select formControlName="value" (change)="resetEligibilityYear()">
+                    <option *ngFor="let clause of eligibilityOptions" [value]="clause.value">{{clause.label}}</option>
+                  </select>
+                </div>
+
+                <div *ngIf="agentForm.get('patientCoverage').value.eligibilityYear.value === 'benefit'" class="sd-input"
+                  fxFlex>
+                  <label>Benefits month</label>
+                  <select formControlName="month">
+                    <option *ngFor="let month of months" [value]="month.value">{{month.label}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+
+        <mat-card fxFlex="50">
           <h3>Deductions</h3>
           <div fxLayout="row" fxLayoutGap="20px">
             <div fxLayout="column" fxFlex="50">
@@ -108,49 +152,6 @@
           </div>
         </mat-card>
 
-        <mat-card fxFlex="50">
-          <h3>Details</h3>
-          <div fxLayout="row" fxLayoutGap="12px">
-            <div fxLayout="column" fxFlex="50">
-              <div class="sd-input">
-                <label>Group name</label>
-                <input type="text" formControlName="groupName">
-              </div>
-              <div class="sd-input">
-                <label>Group number</label>
-                <input type="text" formControlName="groupNumber">
-              </div>
-              <div class="sd-input">
-                <label>Payer ID</label>
-                <input type="text" formControlName="payerId">
-              </div>
-            </div>
-
-            <div fxLayout="column" fxFlex="50">
-              <div class="sd-input">
-                <label>Eligibility start date (MM/DD/YYYY)</label>
-                <input type="text" formControlName="eligibilityStartDate" mask='00/00/0000' [showMaskTyped]="true">
-              </div>
-
-              <div fxLayout="row" fxLayoutGap="12px" formGroupName="eligibilityYear">
-                <div class="sd-input" fxFlex>
-                  <label>Eligibility year</label>
-                  <select formControlName="value" (change)="resetEligibilityYear()">
-                    <option *ngFor="let clause of eligibilityOptions" [value]="clause.value">{{clause.label}}</option>
-                  </select>
-                </div>
-
-                <div *ngIf="agentForm.get('patientCoverage').value.eligibilityYear.value === 'benefit'" class="sd-input"
-                  fxFlex>
-                  <label>Benefits month</label>
-                  <select formControlName="month">
-                    <option *ngFor="let month of months" [value]="month.value">{{month.label}}</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-        </mat-card>
       </div>
 
 

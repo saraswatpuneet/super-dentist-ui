@@ -17,7 +17,7 @@ export class ClinicsComponent extends Base implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedColumns: string[] = ['clinicName', 'address', 'phoneNumber'];
   clinics = [];
-  pageSize = 50;
+  pageSize = 100;
   cursors = [undefined];
   cursorAddress = 0;
   loading = false;
