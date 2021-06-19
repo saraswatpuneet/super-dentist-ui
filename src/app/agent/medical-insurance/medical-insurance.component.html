@@ -121,6 +121,28 @@
               <label>Eligibility start date (MM/DD/YYYY)</label>
               <input type="text" formControlName="eligibilityStartDate" mask='00/00/0000' [showMaskTyped]="true">
             </div>
+            <div formGroupName="claimsMailingAddress">
+              <div style="margin-top: 20px">Claims Mailing Address</div>
+              <div fxLayout="row" fxLayoutGap="16px">
+                <div class="sd-input">
+                  <label>Street</label>
+                  <input type="text" formControlName="street">
+                </div>
+                <div class="sd-input">
+                  <label>City</label>
+                  <input type="text" formControlName="city">
+                </div>
+                <div class="sd-input">
+                  <label>State</label>
+                  <input type="text" formControlName="state">
+                </div>
+                <div class="sd-input">
+                  <label>Zip code</label>
+                  <input type="text" formControlName="zipCode">
+                </div>
+
+              </div>
+            </div>
           </mat-card>
         </ng-container>
         <ng-container formGroupName="remarks">
