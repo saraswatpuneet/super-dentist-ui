@@ -310,6 +310,12 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
           other: [],
           category: []
         }),
+        claimsMailingAddress: this.fb.group({
+          street: [''],
+          city: [''],
+          state: [''],
+          zipCode: []
+        }),
         annualMaximum: [''],
         annualUsedAmount: [''],
         deductibleIndividual: [''],
