@@ -340,8 +340,8 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
           })
         }),
         eligibilityYear: this.fb.group({
-          value: [],
-          month: []
+          value: [''],
+          month: ['']
         }),
         inNetwork: ['yes'],
         preventitiveDeductedFromMaximum: ['yes'],
