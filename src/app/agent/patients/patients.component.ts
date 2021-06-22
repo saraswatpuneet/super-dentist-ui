@@ -32,7 +32,9 @@ export class PatientsComponent extends Base implements OnInit {
   endDate = moment();
   months = months();
   monthsHash = monthsHash();
-  patientColumns: string[] = ['actions', 'assignedTo', 'appointment', 'patient', 'subscriber', 'memberInfo', 'insurance', 'status'];
+  patientColumns: string[] = [
+    'actions', 'assignedTo', 'appointment', 'lastAppointment', 'visitCount', 'patient', 'subscriber', 'memberInfo', 'insurance', 'status'
+  ];
   dentalKeys = ['primaryDental', 'secondaryDental', 'tertiaryDental'];
   medicalKeys = ['primaryMedical', 'secondaryMedical', 'tertiaryMedical'];
   loading = false;
