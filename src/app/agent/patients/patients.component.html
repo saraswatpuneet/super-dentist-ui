@@ -101,6 +101,21 @@
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="lastAppointment">
+          <th mat-header-cell *matHeaderCellDef> Last Appointment </th>
+          <td mat-cell *matCellDef="let element">
+            <div>{{element?.lastAppointment | date:"h:mm a"}}</div>
+            <div class="lighter">{{element?.lastAppointment | date:"MMM dd, YYYY"}}</div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="visitCount">
+          <th mat-header-cell *matHeaderCellDef style="width: 64px"> Visit Count </th>
+          <td mat-cell *matCellDef="let element">
+            {{element.visitCount}}
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="patient">
           <th mat-header-cell *matHeaderCellDef> Patient / Date of Birth </th>
           <td mat-cell *matCellDef="let element">
