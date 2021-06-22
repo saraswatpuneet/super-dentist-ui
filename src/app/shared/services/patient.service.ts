@@ -60,7 +60,7 @@ export class PatientService {
   }
 
   getPatient(patientId: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/info/${patientId}`);
+    return this.http.get(`https://superdentist.io/api/sd/v1/patient/info/${patientId}`);
   }
 
   getPatientNotes(patientId: string, formType?: string): Observable<any> {
