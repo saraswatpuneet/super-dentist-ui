@@ -27,7 +27,7 @@ export class ClinicService {
   }
 
   getClinic(clinicId: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/info/${clinicId}`);
+    return this.http.get(`https://superdentist.io/api/sd/v1/clinic/info/${clinicId}`);
   }
 
   getClinics(): Observable<any> {
@@ -137,11 +137,11 @@ export class ClinicService {
   }
 
   getSelectedPracticeCodes(addressId: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/practiceCodes/${addressId}`);
+    return this.http.get(`https://superdentist.io/api/sd/v1/clinic/practiceCodes/${addressId}`);
   }
 
   getSelectedPracticeCodesHistory(addressId: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/practiceCodesHistory/${addressId}`);
+    return this.http.get(`https://superdentist.io/api/sd/v1/clinic/practiceCodesHistory/${addressId}`);
   }
 
   saveSelectedPracticeCodes(addressId: string, selectedCodes: DentalInsuranceKeys[]): Observable<DentalBreakDowns> {
