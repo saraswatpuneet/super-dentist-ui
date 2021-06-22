@@ -82,7 +82,7 @@ export class AgentInputComponent extends Base implements OnChanges, OnInit {
   updateStatus(): void {
     const status = this.status.find((s) => s.value === this.selectedStatusValue);
     const insurance = this.patient.dentalInsurance[this.insuranceIndex];
-    this.patientService.updateStatus(this.patient.patientId, status, insurance.memberId).pipe(take(1)).subscribe();
+    this.patientService.updateStatus(this.patient.patientId, status, insurance.id).pipe(take(1)).subscribe();
     this.patient.status = status;
     if (status.value === 'incomplete' || status.value === 'needAssistance') {
       setTimeout(() => {
