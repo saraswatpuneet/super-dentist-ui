@@ -24,7 +24,7 @@ export class InsuranceService {
     if (this.cache[this.insuranceList]) {
       return this.cache[this.insuranceList];
     }
-    return this.cache[this.insuranceList] = this.http.get<DentalBreakDowns>(`https://superdentist.io/api/sd/v1/insurance/practiceCodes`)
+    return this.cache[this.insuranceList] = this.http.get<DentalBreakDowns>(`${this.baseUrl}/insurance/practiceCodes`)
       .pipe(map((d: any) => d.data),
         shareReplay(1),
         catchError(err => {

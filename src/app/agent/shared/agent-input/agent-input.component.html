@@ -72,22 +72,27 @@
                 <input type="text" formControlName="eligibilityStartDate" mask='00/00/0000' [showMaskTyped]="true">
               </div>
 
-              <!-- <ng-container fxLayout="row" fxLayoutGap="16px" formGroupName="eligibilityYear">
-                <div class="sd-input" fxFlex>
-                  <label>Eligibility year</label>
-                  <select formControlName="value" (change)="resetEligibilityYear()">
-                    <option *ngFor="let clause of eligibilityOptions" [value]="clause.value">{{clause.label}}</option>
-                  </select>
-                </div>
+              <ng-container
+                *ngIf="agentForm && agentForm.get('patientCoverage') && agentForm.get('patientCoverage').value"
+                formGroupName="eligibilityYear">
+                <div fxLayout="row" fxFlex fxLayoutGap="16px">
+                  <div class="sd-input" fxFlex>
+                    <label>Eligibility year</label>
+                    <select formControlName="value" (change)="resetEligibilityYear()">
+                      <option *ngFor="let clause of eligibilityOptions" [value]="clause.value">{{clause.label}}</option>
+                    </select>
+                  </div>
 
-                <div *ngIf="agentForm.get('patientCoverage').value.eligibilityYear.value === 'benefit'" class="sd-input"
-                  fxFlex>
-                  <label>Benefits month</label>
-                  <select formControlName="month">
-                    <option *ngFor="let month of months" [value]="month.value">{{month.label}}</option>
-                  </select>
+                  <div *ngIf="agentForm.get('patientCoverage').value.eligibilityYear.value === 'benefit'"
+                    class="sd-input" fxFlex>
+                    <label>Benefits month</label>
+                    <select formControlName="month">
+                      <option *ngFor="let month of months" [value]="month.value">{{month.label}}</option>
+                    </select>
+                  </div>
+
                 </div>
-              </ng-container> -->
+              </ng-container>
 
             </div>
 
