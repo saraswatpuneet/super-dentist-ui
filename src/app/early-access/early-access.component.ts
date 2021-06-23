@@ -78,6 +78,7 @@ export class EarlyAccessComponent implements OnInit, OnDestroy {
       phoneNumber: ['', Validators.required],
       practiceName: ['', Validators.required],
       locationCount: [undefined, Validators.required],
+      currentPracticeManagementSoftware: [''],
     });
   }
 }
