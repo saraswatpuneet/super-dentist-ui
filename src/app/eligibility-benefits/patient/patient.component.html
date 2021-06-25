@@ -91,6 +91,13 @@
             </div>
           </div>
         </div>
+        <ng-container *ngIf="insurance?.status?.value === 'needAssistance'">
+          <div class="divider-w"></div>
+          <div>
+            <h3>Need Assistance</h3>
+            <pre>{{dentalRecords[i]?.patientCoverage?.needAssistance}}</pre>
+          </div>
+        </ng-container>
         <div class="divider-w"></div>
         <app-patient-details [months]="monthsHash" [patient]="patient"
           [patientCoverage]="dentalRecords[i]?.patientCoverage">
@@ -134,6 +141,13 @@
             </div>
           </div>
         </div>
+        <ng-container *ngIf="insurance?.status?.value === 'needAssistance'">
+          <div class="divider-w"></div>
+          <div>
+            <h3>Need Assistance</h3>
+            <pre>{{medicalRecords[i]?.patientCoverage?.needAssistance}}</pre>
+          </div>
+        </ng-container>
 
         <div class="divider-w"></div>
         <div fxLayout="row" fxLayoutGap="12px">
