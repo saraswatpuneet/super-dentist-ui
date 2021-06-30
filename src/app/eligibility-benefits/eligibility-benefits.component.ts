@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { map, switchMap, takeUntil, tap, filter } from 'rxjs/operators';
+import { map, switchMap, takeUntil, tap, filter, debounceTime } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import * as moment from 'moment';
@@ -108,9 +108,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
   }
 
   filterPatientList(): void {
-    this.filteredPatients = this.patients.filter(patient =>
-      `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(this.patientFilter.toLowerCase())
-    );
+    this.triggerSearchPatientName.next();
   }
 
   sortBy(group: string, order: string): void {
@@ -218,6 +216,7 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
       filter(() => !!this.selectedClinic),
       tap(() => this.loading = true),
       switchMap(() => {
+        this.patientFilter = '';
         return this.patientService.getAllPatientsForClinic2(
           this.selectedClinic.addressId,
           this.pageSize,
@@ -236,13 +235,28 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
       this.loading = false;
       this.patients = res.patients;
       this.patients.sort((a, b) => b.createdOn - a.createdOn);
-      this.filterPatientList();
+      this.filteredPatients = this.patients;
     });
   }
 
   private watchSearch(): void {
     this.triggerSearchPatientName.pipe(
+      tap(() => this.loading = true),
+      debounceTime(300),
+      filter(res => {
+        if (!this.patientFilter) {
+          this.triggerPatients.next();
+        }
+        return !!this.patientFilter;
+      }),
+      switchMap(() => this.patientService.searchByPatientName(this.selectedClinic.addressId, this.patientFilter)),
+      map(res => res.data),
       takeUntil(this.unsubscribe$)
-    ).subscribe();
+    ).subscribe(patients => {
+      this.patients = patients;
+      this.patients.sort((a, b) => b.createdOn - a.createdOn);
+      this.filteredPatients = this.patients;
+      this.loading = false;
+    });
   }
 }

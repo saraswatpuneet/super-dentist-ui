@@ -33,6 +33,26 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'accounting',
+    loadChildren: () => import('./accounting/accounting.module').then(m => m.AccountingModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'banking',
+    loadChildren: () => import('./banking/banking.module').then(m => m.BankingModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'overview',
+    loadChildren: () => import('./overview/overview.module').then(m => m.OverviewModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'reconciliation',
+    loadChildren: () => import('./reconciliation/reconciliation.module').then(m => m.ReconciliationModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'kpi',
     loadChildren: () => import('./kpi/kpi.module').then(m => m.KpiModule),
     canActivate: [AuthGuard]
