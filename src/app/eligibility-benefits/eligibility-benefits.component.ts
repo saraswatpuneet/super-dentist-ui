@@ -68,7 +68,6 @@ export class EligibilityBenefitsComponent extends Base implements OnInit {
     ).subscribe(clinics => {
       this.clinics = clinics;
       this.selectedClinic = this.clinics[0];
-      console.log(this.selectedClinic);
       this.triggerPatients.next();
     });
   }
