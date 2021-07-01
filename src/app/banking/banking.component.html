@@ -1,1 +1,69 @@
-<p>banking works!</p>
+<div class="overview">
+  <mat-card class="c-card">
+
+    <div>
+
+      <div class="m-top">
+        <div fxLayout="row">
+          <mat-form-field style="margin-right: 32px;" appearance="outline">
+            <mat-label>Report Period</mat-label>
+            <mat-select>
+              <mat-option>This year-to-date</mat-option>
+              <mat-option>Last 6 months</mat-option>
+              <mat-option>Last Quarter</mat-option>
+              <mat-option>Last Month</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field style="margin-right: 12px" appearance="outline">
+            <mat-label>From</mat-label>
+            <input matInput type="text">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>To</mat-label>
+            <input matInput type="text">
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutGap="16px">
+        <mat-card fxFlex class="top-card" fxLayout="row">
+          <div fxFlex fxLayout="column">
+            <span>Production</span>
+            <div>$3,432</div>
+          </div>
+          <div>+0.2%</div>
+        </mat-card>
+
+        <mat-card fxFlex class="top-card" fxLayout="row">
+          <div fxFlex fxLayout="column">
+            <span>Collections</span>
+            <div>$3,432</div>
+          </div>
+          <div>+0.2%</div>
+        </mat-card>
+
+        <mat-card fxFlex class="top-card" fxLayout="row">
+          <div fxFlex fxLayout="column">
+            <span>Net operating income</span>
+            <div>$3,432</div>
+          </div>
+          <div>+0.2%</div>
+        </mat-card>
+
+        <mat-card fxFlex class="top-card">
+          <div>
+            <span>Current cash balance</span>
+            <div>$3,432</div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    <mat-card class="chart m-top">
+      <h3>Performance</h3>
+    </mat-card>
+    <mat-card class="chart m-top">
+      <h3>Cash flow</h3>
+    </mat-card>
+  </mat-card>
+</div>
