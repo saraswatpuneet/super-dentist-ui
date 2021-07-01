@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit {
-
+  cashFlowChart = 'left';
   constructor() { }
 
   ngOnInit(): void {
   }
+
+
 
 }

@@ -4,11 +4,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 import { HighchartsChartModule } from 'highcharts-angular';
 
 import { OverviewRoutingModule } from './overview-routing.module';
 import { OverviewComponent } from './overview.component';
-import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -18,10 +19,11 @@ import { MatInputModule } from '@angular/material/input';
     CommonModule,
     FlexLayoutModule,
     HighchartsChartModule,
-    MatCardModule,
-    MatSelectModule,
-    MatInputModule,
     MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatInputModule,
+    MatSelectModule,
     OverviewRoutingModule
   ]
 })

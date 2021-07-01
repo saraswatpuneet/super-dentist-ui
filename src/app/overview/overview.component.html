@@ -64,6 +64,17 @@
     </mat-card>
     <mat-card class="chart m-top">
       <h3>Cash flow</h3>
+      <div class="chart-toggle" fxLayout="row">
+        <div class="tgl left" (click)="cashFlowChart = 'left'" [ngClass]="{'active': cashFlowChart === 'left'}"
+          fxLayout="row" fxLayoutAlign=" center">
+          <mat-icon color="primary">bar_chart</mat-icon>Money in/out
+        </div>
+        <!-- <div class="vert"></div> -->
+        <div class="tgl right" (click)="cashFlowChart = 'right'" [ngClass]="{'active': cashFlowChart !== 'left'}"
+          fxLayout="row" fxLayoutAlign=" center">
+          <mat-icon color="primary">timeline</mat-icon>Cash balance
+        </div>
+      </div>
     </mat-card>
   </mat-card>
 </div>
