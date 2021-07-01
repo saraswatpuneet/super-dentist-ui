@@ -1,0 +1,33 @@
+.overview {
+  padding: 0px 20px 20px 10px;
+  box-sizing: border-box;
+
+  .chart {
+    height:400px;
+  }
+
+  .m-top {
+    margin-top: 16px;
+  }
+
+  .top-card {
+    max-width:350px;
+
+    > :nth-child(1) {
+      span {
+        opacity: 0.5;
+
+      }
+      
+      div {
+        font-size: 20px;
+        margin-top: 4px;
+      }
+    }
+
+    > :nth-child(2) {
+      font-size: 14px;
+      color: var(--ac-blue);
+    }
+  }
+}
