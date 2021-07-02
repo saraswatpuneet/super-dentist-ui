@@ -30,6 +30,7 @@ export class AppComponent extends Base implements OnInit {
   isSpecialist = false;
   isAgent = false;
   clinicName = '';
+  showBilling = false;
   private expandedKey = 'sdNavExpanded';
   private themeKey = 'sdTheme';
 

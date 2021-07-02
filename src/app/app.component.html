@@ -70,6 +70,32 @@
         <span *ngIf="expanded" [@sidebarToggle]>Agent</span>
       </a>
 
+      <a mat-button matTooltip="Agent" matTooltipPosition="after" [matTooltipDisabled]="expanded"
+        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="showBilling" routerLink="overview" class="nav-item">
+        <mat-icon>manage_accounts</mat-icon>
+        <span *ngIf="expanded" [@sidebarToggle]>Overview</span>
+      </a>
+
+      <a mat-button matTooltip="Agent" matTooltipPosition="after" [matTooltipDisabled]="expanded"
+        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="showBilling" routerLink="accounting"
+        class="nav-item">
+        <mat-icon>manage_accounts</mat-icon>
+        <span *ngIf="expanded" [@sidebarToggle]>Accounting</span>
+      </a>
+
+      <a mat-button matTooltip="Agent" matTooltipPosition="after" [matTooltipDisabled]="expanded"
+        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="showBilling" routerLink="reconciliation"
+        class="nav-item">
+        <mat-icon>manage_accounts</mat-icon>
+        <span *ngIf="expanded" [@sidebarToggle]>Reconciliation</span>
+      </a>
+
+      <a mat-button matTooltip="Agent" matTooltipPosition="after" [matTooltipDisabled]="expanded"
+        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="showBilling" routerLink="banking" class="nav-item">
+        <mat-icon>manage_accounts</mat-icon>
+        <span *ngIf="expanded" [@sidebarToggle]>Banking</span>
+      </a>
+
       <a mat-button matTooltip="Settings" matTooltipPosition="after" [matTooltipDisabled]="expanded"
         matTooltipShowDelay="750" routerLinkActive="active" *ngIf="isSpecialist || isDentist" routerLink="settings"
         class="nav-item">
