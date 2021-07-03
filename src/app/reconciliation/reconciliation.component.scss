@@ -1,9 +1,19 @@
-.overview {
-  padding: 0px 20px 20px 10px;
-  box-sizing: border-box;
+:host {
+  height: 100%;
+}
 
-  .chart {
-    height:400px;
+.reconciliation {
+  padding: 20px 20px 20px 10px;
+  box-sizing: border-box;
+  height:100%;
+
+  h3 {
+    margin: 0;
+  }
+
+  > mat-card {
+    height: 100%;
+    box-sizing: border-box;
   }
 
   .m-top {
@@ -28,6 +38,16 @@
     > :nth-child(2) {
       font-size: 14px;
       color: var(--ac-blue);
+    }
+  }
+
+  .table {
+    height: calc(100% - 190px);
+    box-sizing: border-box;
+    padding: 0;
+
+    table {
+      width:  100%;
     }
   }
 }

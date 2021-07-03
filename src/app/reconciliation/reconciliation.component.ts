@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./reconciliation.component.scss']
 })
 export class ReconciliationComponent implements OnInit {
+  transactions = [];
+  displayedColumns = ['date', 'pms', 'bank', 'net'];
 
   constructor() { }
 

@@ -1,10 +1,44 @@
-<div class="overview">
+<div class="reconciliation">
   <mat-card class="c-card">
 
     <div>
+      <div fxLayout="row" fxLayoutGap="16px">
+        <mat-card fxFlex class="top-card" fxLayout="row">
+          <div fxFlex fxLayout="column">
+            <span>Credit card</span>
+            <div>$3,432</div>
+          </div>
+          <div>+0.2%</div>
+        </mat-card>
 
+        <mat-card fxFlex class="top-card" fxLayout="row">
+          <div fxFlex fxLayout="column">
+            <span>Deposits</span>
+            <div>$123,671,432.12</div>
+          </div>
+          <div>+0.2%</div>
+        </mat-card>
+
+        <mat-card fxFlex class="top-card" fxLayout="row">
+          <div fxFlex fxLayout="column">
+            <span>3rd party financing</span>
+            <div>$3,432</div>
+          </div>
+          <div>+0.2%</div>
+        </mat-card>
+
+        <mat-card fxFlex class="top-card">
+          <div>
+            <span>Claims payment</span>
+            <div>$3,432</div>
+          </div>
+          <div>+0.2%</div>
+        </mat-card>
+      </div>
       <div class="m-top">
-        <div fxLayout="row">
+        <div fxLayout="row" fxLayoutAlign=" end">
+          <h3>Latest transactions</h3>
+          <span fxFlex></span>
           <mat-form-field style="margin-right: 32px;" appearance="outline">
             <mat-label>Report Period</mat-label>
             <mat-select>
@@ -26,44 +60,33 @@
           </mat-form-field>
         </div>
       </div>
-      <div fxLayout="row" fxLayoutGap="16px">
-        <mat-card fxFlex class="top-card" fxLayout="row">
-          <div fxFlex fxLayout="column">
-            <span>Production</span>
-            <div>$3,432</div>
-          </div>
-          <div>+0.2%</div>
-        </mat-card>
 
-        <mat-card fxFlex class="top-card" fxLayout="row">
-          <div fxFlex fxLayout="column">
-            <span>Collections</span>
-            <div>$3,432</div>
-          </div>
-          <div>+0.2%</div>
-        </mat-card>
-
-        <mat-card fxFlex class="top-card" fxLayout="row">
-          <div fxFlex fxLayout="column">
-            <span>Net operating income</span>
-            <div>$3,432</div>
-          </div>
-          <div>+0.2%</div>
-        </mat-card>
-
-        <mat-card fxFlex class="top-card">
-          <div>
-            <span>Current cash balance</span>
-            <div>$3,432</div>
-          </div>
-        </mat-card>
-      </div>
     </div>
-    <mat-card class="chart m-top">
-      <h3>Performance</h3>
-    </mat-card>
-    <mat-card class="chart m-top">
-      <h3>Cash flow</h3>
+    <mat-card class="table">
+      <table mat-table [dataSource]="transactions" class="mat-elevation-z8">
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Clinic </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pms">
+          <th mat-header-cell *matHeaderCellDef> Address </th>
+          <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="bank">
+          <th mat-header-cell *matHeaderCellDef> Phone Number </th>
+          <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="net">
+          <th mat-header-cell *matHeaderCellDef> Phone Number </th>
+          <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row (click)="getPatients(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
     </mat-card>
   </mat-card>
 </div>
