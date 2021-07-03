@@ -6,6 +6,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
 
 import { BankingRoutingModule } from './banking-routing.module';
 import { BankingComponent } from './banking.component';
@@ -16,10 +19,13 @@ import { BankingComponent } from './banking.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     FlexLayoutModule,
     HighchartsChartModule,
     MatCardModule,
     MatSelectModule,
+    MatTableModule,
+    MatIconModule,
     MatInputModule,
     MatButtonModule,
     BankingRoutingModule

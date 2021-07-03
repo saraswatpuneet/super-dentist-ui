@@ -27,15 +27,15 @@
           <div>+0.2%</div>
         </mat-card>
 
-        <mat-card fxFlex class="top-card">
-          <div>
+        <mat-card fxFlex class="top-card" fxLayout="row">
+          <div fxFlex>
             <span>Claims payment</span>
             <div>$3,432</div>
           </div>
           <div>+0.2%</div>
         </mat-card>
       </div>
-      <div class="m-top">
+      <div class="m-top inputs">
         <div fxLayout="row" fxLayoutAlign=" end">
           <h3>Latest transactions</h3>
           <span fxFlex></span>
@@ -63,30 +63,47 @@
 
     </div>
     <mat-card class="table">
-      <table mat-table [dataSource]="transactions" class="mat-elevation-z8">
-        <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef> Clinic </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-        </ng-container>
+      <div class="c-table">
+        <table mat-table [dataSource]="transactions" class="mat-elevation-z8">
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef> Date </th>
+            <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+          </ng-container>
 
-        <ng-container matColumnDef="pms">
-          <th mat-header-cell *matHeaderCellDef> Address </th>
-          <td mat-cell *matCellDef="let element"> {{element.address}} </td>
-        </ng-container>
+          <ng-container matColumnDef="pms">
+            <th mat-header-cell *matHeaderCellDef> PMS </th>
+            <td mat-cell *matCellDef="let element"> {{element.pms}} </td>
+          </ng-container>
 
-        <ng-container matColumnDef="bank">
-          <th mat-header-cell *matHeaderCellDef> Phone Number </th>
-          <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
-        </ng-container>
+          <ng-container matColumnDef="bank">
+            <th mat-header-cell *matHeaderCellDef> Bank </th>
+            <td mat-cell *matCellDef="let element"> {{element.bank}} </td>
+          </ng-container>
 
-        <ng-container matColumnDef="net">
-          <th mat-header-cell *matHeaderCellDef> Phone Number </th>
-          <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
-        </ng-container>
+          <ng-container matColumnDef="net">
+            <th mat-header-cell *matHeaderCellDef> Net </th>
+            <td mat-cell *matCellDef="let element"> {{element.net}} </td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row (click)="getPatients(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+      <div class="pager" fxLayout="row" fxLayoutAlign="end center">
+        <span class="lighter m-right">Patients per page</span>
+        <mat-form-field class="count">
+          <mat-select [(ngModel)]="pageSize">
+            <mat-option *ngFor="let a of [5, 10, 20, 50, 100]" [value]="a">{{a}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <span class="m-right2"></span>
+        <button mat-icon-button>
+          <mat-icon>keyboard_arrow_left</mat-icon>
+        </button>
+        <button mat-icon-button>
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+      </div>
     </mat-card>
   </mat-card>
 </div>

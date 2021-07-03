@@ -11,6 +11,12 @@
     margin: 0;
   }
 
+  .inputs {
+    mat-form-field {
+      transform: translateY(10px);
+    }
+  }
+
   > mat-card {
     height: 100%;
     box-sizing: border-box;
@@ -42,12 +48,42 @@
   }
 
   .table {
-    height: calc(100% - 190px);
+    height: calc(100% - 170px);
     box-sizing: border-box;
     padding: 0;
 
     table {
       width:  100%;
+    }
+  }
+
+  .lighter {
+    font-size: 12px;
+    opacity: 0.5;
+  }
+
+  .m-right {
+    margin-right: 8px;
+  }
+
+  .m-right2 {
+    margin-right: 20px;
+  }
+
+  .count {
+    width: 50px;
+  }
+
+  .c-table {
+    height: calc(100% - 56px);
+    overflow: auto;
+  }
+  .mat-row {
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(grey, 0.2) !important;
     }
   }
 }
