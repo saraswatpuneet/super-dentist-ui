@@ -11,15 +11,15 @@ import { Base } from '../shared/base/base-component';
 import { ClinicService } from '../shared/services/clinic.service';
 import { Channel, ClinicStatus, Message, Referral, referredStatus, sortReferredStatus } from '../shared/services/referral';
 import { ReferralService } from '../shared/services/referral.service';
-import { referralsBetaAnimations } from './referrals-beta.animations';
+import { referralsAnimations } from './referrals.animations';
 
 @Component({
-  selector: 'app-referrals-beta',
-  templateUrl: './referrals-beta.component.html',
-  styleUrls: ['./referrals-beta.component.scss'],
-  animations: referralsBetaAnimations
+  selector: 'app-referrals',
+  templateUrl: './referrals.component.html',
+  styleUrls: ['./referrals.component.scss'],
+  animations: referralsAnimations
 })
-export class ReferralsBetaComponent extends Base implements OnInit {
+export class ReferralsComponent extends Base implements OnInit {
   tabCounts = [undefined, undefined, undefined, undefined];
   files: any;
   clinicReferrals: any[] = [];

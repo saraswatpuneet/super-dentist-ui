@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ReferralsBetaComponent } from './referrals-beta.component';
+import { ReferralsComponent } from './referrals.component';
 import { IsClinicGuard } from '../isClinic.guard';
 
-const routes: Routes = [{ path: '', component: ReferralsBetaComponent, canActivate: [IsClinicGuard] }];
+const routes: Routes = [{ path: '', component: ReferralsComponent, canActivate: [IsClinicGuard] }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ReferralsBetaRoutingModule { }
+export class ReferralsRoutingModule { }

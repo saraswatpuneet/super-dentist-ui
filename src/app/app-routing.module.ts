@@ -20,7 +20,7 @@ const routes: Routes = [
   },
   {
     path: 'referrals',
-    loadChildren: () => import('./referrals-beta/referrals-beta.module').then(m => m.ReferralsBetaModule),
+    loadChildren: () => import('./referrals/referrals.module').then(m => m.ReferralsModule),
     canActivate: [AuthGuard]
   },
   {

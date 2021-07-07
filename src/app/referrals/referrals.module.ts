@@ -14,13 +14,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatBadgeModule } from '@angular/material/badge';
 import { NgxMaskModule } from 'ngx-mask';
 
-import { ReferralsBetaRoutingModule } from './referrals-beta-routing.module';
-import { ReferralsBetaComponent } from './referrals-beta.component';
+import { ReferralsRoutingModule } from './referrals-routing.module';
+import { ReferralsComponent } from './referrals.component';
 import { ReferralSummaryComponent } from './shared/referral-summary/referral-summary.component';
 import { ChatComponent } from './shared/chat/chat.component';
 
 @NgModule({
-  declarations: [ReferralsBetaComponent, ReferralSummaryComponent, ChatComponent],
+  declarations: [ReferralsComponent, ReferralSummaryComponent, ChatComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -36,7 +36,7 @@ import { ChatComponent } from './shared/chat/chat.component';
     MatTableModule,
     MatProgressSpinnerModule,
     NgxMaskModule,
-    ReferralsBetaRoutingModule
+    ReferralsRoutingModule
   ]
 })
-export class ReferralsBetaModule { }
+export class ReferralsModule { }
