@@ -28,6 +28,7 @@
       </div>
       <div fxLayout="row" fxLayoutGap="16px">
         <mat-card fxFlex class="top-card" fxLayout="row">
+          <div class="legend blue"></div>
           <div fxFlex fxLayout="column">
             <span>Production</span>
             <div>$3,432</div>
@@ -36,6 +37,7 @@
         </mat-card>
 
         <mat-card fxFlex class="top-card" fxLayout="row">
+          <div class="legend green"></div>
           <div fxFlex fxLayout="column">
             <span>Collections</span>
             <div>$3,432</div>
@@ -44,6 +46,7 @@
         </mat-card>
 
         <mat-card fxFlex class="top-card" fxLayout="row">
+          <div class="legend orange"></div>
           <div fxFlex fxLayout="column">
             <span>Net operating income</span>
             <div>$3,432</div>
@@ -52,6 +55,7 @@
         </mat-card>
 
         <mat-card fxFlex class="top-card">
+          <div class="legend pink"></div>
           <div>
             <span>Current cash balance</span>
             <div>$3,432</div>
@@ -61,6 +65,9 @@
     </div>
     <mat-card class="chart m-top">
       <h3>Performance</h3>
+
+      <highcharts-chart class="performance-chart" [Highcharts]="Highcharts" [options]="chartOptions[0]">
+      </highcharts-chart>
     </mat-card>
     <mat-card class="chart m-top">
       <h3>Cash flow</h3>
@@ -75,6 +82,9 @@
           <mat-icon color="primary">timeline</mat-icon>Cash balance
         </div>
       </div>
+
+      <highcharts-chart class="cashflow-chart" [Highcharts]="Highcharts" [options]="chartOptions[1]">
+      </highcharts-chart>
     </mat-card>
   </mat-card>
 </div>
