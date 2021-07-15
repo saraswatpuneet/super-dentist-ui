@@ -195,12 +195,13 @@
       </table>
     </div>
     <div class="pager" fxLayout="row" fxLayoutAlign=" center">
-      <button class="m-right2" mat-stroked-button (click)="checkStatus()" [disabled]="loading">Check Stats</button>
+      <!-- <button class="m-right2" mat-stroked-button (click)="checkStatus()" [disabled]="loading">Check Stats</button>
 
       <div *ngIf="statistics?.totalPatients || statistics?.totalPatients === 0" fxLayoutGap="4px">
-        <span> Total Patients {{statistics?.totalPatients}} </span>
-        <span *ngFor="let md of statistics?.statusCounts | keyvalue">{{md.key}} {{md.value}}, </span>
-      </div>
+        <span> <span class="lighter">Total Patients</span> {{statistics?.totalPatients}}, </span>
+        <span *ngFor="let md of statistics?.statusCounts | keyvalue"><span class="lighter">{{md.key}}</span>
+          {{md.value}}, </span>
+      </div> -->
       <span fxFlex></span>
       <span class="lighter m-right">Patients per page</span>
       <mat-form-field class="count">
