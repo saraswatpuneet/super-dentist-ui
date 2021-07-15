@@ -28,6 +28,7 @@ export class PatientsComponent extends Base implements OnInit {
   patientFilter = '';
   clinic: any = {};
   pageSize = 100;
+  statistics: any = {};
   startDate = moment();
   endDate = moment();
   months = months();
@@ -49,6 +50,7 @@ export class PatientsComponent extends Base implements OnInit {
   private clinicId = '';
   private patientTrigger = new Subject<string>();
   private clinicTrigger = new Subject<string>();
+  private statusTrigger = new Subject<void>();
 
   constructor(
     private router: Router,
@@ -63,6 +65,7 @@ export class PatientsComponent extends Base implements OnInit {
     this.getInsurance();
     this.watchPatients();
     this.watchClinics();
+    this.watchStatus();
     this.checkRoute();
     this.title.setTitle('SuperDentist - Patients');
   }
@@ -86,6 +89,10 @@ export class PatientsComponent extends Base implements OnInit {
     const queryParams: any = {};
     queryParams.providers = JSON.stringify(selectedCompanies);
     this.mergeRouteGoTo(queryParams);
+  }
+
+  checkStatus(): void {
+    this.statusTrigger.next();
   }
 
   closeDate(): void {
@@ -211,6 +218,19 @@ export class PatientsComponent extends Base implements OnInit {
   forward(): void {
     this.cursorAddress++;
     this.patientTrigger.next(this.clinicId);
+  }
+
+  private watchStatus(): void {
+    this.statusTrigger.pipe(
+      tap(() => this.loading = true),
+      switchMap(() => this.patientService.getStatistics(this.clinicId, this.startDate.valueOf(), this.endDate.valueOf())),
+      map(d => d.data),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(res => {
+      this.statistics = res;
+      this.loading = false;
+      console.log(res);
+    });
   }
 
   private mergeRouteGoTo(queryParams: any): void {

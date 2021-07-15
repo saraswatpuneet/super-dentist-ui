@@ -1,9 +1,25 @@
-.overview {
-  padding: 0px 20px 20px 10px;
-  box-sizing: border-box;
+:host {
+  height: 100%;
+}
 
-  .chart {
-    height:400px;
+.banking {
+  padding: 20px 20px 20px 10px;
+  box-sizing: border-box;
+  height:100%;
+
+  h3 {
+    margin: 0;
+  }
+
+  .inputs {
+    mat-form-field {
+      transform: translateY(10px);
+    }
+  }
+
+  > mat-card {
+    height: 100%;
+    box-sizing: border-box;
   }
 
   .m-top {
@@ -28,6 +44,46 @@
     > :nth-child(2) {
       font-size: 14px;
       color: var(--ac-blue);
+    }
+  }
+
+  .table {
+    height: calc(100% - 170px);
+    box-sizing: border-box;
+    padding: 0;
+
+    table {
+      width:  100%;
+    }
+  }
+
+  .lighter {
+    font-size: 12px;
+    opacity: 0.5;
+  }
+
+  .m-right {
+    margin-right: 8px;
+  }
+
+  .m-right2 {
+    margin-right: 20px;
+  }
+
+  .count {
+    width: 50px;
+  }
+
+  .c-table {
+    height: calc(100% - 56px);
+    overflow: auto;
+  }
+  .mat-row {
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(grey, 0.2) !important;
     }
   }
 }

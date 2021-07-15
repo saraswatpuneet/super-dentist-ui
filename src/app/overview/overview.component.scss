@@ -2,6 +2,45 @@
   padding: 0px 20px 20px 10px;
   box-sizing: border-box;
 
+  .performance-chart {
+    height: calc(100% - 30px);
+    width: 100%;
+    display: block;
+  }
+
+  .legend {
+    height: 100%;
+    width: 4px;
+    top: 0;
+    left: 0;
+    position: absolute;
+    border-radius: 4px 0 0 4px;
+
+    background: var(--blue);
+
+    &.blue {
+      background: var(--blue);
+    }
+
+    &.green {
+      background: var(--green);
+    }
+
+    &.orange {
+      background: var(--orange);
+    }
+
+    &.pink {
+      background: var(--pink);
+    }
+  }
+
+  .cashflow-chart {
+    height: calc(100% - 30px);
+    width: 100%;
+    display: block;
+  }
+
   .chart {
     height:400px;
   }
@@ -13,7 +52,7 @@
   .top-card {
     max-width:350px;
 
-    > :nth-child(1) {
+    > :nth-child(2) {
       span {
         opacity: 0.5;
 
@@ -25,7 +64,7 @@
       }
     }
 
-    > :nth-child(2) {
+    > :nth-child(3) {
       font-size: 14px;
       color: var(--ac-blue);
     }

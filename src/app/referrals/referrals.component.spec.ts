@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { ReferralsBetaComponent } from './referrals-beta.component';
+import { ReferralsComponent } from './referrals.component';
 
-describe('ReferralsBetaComponent', () => {
-  let component: ReferralsBetaComponent;
-  let fixture: ComponentFixture<ReferralsBetaComponent>;
+describe('ReferralsComponent', () => {
+  let component: ReferralsComponent;
+  let fixture: ComponentFixture<ReferralsComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReferralsBetaComponent ]
+      declarations: [ReferralsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReferralsBetaComponent);
+    fixture = TestBed.createComponent(ReferralsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

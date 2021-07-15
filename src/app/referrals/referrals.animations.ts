@@ -1,6 +1,6 @@
 import { trigger, transition, style, animate } from '@angular/animations';
 
-export const referralsBetaAnimations = [
+export const referralsAnimations = [
   trigger('slideInOut', [
     transition(':enter', [
       style({ width: 0, opacity: 0 }),
