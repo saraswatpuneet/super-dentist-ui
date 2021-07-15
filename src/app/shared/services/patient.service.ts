@@ -25,6 +25,10 @@ export class PatientService {
     return this.http.get(`${this.baseUrl}/search/${addressId}?searchString=${patientName}`);
   }
 
+  getStatistics(addressId: string, startDate: number, endDate: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/statistics/${addressId}?startTime=${startDate}&endTime=${endDate}`);
+  }
+
   getAllPatientsForClinic2(
     addressId: string,
     pageSize: number,
