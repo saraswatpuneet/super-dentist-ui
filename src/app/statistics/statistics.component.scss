@@ -1,0 +1,17 @@
+.statistics {
+  .clinic-item {
+    cursor: pointer;
+    padding: 12px 0;
+    transition: 0.3s;
+
+    &:hover {
+      background: rgba(grey, 0.2);
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid rgba(black, 0.5);
+      box-shadow: 0px 1px 0px rgba(white, 0.1);
+    }
+
+  }
+}
