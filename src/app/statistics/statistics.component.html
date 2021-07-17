@@ -45,10 +45,20 @@
           <div *ngFor="let md of statistics?.statusCounts | keyvalue">
             {{md.key}}
           </div>
+          <div class="filler"></div>
+          <div>Visitation counts</div>
+          <div *ngFor="let md of statistics?.visitationCounts | keyvalue">
+            {{md.key}}
+          </div>
         </div>
         <div fxLayout="column">
           <div>{{statistics?.totalPatients}}</div>
           <div *ngFor="let md of statistics?.statusCounts | keyvalue">
+            {{md.value}}
+          </div>
+          <div class="filler"></div>
+          <div class="filler"></div>
+          <div *ngFor="let md of statistics?.visitationCounts | keyvalue">
             {{md.value}}
           </div>
         </div>

@@ -53,7 +53,6 @@ export class StatisticsComponent extends Base implements OnInit {
     this.selectedClinic = clinic;
     this.searchClinic = '';
     this.filterClinics();
-    console.log(this.selectedClinic);
   }
 
   filterClinics(): void {
