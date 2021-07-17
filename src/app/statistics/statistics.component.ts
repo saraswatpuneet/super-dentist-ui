@@ -46,6 +46,11 @@ export class StatisticsComponent extends Base implements OnInit {
     this.statusTrigger.next();
   }
 
+  selectClinic(clinic: any): void {
+    console.log(clinic);
+    this.selectedClinicAddressId = clinic.addressId;
+  }
+
   changePageSize(): void {
     this.cursorAddress = 0;
     this.cursors = [undefined];

@@ -4,6 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 import { StatisticsRoutingModule } from './statistics-routing.module';
 import { StatisticsComponent } from './statistics.component';
@@ -16,6 +17,7 @@ import { StatisticsComponent } from './statistics.component';
     CommonModule,
     FlexLayoutModule,
     MatInputModule,
+    MatButtonModule,
     MatDatepickerModule,
     FormsModule,
     StatisticsRoutingModule
