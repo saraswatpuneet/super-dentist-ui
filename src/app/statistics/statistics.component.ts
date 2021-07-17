@@ -134,7 +134,6 @@ export class StatisticsComponent extends Base implements OnInit {
     ).subscribe(res => {
       this.statistics = res;
       this.loading = false;
-      console.log(res);
     });
   }
 
