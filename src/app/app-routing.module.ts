@@ -19,6 +19,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'statistics',
+    loadChildren: () => import('./statistics/statistics.module').then(m => m.StatisticsModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'referrals',
     loadChildren: () => import('./referrals/referrals.module').then(m => m.ReferralsModule),
     canActivate: [AuthGuard]

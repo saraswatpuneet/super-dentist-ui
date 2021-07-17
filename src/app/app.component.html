@@ -70,6 +70,12 @@
         <span *ngIf="expanded" [@sidebarToggle]>Agent</span>
       </a>
 
+      <a mat-button matTooltip="Statistics" matTooltipPosition="after" [matTooltipDisabled]="expanded"
+        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="isAgent" routerLink="statistics" class="nav-item">
+        <mat-icon>insights</mat-icon>
+        <span *ngIf="expanded" [@sidebarToggle]>Statistics</span>
+      </a>
+
       <a mat-button matTooltip="Agent" matTooltipPosition="after" [matTooltipDisabled]="expanded"
         matTooltipShowDelay="750" routerLinkActive="active" *ngIf="showBilling" routerLink="overview" class="nav-item">
         <mat-icon>manage_accounts</mat-icon>
