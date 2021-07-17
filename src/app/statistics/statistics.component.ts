@@ -15,7 +15,8 @@ import { PatientService } from '../shared/services/patient.service';
 })
 export class StatisticsComponent extends Base implements OnInit {
   clinics = [];
-  pageSize = 100;
+  filteredClinics = [];
+  pageSize = 200;
   cursors = [undefined];
   cursorAddress = 0;
   loading = false;
@@ -23,7 +24,9 @@ export class StatisticsComponent extends Base implements OnInit {
   statistics: any = {};
   startDate = moment();
   endDate = moment();
-  selectedClinicAddressId = '';
+  selectedClinic: any;
+
+  searchClinic = '';
 
   private statusTrigger = new Subject<void>();
   private triggerPageChange = new Subject<void>();
@@ -47,8 +50,18 @@ export class StatisticsComponent extends Base implements OnInit {
   }
 
   selectClinic(clinic: any): void {
-    console.log(clinic);
-    this.selectedClinicAddressId = clinic.addressId;
+    this.selectedClinic = clinic;
+    this.searchClinic = '';
+    this.filterClinics();
+    console.log(this.selectedClinic);
+  }
+
+  filterClinics(): void {
+    if (!this.searchClinic) {
+      this.filteredClinics = [];
+    } else {
+      this.filteredClinics = this.clinics.filter(clinic => clinic.name.toLowerCase().includes(this.searchClinic.toLowerCase()));
+    }
   }
 
   changePageSize(): void {
@@ -106,6 +119,7 @@ export class StatisticsComponent extends Base implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       this.clinics = r.clinics;
+      this.filterClinics();
       if (this.cursorAddress === this.cursors.length - 1) {
         this.cursors.push(r.cursorNext);
       }
@@ -115,7 +129,7 @@ export class StatisticsComponent extends Base implements OnInit {
   private watchStatus(): void {
     this.statusTrigger.pipe(
       tap(() => this.loading = true),
-      switchMap(() => this.patientService.getStatistics(this.selectedClinicAddressId, this.startDate.valueOf(), this.endDate.valueOf())),
+      switchMap(() => this.patientService.getStatistics(this.selectedClinic.addressId, this.startDate.valueOf(), this.endDate.valueOf())),
       map(d => d.data),
       takeUntil(this.unsubscribe$)
     ).subscribe(res => {
