@@ -2,10 +2,10 @@
   <div class="statistics" fxLayout="column" fxLayoutGap="20px">
 
     <div class="sd-input">
-      <input type="text" [(ngModel)]="searchClinic" (ngModelChange)="filterClinics()"
+      <input type="text" [(ngModel)]="searchClinic" (ngModelChange)="triggerPageChange.next()"
         placeholder=" Search for a clinic">
       <div class="autocomplete">
-        <div class="options" (click)="selectClinic(clinic)" *ngFor="let clinic of filteredClinics">
+        <div class="options" (click)="selectClinic(clinic)" *ngFor="let clinic of clinics">
           <p class="label">{{clinic.name}}</p>
           <p class="sub-label">{{clinic.address}}</p>
         </div>

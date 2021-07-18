@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
-import { tap, switchMap, filter, map, takeUntil, take } from 'rxjs/operators';
+import { Subject, of } from 'rxjs';
+import { tap, switchMap, filter, map, takeUntil, take, debounceTime, catchError } from 'rxjs/operators';
 import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -15,10 +15,6 @@ import { PatientService } from '../shared/services/patient.service';
 })
 export class StatisticsComponent extends Base implements OnInit {
   clinics = [];
-  filteredClinics = [];
-  pageSize = 200;
-  cursors = [undefined];
-  cursorAddress = 0;
   loading = false;
 
   statistics: any = {};
@@ -29,7 +25,7 @@ export class StatisticsComponent extends Base implements OnInit {
   searchClinic = '';
 
   private statusTrigger = new Subject<void>();
-  private triggerPageChange = new Subject<void>();
+  triggerPageChange = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -42,7 +38,6 @@ export class StatisticsComponent extends Base implements OnInit {
     this.getDates();
     this.watchClinics();
     this.watchStatus();
-    this.changePageSize();
   }
 
   checkStatus(): void {
@@ -52,32 +47,6 @@ export class StatisticsComponent extends Base implements OnInit {
   selectClinic(clinic: any): void {
     this.selectedClinic = clinic;
     this.searchClinic = '';
-    this.filterClinics();
-  }
-
-  filterClinics(): void {
-    if (!this.searchClinic) {
-      this.filteredClinics = [];
-    } else {
-      this.filteredClinics = this.clinics.filter(clinic => clinic.name.toLowerCase().includes(this.searchClinic.toLowerCase()));
-    }
-  }
-
-  changePageSize(): void {
-    this.cursorAddress = 0;
-    this.cursors = [undefined];
-    this.triggerPageChange.next();
-  }
-
-  back(): void {
-    if (this.cursorAddress > 0) {
-      this.cursorAddress--;
-      this.triggerPageChange.next();
-    }
-  }
-
-  forward(): void {
-    this.cursorAddress++;
     this.triggerPageChange.next();
   }
 
@@ -110,18 +79,18 @@ export class StatisticsComponent extends Base implements OnInit {
 
   private watchClinics(): void {
     this.triggerPageChange.pipe(
+      debounceTime(300),
       tap(() => this.loading = true),
-      switchMap(() => this.clinicService.getAllClinics(this.pageSize, this.cursors[this.cursorAddress])),
+      switchMap(() => this.clinicService.searchClinic(this.searchClinic).pipe(catchError(() => {
+        this.clinics = [];
+        return of(null);
+      }))),
       tap(() => this.loading = false),
       filter(r => !!r),
-      map(r => r.data),
+      map(r => r.data.clinicDetails),
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
-      this.clinics = r.clinics;
-      this.filterClinics();
-      if (this.cursorAddress === this.cursors.length - 1) {
-        this.cursors.push(r.cursorNext);
-      }
+      this.clinics = r;
     });
   }
 

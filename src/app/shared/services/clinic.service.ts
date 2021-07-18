@@ -86,6 +86,10 @@ export class ClinicService {
     // this needs to implement a websocket of some kind.
   }
 
+  searchClinic(clinicName: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/search?searchString=${clinicName}`);
+  }
+
   addFavoriteClinics(addressId: string, placeIds: string[]): Observable<any> {
     return this.http.post(`${this.baseUrl}/addFavorites/${addressId}`, { placeIds });
   }
