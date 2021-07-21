@@ -13,6 +13,8 @@
       </mat-tab>
     </mat-tab-group>
 
+
+
     <div>
       <div *ngIf="clinicType === 'specialist'" fxLayout="row" fxFlex="0 0 auto" class="channel-tab"
         [ngClass]="{'c1': tabIndex === 1, 'c2': tabIndex === 2, 'c3': tabIndex === 3}">
@@ -35,8 +37,14 @@
       </div>
     </div>
 
+    <div class="sd-input">
+      <input type="text" [(ngModel)]="patientNameSearch" (ngModelChange)="filterPatientList($event)"
+        placeholder="Patient name">
+      <mat-icon class="postfix">search</mat-icon>
+    </div>
+
     <div class="cs">
-      <div *ngFor="let c of clinicReferrals; let clinicIndex = index">
+      <div *ngFor="let c of filteredClinicReferrals; let clinicIndex = index">
         <mat-card *ngIf="c.referrals[tabIndex] && c.referrals[tabIndex].length !== 0" class="c-card clinic-title"
           fxLayout="row" fxLayoutAlign=" center">
           <div fxFlex fxLayout="row">
