@@ -5,5 +5,5 @@ export const environment = {
     authDomain: 'superdentist.firebaseapp.com',
   },
   baseUrl: '',
-  qrReferralUrl: 'https://dev.superdentist.io/api/sd/v1/qrReferral',
+  qrReferralUrl: 'https://superdentist.io/api/sd/v1/qrReferral',
 };
