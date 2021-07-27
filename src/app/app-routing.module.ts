@@ -19,18 +19,9 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'statistics',
-    loadChildren: () => import('./statistics/statistics.module').then(m => m.StatisticsModule),
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'referrals',
     loadChildren: () => import('./referrals/referrals.module').then(m => m.ReferralsModule),
     canActivate: [AuthGuard]
-  },
-  {
-    path: 'early-access',
-    loadChildren: () => import('./early-access/early-access.module').then(m => m.EarlyAccessModule)
   },
   {
     path: 'specialist',
@@ -38,43 +29,9 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'accounting',
-    loadChildren: () => import('./accounting/accounting.module').then(m => m.AccountingModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'banking',
-    loadChildren: () => import('./banking/banking.module').then(m => m.BankingModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'overview',
-    loadChildren: () => import('./overview/overview.module').then(m => m.OverviewModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'reconciliation',
-    loadChildren: () => import('./reconciliation/reconciliation.module').then(m => m.ReconciliationModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'kpi',
-    loadChildren: () => import('./kpi/kpi.module').then(m => m.KpiModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'settings',
-    loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'eligibility-benefits',
     loadChildren: () => import('./eligibility-benefits/eligibility-benefits.module').then(m => m.EligibilityBenefitsModule),
     canActivate: [AuthGuard]
-  },
-  {
-    path: 'join',
-    loadChildren: () => import('./join/join.module').then(m => m.JoinModule)
   },
   {
     path: 'secure',

@@ -10,17 +10,9 @@
 
     <span class="welcome" *ngIf="clinicName && authenticated">Welcome, {{clinicName}}</span>
 
-    <div *ngIf="home" class="early-access-container">
-      <div *ngIf="theme !== 'light'" [@sidebarToggle] class="early-access" (click)="showEarlyAccess()">Request Early
-        Access</div>
-      <div *ngIf="theme === 'light'" [@sidebarToggle] class="early-access-light" (click)="showEarlyAccess()">Request
-        Early Access</div>
-    </div>
     <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="authenticated">
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
-
-    <!-- <app-notification *ngIf="authenticated"></app-notification> -->
 
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="signOut()">Sign Out</button>
@@ -57,63 +49,11 @@
         <span *ngIf="expanded" [@sidebarToggle]> Eligibility & Benefits</span>
       </a>
 
-      <a mat-button matTooltip="KPI" matTooltipPosition="after" [matTooltipDisabled]="expanded"
-        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="isDentist || isSpecialist" routerLink="kpi"
-        class="nav-item">
-        <mat-icon>analytics</mat-icon>
-        <span *ngIf="expanded" [@sidebarToggle]>KPI</span>
-      </a>
-
       <a mat-button matTooltip="Agent" matTooltipPosition="after" [matTooltipDisabled]="expanded"
         matTooltipShowDelay="750" routerLinkActive="active" *ngIf="isAgent" routerLink="agent" class="nav-item">
         <mat-icon>manage_accounts</mat-icon>
         <span *ngIf="expanded" [@sidebarToggle]>Agent</span>
       </a>
-
-      <a mat-button matTooltip="Statistics" matTooltipPosition="after" [matTooltipDisabled]="expanded"
-        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="isAgent" routerLink="statistics" class="nav-item">
-        <mat-icon>insights</mat-icon>
-        <span *ngIf="expanded" [@sidebarToggle]>Statistics</span>
-      </a>
-
-      <a mat-button matTooltip="Agent" matTooltipPosition="after" [matTooltipDisabled]="expanded"
-        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="showBilling" routerLink="overview" class="nav-item">
-        <mat-icon>manage_accounts</mat-icon>
-        <span *ngIf="expanded" [@sidebarToggle]>Overview</span>
-      </a>
-
-      <a mat-button matTooltip="Agent" matTooltipPosition="after" [matTooltipDisabled]="expanded"
-        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="showBilling" routerLink="accounting"
-        class="nav-item">
-        <mat-icon>manage_accounts</mat-icon>
-        <span *ngIf="expanded" [@sidebarToggle]>Accounting</span>
-      </a>
-
-      <a mat-button matTooltip="Agent" matTooltipPosition="after" [matTooltipDisabled]="expanded"
-        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="showBilling" routerLink="reconciliation"
-        class="nav-item">
-        <mat-icon>manage_accounts</mat-icon>
-        <span *ngIf="expanded" [@sidebarToggle]>Reconciliation</span>
-      </a>
-
-      <a mat-button matTooltip="Agent" matTooltipPosition="after" [matTooltipDisabled]="expanded"
-        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="showBilling" routerLink="banking" class="nav-item">
-        <mat-icon>manage_accounts</mat-icon>
-        <span *ngIf="expanded" [@sidebarToggle]>Banking</span>
-      </a>
-
-      <a mat-button matTooltip="Settings" matTooltipPosition="after" [matTooltipDisabled]="expanded"
-        matTooltipShowDelay="750" routerLinkActive="active" *ngIf="isSpecialist || isDentist" routerLink="settings"
-        class="nav-item">
-        <mat-icon>settings</mat-icon>
-        <span *ngIf="expanded" [@sidebarToggle]>Settings</span>
-      </a>
-      <!-- 
-      <a mat-button matTooltip="Insurance Completion" matTooltipPosition="after" [matTooltipDisabled]="expanded"
-        matTooltipShowDelay="750" routerLinkActive="active" routerLink="insurance-completion" class="nav-item">
-        <mat-icon>rule</mat-icon>
-        <span *ngIf="expanded" [@sidebarToggle]>Insurance Completion</span>
-      </a> -->
 
       <span fxFlex></span>
 
